@@ -13,6 +13,7 @@ class RunImporter(object):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
         self.use_src_user_id = use_src_user_id
         self.import_mlflow_tags = import_mlflow_tags
+        self.in_databricks = 'DATABRICKS_RUNTIME_VERSION' in os.environ
 
     def import_run(self, exp_name, input):
         print("Importing run into experiment '{}' from '{}'".format(exp_name, input),flush=True)
@@ -45,8 +46,8 @@ class RunImporter(object):
         params = [ Param(k,v) for k,v in run_dct['params'].items() ]
         metrics = [ Metric(k,v,now,0) for k,v in run_dct['metrics'].items() ] # TODO: missing timestamp and step semantics?
         tags = [ RunTag(k,str(v)) for k,v in run_dct['tags'].items() ]
-        #tags = utils.create_tags_for_mlflow_tags(tags, self.import_mlflow_tags) # XX
-        utils.set_dst_user_id(tags, src_user_id, self.use_src_user_id)
+        if not self.in_databricks:
+            utils.set_dst_user_id(tags, src_user_id, self.use_src_user_id)
         self.client.log_batch(run_id, metrics, params, tags)
 
 if __name__ == "__main__":
