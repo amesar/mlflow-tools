@@ -1,6 +1,6 @@
 # Export and Import Experiments or Runs
 
-Tools to export and import MLflow experiments or runs from one tracking server to another.
+Tools to export and import MLflow experiments (or runs) from one tracking server to another.
 
 ## Overview
 
@@ -14,7 +14,7 @@ Tools to export and import MLflow experiments or runs from one tracking server t
   * Copy a run from one tracking server to another
 
 * Registered Models
-  * Saves registered model data as registered_models.json.
+  * Saves registered model data as `registered_models.json`.
 
 * TODO
   * Account for nested runs
@@ -30,11 +30,11 @@ Tools to export and import MLflow experiments or runs from one tracking server t
 
 ### Common arguments 
 
-`output` - Either be a directory or zip file (`output` has a zip extension).
+`output` - Either a directory or zip file (`output` has a zip extension).
 
-`intput` - Either be a directory or zip file (if `output` has a zip extension).
+`intput` - Either a directory or zip file (if `output` has a zip extension).
 
-`notebook_formats` - If exporting a Databricks experiment, the run's notebook can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER, DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
+`notebook_formats` - If exporting a Databricks experiment, the run's notebook can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER and DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
 
 `export_metadata_tags` - Creates metadata tags (starting with `mlflow_tools.metadata`) containing export information.
 ```

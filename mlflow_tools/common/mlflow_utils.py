@@ -34,9 +34,7 @@ def get_mlflow_host_token():
 Gets an experiment either by ID or name.
 '''
 def get_experiment(client, exp_id_or_name):
-    print(">> mlflow_utils.1: exp_id_or_name:",exp_id_or_name)
     exp = client.get_experiment_by_name(exp_id_or_name)
-    print(">> mlflow_utils.2: exp:",exp)
     if exp is None:
         try:
             exp = client.get_experiment(exp_id_or_name)

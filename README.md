@@ -1,12 +1,20 @@
 # mlflow-tools
 
-Tools for MLflow.
+Some useufl tools for MLflow.
 
-## Basic Tools
-* [Tools](mlflow_tools/tools) - Simple tools
+## Overview
+* [Tools](mlflow_tools/tools/README.md) - Basic tools
   * List all experiments.
-  * Dumps experiment or run information recursively.
-* [Export/import run or experiment](mlflow_tools/export_import)
-  * Exports run/experiment to directory or zip file.
-  * Imports run/experiment from directory or zip file.
-  * Copies run/experiment from one MLflow server to another.
+  * Dump experiment and run details recursively.
+  * Find the best run for an experiment
+* [Export and import experiments](mlflow_tools/export_import/README.md)
+  * Exports experiment to a directory or zip file.
+  * Imports experiment from a directory or zip file.
+  * Copies experiment from one MLflow tracking server to another.
+
+## Build Wheel
+```
+python setup.py bdist_wheel
+```
+Creates `dist/mlflow_tools-0.0.1-py3-none-any.whl`.
+

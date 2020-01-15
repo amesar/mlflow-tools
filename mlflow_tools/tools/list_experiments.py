@@ -19,6 +19,9 @@ if __name__ == "__main__":
     parser.add_argument("--verbose", dest="verbose", help="Show artifacts ", default=False, action='store_true')
     parser.add_argument("--csv_file", dest="csv_file", default="experiments.csv", help="Output CSV file")
     args = parser.parse_args()
+    print("Arguments:")
+    for arg in vars(args):
+        print(f"  {arg}: {getattr(args, arg)}")
 
     exps = client.list_experiments()
     print("Found {} experiments".format(len(exps)))
@@ -39,7 +42,6 @@ if __name__ == "__main__":
         list = [(exp.experiment_id, exp.name) for exp in exps ]
         df = pd.DataFrame(list,columns=["experiment_id","name"])
 
-    #print("Output CSV file:",path)
     with open(args.csv_file, 'w') as f:
         df.to_csv(f, index=False)
 

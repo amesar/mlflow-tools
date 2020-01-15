@@ -14,7 +14,6 @@ print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
 def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data):
     exp = mlflow_utils.get_experiment(client, exp_id_or_name)
-    print(">> exp:",exp)
     if exp is None:
          raise Exception("Cannot find experiment {} '{}'".format(which,exp_id_or_name))
     exp_id = exp.experiment_id
@@ -46,7 +45,7 @@ def dump_runs(infos, artifact_max_level):
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument("--experiment_id_or_name", dest="experiment_id", help="Experiment ID", required=True)
+    parser.add_argument("--experiment_id_or_name", dest="experiment_id", help="Experiment ID or name", required=True)
     parser.add_argument("--artifact_max_level", dest="artifact_max_level", help="Number of artifact levels to recurse", required=False, default=1, type=int)
     parser.add_argument("--show_info", dest="show_info", help="Show run info", required=False, default=False, action='store_true')
     parser.add_argument("--show_data", dest="show_data", help="Show run info and data", required=False, default=False, action='store_true')

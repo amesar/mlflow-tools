@@ -1,20 +1,18 @@
-# mlflow-tools - Tools 
+# Basic MLflow Tools 
 
 ## Overview
 
-Some useful tools for MLflow.
+Some useful tools for MLflow. Run the examples from the root of repository.
 * List all experiments
-* Dump experiment or runs as text
-  * Dump Run
-  * Dump Experiment
-* Dump experiment runs as CSV
-* Find best run for an experiment
-* Execute examples from root of repository.
+* Dump experiment as text
+* Dump run as text
+* Dump experiment runs as CSV file
+* Find best run of an experiment
 
 ## List all experiments
-List all experiments. See [list_experiments.py](list_experiments.py).
+See [list_experiments.py](list_experiments.py).
 ```
-python -m mlflow_tools.tools.list_experiments.py --csv_file my_experiments.csv
+python -m mlflow_tools.tools.list_experiments --csv_file my_experiments.csv
 ```
 ```
 +----+-----------------+------------------+
@@ -34,21 +32,19 @@ python -m mlflow_tools.tools.list_experiments.py --csv_file my_experiments.csv
 Dumps all experiment or run information recursively.
 
 ### Overview
-* [dump_run.py](dump_run.py) - Dumps run information.
-  * Shows info, params, metrics and tags.
-  * Recursively shows all artifacts up to the specified level.
 * [dump_experiment.py](dump_experiment.py) - Dumps experiment information.
   * If `showInfo` is true, then just the run infos will be dumped.
   * If `showData` is true, then an API call for each run will be executed. Beware of experiments with many runs.
-* A large value for `artifact_max_level` also incurs many API calls.
+* [dump_run.py](dump_run.py) - Dumps run information.
+  * Shows info, params, metrics and tags.
+  * Recursively shows all artifacts up to the specified level.
+* A large value for `artifact_max_level` will execute many API calls.
 
 ### Run dump tools
 ```
-export PYTHONPATH=../..
-
-python -m mlflow_tools.tools.dump_run.py --run_id 2cbab69842e4412c99bfb5e15344bc42 --artifact_max_level 5 
+python -m mlflow_tools.tools.dump_run --run_id 2cbab69842e4412c99bfb5e15344bc42 --artifact_max_level 5 
   
-python -m mlflow_tools.tools.dump_experiment.py --experiment_id 1812 --show_info --show_data  --artifact_max_level 5
+python -m mlflow_tools.tools.dump_experiment --experiment_id 1812 --show_info --show_data  --artifact_max_level 5
 ```
 
 **Sample output for dump_experiment.py**
@@ -114,58 +110,24 @@ Runs:
 
 ## Dump Experiment Runs to CSV file
 
-Create a flattened table of an experiment's runs and dump to CSV file.
-
-All info, data.params, data.metrics and data.tags fields will be flattened into one table. In order to prevent name clashes, data fields will be prefixed with:
-* \_p\_ - params
-* \_m\_ - metrics
-* \_t\_ - tags
-
-Since run data (params, metrics, tags) fields are not required to be the same for each run, we build a sparse table. Note the blank values for `_m_rmse` and `_t_exp_id` in the csv_file sample below.
-
-By default, all the run.data.* fields are displayed. The `skip_` options control which are displayed.
-
-Options:
-* experiment - Experiment ID or name
-* sort - opinionated pretty sort:
-  *  Order of columns: 
-    * run.info
-      *  First columns: run_id, start_time, end_time
-      *  artifact_uri is last colum as it is very long
-   * run.info.data.params
-   * run.info.data.metrics
-   * run.info.data.tags
-* pretty_time - Human-readable timestamps
-* duration - Display run duration (end_time-sgtart_time) as `__duration` field
-* skip_params - Don't display params fields
-* skip_metrics - Don't display metrics fields
-* skip_tags - Don't display tags fields
-* nan_to_blank - Convert Pandas NaN to ""
-* csv_file - If not specified, the CSV file will be created from the experiment ID as in `exp_runs_2.csv`.
-
+Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv_file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
 ```
-pythom -m runs_to_pandas_converter.py \
-  --experiment 2 \
-  --sort \
-  --pretty_time \
-  --duration \
-  --skip_params \
-  --skip_metrics \
-  --skip_tags \
-  --nan_to_blank \
-  --csv_file output.csv
-
+python -m dump_experiment_as_csv --csv_file sklearn.csv
 ```
 
-## Find best run for an experiment
+## Find best run for experiment
 
-You specify a metric for an experiment and find its best run. Default order is descending (max).
+Find the best run for a metric of an experiment. 
+Default order is descending (max).
 
-Returns the run ID and metric value.
+Displays the run ID and best metric value.
 
 ```
 python -m mlflow_tools.tools.best_run  --experiment_id 2 --metric=rmse  --ascending 
 ```
 ```
-Best: ('5ac384a850dd4c078ad2a219cfc4f4ef', 0.747225794954636)
+Best run:
+  run_id: 7890e3ec549442ebae453394ea7dd1ea
+  rmse: 0.8829449794492825
+
 ```

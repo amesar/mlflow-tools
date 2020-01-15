@@ -26,8 +26,7 @@ def get_best_run(experiment_id_or_name, metric, ascending=False, ignore_nested_r
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    #parser.add_argument("--experiment_id", dest="experiment_id", help="Experiment ID", type=str, required=True)
-    parser.add_argument("--experiment_id_or_name", dest="experiment_id_or_name", help="Experiment ID", required=True)
+    parser.add_argument("--experiment_id_or_name", dest="experiment_id_or_name", help="Experiment ID or name", required=True)
     parser.add_argument("--metric", dest="metric", help="Metric", type=str, required=True)
     parser.add_argument("--ascending", dest="ascending", help="ascending", required=False, default=False, action="store_true")
     parser.add_argument("--ignore_nested_runs", dest="ignore_nested_runs", help="Ignore nested runs", required=False, default=False, action="store_true")
@@ -36,4 +35,6 @@ if __name__ == "__main__":
     for arg in vars(args):
         print(f"  {arg}: {getattr(args, arg)}")
     best = get_best_run(args.experiment_id_or_name, args.metric, args.ascending, args.ignore_nested_runs)
-    print("Best:",best)
+    print("Best run:")
+    print(f"  run_id: {best[0]}")
+    print(f"  {args.metric}: {best[1]}")

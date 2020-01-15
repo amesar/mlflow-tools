@@ -79,5 +79,7 @@ if __name__ == "__main__":
     parser.add_argument("--run_id", dest="run_id", help="Run ID", required=True)
     parser.add_argument("--artifact_max_level", dest="artifact_max_level", help="Number of artifact levels to recurse", required=False, default=1, type=int)
     args = parser.parse_args()
-    print("args:",args)
+    print("Arguments:")
+    for arg in vars(args):
+        print(f"  {arg}: {getattr(args, arg)}")
     dump_run_id(args.run_id, args.artifact_max_level)
