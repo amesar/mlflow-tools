@@ -8,7 +8,7 @@ from mlflow_tools.common.http_client import HttpClient
 api_prefix = "api/2.0/preview/mlflow"
 resource = "registered-models/list"
 
-class RegisteredModelsExporter(object):
+class RegisteredModelsExporter():
     def __init__(self, client=None, output="."):
         self.client = HttpClient(api_prefix)
         self.output = output

@@ -8,7 +8,7 @@ import mlflow
 from mlflow_tools.export_import import utils
 from mlflow_tools.export_import import mk_local_path
 
-class RunImporter(object):
+class RunImporter():
     def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
         self.use_src_user_id = use_src_user_id

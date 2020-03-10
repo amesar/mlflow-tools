@@ -16,7 +16,7 @@ from ..export_import import utils
 print("MLflow Version:", mlflow.version.VERSION)
 print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
-class RunExporter(object):
+class RunExporter():
     def __init__(self, client=None, export_metadata_tags=False, notebook_formats=["SOURCE"], filesystem=None):
         self.client = client or mlflow.tracking.MlflowClient()
         self.dbx_client = DatabricksHttpClient()

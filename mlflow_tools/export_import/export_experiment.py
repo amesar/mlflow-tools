@@ -12,7 +12,7 @@ from ..common import mlflow_utils
 from .export_run import RunExporter
 from . import utils
 
-class ExperimentExporter(object):
+class ExperimentExporter():
     def __init__(self, client=None, export_metadata_tags=False, notebook_formats=["SOURCE"], filesystem=None):
         self.client = client or mlflow.tracking.MlflowClient()
         self.export_metadata_tags = export_metadata_tags

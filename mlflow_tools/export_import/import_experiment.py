@@ -5,11 +5,7 @@ from . import import_run, utils
 from . import peek_at_experiment
 from .import_run import RunImporter
 
-#from mlflow_tools.export_import import import_run, utils
-#from mlflow_tools.export_import.import_run import RunImporter
-#from mlflow_tools.export_import import peek_at_experiment
-
-class ExperimentImporter(object):
+class ExperimentImporter():
     def __init__(self, mlflow_client=None, use_src_user_id=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
         self.run_importer = RunImporter(self.client, use_src_user_id)
