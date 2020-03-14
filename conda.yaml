@@ -1,0 +1,8 @@
+name: mlflow-tools
+channels:
+- defaults
+dependencies:
+- python=3.7.5
+- pip:
+    - mlflow==1.7.0
+    - pytest==5.3.5

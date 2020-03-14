@@ -1,6 +1,6 @@
 # mlflow-tools
 
-Some useufl tools for MLflow.
+Some useful tools for MLflow.
 
 ## Overview
 * [Tools](mlflow_tools/tools/README.md) - Basic tools
@@ -8,9 +8,9 @@ Some useufl tools for MLflow.
   * Dump experiment and run details recursively.
   * Find the best run for an experiment
 * [Export and import experiments](mlflow_tools/export_import/README.md)
-  * Exports experiment to a directory or zip file.
-  * Imports experiment from a directory or zip file.
-  * Copies experiment from one MLflow tracking server to another.
+  * Export experiment to a directory or zip file.
+  * Import experiment from a directory or zip file.
+  * Copy experiment from one MLflow tracking server to another.
 
 ## Build Wheel
 ```
