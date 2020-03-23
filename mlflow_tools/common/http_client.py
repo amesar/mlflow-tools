@@ -2,8 +2,8 @@ import os, json, requests
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import MlflowToolsException
 
-''' Wrapper for get and post methods for Databricks REST APIs. '''
-class HttpClient(object):
+""" Wrapper for get and post methods for Databricks REST APIs. """
+class HttpClient():
     def __init__(self, api_name, host=None, token=None):
         if host is None:
             (host,token) = mlflow_utils.get_mlflow_host_token()
@@ -36,24 +36,22 @@ class HttpClient(object):
         return json.loads(rsp.text)
 
     def _mk_headers(self):
-        return {} if self.token is None else {'Authorization': 'Bearer '+self.token}
+        return {} if self.token is None else { "Authorization": f"Bearer {self.token}" }
 
     def _mk_uri(self, resource):
-        return self.api_uri + "/" + resource
+        return f"{self.api_uri}/{resource}"
 
     def _check_response(self, rsp, uri):
         if rsp.status_code < 200 or rsp.status_code > 299:
-            raise MlflowToolsException("HTTP status code: {} Reason: {} URL: {}".format(str(rsp.status_code),rsp.reason,uri))
+            raise MlflowToolsException(f"HTTP status code: {rsp.status_code}. Reason: {rsp.reason} URL: {uri}")
 
     def __repr__(self): 
         return self.api_uri
 
 class DatabricksHttpClient(HttpClient):
-    def __init__(self, api_uri=None, token=None):
-        super().__init__("api/2.0", api_uri, token)
+    def __init__(self, host=None, token=None):
+        super().__init__("api/2.0", host, token)
 
 class MlflowHttpClient(HttpClient):
-    def __init__(self, api_uri=None, token=None):
-        super().__init__("api/2.0/mlflow", api_uri, token)
-
-
+    def __init__(self, host=None, token=None):
+        super().__init__("api/2.0/mlflow", host, token)
