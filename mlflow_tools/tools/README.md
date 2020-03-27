@@ -150,11 +150,11 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine
     "last_updated_timestamp": "1584980474738",
     "latest_versions": [
       {
-        "name": "sklearn_wine",
+        "name": "e2e-ml-pipeline",
         "version": "1",
         "creation_timestamp": "1584980474738",
         "last_updated_timestamp": "1584980474738",
-        "current_stage": "None",
+        "current_stage": "Production",
         "source": "file:///opt/mlflow/server/mlruns/5/bd19af4c8b67420e8371bbe5b6982402/artifacts/sklearn-model",
         "run_id": "bd19af4c8b67420e8371bbe5b6982402",
         "status": "READY"
@@ -172,16 +172,16 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
 {
   "model": {
     "registered_model": {
-      "name": "sklearn_wine",
+      "name": "e2e-ml-pipeline",
       "creation_timestamp": "1584980474711",
       "last_updated_timestamp": "1584980474738",
       "latest_versions": [
         {
-          "name": "sklearn_wine",
+          "name": "e2e-ml-pipeline",
           "version": "1",
           "creation_timestamp": "1584980474738",
           "last_updated_timestamp": "1584980474738",
-          "current_stage": "None",
+          "current_stage": "Production",
           "source": "file:///opt/mlflow/server/mlruns/1812/bd19af4c8b67420e8371bbe5b6982402/artifacts/sklearn-model",
           "run_id": "bd19af4c8b67420e8371bbe5b6982402",
           "status": "READY"
@@ -194,7 +194,7 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
       "run": {
         "info": {
           "run_uuid": "bd19af4c8b67420e8371bbe5b6982402",
-          "experiment_id": "5",
+          "experiment_id": "1812",
           "user_id": "andre",
           "status": "FINISHED",
           "start_time": "1584980474016",
