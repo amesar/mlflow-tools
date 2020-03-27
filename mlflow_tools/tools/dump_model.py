@@ -18,8 +18,8 @@ def _dump_dct(dct, format):
 def dump(model_name, format, show_runs):
     model = client2.get(f"registered-models/get?name={model_name}")
     if show_runs:
-        runs = [ client1.get(f"runs/get?run_id={x['run_id']}") for x in model["registered_model"]["latest_versions"] ]
-        dct = { "model": model, "runs": runs }
+        runs = { x['version']:client1.get(f"runs/get?run_id={x['run_id']}")['run'] for x in model["registered_model"]["latest_versions"] }
+        dct = { "model": model, "version_runs": runs }
         _dump_dct(dct, format)
     else:
         _dump_dct(model, format)
