@@ -7,6 +7,7 @@ Some useful tools for MLflow.
   * List all experiments.
   * Dump experiment and run details recursively.
   * Find the best run for an experiment
+  * Dump registered model as JSON or YAML
 * [Export and import experiments](mlflow_tools/export_import/README.md)
   * Export experiment to a directory or zip file.
   * Import experiment from a directory or zip file.
