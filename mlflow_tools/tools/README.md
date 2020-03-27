@@ -8,6 +8,7 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * Dump run as text
 * Dump experiment runs as CSV file
 * Find best run of an experiment
+* Dump registered model as JSON or YAML
 
 ## List all experiments
 See [list_experiments.py](list_experiments.py).
@@ -129,5 +130,152 @@ python -m mlflow_tools.tools.best_run  --experiment_id 2 --metric=rmse  --ascend
 Best run:
   run_id: 7890e3ec549442ebae453394ea7dd1ea
   rmse: 0.8829449794492825
+
+```
+
+## Dump registered model as JSON or YAML
+
+Dumps a registered model and optionally the run details of each of its versions.
+See [dump_model.py](dump_model.py).
+
+### Dump only registered model
+```
+python -m mlflow_tools.tools.dump_model --model sklearn_wine 
+```
+```
+{
+  "registered_model": {
+    "name": "sklearn_wine",
+    "creation_timestamp": "1584980474711",
+    "last_updated_timestamp": "1584980474738",
+    "latest_versions": [
+      {
+        "name": "sklearn_wine",
+        "version": "1",
+        "creation_timestamp": "1584980474738",
+        "last_updated_timestamp": "1584980474738",
+        "current_stage": "None",
+        "source": "file:///opt/mlflow/server/mlruns/5/bd19af4c8b67420e8371bbe5b6982402/artifacts/sklearn-model",
+        "run_id": "bd19af4c8b67420e8371bbe5b6982402",
+        "status": "READY"
+      }
+    ]
+  }
+}
+```
+
+### Dump registered model with run details
+```
+python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
+```
+```
+{
+  "model": {
+    "registered_model": {
+      "name": "sklearn_wine",
+      "creation_timestamp": "1584980474711",
+      "last_updated_timestamp": "1584980474738",
+      "latest_versions": [
+        {
+          "name": "sklearn_wine",
+          "version": "1",
+          "creation_timestamp": "1584980474738",
+          "last_updated_timestamp": "1584980474738",
+          "current_stage": "None",
+          "source": "file:///opt/mlflow/server/mlruns/1812/bd19af4c8b67420e8371bbe5b6982402/artifacts/sklearn-model",
+          "run_id": "bd19af4c8b67420e8371bbe5b6982402",
+          "status": "READY"
+        }
+      ]
+    }
+  },
+  "runs": [
+    {
+      "run": {
+        "info": {
+          "run_uuid": "bd19af4c8b67420e8371bbe5b6982402",
+          "experiment_id": "5",
+          "user_id": "andre",
+          "status": "FINISHED",
+          "start_time": "1584980474016",
+          "end_time": "1584980479782",
+          "artifact_uri": "file:///opt/mlflow/server/mlruns/1812/bd19af4c8b67420e8371bbe5b6982402/artifacts",
+          "lifecycle_stage": "active",
+          "run_id": "bd19af4c8b67420e8371bbe5b6982402"
+        },
+        "data": {
+          "metrics": [
+            {
+              "key": "mae",
+              "value": 0.5866345750858584,
+              "timestamp": "1584980474565",
+              "step": "0"
+            },
+            {
+              "key": "r2",
+              "value": 0.2543237115463549,
+              "timestamp": "1584980474546",
+              "step": "0"
+            },
+            {
+              "key": "rmse",
+              "value": 0.7642618555591052,
+              "timestamp": "1584980474518",
+              "step": "0"
+            }
+          ],
+          "params": [
+            {
+              "key": "max_depth",
+              "value": "4"
+            },
+            {
+              "key": "max_leaf_nodes",
+              "value": "32"
+            }
+          ],
+          "tags": [
+            {
+              "key": "data_path",
+              "value": "../../data/wine-quality-white.csv"
+            },
+            {
+              "key": "mlflow.log-model.history",
+              "value": "[{\"run_id\": \"bd19af4c8b67420e8371bbe5b6982402\", \"artifact_path\": \"sklearn-model\", \"utc_time_created\": \"2020-03-23 16:21:14.622448\", \"flavors\": {\"python_function\": {\"loader_module\": \"mlflow.sklearn\", \"python_version\": \"3.7.5\", \"data\": \"model.pkl\", \"env\": \"conda.yaml\"}, \"sklearn\": {\"pickled_model\": \"model.pkl\", \"sklearn_version\": \"0.19.2\", \"serialization_format\": \"cloudpickle\"}}}, {\"run_id\": \"bd19af4c8b67420e8371bbe5b6982402\", \"artifact_path\": \"onnx-model\", \"utc_time_created\": \"2020-03-23 16:21:17.799155\", \"flavors\": {\"python_function\": {\"loader_module\": \"mlflow.onnx\", \"python_version\": \"3.7.5\", \"data\": \"model.onnx\", \"env\": \"conda.yaml\"}, \"onnx\": {\"onnx_version\": \"1.6.0\", \"data\": \"model.onnx\"}}}]"
+            },
+            {
+              "key": "mlflow.runName",
+              "value": "train.sh"
+            },
+            {
+              "key": "mlflow.source.git.commit",
+              "value": "a82570aadbd19b8736a097ea23eded98b7c42a43"
+            },
+            {
+              "key": "mlflow.source.name",
+              "value": "main.py"
+            },
+            {
+              "key": "mlflow.source.type",
+              "value": "LOCAL"
+            },
+            {
+              "key": "mlflow.user",
+              "value": "andre"
+            },
+            {
+              "key": "mlflow_version",
+              "value": "1.7.0"
+            },
+            {
+              "key": "onnx_version",
+              "value": "1.6.0"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
 
 ```
