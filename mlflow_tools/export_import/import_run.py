@@ -40,14 +40,22 @@ class RunImporter():
             mlflow.log_artifacts(mk_local_path(path))
         return run_id
 
+    def dump_tags(self, tags):
+        print("Tags:")
+        for t in tags: print("  t:",t.key)
+
     def import_run_data(self, run_dct, run_id, src_user_id):
         from mlflow.entities import Metric, Param, RunTag
         now = round(time.time())
         params = [ Param(k,v) for k,v in run_dct['params'].items() ]
         metrics = [ Metric(k,v,now,0) for k,v in run_dct['metrics'].items() ] # TODO: missing timestamp and step semantics?
         tags = [ RunTag(k,str(v)) for k,v in run_dct['tags'].items() ]
+        #self.dump_tags(tags)
         if not self.in_databricks:
             utils.set_dst_user_id(tags, src_user_id, self.use_src_user_id)
+        if not self.import_mlflow_tags:
+            tags = [ t for t in tags if not t.key.startswith("mlflow.")]
+        #self.dump_tags(tags)
         self.client.log_batch(run_id, metrics, params, tags)
 
 if __name__ == "__main__":
@@ -61,5 +69,5 @@ if __name__ == "__main__":
     print("Options:")
     for arg in vars(args):
         print("  {}: {}".format(arg,getattr(args, arg)))
-    importer = RunImporter(None,args.use_src_user_id, import_mlflow_tags)
+    importer = RunImporter(None,args.use_src_user_id, args.import_mlflow_tags)
     importer.import_run(args.experiment_name, args.input)
