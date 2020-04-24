@@ -1,26 +1,29 @@
 # Export and Import Experiments or Runs
 
-Tools to export and import MLflow experiments (or runs) from one tracking server to another.
+Tools to export and import MLflow runs, experiments or registered models from one tracking server to another.
 
 ## Overview
 
-* Experiments
-  * Export an experiment and all its runs to a directory or zip file
-  * Import an experiment from a directory or zip file
-  * Copy an experiment from one tracking server to another
-* Runs
-  * Export a run to  a directory or zip file
-  * Import a run from a directory or zip file
-  * Copy a run from one tracking server to another
+### Runs
+  * Export a run to  a directory or zip file.
+  * Import a run from a directory or zip file.
+  * Copy a run from one tracking server to another.
+  * Limitations - TODO
+    * Account for nested runs.
+    * Implement Databricks notebook imports.
 
-* Registered Models
-  * Saves registered model data as `registered_models.json`.
+### Experiments
+  * Export an experiment and all its runs to a directory or zip file.
+  * Import an experiment from a directory or zip file.
+  * Copy an experiment from one tracking server to another.
 
-* TODO
-  * Account for nested runs
-  * Implement Databricks notebook imports
+### Registered Models
+  * Export a registered model to a directory.
+  * Import a registered model from a directory.
 
-### Databricks MLflow Tracking Server Notes for `Copy` Feature
+
+### Limitations
+#### Databricks MLflow Tracking Server Notes for `Copy` Feature
   * The functionality described here works quite well for open source MLflow.
   * Things get more complicated for the `copy` feature when you are using a a Databricks tracking server, either as source or destination .
   * This is primarily because [MLflow client](https://github.com/mlflow/mlflow/blob/master/mlflow/tracking/client.py) constructor only accepts a tracking_uri. 
@@ -66,7 +69,8 @@ python export_experiment.py --experiment=sklearn_wine --output=exp.zip
 ```
 
 #### Databricks export example
-See the [root REAMDE.md Databricks section](../../../README.md#Databricks) for detailed Databricks configuration information.
+
+See the [Access the MLflow tracking server from outside Databricks](https://docs.databricks.com/applications/mlflow/access-hosted-tracking-server.html)
 ```
 export MLFLOW_TRACKING_URI=databricks
 export DATABRICKS_HOST=https://acme.cloud.databricks.com
@@ -268,7 +272,104 @@ python copy_run.py \
 
 ## Registered Models
 
-Produces `registered_models.json`.
+### Export registered model
+
+Export a model to a directory.
+
+Source: [export_model.py](export_model.py).
+
+#### Arguments
+* model - Registered model name
+* output_dir - Destination directory
+
+#### Run
+```
+python export_model.py --model=sklearn_wine --output_dir=out 
+```
+
+#### Output 
+
+Output export directory example
+
+```
++-749930c36dee49b8aeb45ee9cdfe1abb/
+| +-artifacts/
+|   +-plot.png
+|   +-sklearn-model/
+|   | +-model.pkl
+|   | +-conda.yaml
+|   | +-MLmodel
+|   |  
++-model.json
+```
+
+model.json 
+```
+{
+  "registered_model": {
+    "name": "sklearn_wine",
+    "creation_timestamp": "1587517284168",
+    "last_updated_timestamp": "1587572072601",
+    "description": "hi my desc",
+    "latest_versions": [
+      {
+        "name": "sklearn_wine",
+        "version": "1",
+        "creation_timestamp": "1587517284216",
+. . .
+```
+
+### Import registered model
+
+Import a model from a directory.
+
+Source: [import_model.py](import_model.py).
+
+#### Arguments
+* model - Registered model name
+* experiment_name - Destination experiment name  - will be created if it does not exist
+* input_dir - Source directory or zip file produced by export_experiment.py
+* delete_model - First delete the model and all its versions.
+
+#### Run
+
+```
+python import_model.py \
+  --model=sklearn_wine \
+  --experiment_name=sklearn_wine_2 \
+  --input_dir=out 
+  --delete_model
+```
+
+```
+Model to import:
+  Name: sklearn_wine
+  Description: hi my desc
+  2 latest versions
+Deleting 1 versions for model 'sklearn_wine_imported'
+  version=2 status=READY stage=Production run_id=f93d5e4d182e4f0aba5493a0fa8d9eb6
+Importing latest versions:
+  Version 1:
+    current_stage: None:
+    Run to import:
+      run_id: 749930c36dee49b8aeb45ee9cdfe1abb
+      artifact_uri: file:///Users/ander/work/mlflow/server/local_mlrun/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts
+      source:       file:///Users/ander/work/mlflow/server/local_mlrun/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts/sklearn-model
+      model_path: sklearn-model
+      run_id: 749930c36dee49b8aeb45ee9cdfe1abb
+    Importing run into experiment 'scratch' from 'out/749930c36dee49b8aeb45ee9cdfe1abb'
+    Imported run:
+      run_id: 03d0cfae60774ec99f949c42e1575532
+      artifact_uri: file:///Users/ander/work/mlflow/server/local_mlrun/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts
+      source:       file:///Users/ander/work/mlflow/server/local_mlrun/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts/sklearn-model
+Version: id=1 status=READY state=None
+Waited 0.01 seconds
+```
+
+
+### Dump all registered models
+
+Calls the `registered-models/list` REST endpoint and produces `registered_models.json`.
 ```
 python export_registered_models.py
 ```
