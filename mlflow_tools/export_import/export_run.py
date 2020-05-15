@@ -62,7 +62,11 @@ class RunExporter():
             if notebook is not None:
                 self.export_notebook(run_dir, notebook)
             return True
-        except Exception as e: # NOTE: Fails for certain runs in Databricks
+        except OSError as e: # NOTE: Fails if there are no artifacts for a run - "No such file or directory"
+            print("WARNING: Probably because there are no artifacts for run. run_id:",run.info.run_id,"Exception:",e)
+            traceback.print_exc()
+            return False
+        except Exception as e:
             print("ERROR: run_id:",run.info.run_id,"Exception:",e)
             traceback.print_exc()
             return False
