@@ -56,9 +56,15 @@ mlflow_tools.metadata.tracking_uri    http://localhost:5000
 
 Export an experiment to a directory or zip file.
 
-Arguments
-* experiment - Source experiment name or ID
-* output - Destination directory or zip file
+**Arguments**
+
+|Name | Required | Default | Description|
+|-----|----------|---------|------------|
+| experiment | yes | none | Source experiment name or ID |
+| output | no | out | Destination directory or zip file |
+| export_metadata_tags | no | False | Export source run metadata tags |
+| notebook_formats | no | SOURCE | Databricks notebook formats. Values are SOURCE, HTML, JUPYTER, DBC |
+
 
 #### Export example
 ```
@@ -113,12 +119,15 @@ manifest.json - source experiment information
 
 Import an experiment from a directory or zip file.
 
-Arguments
-* experiment_name - Destination experiment name  - will be created if it does not exist
-* input - Source directory or zip file produced by export_experiment.py
-* use_src_user_id - Set the destination user ID to the source user ID
+**Arguments**
 
-Run examples
+|Name | Required | Default | Description|
+|-----|----------|---------|------------|
+| experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
+| input | yes | | Source directory or zip file produced by export_experiment.py |
+| use_src_user_id | no | False | Set the destination user ID to the source user ID |
+
+**Run examples**
 
 ```
 python import_experiment.py \
@@ -141,22 +150,25 @@ In this example we use
 * Source tracking server runs on port 5000 
 * Destination tracking server runs on 5001
 
-Arguments
-* src_experiment - Source experiment name or ID
-* dst_experiment_name - Destination experiment name  - will be created if it does not exist
-* src_uri - Source server URI
-* dst_uri - Destination server URI
-* use_src_user_id - Set the destination user ID to the source user ID
+**Arguments**
 
-Run example
+|Name | Required | Default | Description|
+|-----|----------|---------|------------|
+| src_experiment | yes | none | Source experiment name or ID |
+| dst_experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
+| src_uri | yes | none | Source tracking server URI |
+| dst_uri | yes | none |  Destination tracking server URI |
+| use_src_user_id | no | False | Set the destination user ID to the source user ID |
+
+**Run example**
 ```
 export MLFLOW_TRACKING_URI=http://localhost:5000
 
 python copy_experiment.py \
   --src_experiment=sklearn_wine \
-  --dst_experiment_name sklearn_wine_imported \
-  --src_uri http://localhost:5000
-  --dst_uri http://localhost:5001
+  --dst_experiment_name=sklearn_wine_imported \
+  --src_uri=http://localhost:5000
+  --dst_uri=http://localhost:5001
   --export_metadata_tags
 ```
 
@@ -166,11 +178,15 @@ python copy_experiment.py \
 
 Export run to directory or zip file.
 
-Arguments
-* run_id - Source run ID
-* output - Destination directory or zip file
+**Arguments**
 
-Run examples
+|Name | Required | Default | Description|
+|-----|----------|---------|------------|
+| run_id | yes | none | Source run ID |
+| output | no | out | Destination directory or zip file |
+| export_metadata_tags | no | False | Export source run metadata tags |
+
+**Run examples**
 ```
 python export_run.py \
   --run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
@@ -228,12 +244,16 @@ Sample run.json
 
 Imports a run from a directory or zip file.
 
-Arguments
-* experiment_name - Destination experiment name  - will be created if it does not exist
-* input - Source directory or zip file produced by export_run.py
-* use_src_user_id - Set the destination user ID to the source user ID
+**Arguments**
 
-Run examples
+|Name | Required | Default | Description|
+|-----|----------|---------|------------|
+| experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
+| input | yes | none | Source directory or zip file produced by export_run.py |
+| use_src_user_id | no | False | Set the destination user ID to the source user ID |
+
+
+**Run examples**
 ```
 python import_run.py \
   --run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
@@ -251,22 +271,25 @@ In this example we use
 * Source tracking server runs on port 5000 
 * Destination tracking server runs on 5001
 
-Arguments
-* src_run_id - Source run ID
-* dst_experiment_name - Destination experiment name  - will be created if it does not exist
-* src_uri - Source server URI
-* dst_uri - Destination server URI
-* use_src_user_id - Set the destination user ID to the source user ID
+**Arguments**
 
-Run example
+|Name | Required | Default | Description|
+|-----|----------|---------|------------|
+| src_run_id | yes | none | Source run ID |
+| dst_experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
+| src_uri | yes | none | Source tracking server URI |
+| dst_uri | yes | none |  Destination tracking server URI |
+| use_src_user_id | no | False | Set the destination user ID to the source user ID |
+
+**Run example**
 ```
 export MLFLOW_TRACKING_URI=http://localhost:5000
 
 python copy_run.py \
   --src_run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
-  --dst_experiment_name sklearn_wine \
-  --src_uri http://localhost:5000
-  --dst_uri http://localhost:5001
+  --dst_experiment_name=sklearn_wine \
+  --src_uri=http://localhost:5000
+  --dst_uri=http://localhost:5001
   --export_metadata_tags
 ```
 
@@ -279,8 +302,11 @@ Export a model to a directory.
 Source: [export_model.py](export_model.py).
 
 #### Arguments
-* model - Registered model name
-* output_dir - Destination directory
+
+|Name | Required | Default | Description|
+|-----|----------|---------|------------|
+| model | yes | none | Registered model name |
+|  output_dir | no | out | Destination directory |
 
 #### Run
 ```
@@ -326,10 +352,13 @@ Import a model from a directory.
 Source: [import_model.py](import_model.py).
 
 #### Arguments
-* model - Registered model name
-* experiment_name - Destination experiment name  - will be created if it does not exist
-* input_dir - Source directory or zip file produced by export_experiment.py
-* delete_model - First delete the model and all its versions.
+
+|Name | Required | Default | Description|
+|-----|----------|---------|------------|
+| model | yes | none | Registered model name |
+| experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
+| input_dir | yes | none | Source directory or zip file produced by export_model.py |
+| delete_model | no | False | First delete the model and all its versions |
 
 #### Run
 
