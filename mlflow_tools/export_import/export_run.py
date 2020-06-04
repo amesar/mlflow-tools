@@ -57,8 +57,8 @@ class RunExporter():
         dst_path = os.path.join(run_dir,"artifacts")
         try:
             src_path = self.client.download_artifacts(run.info.run_id,"")
-            self.fs.cp(src_path,dst_path,True)
-            notebook = tags.get("mlflow.databricks.notebookPath",None)
+            self.fs.cp(src_path, dst_path,True)
+            notebook = tags.get("mlflow.databricks.notebookPath", None)
             if notebook is not None:
                 self.export_notebook(run_dir, notebook)
             return True

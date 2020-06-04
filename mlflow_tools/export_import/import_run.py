@@ -9,10 +9,11 @@ from mlflow_tools.export_import import utils
 from mlflow_tools.export_import import mk_local_path
 
 class RunImporter():
-    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=False):
+    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=False, import_mlflow_tools_tags=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
         self.use_src_user_id = use_src_user_id
         self.import_mlflow_tags = import_mlflow_tags
+        self.import_mlflow_tools_tags = import_mlflow_tools_tags
         self.in_databricks = 'DATABRICKS_RUNTIME_VERSION' in os.environ
 
     def import_run(self, exp_name, input):
@@ -40,23 +41,32 @@ class RunImporter():
             mlflow.log_artifacts(mk_local_path(path))
         return run_id
 
-    def dump_tags(self, tags):
-        print("Tags:")
-        for t in tags: print("  t:",t.key)
+    def dump_tags(self, tags, msg=""):
+        print(f"Tags {msg} - {len(tags)}:")
+        for t in tags: print("  ",t.key)
 
     def import_run_data(self, run_dct, run_id, src_user_id):
         from mlflow.entities import Metric, Param, RunTag
         now = round(time.time())
         params = [ Param(k,v) for k,v in run_dct['params'].items() ]
         metrics = [ Metric(k,v,now,0) for k,v in run_dct['metrics'].items() ] # TODO: missing timestamp and step semantics?
-        tags = [ RunTag(k,str(v)) for k,v in run_dct['tags'].items() ]
-        #self.dump_tags(tags)
+
+        tags = run_dct['tags']
+        if not self.import_mlflow_tags: # remove mlflow tags
+            keys = [ k for k in tags.keys() if k.startswith("mlflow.") ]
+            for k in keys: 
+                tags.pop(k)
+        if not self.import_mlflow_tools_tags: # remove mlflow_tools tags
+            keys = [ k for k in tags.keys() if k.startswith("mlflow_tools.") ]
+            for k in keys: 
+                tags.pop(k)
+        tags = [ RunTag(k,str(v)) for k,v in tags.items() ]
+
         if not self.in_databricks:
             utils.set_dst_user_id(tags, src_user_id, self.use_src_user_id)
-        if not self.import_mlflow_tags:
-            tags = [ t for t in tags if not t.key.startswith("mlflow.")]
         #self.dump_tags(tags)
         self.client.log_batch(run_id, metrics, params, tags)
+
 
 if __name__ == "__main__":
     from argparse import ArgumentParser
@@ -65,9 +75,10 @@ if __name__ == "__main__":
     parser.add_argument("--experiment_name", dest="experiment_name", help="Destination experiment_name", required=True)
     parser.add_argument("--use_src_user_id", dest="use_src_user_id", help="Use source user ID", default=False, action='store_true')
     parser.add_argument("--import_mlflow_tags", dest="import_mlflow_tags", help="Import mlflow tags", default=False, action='store_true')
+    parser.add_argument("--import_mlflow_tools_tags", dest="import_mlflow_tools_tags", help="Import mlflow_tools tags", default=False, action='store_true')
     args = parser.parse_args()
     print("Options:")
     for arg in vars(args):
         print("  {}: {}".format(arg,getattr(args, arg)))
-    importer = RunImporter(None,args.use_src_user_id, args.import_mlflow_tags)
+    importer = RunImporter(None,args.use_src_user_id, args.import_mlflow_tags, args.import_mlflow_tools_tags)
     importer.import_run(args.experiment_name, args.input)

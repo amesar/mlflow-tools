@@ -6,9 +6,9 @@ from . import peek_at_experiment
 from .import_run import RunImporter
 
 class ExperimentImporter():
-    def __init__(self, mlflow_client=None, use_src_user_id=False):
+    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=False, import_mlflow_tools_tags=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
-        self.run_importer = RunImporter(self.client, use_src_user_id)
+        self.run_importer = RunImporter(self.client, use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags)
 
     def import_experiment(self, exp_name, input):
         if input.endswith(".zip"):
@@ -40,7 +40,8 @@ if __name__ == "__main__":
     parser.add_argument("--experiment_name", dest="experiment_name", help="Destination experiment_name", required=True)
     parser.add_argument("--just_peek", dest="just_peek", help="Just display experiment metadata - do not import", default=False, action='store_true')
     parser.add_argument("--use_src_user_id", dest="use_src_user_id", help="Use source user ID", default=False, action='store_true')
-
+    parser.add_argument("--import_mlflow_tags", dest="import_mlflow_tags", help="Import mlflow tags", default=False, action='store_true')
+    parser.add_argument("--import_mlflow_tools_tags", dest="import_mlflow_tools_tags", help="Import mlflow_tools tags", default=False, action='store_true')
     args = parser.parse_args()
     print("Options:")
     for arg in vars(args):
@@ -48,5 +49,5 @@ if __name__ == "__main__":
     if args.just_peek:
         peek_at_experiment(args.input)
     else:
-        importer = ExperimentImporter(None, args.use_src_user_id)
+        importer = ExperimentImporter(None, args.use_src_user_id, args.import_mlflow_tags, args.import_mlflow_tools_tags)
         importer.import_experiment(args.experiment_name, args.input)

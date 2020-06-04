@@ -3,7 +3,6 @@ Export a registered model and all the experiment runs associated with its latest
 """
 
 import os
-import json
 import mlflow
 from mlflow_tools.common.http_client import HttpClient,MlflowHttpClient
 from mlflow_tools.common import filesystem as _filesystem
@@ -19,7 +18,6 @@ class ModelExporter():
 
     def export_model(self, output_dir, model_name):
         path = os.path.join(output_dir,"model.json")
-        #with open(path, "w") as f:
         model = self.client2.get(f"registered-models/get?name={model_name}")
         for v in model["registered_model"]["latest_versions"]:
             run_id = v["run_id"] 
@@ -29,7 +27,6 @@ class ModelExporter():
             run = self.client.get_run(run_id)
             v["artifact_uri"] = run.info.artifact_uri
         utils.write_json_file(self.fs, path, model)
-
 
 if __name__ == "__main__":
     from argparse import ArgumentParser
