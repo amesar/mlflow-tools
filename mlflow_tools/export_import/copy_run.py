@@ -29,6 +29,7 @@ class RunCopier(BaseCopier):
         self._copy_run_data(src_run, dst_run.info.run_id)
         local_path = self.src_client.download_artifacts(src_run_id,"")
         self.dst_client.log_artifacts(dst_run.info.run_id,local_path)
+        self.dst_client.set_terminated(dst_run.info.run_id, src_run.info.status)
 
     def _copy_run_data(self, src_run, dst_run_id):
         from mlflow.entities import Metric, Param, RunTag
