@@ -159,6 +159,7 @@ In this example we use
 | src_uri | yes | none | Source tracking server URI |
 | dst_uri | yes | none |  Destination tracking server URI |
 | use_src_user_id | no | False | Set the destination user ID to the source user ID |
+| import_mlflow_tools_tags | no | False | Import mlflow_tools tags |
 
 **Run example**
 ```
@@ -167,9 +168,10 @@ export MLFLOW_TRACKING_URI=http://localhost:5000
 python copy_experiment.py \
   --src_experiment=sklearn_wine \
   --dst_experiment_name=sklearn_wine_imported \
-  --src_uri=http://localhost:5000
-  --dst_uri=http://localhost:5001
-  --export_metadata_tags
+  --src_uri=http://localhost:5000 \
+  --dst_uri=http://localhost:5001 \
+  --export_metadata_tags \
+  --import_mlflow_tools_tags
 ```
 
 ## Runs

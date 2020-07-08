@@ -10,10 +10,10 @@ from mlflow_tools.export_import import BaseCopier, create_client
 
 class ExperimentCopier(BaseCopier):
 
-    def __init__(self, src_client, dst_client, export_metadata_tags=False, use_src_user_id=False):
+    def __init__(self, src_client, dst_client, export_metadata_tags=False, use_src_user_id=False, import_mlflow_tools_tags=False):
         self.export_metadata_tags = export_metadata_tags
         super().__init__(src_client, dst_client)
-        self.run_copier = RunCopier(src_client, dst_client, export_metadata_tags, use_src_user_id)
+        self.run_copier = RunCopier(src_client, dst_client, export_metadata_tags, use_src_user_id, import_mlflow_tools_tags)
 
     def copy_experiment(self, src_exp_id_or_name, dst_exp_name):
         src_exp = mlflow_utils.get_experiment(self.src_client, src_exp_id_or_name)
@@ -33,6 +33,7 @@ if __name__ == "__main__":
     parser.add_argument("--src_experiment_id_or_name", dest="src_experiment_id_or_name", help="Source experiment ID or name", required=True)
     parser.add_argument("--dst_experiment_name", dest="dst_experiment_name", help="Destination experiment_name", required=True)
     parser.add_argument("--export_metadata_tags", dest="export_metadata_tags", help="Export source run metadata tags", default=False, action='store_true')
+    parser.add_argument("--import_mlflow_tools_tags", dest="import_mlflow_tools_tags", help="Import mlflow_tools tags", default=False, action='store_true')
     parser.add_argument("--use_src_user_id", dest="use_src_user_id", help="Use source user ID", default=False, action='store_true')
 
     args = parser.parse_args()
@@ -44,5 +45,5 @@ if __name__ == "__main__":
     dst_client = create_client(args.dst_uri)
     print("src_client:",src_client)
     print("dst_client:",dst_client)
-    copier = ExperimentCopier(src_client, dst_client, args.export_metadata_tags, args.use_src_user_id)
+    copier = ExperimentCopier(src_client, dst_client, args.export_metadata_tags, args.use_src_user_id, args.import_mlflow_tools_tags)
     copier.copy_experiment(args.src_experiment_id_or_name, args.dst_experiment_name)
