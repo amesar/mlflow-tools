@@ -24,7 +24,7 @@ class ExperimentExporter():
     def export_experiment(self, exp_id_or_name, output, export_metadata_tags=False, notebook_formats=["SOURCE"]):
         exp = mlflow_utils.get_experiment(self.client, exp_id_or_name)
         exp_id = exp.experiment_id
-        print("Exporting experiment '{}' (ID {}) to '{}'".format(exp.name,exp.experiment_id,output),flush=True)
+        print("Exporting experiment '{}' (ID {}) to '{}'".format(exp.name,exp.experiment_id,output))
         if output.endswith(".zip"):
             self.export_experiment_to_zip(exp_id, output, export_metadata_tags)
         else:
@@ -40,7 +40,7 @@ class ExperimentExporter():
         failed_run_ids = []
         for j,info in enumerate(infos):
             run_dir = os.path.join(exp_dir, info.run_id)
-            print("Exporting run {}/{}: {}".format((j+1),len(infos),info.run_id),flush=True)
+            print("Exporting run {}/{}: {}".format((j+1),len(infos),info.run_id))
             res = self.run_exporter.export_run(info.run_id, run_dir)
             if res:
                 run_ids.append(info.run_id)

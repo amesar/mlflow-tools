@@ -17,7 +17,7 @@ class RunImporter():
         self.in_databricks = "DATABRICKS_RUNTIME_VERSION" in os.environ
 
     def import_run(self, exp_name, input):
-        print("Importing run into experiment '{}' from '{}'".format(exp_name, input),flush=True)
+        print("Importing run into experiment '{}' from '{}'".format(exp_name, input))
         if input.endswith(".zip"):
             return self.import_run_from_zip(exp_name, input)
         else:
