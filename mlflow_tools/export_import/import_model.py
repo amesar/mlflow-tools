@@ -58,7 +58,7 @@ class ModelImporter():
 
             version = self.client.create_model_version(model_name, source, run_id)
             model_utils.wait_until_version_is_ready(self.client, model_name, version, sleep_time=2)
-            self.client.update_model_version(model_name, version.version, stage=current_stage, description="Imported")
+            self.client.transition_model_version_stage(model_name, version.version, current_stage)
 
 if __name__ == "__main__":
     from argparse import ArgumentParser
