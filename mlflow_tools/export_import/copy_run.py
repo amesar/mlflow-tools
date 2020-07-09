@@ -21,7 +21,7 @@ class RunCopier(BaseCopier):
         dst_exp = self.get_experiment(self.dst_client,dst_exp_name)
         print("  dst_exp.name:",dst_exp.name)
         print("  dst_exp.id:",dst_exp.experiment_id)
-        self._copy_run(src_run_id, dst_exp.experiment_id)
+        return self._copy_run(src_run_id, dst_exp.experiment_id)
 
     def _copy_run(self, src_run_id, dst_experiment_id):
         src_run = self.src_client.get_run(src_run_id)
@@ -30,6 +30,7 @@ class RunCopier(BaseCopier):
         local_path = self.src_client.download_artifacts(src_run_id,"")
         self.dst_client.log_artifacts(dst_run.info.run_id,local_path)
         self.dst_client.set_terminated(dst_run.info.run_id, src_run.info.status)
+        return (dst_run.info.run_id, src_run.data.tags.get("mlflow.parentRunId",None))
 
     def _copy_run_data(self, src_run, dst_run_id):
         from mlflow.entities import Metric, Param, RunTag

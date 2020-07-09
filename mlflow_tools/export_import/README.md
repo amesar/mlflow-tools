@@ -8,9 +8,9 @@ Tools to export and import MLflow runs, experiments or registered models from on
   * Export a run to  a directory or zip file.
   * Import a run from a directory or zip file.
   * Copy a run from one tracking server to another.
-  * Limitations - TODO
-    * Account for nested runs.
-    * Implement Databricks notebook imports.
+  * Limitations
+    * Nested runs only are only accounted for when you import/copy an experiment. For a run, its a TODO.
+    * Databricks does not support notebook revision imports.
 
 ### Experiments
   * Export an experiment and all its runs to a directory or zip file.

@@ -48,7 +48,7 @@ class ModelImporter():
             model_path = source.replace(artifact_uri+"/","")
             print("      model_path:", model_path)
             print("      run_id:",run_id)
-            run_id = self.run_importer.import_run(experiment_name, run_dir)
+            run_id,_ = self.run_importer.import_run(experiment_name, run_dir)
             run = self.client.get_run(run_id)
             print("    Imported run:")
             print("      run_id:", run_id)

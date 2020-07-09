@@ -9,6 +9,7 @@ INDENT = "  "
 MAX_LEVEL = 1
 TS_FORMAT = "%Y-%m-%d_%H:%M:%S"
 client = mlflow.tracking.MlflowClient()
+print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
 def dump_run(run, max_level=1, indent=""):
     dump_run_info(run.info,indent)

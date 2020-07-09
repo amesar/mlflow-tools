@@ -94,3 +94,12 @@ def string_to_list(list_as_string):
 def get_user_id():
     from mlflow.tracking.context.default_context import _get_user
     return _get_user()
+
+"""
+Set the new parentRunId for new imported child runs.
+"""
+def nested_tags(dst_client, run_ids_mapping):
+    for src_run_id,(dst_run_id,src_parent_run_id) in run_ids_mapping.items():
+        if src_parent_run_id:
+            dst_parent_run_id,_ = run_ids_mapping[src_parent_run_id]
+            dst_client.set_tag(dst_run_id, "mlflow.parentRunId", dst_parent_run_id)
