@@ -21,16 +21,16 @@ class ExperimentImporter():
         mlflow.set_experiment(exp_name)
         manifest_path = os.path.join(exp_dir,"manifest.json")
         dct = utils.read_json_file(manifest_path)
-        run_ids = dct['run_ids']
+        run_ids = dct["run_ids"]
         failed_run_ids = dct['failed_run_ids']
-        print("Importing {} runs into experiment '{}' from {}".format(len(run_ids),exp_name,exp_dir))
+        print(f"Importing {len(run_ids)} runs into experiment '{exp_name}' from {exp_dir}")
         run_ids_mapping = {}
         for src_run_id in run_ids:
             dst_run_id, src_parent_run_id = self.run_importer.import_run(exp_name, os.path.join(exp_dir,src_run_id))
             run_ids_mapping[src_run_id] = (dst_run_id,src_parent_run_id)
-        print("Imported {} runs into experiment '{}' from {}".format(len(run_ids),exp_name,exp_dir))
+        print(f"Imported {len(run_ids)} runs into experiment '{exp_name}' from {exp_dir}")
         if len(failed_run_ids) > 0:
-            print("Warning: {} failed runs were not imported - see {}".format(len(failed_run_ids),manifest_path))
+            print(f"Warning: {len(failed_run_ids)} failed runs were not imported - see {manifest_path}")
         utils.nested_tags(self.client, run_ids_mapping)
 
     def import_experiment_from_zip(self, exp_name, zip_file):
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print("Options:")
     for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
+        print(f"  {arg}: {getattr(args, arg)}")
     if args.just_peek:
         peek_at_experiment(args.input)
     else:

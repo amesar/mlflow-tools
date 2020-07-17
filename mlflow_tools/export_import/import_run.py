@@ -15,9 +15,11 @@ class RunImporter():
         self.import_mlflow_tags = import_mlflow_tags
         self.import_mlflow_tools_tags = import_mlflow_tools_tags
         self.in_databricks = "DATABRICKS_RUNTIME_VERSION" in os.environ
+        print(f"in_databricks: {self.in_databricks}")
+        print(f"importing_into_databricks:",utils.importing_into_databricks())
 
     def import_run(self, exp_name, input):
-        print("Importing run into experiment '{}' from '{}'".format(exp_name, input))
+        print(f"Importing run into experiment '{exp_name}' from '{input}'")
         if input.endswith(".zip"):
             return self.import_run_from_zip(exp_name, input)
         else:
@@ -79,6 +81,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print("Options:")
     for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
+        print(f"  {arg}: {getattr(args, arg)}")
     importer = RunImporter(None,args.use_src_user_id, args.import_mlflow_tags, args.import_mlflow_tools_tags)
     importer.import_run(args.experiment_name, args.input)
