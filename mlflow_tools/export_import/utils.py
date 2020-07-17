@@ -43,7 +43,9 @@ def create_tags_for_mlflow_tags(tags_dct, import_mlflow_tags):
         tags.append(RunTag(k,str(v)))
     return tags
 
-def set_dst_user_id(tags,user_id, use_src_user_id):
+def set_dst_user_id(tags, user_id, use_src_user_id):
+    if importing_into_databricks())
+        return
     from mlflow.entities import RunTag
     from mlflow.utils.mlflow_tags import MLFLOW_USER
     user_id = user_id if use_src_user_id else get_user_id()
@@ -103,3 +105,6 @@ def nested_tags(dst_client, run_ids_mapping):
         if src_parent_run_id:
             dst_parent_run_id,_ = run_ids_mapping[src_parent_run_id]
             dst_client.set_tag(dst_run_id, "mlflow.parentRunId", dst_parent_run_id)
+
+def importing_into_databricks():
+    return mlflow.tracking.get_tracking_uri() == "databricks"
