@@ -44,7 +44,7 @@ def create_tags_for_mlflow_tags(tags_dct, import_mlflow_tags):
     return tags
 
 def set_dst_user_id(tags, user_id, use_src_user_id):
-    if importing_into_databricks())
+    if importing_into_databricks():
         return
     from mlflow.entities import RunTag
     from mlflow.utils.mlflow_tags import MLFLOW_USER
