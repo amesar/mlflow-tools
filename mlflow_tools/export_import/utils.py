@@ -10,12 +10,20 @@ PREFIX_METADATA = "mlflow_tools.metadata"
 PREFIX_SRC_RUN = "mlflow_tools.source_run"
 
 # Databricks tags that cannot be set
-dbx_skip_tags = set([ "mlflow.user" ])
+_databricks_skip_tags = set([
+  "mlflow.user",
+  "mlflow.log-model.history"
+  ])
+
+def create_mlflow_tags_for_databricks_import(tags):
+    if importing_into_databricks(): 
+        tags = { k:v for k,v in tags.items() if not k in _databricks_skip_tags }
+    return tags
 
 def create_tags_for_metadata(src_client, run, export_metadata_tags):
     """ Create destination tags from source run """
     tags = run.data.tags.copy()
-    for k in dbx_skip_tags:
+    for k in _databricks_skip_tags:
         tags.pop(k, None)
     if export_metadata_tags:
         uri = mlflow.tracking.get_tracking_uri()
