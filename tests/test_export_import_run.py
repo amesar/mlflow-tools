@@ -21,37 +21,45 @@ def init_output_dir():
         shutil.rmtree(output)
     os.makedirs(output)
 
-def init_test(importer):
+def init_test(exporter, importer, verbose=False):
     init_output_dir()
-    exp,run = create_simple_run()
-    exporter = RunExporter()
+    exp, run = create_simple_run()
     exporter.export_run(run.info.run_id, output)
 
     experiment_name = f"{exp.name}_import" 
     res = importer.import_run(experiment_name, output)
-    print("res:",res)
+    if verbose: print("res:",res)
 
     run1 = client.get_run(run.info.run_id)
     run2 = client.get_run(res[0])
-    #print("run1:",run1)
-    #print("run2:",run2)
-    #print("======= Run1")
-    #dump_run(run1)
-    #print("======= Run2")
-    #dump_run(run2)
+    if verbose:
+        print("run1:",run1)
+        print("run2:",run2)
+        print("======= Run1")
+        dump_run(run1)
+        print("======= Run2")
+        dump_run(run2)
     return run1, run2
 
 def test_basic():
-    run1, run2 = init_test(RunImporter())
+    run1, run2 = init_test(RunExporter(), RunImporter())
     compare_runs(run1, run2)
 
 def test_no_import_mlflow_tags():
-    run1, run2 = init_test(RunImporter(import_mlflow_tags=False))
+    run1, run2 = init_test(RunExporter(), RunImporter(import_mlflow_tags=False))
     compare_runs_no_tags(run1, run2)
     assert "mlflow.runName" in run1.data.tags
     assert not "mlflow.runName" in run2.data.tags
     run1.data.tags.pop("mlflow.runName")
     assert run1.data.tags == run2.data.tags
+
+def test_import_mlflow_tools_tags():
+    run1, run2 = init_test(RunExporter(export_metadata_tags=True), RunImporter(import_mlflow_tools_tags=True), verbose=True)
+    compare_runs_no_tags(run1, run2)
+    metadata_tags = { k:v for k,v in run2.data.tags.items() if k.startswith("mlflow_tools.metadata") }
+    assert len(metadata_tags) > 0
+    #metadata_tags = { k.replace("mlflow_tools.metadata.",""):v for k,v in run2.data.tags.items() if k.startswith("mlflow_tools.metadata") }
+    #assert run1.data.tags == metadata_tags
 
 def compare_runs_no_tags(run1, run2):
     assert run1.info.lifecycle_stage == run2.info.lifecycle_stage
