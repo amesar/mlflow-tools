@@ -7,6 +7,7 @@ import shutil
 import traceback
 import tempfile
 import mlflow
+import click
 
 from ..common import filesystem as _filesystem
 from ..common.http_client import DatabricksHttpClient
@@ -86,16 +87,18 @@ class RunExporter():
         except MlflowToolsException as e:
             print(f"WARNING: Cannot save notebook '{notebook}'. {e}")
 
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--run_id", dest="run_id", help="Source run_id", required=True)
-    parser.add_argument("--output", dest="output", help="Output directory or zip file", required=True)
-    parser.add_argument("--export_metadata_tags", dest="export_metadata_tags", help="Export source run metadata tags", default=False, action='store_true')
-    parser.add_argument("--notebook_formats", dest="notebook_formats", default="SOURCE", help="Notebook formats. Values are SOURCE, HTML, JUPYTER, DBC", required=False)
-    args = parser.parse_args()
+@click.command()
+@click.option("--run_id", help="Run ID", default=None, type=str)
+@click.option("--output", help="Output path", required=True)
+@click.option("--export_metadata_tags", help="Export source run metadata tags", type=bool, required=False)
+@click.option("--notebook_formats", help="Notebook formats. Values are SOURCE, HTML, JUPYTER, DBC", default="SOURCE")
+
+def main(run_id, output, export_metadata_tags, notebook_formats):
     print("Options:")
-    for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
-    exporter = RunExporter(None, args.export_metadata_tags, utils.string_to_list(args.notebook_formats))
-    exporter.export_run(args.run_id, args.output)
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
+    exporter = RunExporter(None, export_metadata_tags, utils.string_to_list(notebook_formats))
+    exporter.export_run(run_id, output)
+
+if __name__ == "__main__":
+    main()

@@ -2,6 +2,7 @@
 Copies an experiment from one MLflow server to another.
 """
 
+import click
 import mlflow
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.export_import import copy_run
@@ -25,32 +26,30 @@ class ExperimentCopier(BaseCopier):
         src_infos = self.src_client.list_run_infos(src_exp.experiment_id)
         run_ids_mapping = {}
         for j,info in enumerate(src_infos):
-            print("Copying run {}/{}: {}".format((j+1),len(src_infos),info.run_id))
+            print(f"Copying run {j+1}/{len(src_infos)}: {info.run_id}")
             dst_run_id, src_parent_run_id = self.run_copier._copy_run(info.run_id, dst_exp.experiment_id)
             run_ids_mapping[info.run_id] = (dst_run_id,src_parent_run_id)
         utils.nested_tags(self.dst_client, run_ids_mapping)
 
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--src_uri", dest="src_uri", help="Source MLFLOW API URL", default=None)
-    parser.add_argument("--dst_uri", dest="dst_uri", help="Destination MLFLOW API URL", default=None)
-    parser.add_argument("--src_experiment_id_or_name", dest="src_experiment_id_or_name", help="Source experiment ID or name", required=True)
-    parser.add_argument("--dst_experiment_name", dest="dst_experiment_name", help="Destination experiment_name", required=True)
-    parser.add_argument("--export_metadata_tags", dest="export_metadata_tags", help="Export source run metadata tags", default=False, action='store_true')
-    parser.add_argument("--import_mlflow_tools_tags", dest="import_mlflow_tools_tags", help="Import mlflow_tools tags", default=False, action='store_true')
-    parser.add_argument("--use_src_user_id", dest="use_src_user_id", help="Use source user ID", default=False, action='store_true')
-    #parser.add_argument("--nested_runs", dest="nested_runs", help="nested_runs", default=False, action='store_true')
+@click.command()
+@click.option("--src_uri", help="Source MLflow API URI", required=True, type=str)
+@click.option("--dst_uri", help="Destination MLflow API URI", required=True, type=str)
+@click.option("--src_experiment", help="Source experiment ID or name", required=True, type=str)
+@click.option("--dst_experiment_name", help="Destination experiment name ", required=True, type=str)
+@click.option("--export_metadata_tags", help="Export source run metadata tags", type=bool, required=False)
+@click.option("--import_mlflow_tools_tags", help="Import mlflow_tools tags", type=bool, default=False)
+@click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
 
-    args = parser.parse_args()
+def main(src_uri, dst_uri, src_experiment, dst_experiment_name, export_metadata_tags, import_mlflow_tools_tags, use_src_user_id):
     print("Options:")
-    for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
-
-    src_client = create_client(args.src_uri)
-    dst_client = create_client(args.dst_uri)
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
+    src_client = create_client(src_uri)
+    dst_client = create_client(dst_uri)
     print("src_client:",src_client)
     print("dst_client:",dst_client)
-    #copier = ExperimentCopier(src_client, dst_client, args.export_metadata_tags, args.use_src_user_id, args.import_mlflow_tools_tags, args.nested_runs)
-    copier = ExperimentCopier(src_client, dst_client, args.export_metadata_tags, args.use_src_user_id, args.import_mlflow_tools_tags)
-    copier.copy_experiment(args.src_experiment_id_or_name, args.dst_experiment_name)
+    copier = ExperimentCopier(src_client, dst_client, export_metadata_tags, use_src_user_id, import_mlflow_tools_tags)
+    copier.copy_experiment(src_experiment, dst_experiment_name)
+
+if __name__ == "__main__":
+    main()

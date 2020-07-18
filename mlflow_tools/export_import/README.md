@@ -9,7 +9,7 @@ Tools to export and import MLflow runs, experiments or registered models from on
   * Import a run from a directory or zip file.
   * Copy a run from one tracking server to another.
   * Limitations
-    * Nested runs only are only accounted for when you import/copy an experiment. For a run, its a TODO.
+    * Nested runs are only supported when you import/copy an experiment. For a run, its a TODO.
     * Databricks does not support notebook revision imports.
 
 ### Experiments
@@ -68,7 +68,7 @@ Export an experiment to a directory or zip file.
 
 #### Export example
 ```
-python -u export_experiment.py --experiment=2 --output=out --export_metadata_tags
+python -u export_experiment.py --experiment=2 --output=out --export_metadata_tags=True
 ```
 ```
 python -u export_experiment.py --experiment=sklearn_wine --output=exp.zip
@@ -146,7 +146,7 @@ Copies an experiment from one MLflow tracking server to another.
 
 Source: [copy_experiment.py](copy_experiment.py)
 
-In this example we use
+In this example we use:
 * Source tracking server runs on port 5000 
 * Destination tracking server runs on 5001
 
@@ -170,8 +170,8 @@ python -u copy_experiment.py \
   --dst_experiment_name=sklearn_wine_imported \
   --src_uri=http://localhost:5000 \
   --dst_uri=http://localhost:5001 \
-  --export_metadata_tags \
-  --import_mlflow_tools_tags
+  --export_metadata_tags=True \
+  --import_mlflow_tools_tags=True
 ```
 
 ## Runs
@@ -193,7 +193,7 @@ Export run to directory or zip file.
 python -u export_run.py \
   --run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --output=out
-  --export_metadata_tags
+  --export_metadata_tags=True
 ```
 ```
 python -u export_run.py \
@@ -260,7 +260,7 @@ Imports a run from a directory or zip file.
 python -u import_run.py \
   --run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --input=out \
-  --experiment_name=sklearn_wine2
+  --experiment_name=sklearn_wine_imported
 ```
 
 ### Copy run from one tracking server to another
@@ -290,9 +290,9 @@ export MLFLOW_TRACKING_URI=http://localhost:5000
 python -u copy_run.py \
   --src_run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --dst_experiment_name=sklearn_wine \
-  --src_uri=http://localhost:5000
-  --dst_uri=http://localhost:5001
-  --export_metadata_tags
+  --src_uri=http://localhost:5000 \
+  --dst_uri=http://localhost:5001 \
+  --export_metadata_tags=True
 ```
 
 ## Registered Models
@@ -367,15 +367,15 @@ Source: [import_model.py](import_model.py).
 ```
 python -u import_model.py \
   --model=sklearn_wine \
-  --experiment_name=sklearn_wine_2 \
-  --input_dir=out 
-  --delete_model
+  --experiment_name=sklearn_wine_imported \
+  --input_dir=out  \
+  --delete_model=True
 ```
 
 ```
 Model to import:
   Name: sklearn_wine
-  Description: hi my desc
+  Description: my model
   2 latest versions
 Deleting 1 versions for model 'sklearn_wine_imported'
   version=2 status=READY stage=Production run_id=f93d5e4d182e4f0aba5493a0fa8d9eb6
@@ -384,15 +384,15 @@ Importing latest versions:
     current_stage: None:
     Run to import:
       run_id: 749930c36dee49b8aeb45ee9cdfe1abb
-      artifact_uri: file:///Users/ander/work/mlflow/server/local_mlrun/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts
-      source:       file:///Users/ander/work/mlflow/server/local_mlrun/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts/sklearn-model
+      artifact_uri: file:///Users/andre/mlflow/server/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts
+      source:       file:///Users/andre/mlflow/server/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts/sklearn-model
       model_path: sklearn-model
       run_id: 749930c36dee49b8aeb45ee9cdfe1abb
     Importing run into experiment 'scratch' from 'out/749930c36dee49b8aeb45ee9cdfe1abb'
     Imported run:
       run_id: 03d0cfae60774ec99f949c42e1575532
-      artifact_uri: file:///Users/ander/work/mlflow/server/local_mlrun/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts
-      source:       file:///Users/ander/work/mlflow/server/local_mlrun/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts/sklearn-model
+      artifact_uri: file:///Users/andre/mlflow/server/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts
+      source:       file:///Users/andre/mlflow/server/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts/sklearn-model
 Version: id=1 status=READY state=None
 Waited 0.01 seconds
 ```
@@ -405,22 +405,23 @@ Calls the `registered-models/list` REST endpoint and produces `registered_models
 python -u export_registered_models.py
 ```
 
-cat registered_models.json
 ```
-  "registered_models_detailed": [
-    {
-      "registered_model": {
-        "name": "sklearn_wine"
-      },
-      "creation_timestamp": "1571948394155",
-      "last_updated_timestamp": "1571948394155"
-      "latest_versions": [
-        {
-          "model_version": {
-            "registered_model": {
-              "name": "sklearn_wine"
-            },
-            "version": "2"
-          },
+cat registered_models.json
+
+"registered_models_detailed": [
+  {
+    "registered_model": {
+      "name": "sklearn_wine"
     },
+    "creation_timestamp": "1571948394155",
+    "last_updated_timestamp": "1571948394155"
+    "latest_versions": [
+      {
+        "model_version": {
+          "registered_model": {
+            "name": "sklearn_wine"
+          },
+          "version": "2"
+        },
+  },
 ```

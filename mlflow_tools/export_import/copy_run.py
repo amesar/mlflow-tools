@@ -3,6 +3,7 @@ Copies a run from one MLflow server to another.
 """
 
 import time
+import click
 import mlflow
 from mlflow_tools.export_import import utils
 from mlflow_tools.export_import import BaseCopier, create_client, add_repr_to_MlflowClient
@@ -42,23 +43,29 @@ class RunCopier(BaseCopier):
         utils.set_dst_user_id(tags, src_run.info.user_id, self.use_src_user_id)
         self.dst_client.log_batch(dst_run_id, metrics, params, tags)
 
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--src_uri", dest="src_uri", help="Source MLFLOW API URL", default=None)
-    parser.add_argument("--dst_uri", dest="dst_uri", help="Destination MLFLOW API URL", default=None)
-    parser.add_argument("--src_run_id", dest="src_run_id", help="Source run_id", required=True)
-    parser.add_argument("--dst_experiment_name", dest="dst_experiment_name", help="Destination experiment_name", required=True)
-    parser.add_argument("--export_metadata_tags", dest="export_metadata_tags", help="Export source run metadata tags", default=False, action='store_true')
-    parser.add_argument("--use_src_user_id", dest="use_src_user_id", help="Use source user ID", default=False, action='store_true')
-    parser.add_argument("--import_mlflow_tags", dest="import_mlflow_tags", help="Import mlflow tags", default=False, action='store_true')
-    args = parser.parse_args()
+@click.command()
+@click.option("--src_uri", help="Source MLflow API URI", required=True, type=str)
+@click.option("--dst_uri", help="Destination MLflow API URI", required=True, type=str)
+@click.option("--src_run_id", help="Source run ID", required=True, type=str)
+@click.option("--dst_experiment_name", help="Destination experiment name ", required=True, type=str)
+@click.option("--export_metadata_tags", help="Export source run metadata tags", type=bool, required=False)
+@click.option("--import_mlflow_tags", help="Import mlflow tags", type=bool, default=False)
+@click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
+
+def main(src_uri, dst_uri, src_run_id, dst_experiment_name, export_metadata_tags, import_mlflow_tags, use_src_user_id):
     print("Options:")
-    for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
-    src_client = create_client(args.src_uri)
-    dst_client = create_client(args.dst_uri)
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
+    src_client = create_client(src_uri)
+    dst_client = create_client(dst_uri)
+    print("src_client:",src_client)
+    print("dst_client:",dst_client)
+    src_client = create_client(src_uri)
+    dst_client = create_client(dst_uri)
     print("  src_client:",src_client)
     print("  dst_client:",dst_client)
-    copier = RunCopier(src_client, dst_client, args.export_metadata_tags, args.use_src_user_id, args.import_mlflow_tags)
-    copier.copy_run(args.src_run_id, args.dst_experiment_name)
+    copier = RunCopier(src_client, dst_client, export_metadata_tags, use_src_user_id, import_mlflow_tags)
+    copier.copy_run(src_run_id, dst_experiment_name)
+
+if __name__ == "__main__":
+    main()

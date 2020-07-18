@@ -1,6 +1,6 @@
 import os
 import mlflow
-
+import click
 from . import import_run, utils
 from . import peek_at_experiment
 from .import_run import RunImporter
@@ -36,21 +36,23 @@ class ExperimentImporter():
     def import_experiment_from_zip(self, exp_name, zip_file):
         utils.unzip_directory(zip_file, exp_name, self.import_experiment_from_dir)
 
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--input", dest="input", help="input path", required=True)
-    parser.add_argument("--experiment_name", dest="experiment_name", help="Destination experiment_name", required=True)
-    parser.add_argument("--just_peek", dest="just_peek", help="Just display experiment metadata - do not import", default=False, action='store_true')
-    parser.add_argument("--use_src_user_id", dest="use_src_user_id", help="Use source user ID", default=False, action='store_true')
-    parser.add_argument("--import_mlflow_tags", dest="import_mlflow_tags", help="Import mlflow tags", default=False, action='store_true')
-    parser.add_argument("--import_mlflow_tools_tags", dest="import_mlflow_tools_tags", help="Import mlflow_tools tags", default=False, action='store_true')
-    args = parser.parse_args()
+@click.command()
+@click.option("--input", help="Input path - directory or zip file", required=True, type=str)
+@click.option("--experiment_name", help="Destination experiment name", required=True, type=str)
+@click.option("--just_peek", help="Just display experiment metadata - do not import", type=bool, default=False)
+@click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
+@click.option("--import_mlflow_tags", help="Import mlflow tags", type=bool, default=True)
+@click.option("--import_mlflow_tools_tags", help="Import mlflow_tools tags", type=bool, default=False)
+
+def main(input, experiment_name, just_peek, use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags):
     print("Options:")
-    for arg in vars(args):
-        print(f"  {arg}: {getattr(args, arg)}")
-    if args.just_peek:
-        peek_at_experiment(args.input)
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
+    if just_peek:
+        peek_at_experiment(input)
     else:
-        importer = ExperimentImporter(None, args.use_src_user_id, args.import_mlflow_tags, args.import_mlflow_tools_tags)
-        importer.import_experiment(args.experiment_name, args.input)
+        importer = ExperimentImporter(None, use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags)
+        importer.import_experiment(experiment_name, input)
+
+if __name__ == "__main__":
+    main()

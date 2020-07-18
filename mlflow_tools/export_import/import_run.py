@@ -4,6 +4,7 @@ Imports a run from a directory of zip file.
 
 import os
 import time
+import click
 import mlflow
 from mlflow_tools.export_import import utils
 from mlflow_tools.export_import import mk_local_path
@@ -69,18 +70,19 @@ class RunImporter():
         #self.dump_tags(tags)
         self.client.log_batch(run_id, metrics, params, tags)
 
+@click.command()
+@click.option("--input", help="Input path - directory or zip file", required=True, type=str)
+@click.option("--experiment_name", help="Destination experiment name", required=True, type=str)
+@click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
+@click.option("--import_mlflow_tags", help="Import mlflow tags", type=bool, default=True)
+@click.option("--import_mlflow_tools_tags", help="Import mlflow_tools tags", type=bool, default=False)
+
+def main(input, experiment_name, use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags):
+    print("Options:")
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
+    importer = RunImporter(None,use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags)
+    importer.import_run(experiment_name, input)
 
 if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--input", dest="input", help="Input path - directory or zip file", required=True)
-    parser.add_argument("--experiment_name", dest="experiment_name", help="Destination experiment_name", required=True)
-    parser.add_argument("--use_src_user_id", dest="use_src_user_id", help="Use source user ID", default=False, action="store_true")
-    parser.add_argument("--import_mlflow_tags", dest="import_mlflow_tags", help="Import mlflow tags", default=False, action="store_true")
-    parser.add_argument("--import_mlflow_tools_tags", dest="import_mlflow_tools_tags", help="Import mlflow_tools tags", default=False, action="store_true")
-    args = parser.parse_args()
-    print("Options:")
-    for arg in vars(args):
-        print(f"  {arg}: {getattr(args, arg)}")
-    importer = RunImporter(None,args.use_src_user_id, args.import_mlflow_tags, args.import_mlflow_tools_tags)
-    importer.import_run(args.experiment_name, args.input)
+    main()

@@ -3,6 +3,7 @@ Export a registered model and all the experiment runs associated with its latest
 """
 
 import os
+import click
 import mlflow
 from mlflow_tools.common.http_client import HttpClient,MlflowHttpClient
 from mlflow_tools.common import filesystem as _filesystem
@@ -28,15 +29,16 @@ class ModelExporter():
             v["artifact_uri"] = run.info.artifact_uri
         utils.write_json_file(self.fs, path, model)
 
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--model", dest="model", help="Registered model name", required=True)
-    parser.add_argument("--output_dir", dest="output_dir", help="Output directory", default="out")
-    args = parser.parse_args()
+@click.command()
+@click.option("--model", help="Registered model name", required=True. type=str)
+@click.option("--output_dir", help="Output directory", default="out", type=str)
+
+def main(model, output_dir):
     print("Options:")
-    for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
-    #exporter = ModelExporter(export_metadata_tags=False, notebook_formats=["SOURCE"], filesystem=None) # TODO
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
     exporter = ModelExporter()
-    exporter.export_model(args.output_dir, args.model)
+    exporter.export_model(output_dir, model)
+
+if __name__ == "__main__":
+    main()

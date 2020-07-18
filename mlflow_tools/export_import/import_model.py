@@ -4,6 +4,7 @@ Import a registered model and all the experiment runs associated with its latest
 
 import os
 import json
+import click
 import mlflow
 from mlflow_tools.export_import.import_run import RunImporter
 from mlflow_tools.export_import import utils
@@ -60,16 +61,15 @@ class ModelImporter():
             model_utils.wait_until_version_is_ready(self.client, model_name, version, sleep_time=2)
             self.client.transition_model_version_stage(model_name, version.version, current_stage)
 
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--input_dir", dest="input_dir", help="Model input directory", required=True)
-    parser.add_argument("--model", dest="model", help="New registered model name", required=True)
-    parser.add_argument("--experiment_name", dest="experiment_name", help="Experiment name to hold new model runs", required=True)
-    parser.add_argument("--delete_model", dest="delete_model", help="Delete new registered model", default=False, action="store_true")
-    args = parser.parse_args()
+@click.command()
+@click.option("--input_dir", help="Input directory", required=True, type=str)
+@click.option("--model", help="New registered model name", required=True, type=str)
+@click.option("--experiment_name", help="Destination experiment name", required=True, type=str)
+@click.option("--delete_model", help="First delete new registered model", type=bool, default=False)
+
+def main(input_dir, model, experiment_name, delete_model):
     print("Options:")
-    for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
     importer = ModelImporter()
-    importer.import_model(args.input_dir, args.model, args.experiment_name, args.delete_model)
+    importer.import_model(input_dir, model, experiment_name, delete_model)

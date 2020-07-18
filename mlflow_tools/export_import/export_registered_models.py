@@ -3,6 +3,7 @@ Exports registered models.
 """
 
 import os
+import click
 from mlflow_tools.common.http_client import HttpClient
 
 api_prefix = "api/2.0/preview/mlflow"
@@ -20,14 +21,15 @@ class RegisteredModelsExporter():
         print("Output file:",path)
         with open(path, 'w') as f:
             f.write(rsp.text)
-        
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--output", dest="output", help="Output", default=".", required=False)
-    args = parser.parse_args()
+
+@click.command()
+@click.option("--output", help="Output path", default=".", type=str)
+def main(output):
     print("Options:")
-    for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
-    exporter = RegisteredModelsExporter(None, args.output)
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
+    exporter = RegisteredModelsExporter(None, output)
     exporter.export_registered_models()
+
+if __name__ == "__main__":
+    main()
