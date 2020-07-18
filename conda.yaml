@@ -4,5 +4,5 @@ channels:
 dependencies:
 - python=3.7.5
 - pip:
-    - mlflow==1.7.0
+    - mlflow>=1.9.1
     - pytest==5.3.5
