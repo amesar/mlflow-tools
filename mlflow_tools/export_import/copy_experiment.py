@@ -12,10 +12,10 @@ from mlflow_tools.export_import import utils
 
 class ExperimentCopier(BaseCopier):
 
-    def __init__(self, src_client, dst_client, export_metadata_tags=False, use_src_user_id=False, import_mlflow_tools_tags=False):
+    def __init__(self, src_client, dst_client, export_metadata_tags=False, use_src_user_id=False, import_metadata_tags=False):
         self.export_metadata_tags = export_metadata_tags
         super().__init__(src_client, dst_client)
-        self.run_copier = RunCopier(src_client, dst_client, export_metadata_tags, use_src_user_id, import_mlflow_tools_tags)
+        self.run_copier = RunCopier(src_client, dst_client, export_metadata_tags, use_src_user_id, import_metadata_tags)
         self.dst_client = dst_client
 
     def copy_experiment(self, src_exp_id_or_name, dst_exp_name):
@@ -37,10 +37,10 @@ class ExperimentCopier(BaseCopier):
 @click.option("--src_experiment", help="Source experiment ID or name", required=True, type=str)
 @click.option("--dst_experiment_name", help="Destination experiment name ", required=True, type=str)
 @click.option("--export_metadata_tags", help="Export source run metadata tags", type=bool, required=False)
-@click.option("--import_mlflow_tools_tags", help="Import mlflow_tools tags", type=bool, default=False)
+@click.option("--import_metadata_tags", help="Import mlflow_tools tags", type=bool, default=False)
 @click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
 
-def main(src_uri, dst_uri, src_experiment, dst_experiment_name, export_metadata_tags, import_mlflow_tools_tags, use_src_user_id):
+def main(src_uri, dst_uri, src_experiment, dst_experiment_name, export_metadata_tags, import_metadata_tags, use_src_user_id):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
@@ -48,7 +48,7 @@ def main(src_uri, dst_uri, src_experiment, dst_experiment_name, export_metadata_
     dst_client = create_client(dst_uri)
     print("src_client:",src_client)
     print("dst_client:",dst_client)
-    copier = ExperimentCopier(src_client, dst_client, export_metadata_tags, use_src_user_id, import_mlflow_tools_tags)
+    copier = ExperimentCopier(src_client, dst_client, export_metadata_tags, use_src_user_id, import_metadata_tags)
     copier.copy_experiment(src_experiment, dst_experiment_name)
 
 if __name__ == "__main__":

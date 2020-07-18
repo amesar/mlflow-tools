@@ -1,4 +1,4 @@
-# Export and Import Experiments or Runs
+# Export and Import Experiments, Runs or Registered Models
 
 Tools to export and import MLflow runs, experiments or registered models from one tracking server to another.
 
@@ -33,13 +33,13 @@ Tools to export and import MLflow runs, experiments or registered models from on
 
 ### Common arguments 
 
-`output` - Either a directory or zip file (`output` has a zip extension).
+`output` - Either a directory or zip file (if `output` has a zip extension).
 
 `intput` - Either a directory or zip file (if `output` has a zip extension).
 
 `notebook_formats` - If exporting a Databricks experiment, the run's notebook can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER and DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
 
-`export_metadata_tags` - Creates metadata tags (starting with `mlflow_tools.metadata`) containing export information.
+`export_metadata_tags` - Creates metadata tags (starting with `mlflow_tools.metadata`) containing export information. Contains the source `mlflow` tags in addition to other information.
 ```
 Name                                  Value
 mlflow_tools.metadata.timestamp       1551037752
@@ -125,7 +125,7 @@ Import an experiment from a directory or zip file.
 |-----|----------|---------|------------|
 | experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
 | input | yes | | Source directory or zip file produced by export_experiment.py |
-| use_src_user_id | no | False | Set the destination user ID to the source user ID |
+| use_src_user_id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
 
 **Run examples**
 
@@ -158,8 +158,8 @@ In this example we use:
 | dst_experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
 | src_uri | yes | none | Source tracking server URI |
 | dst_uri | yes | none |  Destination tracking server URI |
-| use_src_user_id | no | False | Set the destination user ID to the source user ID |
-| import_mlflow_tools_tags | no | False | Import mlflow_tools tags |
+| use_src_user_id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
+| import_metadata_tags | no | False | Import mlflow_tools tags |
 
 **Run example**
 ```
@@ -171,7 +171,7 @@ python -u copy_experiment.py \
   --src_uri=http://localhost:5000 \
   --dst_uri=http://localhost:5001 \
   --export_metadata_tags=True \
-  --import_mlflow_tools_tags=True
+  --import_metadata_tags=True
 ```
 
 ## Runs
@@ -252,7 +252,7 @@ Imports a run from a directory or zip file.
 |-----|----------|---------|------------|
 | experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
 | input | yes | none | Source directory or zip file produced by export_run.py |
-| use_src_user_id | no | False | Set the destination user ID to the source user ID |
+| use_src_user_id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
 
 
 **Run examples**
@@ -281,7 +281,7 @@ In this example we use
 | dst_experiment_name | yes | none | Destination experiment name  - will be created if it does not exist |
 | src_uri | yes | none | Source tracking server URI |
 | dst_uri | yes | none |  Destination tracking server URI |
-| use_src_user_id | no | False | Set the destination user ID to the source user ID |
+| use_src_user_id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
 
 **Run example**
 ```
@@ -384,15 +384,15 @@ Importing latest versions:
     current_stage: None:
     Run to import:
       run_id: 749930c36dee49b8aeb45ee9cdfe1abb
-      artifact_uri: file:///Users/andre/mlflow/server/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts
-      source:       file:///Users/andre/mlflow/server/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts/sklearn-model
+      artifact_uri: file:///opt/mlflow/server/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts
+      source:       file:///opt/mlflow/server/mlruns/1/749930c36dee49b8aeb45ee9cdfe1abb/artifacts/sklearn-model
       model_path: sklearn-model
       run_id: 749930c36dee49b8aeb45ee9cdfe1abb
     Importing run into experiment 'scratch' from 'out/749930c36dee49b8aeb45ee9cdfe1abb'
     Imported run:
       run_id: 03d0cfae60774ec99f949c42e1575532
-      artifact_uri: file:///Users/andre/mlflow/server/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts
-      source:       file:///Users/andre/mlflow/server/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts/sklearn-model
+      artifact_uri: file:///opt/mlflow/server/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts
+      source:       file:///opt/mlflow/server/mlruns/13/03d0cfae60774ec99f949c42e1575532/artifacts/sklearn-model
 Version: id=1 status=READY state=None
 Waited 0.01 seconds
 ```

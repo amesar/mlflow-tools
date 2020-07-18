@@ -6,9 +6,9 @@ from . import peek_at_experiment
 from .import_run import RunImporter
 
 class ExperimentImporter():
-    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=False, import_mlflow_tools_tags=False):
+    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=False, import_metadata_tags=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
-        self.run_importer = RunImporter(self.client, use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags)
+        self.run_importer = RunImporter(self.client, use_src_user_id, import_mlflow_tags, import_metadata_tags)
         print("MLflowClient:",self.client)
 
     def import_experiment(self, exp_name, input):
@@ -42,16 +42,16 @@ class ExperimentImporter():
 @click.option("--just_peek", help="Just display experiment metadata - do not import", type=bool, default=False)
 @click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
 @click.option("--import_mlflow_tags", help="Import mlflow tags", type=bool, default=True)
-@click.option("--import_mlflow_tools_tags", help="Import mlflow_tools tags", type=bool, default=False)
+@click.option("--import_metadata_tags", help="Import mlflow_tools tags", type=bool, default=False)
 
-def main(input, experiment_name, just_peek, use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags):
+def main(input, experiment_name, just_peek, use_src_user_id, import_mlflow_tags, import_metadata_tags):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
     if just_peek:
         peek_at_experiment(input)
     else:
-        importer = ExperimentImporter(None, use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags)
+        importer = ExperimentImporter(None, use_src_user_id, import_mlflow_tags, import_metadata_tags)
         importer.import_experiment(experiment_name, input)
 
 if __name__ == "__main__":

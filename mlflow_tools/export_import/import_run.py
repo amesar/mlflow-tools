@@ -10,11 +10,11 @@ from mlflow_tools.export_import import utils
 from mlflow_tools.export_import import mk_local_path
 
 class RunImporter():
-    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=True, import_mlflow_tools_tags=False):
+    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=True, import_metadata_tags=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
         self.use_src_user_id = use_src_user_id
         self.import_mlflow_tags = import_mlflow_tags
-        self.import_mlflow_tools_tags = import_mlflow_tools_tags
+        self.import_metadata_tags = import_metadata_tags
         self.in_databricks = "DATABRICKS_RUNTIME_VERSION" in os.environ
         print(f"in_databricks: {self.in_databricks}")
         print(f"importing_into_databricks:",utils.importing_into_databricks())
@@ -42,7 +42,7 @@ class RunImporter():
             self.import_run_data(src_run_dct, run_id, src_run_dct["info"]["user_id"])
             path = os.path.join(src_run_id,"artifacts")
             mlflow.log_artifacts(mk_local_path(path))
-        return (run_id, src_run_dct["tags"].get("mlflow.parentRunId",None))
+        return (run_id, src_run_dct["tags"].get(utils.TAG_PARENT_ID,None))
 
     def dump_tags(self, tags, msg=""):
         print(f"Tags {msg} - {len(tags)}:")
@@ -56,10 +56,10 @@ class RunImporter():
 
         tags = run_dct["tags"]
         if not self.import_mlflow_tags: # remove mlflow tags
-            tags = { k:v for k,v in tags.items() if not k.startswith("mlflow.") }
-        if not self.import_mlflow_tools_tags: # remove mlflow_tools tags
-            tags = { k:v for k,v in tags.items() if not k.startswith("mlflow_tools.") }
-        tags = utils.create_mlflow_tags_for_databricks_import(tags)
+            tags = { k:v for k,v in tags.items() if not k.startswith(utils.TAG_PREFIX_MLFLOW) }
+        if not self.import_metadata_tags: # remove mlflow_tools tags
+            tags = { k:v for k,v in tags.items() if not k.startswith(utils.TAG_PREFIX_METADATA) }
+        tags = utils.create_mlflow_tags_for_databricks_import(tags) # remove "mlflow" tags that cannot be imported into Databricks
 
         tags = [ RunTag(k,str(v)) for k,v in tags.items() ]
 
@@ -73,13 +73,13 @@ class RunImporter():
 @click.option("--experiment_name", help="Destination experiment name", required=True, type=str)
 @click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
 @click.option("--import_mlflow_tags", help="Import mlflow tags", type=bool, default=True)
-@click.option("--import_mlflow_tools_tags", help="Import mlflow_tools tags", type=bool, default=False)
+@click.option("--import_metadata_tags", help="Import mlflow_tools tags", type=bool, default=False)
 
-def main(input, experiment_name, use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags):
+def main(input, experiment_name, use_src_user_id, import_mlflow_tags, import_metadata_tags):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
-    importer = RunImporter(None,use_src_user_id, import_mlflow_tags, import_mlflow_tools_tags)
+    importer = RunImporter(None,use_src_user_id, import_mlflow_tags, import_metadata_tags)
     importer.import_run(experiment_name, input)
 
 if __name__ == "__main__":
