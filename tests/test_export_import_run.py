@@ -53,8 +53,8 @@ def test_no_import_mlflow_tags():
     run1.data.tags.pop("mlflow.runName")
     assert run1.data.tags == run2.data.tags
 
-def test_import_mlflow_tools_tags():
-    run1, run2 = init_test(RunExporter(export_metadata_tags=True), RunImporter(import_mlflow_tools_tags=True), verbose=True)
+def test_import_metadata_tags():
+    run1, run2 = init_test(RunExporter(export_metadata_tags=True), RunImporter(import_metadata_tags=True), verbose=True)
     compare_runs_no_tags(run1, run2)
     metadata_tags = { k:v for k,v in run2.data.tags.items() if k.startswith("mlflow_tools.metadata") }
     assert len(metadata_tags) > 0
