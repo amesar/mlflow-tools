@@ -6,7 +6,7 @@ from . import peek_at_experiment
 from .import_run import RunImporter
 
 class ExperimentImporter():
-    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=False, import_metadata_tags=False):
+    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=True, import_metadata_tags=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
         self.run_importer = RunImporter(self.client, use_src_user_id, import_mlflow_tags, import_metadata_tags)
         print("MLflowClient:",self.client)
