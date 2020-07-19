@@ -61,24 +61,24 @@ def init_exp_test(exporter, importer, verbose=False):
     return run1, run2
 
 
-def _test_run_basic():
+def test_run_basic():
     run1, run2 = init_run_test(RunExporter(), RunImporter())
     compare_runs(run1, run2)
 
-def _test_run_no_import_mlflow_tags():
+def test_run_no_import_mlflow_tags():
     run1, run2 = init_run_test(RunExporter(), RunImporter(import_mlflow_tags=False))
     compare_run_no_import_mlflow_tags(run1, run2)
 
-def _test_run_import_metadata_tags():
+def test_run_import_metadata_tags():
     run1, run2 = init_run_test(RunExporter(export_metadata_tags=True), RunImporter(import_metadata_tags=True), verbose=False)
     compare_run_import_metadata_tags(run1, run2)
 
 
-def _test_exp_basic():
+def test_exp_basic():
     run1, run2 = init_exp_test(ExperimentExporter(), ExperimentImporter(), True)
     compare_runs(run1, run2)
 
-def _test_exp_no_import_mlflow_tags():
+def test_exp_no_import_mlflow_tags():
     run1, run2 = init_exp_test(ExperimentExporter(), ExperimentImporter(import_mlflow_tags=False))
     compare_run_no_import_mlflow_tags(run1, run2)
 
