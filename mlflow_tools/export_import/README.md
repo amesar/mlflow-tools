@@ -23,9 +23,10 @@ Tools to export and import MLflow runs, experiments or registered models from on
 
 
 ### Limitations
-#### Databricks MLflow Tracking Server Notes for `Copy` Feature
-  * The functionality described here works quite well for open source MLflow.
-  * Things get more complicated for the `copy` feature when you are using a a Databricks tracking server, either as source or destination .
+#### Databricks MLflow Tracking Server Notes for `Copy` tools
+  * Copy tools do not work when both the source and destination trackings servers are Databricks MLflow.
+  * Copy tools work for open source MLflow.
+  * Things get more complicated for the `copy` feature when using a a Databricks tracking server, either as source or destination .
   * This is primarily because [MLflow client](https://github.com/mlflow/mlflow/blob/master/mlflow/tracking/client.py) constructor only accepts a tracking_uri. 
     * For open source MLflow this works fine and you can have the two clients (source and destination) in the same program.
     * For Databricks MLflow, the constructor is not used to initialize target servers. Environment variables are used to initialize the client, so only one client can exist.
@@ -159,19 +160,16 @@ In this example we use:
 | src_uri | yes | none | Source tracking server URI |
 | dst_uri | yes | none |  Destination tracking server URI |
 | use_src_user_id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
+| export_metadata_tags | no | False | Export mlflow_tools tags |
 | import_metadata_tags | no | False | Import mlflow_tools tags |
 
 **Run example**
 ```
-export MLFLOW_TRACKING_URI=http://localhost:5000
-
 python -u copy_experiment.py \
   --src_experiment=sklearn_wine \
   --dst_experiment_name=sklearn_wine_imported \
   --src_uri=http://localhost:5000 \
-  --dst_uri=http://localhost:5001 \
-  --export_metadata_tags=True \
-  --import_metadata_tags=True
+  --dst_uri=http://localhost:5001
 ```
 
 ## Runs
@@ -282,6 +280,7 @@ In this example we use
 | src_uri | yes | none | Source tracking server URI |
 | dst_uri | yes | none |  Destination tracking server URI |
 | use_src_user_id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
+| export_metadata_tags | no | False | Export source run metadata tags |
 
 **Run example**
 ```
@@ -291,8 +290,7 @@ python -u copy_run.py \
   --src_run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --dst_experiment_name=sklearn_wine \
   --src_uri=http://localhost:5000 \
-  --dst_uri=http://localhost:5001 \
-  --export_metadata_tags=True
+  --dst_uri=http://localhost:5001
 ```
 
 ## Registered Models

@@ -45,14 +45,6 @@ def create_tags_for_metadata(src_client, run, export_metadata_tags):
     tags = { k:v for k,v in sorted(tags.items()) }
     return tags
 
-def create_tags_for_mlflow_tags(tags_dct, import_mlflow_tags):
-    from mlflow.entities import RunTag
-    tags = []
-    for k,v in tags_dct.items() :
-        if not import_mlflow_tags and k.startswith("mlflow."): k = TAG_PREFIX_SRC_RUN + "."+k
-        tags.append(RunTag(k,str(v)))
-    return tags
-
 def set_dst_user_id(tags, user_id, use_src_user_id):
     if importing_into_databricks():
         return
