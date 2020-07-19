@@ -1,6 +1,6 @@
 import mlflow
 import os, shutil
-from utils_test import create_experiment
+from utils_test import create_experiment, compare_dirs
 from mlflow_tools.tools.dump_run import dump_run
 
 from mlflow_tools.export_import.export_run import RunExporter
@@ -20,12 +20,18 @@ def create_simple_run():
         mlflow.log_param("p1","0.1")
         mlflow.log_metric("m1", 0.1)
         mlflow.set_tag("my_tag","my_val")
+        with open("info.txt", "w") as f:
+            f.write("Hi artifact")
+        mlflow.log_artifact("info.txt")
+        mlflow.log_artifact("info.txt","dir2")
     return exp,run
 
 def init_output_dir():
     if os.path.exists(output):
         shutil.rmtree(output)
     os.makedirs(output)
+    os.makedirs(os.path.join(output,"run1"))
+    os.makedirs(os.path.join(output,"run2"))
 
 def dump_runs(run1, run2):
     #print("run1:",run1)
@@ -158,6 +164,9 @@ def compare_runs_no_tags(run1, run2):
     assert run1.info.status == run2.info.status
     assert run1.data.params == run2.data.params
     assert run1.data.metrics == run2.data.metrics
+    path1 = client.download_artifacts(run1.info.run_id, ".", dst_path=os.path.join(output,"run1"))
+    path2 = client.download_artifacts(run2.info.run_id, ".", dst_path=os.path.join(output,"run2"))
+    assert compare_dirs(path1,path2)
 
 def compare_runs(run1, run2):
     compare_runs_no_tags(run1, run2)
