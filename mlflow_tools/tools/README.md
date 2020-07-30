@@ -44,69 +44,69 @@ Dumps all experiment or run information recursively.
 ### Run dump tools
 ```
 python -m mlflow_tools.tools.dump_run --run_id 2cbab69842e4412c99bfb5e15344bc42 --artifact_max_level 5 
+```
   
+```
 python -m mlflow_tools.tools.dump_experiment --experiment_id 1812 --show_info --show_data  --artifact_max_level 5
 ```
 
 **Sample output for dump_experiment.py**
 ```
+MLflow Version: 1.10.0
 Experiment Details:
-  experiment_id: 1812
-  name: sklearn_wine_elasticNet
-  artifact_location: /opt/mlflow/server/mlruns/1812
+  experiment_id: 2
+  name: sklearn
+  artifact_location: /opt/mlflow/server/mlruns/1812/2
   lifecycle_stage: active
-  #runs: 5
+  tags: {}
+  #runs: 3
 Runs:
-  Run 0/5:
+  Run 1/3:
     RunInfo:
-      run_uuid: fdc33f23d2ac4b0bae5f8181700c00ed
-      experiment_id: 1812
-      name: 
-      source_type: 4
-      source_name: train.py
-      entry_point_name: 
-      user_id: andre
-      status: 3
-      source_version: 47e8ec307671203cf5607ac2534cbd8fe5e05677
+      experiment_name: sklearn
+      artifact_uri: /opt/mlflow/server/mlruns/1812/2/19323fe0d6fd400aa32c8fc923f0d7c8/artifacts
+      experiment_id: 2
       lifecycle_stage: active
-      artifact_uri: /opt/mlflow/server/mlruns/1812/fdc33f23d2ac4b0bae5f8181700c00ed/artifacts
-      start_time: 2019-06-04_19:59:30   1559678370412
-      end_time:   2019-06-04_19:59:32   1559678372819
-      _duration:  2.407 seconds
+      run_id: 19323fe0d6fd400aa32c8fc923f0d7c8
+      status: FINISHED
+      user_id: andre
+      start_time: 2020-07-30_03:35:14   1596080114006
+      end_time:   2020-07-30_03:35:14   1596080114880
+      _duration:  0.874 seconds
     Params:
-      l1_ratio: 0.5
-      alpha: 0.001
+      max_depth: 4
+      max_leaf_nodes: 32
     Metrics:
-      mae: 0.5837497243928481  - timestamp: 1559678372 1970-01-19 01:14:38
-      r2: 0.2726475054853086  - timestamp: 1559678372 1970-01-19 01:14:38
-      rmse: 0.7504340478812797  - timestamp: 1559678372 1970-01-19 01:14:38
+      mae: 0.586355440756998
+      r2: 0.2547711505595145
+      rmse: 0.7640325255609308
     Tags:
-      data_path: ../../data/wine-quality/wine-quality-white.csv
-      mlflow.source.git.commit: 47e8ec307671203cf5607ac2534cbd8fe5e05677
-      platform: Darwin
-      mlflow.source.name: train.py
+      data_path: ../../data/train/wine-quality-white.csv
+      mlflow.log-model.history: [{"run_id": "19323fe0d6fd400aa32c8fc923f0d7c8", "artifact_path": "sklearn-model", "utc_time_created": "2020-07-30 03:35:14.162889", "flavors": {"python_function": {"model_path": "model.pkl", "loader_module": "mlflow.sklearn", "python_version": "3.7.6", "env": "conda.yaml"}, "sklearn": {"pickled_model": "model.pkl", "sklearn_version": "0.20.2", "serialization_format": "cloudpickle"}}}, {"run_id": "19323fe0d6fd400aa32c8fc923f0d7c8", "artifact_path": "onnx-model", "utc_time_created": "2020-07-30 03:35:14.593898", "flavors": {"python_function": {"loader_module": "mlflow.onnx", "python_version": "3.7.6", "data": "model.onnx", "env": "conda.yaml"}, "onnx": {"onnx_version": "1.7.0", "data": "model.onnx"}}}]
+      mlflow.runName: train.sh
+      mlflow.source.git.commit: e7f840a012c019c65a688e4ba69fbb949371f3e1
+      mlflow.source.name: main.py
       mlflow.source.type: LOCAL
+      mlflow.user: andre
+      run_origin: train.sh
+      version.mlflow: 1.10.0
+      version.python: 3.7.6
     Artifacts:
-      Artifact 1/5 - level 1:
+      Artifact 1/2 - level 0:
+        path: plot.png
+        bytes: 32417
+      Artifact 2/2 - level 0:
         path: sklearn-model
-        is_dir: True
-        bytes: None
-        Artifact 1/3 - level 2:
+        Artifact 1/3 - level 1:
           path: sklearn-model/MLmodel
-          is_dir: False
-          bytes: 351
-        Artifact 2/3 - level 2:
+          bytes: 357
+        Artifact 2/3 - level 1:
           path: sklearn-model/conda.yaml
-          is_dir: False
-          bytes: 119
-        Artifact 3/3 - level 2:
+          bytes: 150
+        Artifact 3/3 - level 1:
           path: sklearn-model/model.pkl
-          is_dir: False
-          bytes: 627
-      Artifact 2/5 - level 1:
-        path: wine_ElasticNet-paths.png
-        is_dir: False
-        bytes: 27772
+          bytes: 4893
+    Total: bytes: 41050 artifacts: 7
 ```
 
 ## Dump Experiment Runs to CSV file
@@ -119,12 +119,12 @@ python -m dump_experiment_as_csv --csv_file sklearn.csv
 ## Find best run for experiment
 
 Find the best run for a metric of an experiment. 
-Default order is descending (max).
+Default order is descending (max). See [best_run.py](best_run.py).
 
 Displays the run ID and best metric value.
 
 ```
-python -m mlflow_tools.tools.best_run  --experiment_id 2 --metric=rmse  --ascending 
+python -m mlflow_tools.tools.best_run --experiment_id 2 --metric rmse --ascending 
 ```
 ```
 Best run:
