@@ -275,6 +275,4 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
     }
   }
 }
-}
-
 ```
