@@ -7,7 +7,6 @@ setup(name='mlflow_tools',
       packages=['mlflow_tools',
                 'mlflow_tools.common',
                 'mlflow_tools.tools',
-                'mlflow_tools.export_import',
-                'mlflow_tools.make_exps_page'
+                'mlflow_tools.export_import'
                 ],
       zip_safe=False)
