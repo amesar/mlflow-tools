@@ -69,21 +69,21 @@ Export an experiment to a directory or zip file.
 
 #### Export example
 ```
-python -u export_experiment.py --experiment=2 --output=out --export_metadata_tags=True
+python -u -m mlflow_tools.export_import.export_experiment --experiment=2 --output=out --export_metadata_tags=True
 ```
 ```
-python -u export_experiment.py --experiment=sklearn_wine --output=exp.zip
+python -u -m mlflow_tools.export_import.export_experiment --experiment=sklearn_wine --output=exp.zip
 ```
 
 #### Databricks export example
 
-See the [Access the MLflow tracking server from outside Databricks](https://docs.databricks.com/applications/mlflow/access-hosted-tracking-server.html)
+See the [Access the MLflow tracking server from outside Databricks](https://docs.databricks.com/applications/mlflow/access-hosted-tracking-server.html).
 ```
 export MLFLOW_TRACKING_URI=databricks
 export DATABRICKS_HOST=https://acme.cloud.databricks.com
 export DATABRICKS_TOKEN=MY_TOKEN
 
-python -u export_experiment.py --experiment=sklearn_wine --notebook_formats=DBC,SOURCE
+python -u -m mlflow_tools.export_import.export_experiment --experiment=sklearn_wine --notebook_formats=DBC,SOURCE
 ```
 
 #### Output 
@@ -131,12 +131,12 @@ Import an experiment from a directory or zip file.
 **Run examples**
 
 ```
-python -u import_experiment.py \
+python -u -m mlflow_tools.export_import.import_experiment \
   --experiment_name=sklearn_wine \
   --input=out 
 ```
 ```
-python -u import_experiment.py \
+python -u -m mlflow_tools.export_import.import_experiment \
   --experiment_name=sklearn_wine \
   --input=exp.zip 
 ```
@@ -165,7 +165,7 @@ In this example we use:
 
 **Run example**
 ```
-python -u copy_experiment.py \
+python -u -m mlflow_tools.export_import. copy_experiment \
   --src_experiment=sklearn_wine \
   --dst_experiment_name=sklearn_wine_imported \
   --src_uri=http://localhost:5000 \
@@ -188,13 +188,13 @@ Export run to directory or zip file.
 
 **Run examples**
 ```
-python -u export_run.py \
+python -u -m mlflow_tools.export_import.export_run \
   --run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --output=out
   --export_metadata_tags=True
 ```
 ```
-python -u export_run.py \
+python -u -m mlflow_tools.export_import.export_run \
   --run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --output=run.zip
 ```
@@ -255,7 +255,7 @@ Imports a run from a directory or zip file.
 
 **Run examples**
 ```
-python -u import_run.py \
+python -u -m mlflow_tools.export_import.import_run \
   --run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --input=out \
   --experiment_name=sklearn_wine_imported
@@ -286,7 +286,7 @@ In this example we use
 ```
 export MLFLOW_TRACKING_URI=http://localhost:5000
 
-python -u copy_run.py \
+python -u -m mlflow_tools.export_import.copy_run \
   --src_run_id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --dst_experiment_name=sklearn_wine \
   --src_uri=http://localhost:5000 \
@@ -310,7 +310,7 @@ Source: [export_model.py](export_model.py).
 
 #### Run
 ```
-python -u export_model.py --model=sklearn_wine --output_dir=out 
+python -u -m mlflow_tools.export_import.export_model --model=sklearn_wine --output_dir=out 
 ```
 
 #### Output 
@@ -363,7 +363,7 @@ Source: [import_model.py](import_model.py).
 #### Run
 
 ```
-python -u import_model.py \
+python -u -m mlflow_tools.export_import.import_model \
   --model=sklearn_wine \
   --experiment_name=sklearn_wine_imported \
   --input_dir=out  \
@@ -400,7 +400,7 @@ Waited 0.01 seconds
 
 Calls the `registered-models/list` REST endpoint and produces `registered_models.json`.
 ```
-python -u export_registered_models.py
+python -u -m mlflow_tools.export_import.export_registered_models
 ```
 
 ```
