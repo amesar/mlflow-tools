@@ -27,7 +27,6 @@ Creates a [TensorFlow Serving](https://www.tensorflow.org/tfx/guide/serving) Doc
 
 ## TODO
 
-* This is a first pass effort with more polish needed.
 * Split the tool into build docker container and run the container scripts.
 * Fix issue [3246](https://github.com/mlflow/mlflow/issues/3246) so Keras models are logged as SavedModel.
 * Promote this solution into issue [3303](https://github.com/mlflow/mlflow/issues/3303) - `[FR] Support serving Keras/TensorFlow models with TensorFlow Serving`.
@@ -53,16 +52,22 @@ python launch_tensorflow_serving.py --help
 
 ```
 Options:
-  --model-uri TEXT       MLflow model URI  [required]
-  --base-container TEXT  Base container name
-  --container TEXT       Container name  [required]
-  --port INTEGER         Port (default is 8502)
-  --tfs-model-name TEXT  TensorFlow Serving model name  [required]
-  --commands-file TEXT   Commands file
-  --help                 Show this message and exit.
+  --model-uri TEXT       MLflow model URI.  [required]
+  --base-container TEXT  Base container name.
+  --container TEXT       Container name.  [required]
+  --port INTEGER         Port (default is 8502).
+  --tfs-model-name TEXT  TensorFlow Serving model name.  [required]
+  --commands-file TEXT   Commands file. If specified will create this file
+                         with all Docker commands and execute it.
 ```
 
 ## Run
+
+The model-uri can be either a `runs` or `models` URI:
+* runs:/774f1d5e4573499a8eb2043c397cd98a/keras-model
+* models:/keras_wine/production
+* models:/keras_wine/1
+
 ```
 python launch_tensorflow_serving.py \
   --model-uri runs:/774f1d5e4573499a8eb2043c397cd98a/keras-model \
@@ -87,9 +92,9 @@ Therefore, the current workaround is to use the `commands-file` option which wil
 #### Docker commands file example
 ```
 docker run -d --name tfs_serving_base tensorflow/serving
-docker cp out tfs_serving_base:/tmp
+docker cp /var/folders/rp/88lfxw2n4lvgkdk9xl0lkqjr0000gp/T/tmpf2k0n9ti/ tfs_serving_base:/tmp
 docker exec -d tfs_serving_base mkdir -p /models/keras_mnist
-docker exec -d tfs_serving_base mv /tmp/out /models/keras_mnist/01
+docker exec -d tfs_serving_base mv /tmp/tmpf2k0n9ti /models/keras_mnist/01
 docker commit --change "ENV MODEL_NAME keras_mnist" tfs_serving_base tfs_serving_keras_mnist
 docker rm -f tfs_serving_base
 docker run -d --name tfs_serving_keras_mnist -p 8502:8501 tfs_serving_keras_mnist
