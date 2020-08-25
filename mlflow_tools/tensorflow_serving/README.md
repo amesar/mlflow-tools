@@ -79,12 +79,12 @@ When running the docker commands individually with Popen, `docker commit` fails 
 Failed to execute command 'docker commit --change "ENV MODEL_NAME keras_mnist" tfs_serving_base tfs_serving_keras_mnist'. Error: "docker commit" requires at least 1 and at most 2 arguments.
 ```
 
-When docker all commands are run as one script with Popen, no error occurs.
+When all docker commands are run in one script with Popen, no error occurs.
 
-Therefore, a workaround is to use the `commands-file` option which will collect all the docker commands into a `docker_commands` file and execute them as one Popen call.
+Therefore, the current workaround is to use the `commands-file` option which will collect all the docker commands into a `docker_commands` file and execute this file as one Popen call.
 
 
-## Docker Commands file
+#### Docker commands file example
 ```
 docker run -d --name tfs_serving_base tensorflow/serving
 docker cp out tfs_serving_base:/tmp
