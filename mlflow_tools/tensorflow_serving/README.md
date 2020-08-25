@@ -98,7 +98,7 @@ docker run -d --name tfs_serving_keras_mnist -p 8502:8501 tfs_serving_keras_mnis
 ## Score
 ```
 curl -X POST \
-  -d data/mnist.json \
+  -d @data/mnist.json \
   http://localhost:8502/v1/models/keras_mnist:predict
 ```
 ```
