@@ -9,7 +9,7 @@ def delete_model(client, model_name):
         print(f"Deleting {len(versions)} versions for model '{model_name}'")
         for v in versions:
             print(f"  version={v.version} status={v.status} stage={v.current_stage} run_id={v.run_id}")
-            client.update_model_version(model_name, v.version, stage="Archived", description="to archived")
+            client.transition_model_version_stage (model_name, v.version, "Archived")
             client.delete_model_version(model_name, v.version)
         client.delete_registered_model(model_name)
     except RestException:
