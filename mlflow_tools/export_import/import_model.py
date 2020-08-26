@@ -73,3 +73,6 @@ def main(input_dir, model, experiment_name, delete_model):
         print(f"  {k}: {v}")
     importer = ModelImporter()
     importer.import_model(input_dir, model, experiment_name, delete_model)
+
+if __name__ == "__main__":
+    main()

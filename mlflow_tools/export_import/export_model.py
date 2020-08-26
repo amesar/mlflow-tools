@@ -30,7 +30,7 @@ class ModelExporter():
         utils.write_json_file(self.fs, path, model)
 
 @click.command()
-@click.option("--model", help="Registered model name", required=True. type=str)
+@click.option("--model", help="Registered model name", required=True, type=str)
 @click.option("--output_dir", help="Output directory", default="out", type=str)
 
 def main(model, output_dir):
