@@ -20,9 +20,9 @@ client = mlflow.tracking.MlflowClient()
 @click.option("--container", help="Container name.", required=True, type=str)
 @click.option("--port", help="Port (default is 8502).", default="8502", type=int)
 @click.option("--tfs-model-name", help="TensorFlow Serving model name.", required=True, type=str)
-@click.option("--commands-file", help="Commands file. If specified will create this file with all Docker commands and execute it.", default=None, type=str)
+@click.option("--execute-as-commands-file", help="Due to bug, execute all docker commands together in one commands file. Default is True", default=True, type=bool)
 
-def main(model_uri, tfs_model_name, base_container, container, port, commands_file):
+def main(model_uri, tfs_model_name, base_container, container, port, execute_as_commands_file):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
 
@@ -55,7 +55,8 @@ def main(model_uri, tfs_model_name, base_container, container, port, commands_fi
         ]
 
         # Execute each command individually
-        if commands_file:
+        if execute_as_commands_file:
+            commands_file = "commands.sh"
             with open(commands_file, "w") as fp:
                 fp.write("\n")
                 for cmd in commands:
