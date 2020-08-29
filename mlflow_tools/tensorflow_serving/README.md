@@ -102,6 +102,9 @@ docker run -d --name tfs_serving_keras_mnist -p 8502:8501 tfs_serving_keras_mnis
 ```
 
 ## Score
+
+### Score TensorFlow Serving JSON file
+
 ```
 curl -X POST \
   -d @data/mnist.json \
@@ -125,3 +128,19 @@ curl -X POST \
 . . .
 }
 ```
+### Score MNIST PNG file
+
+We first convert the PNG file to JSON format.
+
+```
+python convert_png_to_tfs_json.py data/0_9993.png | \
+curl -X POST \
+  -d @- \
+  http://localhost:8502/v1/models/keras_mnist:predict
+```
+```
+{
+  "predictions": [[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
+}
+```
+
