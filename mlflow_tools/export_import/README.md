@@ -36,7 +36,10 @@ Tools to export and import MLflow runs, experiments or registered models from on
 
 `notebook-formats` - If exporting a Databricks experiment, the run's notebook can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER and DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
 
+`use-src-user-id` -  Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed.
+
 `export-metadata-tags` - Creates metadata tags (starting with `mlflow_tools.metadata`) containing export information. Contains the source `mlflow` tags in addition to other information. This is useful for auditing purposes in regulated industries.
+
 ```
 Name                                  Value
 mlflow_tools.metadata.timestamp       1551037752
@@ -67,19 +70,19 @@ Export several (or all) experiments to a directory.
 Export experiments by ID.
 ```
 python -u -m mlflow_tools.export_import.export_experiments \
-  --experiments=2,3 --output-dir=out
+  --experiments 2,3 --output-dir out
 ```
 
 Export experiments by name.
 ```
 python -u -m mlflow_tools.export_import.export_experiments \
-  --experiments=sklearn,sparkml --output-dir=out
+  --experiments sklearn,sparkml --output-dir out
 ```
 
 Export all experiments.
 ```
 python -u -m mlflow_tools.export_import.export_experiments \
-  --experiments=all --output-dir=out
+  --experiments all --output-dir out
 ```
 
 #### Databricks export examples
@@ -91,9 +94,9 @@ export DATABRICKS_HOST=https://mycompany.cloud.databricks.com
 export DATABRICKS_TOKEN=MY_TOKEN
 
 python -u -m mlflow_tools.export_import.export_experiments \
-  --experiments=/Users/me@mycompany.com/SklearnWine \
-  --output-dir=out \
-  --notebook-formats=DBC,SOURCE 
+  --experiments /Users/me@mycompany.com/SklearnWine \
+  --output-dir out \
+  --notebook-formats DBC,SOURCE 
 ```
 
 #### Output Directory format
@@ -203,18 +206,20 @@ Experiment names will be created if they does not exist in the destination track
 | input-dir | yes | | Source directory produced by export_experiments.py |
 | use-src-user-id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
 
-**Run examples**
+**Import examples**
 
 ```
 python -u -m mlflow_tools.export_import.import_experiments \
-  --input=out 
-```
-```
-python -u -m mlflow_tools.export_import.import_experiments \
-  --input=out \
-  --experiment-base imported_
+  --input-dir out 
 ```
 
+**Databricks import examples**
+
+```
+python -u -m mlflow_tools.export_import.import_experiment \
+  --experiment-name /Users/me@mycompany.com/imported/SklearnWine
+  --input-dir exported_experiments/3532228
+```
 
 ### Copy experiment from one tracking server to another
 
@@ -241,10 +246,10 @@ In this example we use:
 **Run example**
 ```
 python -u -m mlflow_tools.export_import. copy_experiment \
-  --src-experiment=sklearn_wine \
-  --dst-experiment-name=sklearn_wine_imported \
-  --src-uri=http://localhost:5000 \
-  --dst-uri=http://localhost:5001
+  --src-experiment sklearn_wine \
+  --dst-experiment-name sklearn_wine_imported \
+  --src-uri http://localhost:5000 \
+  --dst-uri http://localhost:5001
 ```
 
 ## Runs
@@ -264,14 +269,14 @@ Export run to directory or zip file.
 **Run examples**
 ```
 python -u -m mlflow_tools.export_import.export_run \
-  --run-id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
-  --output=out
-  --export-metadata-tags=True
+  --run-id 50fa90e751eb4b3f9ba9cef0efe8ea30 \
+  --output out
+  --export-metadata-tags True
 ```
 ```
 python -u -m mlflow_tools.export_import.export_run \
-  --run-id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
-  --output=run.zip
+  --run-id 50fa90e751eb4b3f9ba9cef0efe8ea30 \
+  --output run.zip
 ```
 
 Produces a directory with the following structure:
@@ -331,9 +336,9 @@ Imports a run from a directory or zip file.
 **Run examples**
 ```
 python -u -m mlflow_tools.export_import.import_run \
-  --run-id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
-  --input=out \
-  --experiment-name=sklearn_wine_imported
+  --run-id 50fa90e751eb4b3f9ba9cef0efe8ea30 \
+  --input out \
+  --experiment-name sklearn_wine_imported
 ```
 
 ### Copy run from one tracking server to another
@@ -362,10 +367,10 @@ In this example we use
 export MLFLOW_TRACKING_URI=http://localhost:5000
 
 python -u -m mlflow_tools.export_import.copy_run \
-  --src-run-id=50fa90e751eb4b3f9ba9cef0efe8ea30 \
-  --dst-experiment-name=sklearn_wine \
-  --src-uri=http://localhost:5000 \
-  --dst-uri=http://localhost:5001
+  --src-run-id 50fa90e751eb4b3f9ba9cef0efe8ea30 \
+  --dst-experiment-name sklearn_wine \
+  --src-uri http://localhost:5000 \
+  --dst-uri http://localhost:5001
 ```
 
 ## Registered Models
@@ -385,7 +390,7 @@ Source: [export_model.py](export_model.py).
 
 #### Run
 ```
-python -u -m mlflow_tools.export_import.export_model --model=sklearn_wine --output-dir=out 
+python -u -m mlflow_tools.export_import.export_model --model sklearn_wine --output-dir out 
 ```
 
 #### Output 
@@ -439,10 +444,10 @@ Source: [import_model.py](import_model.py).
 
 ```
 python -u -m mlflow_tools.export_import.import_model \
-  --model=sklearn_wine \
-  --experiment-name=sklearn_wine_imported \
-  --input-dir=out  \
-  --delete-model=True
+  --model sklearn_wine \
+  --experiment-name sklearn_wine_imported \
+  --input-dir out  \
+  --delete-model True
 ```
 
 ```
