@@ -1,9 +1,14 @@
+""" 
+Exports an experiment to a directory.
+"""
+
 import os
+import json
 import mlflow
 import click
-from . import import_run, utils
-from . import peek_at_experiment
+
 from .import_run import RunImporter
+from . import utils
 
 class ExperimentImporter():
     def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=True, import_metadata_tags=False):
@@ -37,22 +42,33 @@ class ExperimentImporter():
         utils.unzip_directory(zip_file, exp_name, self.import_experiment_from_dir)
 
 @click.command()
-@click.option("--input", help="Input path - directory or zip file", required=True, type=str)
-@click.option("--experiment-name", help="Destination experiment name", required=True, type=str)
-@click.option("--just-peek", help="Just display experiment metadata - do not import", type=bool, default=False)
+@click.option("--input-dir", help="Input path - directory", required=True, type=str)
+@click.option("--experiment-base", help="Experiment base", default=None, type=str)
 @click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
 @click.option("--import-mlflow-tags", help="Import mlflow tags", type=bool, default=True)
 @click.option("--import-metadata-tags", help="Import mlflow_tools tags", type=bool, default=False)
 
-def main(input, experiment_name, just_peek, use_src_user_id, import_mlflow_tags, import_metadata_tags):
+def main(input_dir, experiment_base, use_src_user_id, import_mlflow_tags, import_metadata_tags):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
-    if just_peek:
-        peek_at_experiment(input)
-    else:
-        importer = ExperimentImporter(None, use_src_user_id, import_mlflow_tags, import_metadata_tags)
-        importer.import_experiment(experiment_name, input)
+
+    path = os.path.join(input_dir,"manifest.json")
+    with open(path, "r") as f:
+        dct = json.loads(f.read())
+    for exp in dct["experiments"]:
+        print("  ",exp)
+    print(">> dct:",dct)
+    #print(">> lst:",dct["experiments")
+
+    importer = ExperimentImporter(None, use_src_user_id, import_mlflow_tags, import_metadata_tags)
+    print(">> IMPORTING <<")
+    for exp in dct["experiments"]:
+        exp_input = os.path.join(input_dir,exp["id"])
+        #exp_name = os.path.join(experiment_base,exp["name"]) if experiment_base else exp["name"]
+        exp_name = experiment_base + exp["name"] if experiment_base else exp["name"]
+        print(">> exp_name:",exp_name+" exp_input:",exp_input)
+        importer.import_experiment(exp_name, exp_input)
 
 if __name__ == "__main__":
     main()

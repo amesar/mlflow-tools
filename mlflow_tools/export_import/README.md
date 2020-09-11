@@ -1,21 +1,21 @@
-# Export and Import Experiments, Runs or Registered Models
+# Export and Import MLflow Experiments, Runs or Registered Models
 
 Tools to export and import MLflow runs, experiments or registered models from one tracking server to another.
 
 ## Overview
 
-### Runs
+### Experiments
+  * Export several or all experiments to a directory.
+  * Import experiments from a directory.
+  * Copy an experiment from one tracking server to another.
+
+### Run
   * Export a run to  a directory or zip file.
   * Import a run from a directory or zip file.
   * Copy a run from one tracking server to another.
   * Limitations
-    * Nested runs are only supported when you import/copy an experiment. For a run, its a TODO.
+    * Nested runs are only supported when you import/copy an experiment. For a run, it is a TODO.
     * Databricks does not support notebook revision imports.
-
-### Experiments
-  * Export an experiment and all its runs to a directory or zip file.
-  * Import an experiment from a directory or zip file.
-  * Copy an experiment from one tracking server to another.
 
 ### Registered Models
   * Export a registered model to a directory.
@@ -34,13 +34,9 @@ Tools to export and import MLflow runs, experiments or registered models from on
 
 ### Common arguments 
 
-`output` - Either a directory or zip file (if `output` has a zip extension).
-
-`intput` - Either a directory or zip file (if `output` has a zip extension).
-
 `notebook-formats` - If exporting a Databricks experiment, the run's notebook can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER and DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
 
-`export-metadata-tags` - Creates metadata tags (starting with `mlflow_tools.metadata`) containing export information. Contains the source `mlflow` tags in addition to other information.
+`export-metadata-tags` - Creates metadata tags (starting with `mlflow_tools.metadata`) containing export information. Contains the source `mlflow` tags in addition to other information. This is useful for auditing purposes in regulated industries.
 ```
 Name                                  Value
 mlflow_tools.metadata.timestamp       1551037752
@@ -53,93 +49,172 @@ mlflow_tools.metadata.tracking_uri    http://localhost:5000
 
 ## Experiments
 
-### Export experiment
+### Export Experiments
 
-Export an experiment to a directory or zip file.
+Export several (or all) experiments to a directory.
 
-**Arguments**
+**Options**
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
-| experiment | yes | none | Source experiment name or ID |
-| output | no | out | Destination directory or zip file |
+| experiments | yes | none | Source experiment names or IDs - comma delimited. 'all' will export all experiments.  |
+| output-dir | yes | None | Destination directory |
 | export-metadata-tags | no | False | Export source run metadata tags |
-| notebook-formats | no | SOURCE | Databricks notebook formats. Values are SOURCE, HTML, JUPYTER, DBC |
+| notebook-formats | no | SOURCE | Databricks notebook formats. Values are SOURCE, HTML, JUPYTER, DBC. |
 
+#### Export examples
 
-#### Export example
+Export experiments by ID.
 ```
-python -u -m mlflow_tools.export_import.export_experiment --experiment=2 --output=out --export-metadata-tags=True
-```
-```
-python -u -m mlflow_tools.export_import.export_experiment --experiment=sklearn_wine --output=exp.zip
+python -u -m mlflow_tools.export_import.export_experiments \
+  --experiments=2,3 --output-dir=out
 ```
 
-#### Databricks export example
+Export experiments by name.
+```
+python -u -m mlflow_tools.export_import.export_experiments \
+  --experiments=sklearn,sparkml --output-dir=out
+```
+
+Export all experiments.
+```
+python -u -m mlflow_tools.export_import.export_experiments \
+  --experiments=all --output-dir=out
+```
+
+#### Databricks export examples
 
 See the [Access the MLflow tracking server from outside Databricks](https://docs.databricks.com/applications/mlflow/access-hosted-tracking-server.html).
 ```
 export MLFLOW_TRACKING_URI=databricks
-export DATABRICKS_HOST=https://acme.cloud.databricks.com
+export DATABRICKS_HOST=https://mycompany.cloud.databricks.com
 export DATABRICKS_TOKEN=MY_TOKEN
 
-python -u -m mlflow_tools.export_import.export_experiment --experiment=sklearn_wine --notebook-formats=DBC,SOURCE
+python -u -m mlflow_tools.export_import.export_experiments \
+  --experiments=/Users/me@mycompany.com/SklearnWine \
+  --output-dir=out \
+  --notebook-formats=DBC,SOURCE 
 ```
 
-#### Output 
+#### Output Directory format
 
-Output export directory example
+The output directory contains a manifest file and a subdirectory for each experiment (by experiment ID).
+
+Each experiment subdirectory in turn contains its own manifest file and a subdirectory for each run.
+The run directory contains a run.json file containing run metadata and an artifact hierarchy.
+
+In the example below we have two experiments - 1 and 7. Experiment 1 (sklearn) has two runs (f4eaa7ddbb7c41148fe03c530d9b486f and 5f80bb7cd0fc40038e0e17abe22b304c) whereas experiment 7 (sparkml) has one run (ffb7f72a8dfb46edb4b11aed21de444b).
+
 ```
-manifest.json
-130bca8d75e54febb2bfa46875a03d59/
-5a22839d66154001882e0632581fbf02/
++-manifest.json
++-1/
+| +-manifest.json
+| +-f4eaa7ddbb7c41148fe03c530d9b486f/
+| | +-run.json
+| | +-artifacts/
+| |   +-plot.png
+| |   +-sklearn-model/
+| |   | +-model.pkl
+| |   | +-conda.yaml
+| |   | +-MLmodel
+| |   +-onnx-model/
+| |     +-model.onnx
+| |     +-conda.yaml
+| |     +-MLmodel
+| +-5f80bb7cd0fc40038e0e17abe22b304c/
+| | +-run.json
+|   +-artifacts/
+|     +-plot.png
+|     +-sklearn-model/
+|     | +-model.pkl
+|     | +-conda.yaml
+|     | +-MLmodel
+|     +-onnx-model/
+|       +-model.onnx
+|       +-conda.yaml
+|       +-MLmodel
++-7/
+| +-manifest.json
+| +-ffb7f72a8dfb46edb4b11aed21de444b/
+| | +-run.json
+|   +-artifacts/
+|     +-spark-model/
+|     | +-sparkml/
+|     |   +-stages/
+|     |   +-metadata/
+|     +-mleap-model/
+|       +-mleap/
+|         +-model/
 ```
 
-manifest.json - source experiment information
+Top-level manifest.json for experiments.
+```
+{
+  "info": {
+    "mlflow_version": "1.11.0",
+    "mlflow_tracking_uri": "http://localhost:5000",
+    "export_time": "2020-09-10 20:23:45"
+  },
+  "experiments": [
+    {
+      "id": "1",
+      "name": "sklearn"
+    },
+    {
+      "id": "7",
+      "name": "sparkml"
+    }
+  ]
+}
+```
+
+Experiment manifest.json.
 ```
 {
   "experiment": {
-    "experiment_id": "2",
-    "name": "sklearn_wine",
-    "artifact_location": "/opt/mlflow/server/mlruns/2",
+    "experiment_id": "1",
+    "name": "sklearn",
+    "artifact_location": "/opt/mlflow/server/mlruns/1",
     "lifecycle_stage": "active"
   },
   "export_info": {
-    "export_time": "2019-07-21 13:36:28",
+    "export_time": "2020-09-10 20:23:45",
     "num_runs": 2
   },
   "run-ids": [
-    "130bca8d75e54febb2bfa46875a03d59",
-    "5a22839d66154001882e0632581fbf02"
+    "f4eaa7ddbb7c41148fe03c530d9b486f",
+    "f80bb7cd0fc40038e0e17abe22b304c"
   ],
   "failed_run-ids": []
 }
 ```
 
-### Import experiment
+### Import Experiments
 
-Import an experiment from a directory or zip file.
+Import experiments from a directory. Reads the manifest file to import expirements.
 
-**Arguments**
+Experiment names will be created if they does not exist in the destination tracking server. If they do exist, the source runs will be added to the existing destination experiment.
+
+**Options**
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
-| experiment-name | yes | none | Destination experiment name  - will be created if it does not exist |
-| input | yes | | Source directory or zip file produced by export_experiment.py |
+| experiment-base | no | none | Experiment base |
+| input-dir | yes | | Source directory produced by export_experiments.py |
 | use-src-user-id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
 
 **Run examples**
 
 ```
-python -u -m mlflow_tools.export_import.import_experiment \
-  --experiment-name=sklearn_wine \
+python -u -m mlflow_tools.export_import.import_experiments \
   --input=out 
 ```
 ```
-python -u -m mlflow_tools.export_import.import_experiment \
-  --experiment-name=sklearn_wine \
-  --input=exp.zip 
+python -u -m mlflow_tools.export_import.import_experiments \
+  --input=out \
+  --experiment-base imported_
 ```
+
 
 ### Copy experiment from one tracking server to another
 
@@ -151,7 +226,7 @@ In this example we use:
 * Source tracking server runs on port 5000 
 * Destination tracking server runs on 5001
 
-**Arguments**
+**Options**
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
@@ -178,7 +253,7 @@ python -u -m mlflow_tools.export_import. copy_experiment \
 
 Export run to directory or zip file.
 
-**Arguments**
+**Options**
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
@@ -244,7 +319,7 @@ Sample run.json
 
 Imports a run from a directory or zip file.
 
-**Arguments**
+**Options**
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
@@ -271,7 +346,7 @@ In this example we use
 * Source tracking server runs on port 5000 
 * Destination tracking server runs on 5001
 
-**Arguments**
+**Options**
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
@@ -297,11 +372,11 @@ python -u -m mlflow_tools.export_import.copy_run \
 
 ### Export registered model
 
-Export a model to a directory.
+Export a registered model to a directory.
 
 Source: [export_model.py](export_model.py).
 
-#### Arguments
+#### Options
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
@@ -347,11 +422,11 @@ model.json
 
 ### Import registered model
 
-Import a model from a directory.
+Import a registered model from a directory.
 
 Source: [import_model.py](import_model.py).
 
-#### Arguments
+#### Options
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
