@@ -46,7 +46,7 @@ class RunImporter():
 
     def dump_tags(self, tags, msg=""):
         print(f"Tags {msg} - {len(tags)}:")
-        for t in tags: print("  ",t.key)
+        for t in tags: print(f"  {t.key} - {t.value}")
 
     def import_run_data(self, run_dct, run_id, src_user_id):
         from mlflow.entities import Metric, Param, RunTag
@@ -63,17 +63,20 @@ class RunImporter():
 
         tags = [ RunTag(k,str(v)) for k,v in tags.items() ]
 
+        self.dump_tags(tags,"1")
+        print(">> self.in_databricks:",self.in_databricks)
+        print(">> self.use_src_user_id:",self.use_src_user_id)
         if not self.in_databricks:
             utils.set_dst_user_id(tags, src_user_id, self.use_src_user_id)
-        #self.dump_tags(tags)
+        self.dump_tags(tags,"2")
         self.client.log_batch(run_id, metrics, params, tags)
 
 @click.command()
 @click.option("--input", help="Input path - directory or zip file", required=True, type=str)
-@click.option("--experiment_name", help="Destination experiment name", required=True, type=str)
-@click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
-@click.option("--import_mlflow_tags", help="Import mlflow tags", type=bool, default=True)
-@click.option("--import_metadata_tags", help="Import mlflow_tools tags", type=bool, default=False)
+@click.option("--experiment-name", help="Destination experiment name", required=True, type=str)
+@click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
+@click.option("--import-mlflow-tags", help="Import mlflow tags", type=bool, default=True)
+@click.option("--import-metadata-tags", help="Import mlflow_tools tags", type=bool, default=False)
 
 def main(input, experiment_name, use_src_user_id, import_mlflow_tags, import_metadata_tags):
     print("Options:")

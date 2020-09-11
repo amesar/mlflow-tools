@@ -68,8 +68,8 @@ class ExperimentExporter():
 @click.command()
 @click.option("--experiment", help="Experiment name or ID", default=None, type=str)
 @click.option("--output", help="Output path", required=True)
-@click.option("--export_metadata_tags", help="Export source run metadata tags", type=bool, required=False)
-@click.option("--notebook_formats", help="Notebook formats. Values are SOURCE, HTML, JUPYTER, DBC", default="SOURCE")
+@click.option("--export-metadata-tags", help="Export source run metadata tags", type=bool, required=False)
+@click.option("--notebook-formats", help="Notebook formats. Values are SOURCE, HTML, JUPYTER, DBC", default="SOURCE")
 
 def main(experiment, output, export_metadata_tags, notebook_formats):
     print("Options:")

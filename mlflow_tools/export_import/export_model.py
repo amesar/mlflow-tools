@@ -31,7 +31,7 @@ class ModelExporter():
 
 @click.command()
 @click.option("--model", help="Registered model name", required=True, type=str)
-@click.option("--output_dir", help="Output directory", default="out", type=str)
+@click.option("--output-dir", help="Output directory", default="out", type=str)
 
 def main(model, output_dir):
     print("Options:")

@@ -62,10 +62,10 @@ class ModelImporter():
             self.client.transition_model_version_stage(model_name, version.version, current_stage)
 
 @click.command()
-@click.option("--input_dir", help="Input directory", required=True, type=str)
+@click.option("--input-dir", help="Input directory", required=True, type=str)
 @click.option("--model", help="New registered model name", required=True, type=str)
-@click.option("--experiment_name", help="Destination experiment name", required=True, type=str)
-@click.option("--delete_model", help="First delete new registered model", type=bool, default=False)
+@click.option("--experiment-name", help="Destination experiment name", required=True, type=str)
+@click.option("--delete-model", help="First delete new registered model", type=bool, default=False)
 
 def main(input_dir, model, experiment_name, delete_model):
     print("Options:")

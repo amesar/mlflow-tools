@@ -44,12 +44,12 @@ class RunCopier(BaseCopier):
         self.dst_client.log_batch(dst_run_id, metrics, params, tags)
 
 @click.command()
-@click.option("--src_uri", help="Source MLflow API URI", required=True, type=str)
-@click.option("--dst_uri", help="Destination MLflow API URI", required=True, type=str)
-@click.option("--src_run_id", help="Source run ID", required=True, type=str)
-@click.option("--dst_experiment_name", help="Destination experiment name ", required=True, type=str)
-@click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
-@click.option("--export_metadata_tags", help="Export source run metadata tags", type=bool, required=False)
+@click.option("--src-uri", help="Source MLflow API URI", required=True, type=str)
+@click.option("--dst-uri", help="Destination MLflow API URI", required=True, type=str)
+@click.option("--src-run-id", help="Source run ID", required=True, type=str)
+@click.option("--dst-experiment-name", help="Destination experiment name ", required=True, type=str)
+@click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
+@click.option("--export-metadata-tags", help="Export source run metadata tags", type=bool, required=False)
 
 def main(src_uri, dst_uri, src_run_id, dst_experiment_name, use_src_user_id, export_metadata_tags):
     print("Options:")

@@ -38,11 +38,11 @@ class ExperimentImporter():
 
 @click.command()
 @click.option("--input", help="Input path - directory or zip file", required=True, type=str)
-@click.option("--experiment_name", help="Destination experiment name", required=True, type=str)
-@click.option("--just_peek", help="Just display experiment metadata - do not import", type=bool, default=False)
-@click.option("--use_src_user_id", help="Use source user ID", type=bool, default=False)
-@click.option("--import_mlflow_tags", help="Import mlflow tags", type=bool, default=True)
-@click.option("--import_metadata_tags", help="Import mlflow_tools tags", type=bool, default=False)
+@click.option("--experiment-name", help="Destination experiment name", required=True, type=str)
+@click.option("--just-peek", help="Just display experiment metadata - do not import", type=bool, default=False)
+@click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
+@click.option("--import-mlflow-tags", help="Import mlflow tags", type=bool, default=True)
+@click.option("--import-metadata-tags", help="Import mlflow_tools tags", type=bool, default=False)
 
 def main(input, experiment_name, just_peek, use_src_user_id, import_mlflow_tags, import_metadata_tags):
     print("Options:")
