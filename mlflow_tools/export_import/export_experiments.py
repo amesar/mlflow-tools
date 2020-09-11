@@ -89,7 +89,6 @@ def main(experiments, output_dir, export_metadata_tags, notebook_formats):
     lst = []
     for exp_id_or_name in experiments:
         exp = mlflow_utils.get_experiment(client, exp_id_or_name)
-        print(">> exp_id_or_name:",exp_id_or_name,"exp:",exp)
         exp_output = os.path.join(output_dir, exp.experiment_id)
         lst.append( { "id" : exp.experiment_id, "name": exp.name } )
         exporter.export_experiment(exp.experiment_id, exp_output)

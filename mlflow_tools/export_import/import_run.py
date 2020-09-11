@@ -64,8 +64,6 @@ class RunImporter():
         tags = [ RunTag(k,str(v)) for k,v in tags.items() ]
 
         self.dump_tags(tags,"1")
-        print(">> self.in_databricks:",self.in_databricks)
-        print(">> self.use_src_user_id:",self.use_src_user_id)
         if not self.in_databricks:
             utils.set_dst_user_id(tags, src_user_id, self.use_src_user_id)
         self.dump_tags(tags,"2")

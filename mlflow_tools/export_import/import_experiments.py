@@ -58,16 +58,11 @@ def main(input_dir, experiment_base, use_src_user_id, import_mlflow_tags, import
         dct = json.loads(f.read())
     for exp in dct["experiments"]:
         print("  ",exp)
-    print(">> dct:",dct)
-    #print(">> lst:",dct["experiments")
 
     importer = ExperimentImporter(None, use_src_user_id, import_mlflow_tags, import_metadata_tags)
-    print(">> IMPORTING <<")
     for exp in dct["experiments"]:
         exp_input = os.path.join(input_dir,exp["id"])
-        #exp_name = os.path.join(experiment_base,exp["name"]) if experiment_base else exp["name"]
         exp_name = experiment_base + exp["name"] if experiment_base else exp["name"]
-        print(">> exp_name:",exp_name+" exp_input:",exp_input)
         importer.import_experiment(exp_name, exp_input)
 
 if __name__ == "__main__":
