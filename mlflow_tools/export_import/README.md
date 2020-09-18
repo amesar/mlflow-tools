@@ -31,7 +31,7 @@ Tools to export and import MLflow runs, experiments or registered models from on
 The [workspace/export](https://docs.databricks.com/dev-tools/api/latest/workspace.html#export) API endpoint only exports a notebook representing the latest notebook revision.
 * Therefore you can only export/import MLflow experiments and runs. The notebook revision associated with a run cannot be exported or imported.
 * When you import a run, the link to its source notebook revision ID will appear in the UI but you cannot reach that revision (link is dead).
-* For convenience, the export tools does export the latest notebook revision for a notebook-based experiment but again, it cannot be attached to a run when imported.
+* For convenience, the export tool exports the latest notebook revision for a notebook-based experiment but again, it cannot be attached to a run when imported.
 
 #### Note on `Copy` tools and Databricks 
   * Copy tools work only for open source MLflow.
@@ -46,7 +46,7 @@ The [workspace/export](https://docs.databricks.com/dev-tools/api/latest/workspac
 
 `notebook-formats` - If exporting a Databricks experiment, the run's notebook can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER and DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
 
-`use-src-user-id` -  Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed.
+`use-src-user-id` -  Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since the user is automatically picked up from your Databricks access token.
 
 `export-metadata-tags` - Creates metadata tags (starting with `mlflow_tools.metadata`) containing export information. Contains the source `mlflow` tags in addition to other information. This is useful for auditing purposes in regulated industries.
 
@@ -222,6 +222,7 @@ Experiment names will be created if they does not exist in the destination track
 
 ```
 python -u -m mlflow_tools.export_import.import_experiments \
+  --experiment-name imported_sklearn \
   --input-dir out 
 ```
 
