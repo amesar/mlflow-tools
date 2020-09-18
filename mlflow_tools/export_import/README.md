@@ -9,30 +9,40 @@ Tools to export and import MLflow runs, experiments or registered models from on
   * Import experiments from a directory.
   * Copy an experiment from one tracking server to another.
 
-### Run
+### Runs
   * Export a run to  a directory or zip file.
   * Import a run from a directory or zip file.
   * Copy a run from one tracking server to another.
-  * Limitations
-    * Nested runs are only supported when you import/copy an experiment. For a run, it is a TODO.
-    * Databricks does not support notebook revision imports.
 
 ### Registered Models
   * Export a registered model to a directory.
   * Import a registered model from a directory.
 
 
-### Limitations
-#### Databricks MLflow Tracking Server Notes for `Copy` tools
+## Limitations
+
+### General Limitations
+
+* Nested runs are only supported when you import/copy an experiment. For a run, it is a TODO.
+
+### Databricks Limitations
+
+* The Databricks API does not support notebook revision exports or imports.
+The [workspace/export](https://docs.databricks.com/dev-tools/api/latest/workspace.html#export) API endpoint only exports a notebook representing the latest notebook revision.
+* Therefore you can only export/import MLflow experiments and runs. The notebook revision associated with a run cannot be exported or imported.
+* When you import a run, the link to its source notebook revision ID will appear in the UI but you cannot reach that revision (link is dead).
+* For convenience, the export tools does export the latest notebook revision for a notebook-based experiment but again, it cannot be attached to a run when imported.
+
+#### Note on `Copy` tools and Databricks 
+  * Copy tools work only for open source MLflow.
   * Copy tools do not work when both the source and destination trackings servers are Databricks MLflow.
-  * Copy tools work for open source MLflow.
   * Things get more complicated for the `copy` feature when using a a Databricks tracking server, either as source or destination .
   * This is primarily because [MLflow client](https://github.com/mlflow/mlflow/blob/master/mlflow/tracking/client.py) constructor only accepts a tracking_uri. 
     * For open source MLflow this works fine and you can have the two clients (source and destination) in the same program.
     * For Databricks MLflow, the constructor is not used to initialize target servers. Environment variables are used to initialize the client, so only one client can exist.
-  * To copy experiments when a Databricks server is involved, you have to use the more manual process of exporting and then importing the experiment.
+  * To copy experiments when a Databricks server is involved, you have to use the the two-stage process of first exporting the experiment and then importing it.
 
-### Common arguments 
+## Common arguments 
 
 `notebook-formats` - If exporting a Databricks experiment, the run's notebook can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER and DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
 
@@ -56,7 +66,7 @@ mlflow_tools.metadata.tracking_uri    http://localhost:5000
 
 Export several (or all) experiments to a directory.
 
-**Options**
+#### Options
 
 |Name | Required | Default | Description|
 |-----|----------|---------|------------|
@@ -191,6 +201,8 @@ Experiment manifest.json.
   "failed_run-ids": []
 }
 ```
+
+Run manifest.json: see below.
 
 ### Import Experiments
 
