@@ -10,6 +10,11 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * Find best run of an experiment
 * Dump registered model as JSON or YAML
 
+## Setup
+```
+export MLFLOW_TRACKING_URI=http://localhost:5000
+```
+
 ## List all experiments
 See [list_experiments.py](list_experiments.py).
 ```
