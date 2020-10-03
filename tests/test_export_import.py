@@ -6,8 +6,8 @@ from mlflow_tools.tools.dump_run import dump_run
 from mlflow_tools.export_import.export_run import RunExporter
 from mlflow_tools.export_import.import_run import RunImporter
 from mlflow_tools.export_import.import_run import RunImporter
-from mlflow_tools.export_import.export_experiment import ExperimentExporter
-from mlflow_tools.export_import.import_experiment import ExperimentImporter
+from mlflow_tools.export_import.export_experiments import ExperimentExporter
+from mlflow_tools.export_import.import_experiments import ExperimentImporter
 from mlflow_tools.export_import.copy_run import RunCopier
 from mlflow_tools.export_import.copy_experiment import ExperimentCopier
 
