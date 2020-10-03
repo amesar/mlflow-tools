@@ -5,9 +5,9 @@ Copies a run from one MLflow server to another.
 import time
 import click
 import mlflow
-from mlflow.entities import RunTag
+from mlflow.entities import Metric, Param, RunTag
 from mlflow_tools.export_import import utils
-from mlflow_tools.export_import import BaseCopier, create_client, add_repr_to_MlflowClient
+from mlflow_tools.export_import import BaseCopier, create_client
 print("MLflow Version:", mlflow.version.VERSION)
 print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
@@ -34,7 +34,6 @@ class RunCopier(BaseCopier):
         return (dst_run.info.run_id, src_run.data.tags.get("mlflow.parentRunId",None))
 
     def _copy_run_data(self, src_run, dst_run_id):
-        from mlflow.entities import Metric, Param, RunTag
         now = int(time.time()+.5)
         params = [ Param(k,v) for k,v in src_run.data.params.items() ]
         metrics = [ Metric(k,v,now,0) for k,v in src_run.data.metrics.items() ] # TODO: timestamp and step semantics?

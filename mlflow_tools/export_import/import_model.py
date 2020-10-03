@@ -3,7 +3,6 @@ Import a registered model and all the experiment runs associated with its latest
 """
 
 import os
-import json
 import click
 import mlflow
 from mlflow_tools.export_import.import_run import RunImporter

@@ -38,7 +38,7 @@ class RunExporter():
     def export_run_to_zip(self, run, zip_file):
         temp_dir = tempfile.mkdtemp()
         try:
-            res = self.export_run_to_dir(run, temp_dir)
+            self.export_run_to_dir(run, temp_dir)
             utils.zip_directory(zip_file, temp_dir)
         finally:
             shutil.rmtree(temp_dir)

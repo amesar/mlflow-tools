@@ -37,7 +37,7 @@ def add_repr_to_MlflowClient():
     def custom_repr(self): 
         try:
             return self._tracking_client.tracking_uri
-        except AttributeError as e:
+        except AttributeError:
             return "tracking_uri??"
     mlflow.tracking.MlflowClient.__repr__ = custom_repr
 

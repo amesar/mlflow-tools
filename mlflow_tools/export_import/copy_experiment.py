@@ -3,16 +3,14 @@ Copies an experiment from one MLflow server to another.
 """
 
 import click
-import mlflow
 from mlflow_tools.common import mlflow_utils
-from mlflow_tools.export_import import copy_run
 from mlflow_tools.export_import.copy_run import RunCopier
 from mlflow_tools.export_import import BaseCopier, create_client
 from mlflow_tools.export_import import utils 
 
 class ExperimentCopier(BaseCopier):
 
-    def __init__(self, src_client, dst_client, use_src_user_id=False, export_metadata_tags=False, import_metadata_tags=False):
+    def __init__(self, src_client, dst_client, use_src_user_id=False, export_metadata_tags=False):
         super().__init__(src_client, dst_client)
         self.export_metadata_tags = export_metadata_tags
         self.run_copier = RunCopier(src_client, dst_client, use_src_user_id, export_metadata_tags)
@@ -38,9 +36,8 @@ class ExperimentCopier(BaseCopier):
 @click.option("--dst-experiment-name", help="Destination experiment name ", required=True, type=str)
 @click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
 @click.option("--export-metadata-tags", help="Export source run metadata tags", type=bool, required=False)
-@click.option("--import-metadata-tags", help="Import mlflow_tools tags", type=bool, default=False)
 
-def main(src_uri, dst_uri, src_experiment, dst_experiment_name, use_src_user_id, export_metadata_tags, import_metadata_tags):
+def main(src_uri, dst_uri, src_experiment, dst_experiment_name, use_src_user_id, export_metadata_tags):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
@@ -48,7 +45,7 @@ def main(src_uri, dst_uri, src_experiment, dst_experiment_name, use_src_user_id,
     dst_client = create_client(dst_uri)
     print("src_client:",src_client)
     print("dst_client:",dst_client)
-    copier = ExperimentCopier(src_client, dst_client, use_src_user_id, export_metadata_tags, import_metadata_tags)
+    copier = ExperimentCopier(src_client, dst_client, use_src_user_id, export_metadata_tags)
     copier.copy_experiment(src_experiment, dst_experiment_name)
 
 if __name__ == "__main__":

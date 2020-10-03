@@ -17,7 +17,7 @@ class RunImporter():
         self.import_metadata_tags = import_metadata_tags
         self.in_databricks = "DATABRICKS_RUNTIME_VERSION" in os.environ
         print(f"in_databricks: {self.in_databricks}")
-        print(f"importing_into_databricks:",utils.importing_into_databricks())
+        print(f"importing_into_databricks: {utils.importing_into_databricks()}")
 
     def import_run(self, exp_name, input):
         print(f"Importing run into experiment '{exp_name}' from '{input}'")

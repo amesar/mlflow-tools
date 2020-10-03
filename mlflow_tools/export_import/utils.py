@@ -73,7 +73,7 @@ def read_json_file(path):
 
 def zip_directory(zip_file, dir):
     zipf = zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED)
-    for root, dirs, files in os.walk(dir):
+    for root, _, files in os.walk(dir):
         for file in files:
             full_path = os.path.join(root, file)
             relative_path = full_path.replace(dir+"/","")
@@ -99,11 +99,11 @@ def get_user_id():
     from mlflow.tracking.context.default_context import _get_user
     return _get_user()
 
-"""
-Set the new parentRunId for new imported child runs.
-"""
 def nested_tags(dst_client, run_ids_mapping):
-    for src_run_id,(dst_run_id,src_parent_run_id) in run_ids_mapping.items():
+    """
+    Set the new parentRunId for new imported child runs.
+    """
+    for _,(dst_run_id,src_parent_run_id) in run_ids_mapping.items():
         if src_parent_run_id:
             dst_parent_run_id,_ = run_ids_mapping[src_parent_run_id]
             dst_client.set_tag(dst_run_id, "mlflow.parentRunId", dst_parent_run_id)

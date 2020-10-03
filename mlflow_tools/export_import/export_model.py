@@ -5,7 +5,7 @@ Export a registered model and all the experiment runs associated with its latest
 import os
 import click
 import mlflow
-from mlflow_tools.common.http_client import HttpClient,MlflowHttpClient
+from mlflow_tools.common.http_client import HttpClient
 from mlflow_tools.common import filesystem as _filesystem
 from mlflow_tools.export_import.export_run import RunExporter
 from mlflow_tools.export_import import utils

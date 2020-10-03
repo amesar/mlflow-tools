@@ -11,7 +11,7 @@ resource = "registered-models/list"
 
 class RegisteredModelsExporter():
     def __init__(self, client=None, output="."):
-        self.client = HttpClient(api_prefix)
+        self.client = client if client else HttpClient(api_prefix)
         self.output = output
         print("HTTP client:",self.client)
 
