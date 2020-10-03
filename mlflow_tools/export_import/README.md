@@ -5,7 +5,7 @@ Tools to export and import MLflow runs, experiments or registered models from on
 ## Overview
 
 ### Experiments
-  * Export several or all experiments to a directory.
+  * Export experiments to a directory.
   * Import experiments from a directory.
   * Copy an experiment from one tracking server to another.
 
@@ -17,6 +17,7 @@ Tools to export and import MLflow runs, experiments or registered models from on
 ### Registered Models
   * Export a registered model to a directory.
   * Import a registered model from a directory.
+  * List all registered models.
 
 
 ## Limitations
@@ -489,30 +490,33 @@ Waited 0.01 seconds
 ```
 
 
-### Dump all registered models
+### List all registered models
 
-Calls the `registered-models/list` REST endpoint and produces `registered_models.json`.
+Calls the `registered-models/list` API endpoint and creates the file `registered_models.json`.
 ```
-python -u -m mlflow_tools.export_import.export_registered_models
+python -u -m mlflow_tools.export_import.list_registered_models
 ```
 
-```
 cat registered_models.json
-
-"registered_models_detailed": [
-  {
-    "registered_model": {
-      "name": "sklearn_wine"
-    },
-    "creation_timestamp": "1571948394155",
-    "last_updated_timestamp": "1571948394155"
-    "latest_versions": [
-      {
-        "model_version": {
-          "registered_model": {
-            "name": "sklearn_wine"
-          },
-          "version": "2"
+```
+{
+  "registered_models": [
+    {
+      "name": "keras_mnist",
+      "creation_timestamp": "1601399113433",
+      "last_updated_timestamp": "1601399504920",
+      "latest_versions": [
+        {
+          "name": "keras_mnist",
+          "version": "1",
+          "creation_timestamp": "1601399113486",
+          "last_updated_timestamp": "1601399504920",
+          "current_stage": "Archived",
+          "description": "",
+          "source": "file:///opt/mlflow/server/mlruns/1/9176458a78194d819e55247eee7531c3/artifacts/keras-model",
+          "run_id": "9176458a78194d819e55247eee7531c3",
+          "status": "READY",
+          "run_link": ""
         },
-  },
+
 ```

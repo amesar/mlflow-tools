@@ -31,7 +31,7 @@ source activate mlflow-tools
 
 **Build Wheel**
 
-Build wheel as `dist/mlflow_tools-0.0.1-py3-none-any.whl`.
+Build wheel as `dist/mlflow_tools-1.0.0-py3-none-any.whl`.
 
 ```
 python setup.py bdist_wheel
