@@ -6,8 +6,9 @@ import time
 import click
 import mlflow
 from mlflow.entities import Metric, Param, RunTag
-from mlflow_tools.export_import import utils
+from mlflow_tools.export_import import utils, click_doc
 from mlflow_tools.export_import import BaseCopier, create_client
+
 print("MLflow Version:", mlflow.version.VERSION)
 print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
@@ -43,12 +44,12 @@ class RunCopier(BaseCopier):
         self.dst_client.log_batch(dst_run_id, metrics, params, tags)
 
 @click.command()
-@click.option("--src-uri", help="Source MLflow API URI", required=True, type=str)
-@click.option("--dst-uri", help="Destination MLflow API URI", required=True, type=str)
-@click.option("--src-run-id", help="Source run ID", required=True, type=str)
-@click.option("--dst-experiment-name", help="Destination experiment name ", required=True, type=str)
-@click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
-@click.option("--export-metadata-tags", help="Export source run metadata tags", type=bool, required=False)
+@click.option("--src-uri", help="Source MLflow API URI.", required=True, type=str)
+@click.option("--dst-uri", help="Destination MLflow API URI.", required=True, type=str)
+@click.option("--src-run-id", help="Source run ID.", required=True, type=str)
+@click.option("--dst-experiment-name", help="Destination experiment name.", required=True, type=str)
+@click.option("--use-src-user-id", help=click_doc.use_src_user_id, type=bool, default=False, show_default=True)
+@click.option("--export-metadata-tags", help=click_doc.export_metadata_tags, type=bool, default=False, show_default=True)
 
 def main(src_uri, dst_uri, src_run_id, dst_experiment_name, use_src_user_id, export_metadata_tags):
     print("Options:")

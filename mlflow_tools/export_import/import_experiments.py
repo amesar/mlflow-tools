@@ -8,7 +8,7 @@ import mlflow
 import click
 
 from .import_run import RunImporter
-from . import utils
+from . import utils, click_doc
 
 class ExperimentImporter():
     def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=True, import_metadata_tags=False):
@@ -42,13 +42,13 @@ class ExperimentImporter():
         utils.unzip_directory(zip_file, exp_name, self.import_experiment_from_dir)
 
 @click.command()
-@click.option("--input-dir", help="Input path - directory", required=True, type=str)
-@click.option("--experiment-base", help="Experiment base", default=None, type=str)
-@click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
-@click.option("--import-mlflow-tags", help="Import mlflow tags", type=bool, default=True)
-@click.option("--import-metadata-tags", help="Import mlflow_tools tags", type=bool, default=False)
+@click.option("--input-dir", help="Input directory.", required=True, type=str)
+@click.option("--experiment-name-prefix", help="If specified, added as prefix to experiment name.", default=None, type=str, show_default=True)
+@click.option("--use-src-user-id", help=click_doc.use_src_user_id, type=bool, default=False, show_default=True)
+@click.option("--import-mlflow-tags", help=click_doc.import_mlflow_tags, type=bool, default=True, show_default=True)
+@click.option("--import-metadata-tags", help=click_doc.import_metadata_tags, type=bool, default=False, show_default=True)
 
-def main(input_dir, experiment_base, use_src_user_id, import_mlflow_tags, import_metadata_tags):
+def main(input_dir, experiment_prefix, use_src_user_id, import_mlflow_tags, import_metadata_tags):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
@@ -62,7 +62,7 @@ def main(input_dir, experiment_base, use_src_user_id, import_mlflow_tags, import
     importer = ExperimentImporter(None, use_src_user_id, import_mlflow_tags, import_metadata_tags)
     for exp in dct["experiments"]:
         exp_input = os.path.join(input_dir,exp["id"])
-        exp_name = experiment_base + exp["name"] if experiment_base else exp["name"]
+        exp_name = experiment_prefix + exp["name"] if experiment_prefix else exp["name"]
         importer.import_experiment(exp_name, exp_input)
 
 if __name__ == "__main__":

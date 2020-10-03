@@ -6,7 +6,7 @@ import click
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.export_import.copy_run import RunCopier
 from mlflow_tools.export_import import BaseCopier, create_client
-from mlflow_tools.export_import import utils 
+from mlflow_tools.export_import import utils, click_doc
 
 class ExperimentCopier(BaseCopier):
 
@@ -30,12 +30,12 @@ class ExperimentCopier(BaseCopier):
         utils.nested_tags(self.dst_client, run_ids_mapping)
 
 @click.command()
-@click.option("--src-uri", help="Source MLflow API URI", required=True, type=str)
-@click.option("--dst-uri", help="Destination MLflow API URI", required=True, type=str)
-@click.option("--src-experiment", help="Source experiment ID or name", required=True, type=str)
-@click.option("--dst-experiment-name", help="Destination experiment name ", required=True, type=str)
-@click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
-@click.option("--export-metadata-tags", help="Export source run metadata tags", type=bool, required=False)
+@click.option("--src-uri", help="Source MLflow API URI.", required=True, type=str)
+@click.option("--dst-uri", help="Destination MLflow API URI.", required=True, type=str)
+@click.option("--src-experiment", help="Source experiment ID or name.", required=True, type=str)
+@click.option("--dst-experiment-name", help="Destination experiment name.", required=True, type=str)
+@click.option("--use-src-user-id", help=click_doc.use_src_user_id, type=bool, default=False, show_default=True)
+@click.option("--export-metadata-tags", help=click_doc.export_metadata_tags, type=bool, default=False, show_default=True)
 
 def main(src_uri, dst_uri, src_experiment, dst_experiment_name, use_src_user_id, export_metadata_tags):
     print("Options:")

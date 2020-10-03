@@ -12,7 +12,7 @@ import click
 from ..common import filesystem as _filesystem
 from ..common import mlflow_utils
 from .export_run import RunExporter
-from . import utils
+from . import utils, click_doc
 
 client = mlflow.tracking.MlflowClient()
 
@@ -67,10 +67,10 @@ class ExperimentExporter():
             shutil.rmtree(temp_dir)
 
 @click.command()
-@click.option("--experiments", help="Experiment names or IDs (comma delimited). 'all' will export all experiments. ", default=None, type=str)
-@click.option("--output-dir", help="Output directory", required=True)
-@click.option("--export-metadata-tags", help="Export source run metadata tags", type=bool, required=False)
-@click.option("--notebook-formats", help="Notebook formats. Values are SOURCE, HTML, JUPYTER, DBC", default="SOURCE")
+@click.option("--experiments", help="Experiment names or IDs (comma delimited). 'all' will export all experiments. ", required=True, type=str)
+@click.option("--output-dir", help="Output directory.", required=True)
+@click.option("--export-metadata-tags", help=click_doc.export_metadata_tags, type=bool, default=False, show_default=True)
+@click.option("--notebook-formats", help=click_doc.notebook_formats, default="SOURCE", show_default=True)
 
 def main(experiments, output_dir, export_metadata_tags, notebook_formats):
     print("Options:")

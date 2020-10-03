@@ -6,7 +6,7 @@ import os
 import time
 import click
 import mlflow
-from mlflow_tools.export_import import utils
+from mlflow_tools.export_import import utils, click_doc
 from mlflow_tools.export_import import mk_local_path
 
 class RunImporter():
@@ -70,11 +70,11 @@ class RunImporter():
         self.client.log_batch(run_id, metrics, params, tags)
 
 @click.command()
-@click.option("--input", help="Input path - directory or zip file", required=True, type=str)
-@click.option("--experiment-name", help="Destination experiment name", required=True, type=str)
-@click.option("--use-src-user-id", help="Use source user ID", type=bool, default=False)
-@click.option("--import-mlflow-tags", help="Import mlflow tags", type=bool, default=True)
-@click.option("--import-metadata-tags", help="Import mlflow_tools tags", type=bool, default=False)
+@click.option("--input", help="Input path - directory or zip file.", required=True, type=str)
+@click.option("--experiment-name", help="Destination experiment name.", required=True, type=str)
+@click.option("--use-src-user-id", help=click_doc.use_src_user_id, type=bool, default=False, show_default=True)
+@click.option("--import-mlflow-tags", help=click_doc.import_mlflow_tags, type=bool, default=True, show_default=True)
+@click.option("--import-metadata-tags", help=click_doc.import_metadata_tags, type=bool, default=False, show_default=True)
 
 def main(input, experiment_name, use_src_user_id, import_mlflow_tags, import_metadata_tags):
     print("Options:")

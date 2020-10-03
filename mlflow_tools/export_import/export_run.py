@@ -12,7 +12,7 @@ import click
 from ..common import filesystem as _filesystem
 from ..common.http_client import DatabricksHttpClient
 from ..common import MlflowToolsException
-from ..export_import import utils
+from ..export_import import utils, click_doc
 
 print("MLflow Version:", mlflow.version.VERSION)
 print("MLflow Tracking URI:", mlflow.get_tracking_uri())
@@ -88,10 +88,10 @@ class RunExporter():
             print(f"WARNING: Cannot save notebook '{notebook}'. {e}")
 
 @click.command()
-@click.option("--run-id", help="Run ID", default=None, type=str)
-@click.option("--output", help="Output path", required=True)
-@click.option("--export-metadata-tags", help="Export source run metadata tags", type=bool, required=False)
-@click.option("--notebook-formats", help="Notebook formats. Values are SOURCE, HTML, JUPYTER, DBC", default="SOURCE")
+@click.option("--run-id", help="Run ID.", required=True, type=str)
+@click.option("--output", help="Output directory or zip file.", required=True)
+@click.option("--export-metadata-tags", help=click_doc.export_metadata_tags, type=bool, default=False, show_default=True)
+@click.option("--notebook-formats", help=click_doc.notebook_formats, default="SOURCE", show_default=True)
 
 def main(run_id, output, export_metadata_tags, notebook_formats):
     print("Options:")

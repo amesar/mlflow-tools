@@ -1,4 +1,4 @@
-# Export and Import MLflow Experiments, Runs or Registered Models
+# Export and Import MLflow Experiments, Runs or Models
 
 Tools to export and import MLflow runs, experiments or registered models from one tracking server to another.
 
@@ -28,7 +28,7 @@ Tools to export and import MLflow runs, experiments or registered models from on
 
 ### Databricks Limitations
 
-* The Databricks API does not support notebook revision exports or imports.
+* The Databricks API does not support exporting or importing notebook revision.
 The [workspace/export](https://docs.databricks.com/dev-tools/api/latest/workspace.html#export) API endpoint only exports a notebook representing the latest notebook revision.
 * Therefore you can only export/import MLflow experiments and runs. The notebook revision associated with a run cannot be exported or imported.
 * When you import a run, the link to its source notebook revision ID will appear in the UI but you cannot reach that revision (link is dead).
@@ -43,9 +43,9 @@ The [workspace/export](https://docs.databricks.com/dev-tools/api/latest/workspac
     * For Databricks MLflow, the constructor is not used to initialize target servers. Environment variables are used to initialize the client, so only one client can exist.
   * To copy experiments when a Databricks server is involved, you have to use the the two-stage process of first exporting the experiment and then importing it.
 
-## Common arguments 
+## Common options details 
 
-`notebook-formats` - If exporting a Databricks experiment, the run's notebook can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER and DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
+`notebook-formats` - If exporting a Databricks experiment, the run's notebook (latest revision, not the revision associated with the run) can be saved in the specified formats (comma-delimited argument). Each format is saved as `notebook.{format}`. Supported formats are  SOURCE, HTML, JUPYTER and DBC. See Databricks [Export Format](https://docs.databricks.com/dev-tools/api/latest/workspace.html#notebookexportformat) documentation.
 
 `use-src-user-id` -  Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since the user is automatically picked up from your Databricks access token.
 
@@ -67,14 +67,19 @@ mlflow_tools.metadata.tracking_uri    http://localhost:5000
 
 Export several (or all) experiments to a directory.
 
-#### Options
+#### Usage
+```
+python -m mlflow_tools.export_import.export_experiments --help
 
-|Name | Required | Default | Description|
-|-----|----------|---------|------------|
-| experiments | yes | none | Source experiment names or IDs - comma delimited. 'all' will export all experiments.  |
-| output-dir | yes | None | Destination directory |
-| export-metadata-tags | no | False | Export source run metadata tags |
-| notebook-formats | no | SOURCE | Databricks notebook formats. Values are SOURCE, HTML, JUPYTER, DBC. |
+  --experiments TEXT              Experiment names or IDs (comma delimited).
+                                  'all' will export all experiments.  [required]
+
+  --output-dir TEXT               Output directory.  [required]
+  --export-metadata-tags BOOLEAN  Export source run metadata tags.  [default: False]
+
+  --notebook-formats TEXT         Notebook formats. Values are SOURCE, HTML,
+                                  JUPYTER or DBC.  [default: SOURCE]
+```
 
 #### Export examples
 
@@ -110,7 +115,7 @@ python -u -m mlflow_tools.export_import.export_experiments \
   --notebook-formats DBC,SOURCE 
 ```
 
-#### Output Directory format
+#### Export directory format
 
 The output directory contains a manifest file and a subdirectory for each experiment (by experiment ID).
 
@@ -209,15 +214,26 @@ Run manifest.json: see below.
 
 Import experiments from a directory. Reads the manifest file to import expirements.
 
-Experiment names will be created if they does not exist in the destination tracking server. If they do exist, the source runs will be added to the existing destination experiment.
+The Experiment name will be created if it does not exist in the destination tracking server. If the experiment already exists, the source runs will be added to it.
 
-**Options**
+**Usage**
 
-|Name | Required | Default | Description|
-|-----|----------|---------|------------|
-| experiment-base | no | none | Experiment base |
-| input-dir | yes | | Source directory produced by export_experiments.py |
-| use-src-user-id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
+```
+python -m mlflow_tools.export_import.import_experiments --help
+
+Options:
+  --input-dir TEXT                Input directory.  [required]
+  --experiment-name-prefix TEXT   If specified, added as prefix to experiment
+                                  name.
+
+  --use-src-user-id BOOLEAN       Set the destination user ID to the source
+                                  user ID. Source user ID is ignored when
+                                  importing into Databricks since setting it
+                                  is not allowed.  [default: False]
+
+  --import-mlflow-tags BOOLEAN    Import mlflow tags.  [default: True]
+  --import-metadata-tags BOOLEAN  Import mlflow_tools tags.  [default: False]
+```
 
 **Import examples**
 
@@ -231,7 +247,7 @@ python -u -m mlflow_tools.export_import.import_experiments \
 
 ```
 python -u -m mlflow_tools.export_import.import_experiment \
-  --experiment-name /Users/me@mycompany.com/imported/SklearnWine
+  --experiment-name /Users/me@mycompany.com/imported/SklearnWine \
   --input-dir exported_experiments/3532228
 ```
 
@@ -245,17 +261,24 @@ In this example we use:
 * Source tracking server runs on port 5000 
 * Destination tracking server runs on 5001
 
-**Options**
+**Usage**
 
-|Name | Required | Default | Description|
-|-----|----------|---------|------------|
-| src-experiment | yes | none | Source experiment name or ID |
-| dst-experiment-name | yes | none | Destination experiment name  - will be created if it does not exist |
-| src-uri | yes | none | Source tracking server URI |
-| dst-uri | yes | none |  Destination tracking server URI |
-| use-src-user-id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
-| export-metadata-tags | no | False | Export mlflow_tools tags |
-| import-metadata-tags | no | False | Import mlflow_tools tags |
+```
+python -m mlflow_tools.export_import.copy_experiment --help
+
+Options:
+
+Options:
+  --src-uri TEXT                  Source MLflow API URI.  [required]
+  --dst-uri TEXT                  Destination MLflow API URI.  [required]
+  --src-experiment TEXT           Source experiment ID or name.  [required]
+  --dst-experiment-name TEXT      Destination experiment name.  [required]
+  --use-src-user-id BOOLEAN       Set the destination user ID to the source
+                                  user ID. Source user ID is ignored when
+                                  importing into Databricks since setting it
+                                  is not allowed.  [default: False]
+  --export-metadata-tags BOOLEAN  Export source run metadata tags.  [default: False]
+```
 
 **Run example**
 ```
@@ -272,20 +295,25 @@ python -u -m mlflow_tools.export_import. copy_experiment \
 
 Export run to directory or zip file.
 
-**Options**
+**Usage**
 
-|Name | Required | Default | Description|
-|-----|----------|---------|------------|
-| run-id | yes | none | Source run ID |
-| output | no | out | Destination directory or zip file |
-| export-metadata-tags | no | False | Export source run metadata tags |
+```
+python -m mlflow_tools.export_import.export_run --help
+
+Options:
+  --run-id TEXT                   Run ID.  [required]
+  --output TEXT                   Output directory or zip file.  [required]
+  --export-metadata-tags BOOLEAN  Export source run metadata tags.  [default: False] 
+  --notebook-formats TEXT         Notebook formats. Values are SOURCE, HTML,
+                                  JUPYTER or DBC.  [default: SOURCE]
+```
+
 
 **Run examples**
 ```
 python -u -m mlflow_tools.export_import.export_run \
   --run-id 50fa90e751eb4b3f9ba9cef0efe8ea30 \
   --output out
-  --export-metadata-tags True
 ```
 ```
 python -u -m mlflow_tools.export_import.export_run \
@@ -307,7 +335,7 @@ Sample run.json
 ```
 {   
   "info": {
-    "run-id": "130bca8d75e54febb2bfa46875a03d59",
+    "run-id": "50fa90e751eb4b3f9ba9cef0efe8ea30",
     "experiment_id": "2",
     ...
   },
@@ -338,14 +366,25 @@ Sample run.json
 
 Imports a run from a directory or zip file.
 
-**Options**
+**Usage**
 
-|Name | Required | Default | Description|
-|-----|----------|---------|------------|
-| experiment-name | yes | none | Destination experiment name  - will be created if it does not exist |
-| input | yes | none | Source directory or zip file produced by export_run.py |
-| use-src-user-id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
+```
+python -m mlflow_tools.export_import.import_run  --help
 
+Options:
+
+  --input TEXT                    Input path - directory or zip file.
+                                  [required]
+
+  --experiment-name TEXT          Destination experiment name.  [required]
+  --use-src-user-id BOOLEAN       Set the destination user ID to the source
+                                  user ID. Source user ID is ignored when
+                                  importing into Databricks since setting it
+                                  is not allowed.  [default: False]
+
+  --import-mlflow-tags BOOLEAN    Import mlflow tags.  [default: True]
+  --import-metadata-tags BOOLEAN  Import mlflow_tools tags.  [default: False]
+```
 
 **Run examples**
 ```
@@ -365,16 +404,25 @@ In this example we use
 * Source tracking server runs on port 5000 
 * Destination tracking server runs on 5001
 
-**Options**
+**Usage**
 
-|Name | Required | Default | Description|
-|-----|----------|---------|------------|
-| src-run-id | yes | none | Source run ID |
-| dst-experiment-name | yes | none | Destination experiment name  - will be created if it does not exist |
-| src-uri | yes | none | Source tracking server URI |
-| dst-uri | yes | none |  Destination tracking server URI |
-| use-src-user-id | no | False | Set the destination user ID to the source user ID. Source user ID is ignored when importing into Databricks since setting it is not allowed. |
-| export-metadata-tags | no | False | Export source run metadata tags |
+```
+Options:
+
+python -m mlflow_tools.export_import.copy_run --help
+
+  --input TEXT                    Input path - directory or zip file.
+                                  [required]
+
+  --experiment-name TEXT          Destination experiment name.  [required]
+  --use-src-user-id BOOLEAN       Set the destination user ID to the source
+                                  user ID. Source user ID is ignored when
+                                  importing into Databricks since setting it
+                                  is not allowed.  [default: False]
+
+  --import-mlflow-tags BOOLEAN    Import mlflow tags.  [default: True]
+  --import-metadata-tags BOOLEAN  Import mlflow_tools tags.  [default: False]
+```
 
 **Run example**
 ```
@@ -395,12 +443,16 @@ Export a registered model to a directory.
 
 Source: [export_model.py](export_model.py).
 
-#### Options
+**Usage**
 
-|Name | Required | Default | Description|
-|-----|----------|---------|------------|
-| model | yes | none | Registered model name |
-|  output-dir | no | out | Destination directory |
+```
+python -m mlflow_tools.export_import.export_model --help
+
+Options:
+
+  --model TEXT       Registered model name.  [required]
+  --output-dir TEXT  Output directory.  [required]
+```
 
 #### Run
 ```
@@ -445,14 +497,24 @@ Import a registered model from a directory.
 
 Source: [import_model.py](import_model.py).
 
-#### Options
+**Usage**
 
-|Name | Required | Default | Description|
-|-----|----------|---------|------------|
-| model | yes | none | Registered model name |
-| experiment-name | yes | none | Destination experiment name  - will be created if it does not exist |
-| input-dir | yes | none | Source directory or zip file produced by export_model.py |
-| delete-model | no | False | First delete the model and all its versions |
+```
+Options:
+
+python -m mlflow_tools.export_import.import_model --help
+
+  --input-dir TEXT        Input directory produced by export_model.py.
+                          [required]
+
+  --model TEXT            New registered model name.  [required]
+  --experiment-name TEXT  Destination experiment name  - will be created if it
+                          does not exist.  [required]
+
+  --delete-model BOOLEAN  First delete the model if it exists and all its
+                          versions.  [default: False]
+```
+
 
 #### Run
 
