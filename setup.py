@@ -1,9 +1,10 @@
 from setuptools import setup
 
-setup(name='mlflow_tools',
-      version='0.0.1',
-      description='MLflow Tools',
-      author='Andre',
+setup(name="mlflow_tools",
+      version="1.0.0",
+      author="Andre M",
+      description="MLflow Tools",
+      url="https://github.com/amesar/mlflow-tools",
       packages=['mlflow_tools',
                 'mlflow_tools.common',
                 'mlflow_tools.tools',
