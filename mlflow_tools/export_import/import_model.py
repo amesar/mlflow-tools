@@ -17,7 +17,7 @@ class ModelImporter():
         self.run_importer = RunImporter(self.client)
         #self.run_importer = RunImporter(client, use_src_user_id=False, import_mlflow_tags=False)
 
-    def import_model(self, input_dir, model_name, experiment_name, delete_model):
+    def import_model(self, input_dir, model_name, experiment_name, delete_model=False):
         path = os.path.join(input_dir,"model.json")
         dct = utils.read_json_file(path)
         dct = dct["registered_model"]
@@ -25,11 +25,14 @@ class ModelImporter():
         print("Model to import:")
         print(f"  Name: {dct['name']}")
         print(f"  Description: {dct.get('description','')}")
+        print(f"  Tags: {dct.get('tags','')}")
         print(f"  {len(dct['latest_versions'])} latest versions")
 
         if delete_model:
             model_utils.delete_model(self.client, model_name)
-        self.client.create_registered_model(model_name)
+
+        tags = { e["key"]:e["value"] for e in dct.get("tags") }
+        self.client.create_registered_model(model_name, tags, dct.get("description"))
         mlflow.set_experiment(experiment_name)
 
         print("Importing latest versions:")
