@@ -1,15 +1,20 @@
-
+import time
 import mlflow
+import mlflow.sklearn
+
 print("Mlflow path:", mlflow.__file__)
 print("MLflow version:", mlflow.__version__)
 
 client = mlflow.tracking.MlflowClient()
-count = 0
+exp_count = 0
+
+def now():
+    return round(time.time())
 
 def create_experiment():
-    global count
-    exp_name = f"test_exp_{count}"
-    count += 1
+    global exp_count
+    exp_name = f"test_exp_{now()}_{exp_count}"
+    exp_count += 1
     mlflow.set_experiment(exp_name)
     exp = client.get_experiment_by_name(exp_name)
     for info in client.list_run_infos(exp.experiment_id):
@@ -37,3 +42,8 @@ def compare_dirs(d1, d2):
                 return False
         return True
     return _compare_dirs(dircmp(d1,d2))
+
+def dump_tags(tags, msg=""):
+    print(f"==== {len(tags)} Tags:",msg)
+    for k,v in tags.items():
+        print(f"  {k}: {v}")

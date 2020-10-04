@@ -1,5 +1,8 @@
 import mlflow
 import os, shutil
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
 from utils_test import create_experiment, compare_dirs
 from mlflow_tools.tools.dump_run import dump_run
 
@@ -16,6 +19,10 @@ output = "out"
 
 def create_simple_run():
     exp = create_experiment()
+    mlflow.sklearn.autolog()
+    X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+    y = np.dot(X, np.array([1, 2])) + 3
+    model = LinearRegression()
     with mlflow.start_run(run_name="my_run") as run:
         mlflow.log_param("p1","0.1")
         mlflow.log_metric("m1", 0.1)
@@ -24,6 +31,7 @@ def create_simple_run():
             f.write("Hi artifact")
         mlflow.log_artifact("info.txt")
         mlflow.log_artifact("info.txt","dir2")
+        model.fit(X, y)
     return exp,run
 
 def init_output_dir():
@@ -34,8 +42,6 @@ def init_output_dir():
     os.makedirs(os.path.join(output,"run2"))
 
 def dump_runs(run1, run2):
-    #print("run1:",run1)
-    #print("run2:",run2)
     print("======= Run1")
     dump_run(run1)
     print("======= Run2")
@@ -150,7 +156,8 @@ def compare_run_no_import_mlflow_tags(run1, run2):
     assert "mlflow.runName" in run1.data.tags
     assert not "mlflow.runName" in run2.data.tags
     run1.data.tags.pop("mlflow.runName")
-    assert run1.data.tags == run2.data.tags
+    #assert run1.data.tags == run2.data.tags
+    compare_tags(run1.data.tags, run2.data.tags)
 
 def compare_run_import_metadata_tags(run1, run2):
     compare_runs_no_tags(run1, run2)
@@ -170,5 +177,9 @@ def compare_runs_no_tags(run1, run2):
 
 def compare_runs(run1, run2):
     compare_runs_no_tags(run1, run2)
-    assert run1.data.tags == run2.data.tags
+    compare_tags(run1.data.tags, run2.data.tags)
 
+def compare_tags(tags1, tags2):
+    tags1 = tags1.copy()
+    tags1.pop("mlflow.log-model.history",None) # sklearn.autolog adds this - TODO to copy it to dst run
+    assert tags1 == tags2
