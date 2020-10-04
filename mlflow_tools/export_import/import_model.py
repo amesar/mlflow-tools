@@ -66,7 +66,7 @@ class ModelImporter():
 @click.option("--experiment-name", help="Destination experiment name  - will be created if it does not exist.", required=True, type=str)
 @click.option("--delete-model", help="First delete the model if it exists and all its versions.", type=bool, default=False, show_default=True)
 
-def main(input_dir, model, experiment_name, delete_model):
+def main(input_dir, model, experiment_name, delete_model): # pragma: no cover
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")

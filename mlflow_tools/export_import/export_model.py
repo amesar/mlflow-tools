@@ -33,7 +33,7 @@ class ModelExporter():
 @click.option("--model", help="Registered model name.", required=True, type=str)
 @click.option("--output-dir", help="Output directory.", required=True, type=str)
 
-def main(model, output_dir):
+def main(model, output_dir): # pragma: no cover
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")

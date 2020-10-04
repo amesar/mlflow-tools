@@ -76,7 +76,7 @@ class RunImporter():
 @click.option("--import-mlflow-tags", help=click_doc.import_mlflow_tags, type=bool, default=True, show_default=True)
 @click.option("--import-metadata-tags", help=click_doc.import_metadata_tags, type=bool, default=False, show_default=True)
 
-def main(input, experiment_name, use_src_user_id, import_mlflow_tags, import_metadata_tags):
+def main(input, experiment_name, use_src_user_id, import_mlflow_tags, import_metadata_tags): # pragma: no cover
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")

@@ -51,7 +51,7 @@ class RunCopier(BaseCopier):
 @click.option("--use-src-user-id", help=click_doc.use_src_user_id, type=bool, default=False, show_default=True)
 @click.option("--export-metadata-tags", help=click_doc.export_metadata_tags, type=bool, default=False, show_default=True)
 
-def main(src_uri, dst_uri, src_run_id, dst_experiment_name, use_src_user_id, export_metadata_tags):
+def main(src_uri, dst_uri, src_run_id, dst_experiment_name, use_src_user_id, export_metadata_tags): # pragma: no cover
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")

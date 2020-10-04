@@ -10,7 +10,7 @@ from .import_experiments import ExperimentImporter
 @click.option("--import-mlflow-tags", help="Import mlflow tags", type=bool, default=True)
 @click.option("--import-metadata-tags", help="Import mlflow_tools tags", type=bool, default=False)
 
-def main(input_dir, experiment_name, just_peek, use_src_user_id, import_mlflow_tags, import_metadata_tags):
+def main(input_dir, experiment_name, just_peek, use_src_user_id, import_mlflow_tags, import_metadata_tags): # pragma: no cover
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")

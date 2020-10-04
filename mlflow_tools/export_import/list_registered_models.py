@@ -12,7 +12,7 @@ resource = "registered-models/list"
 
 @click.command()
 @click.option("--output-dir", help="Output directory.", default=".", type=str)
-def main(output_dir):
+def main(output_dir):  # pragma: no cover
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")

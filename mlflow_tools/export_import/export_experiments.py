@@ -72,7 +72,7 @@ class ExperimentExporter():
 @click.option("--export-metadata-tags", help=click_doc.export_metadata_tags, type=bool, default=False, show_default=True)
 @click.option("--notebook-formats", help=click_doc.notebook_formats, default="SOURCE", show_default=True)
 
-def main(experiments, output_dir, export_metadata_tags, notebook_formats):
+def main(experiments, output_dir, export_metadata_tags, notebook_formats): # pragma: no cover
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
