@@ -19,6 +19,7 @@ Model serving
 * Dump experiment runs as CSV file
 * Find best run of an experiment
 * Dump registered model as JSON or YAML
+* Find matching artifacts
 
 ## Setup 
 

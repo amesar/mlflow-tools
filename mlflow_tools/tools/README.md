@@ -3,12 +3,12 @@
 ## Overview
 
 Some useful tools for MLflow. Run the examples from the root of repository.
-* List all experiments
-* Dump experiment as text
-* Dump run as text
-* Dump experiment runs as CSV file
-* Find best run of an experiment
-* Dump registered model as JSON or YAML
+* [List all experiments](#List-all-experiments)
+* [Dump experiment or run as text](#Dump-experiment-or-run-as-text)
+* [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
+* [Find best run of experiment](#Find-best-run-of-experiment)
+* [Dump registered model as JSON or YAML](#Dump-registered-model-as-JSON-or-YAML)
+* [Find matching artifacts](#Find-matching-artifacts)
 
 ## Setup
 ```
@@ -114,14 +114,14 @@ Runs:
     Total: bytes: 41050 artifacts: 7
 ```
 
-## Dump Experiment Runs to CSV file
+## Dump experiment runs to CSV file
 
 Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv_file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
 ```
 python -m dump_experiment_as_csv --csv_file sklearn.csv
 ```
 
-## Find best run for experiment
+## Find best run of experiment
 
 Find the best run for a metric of an experiment. 
 Default order is descending (max). See [best_run.py](best_run.py).
@@ -280,4 +280,33 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
     }
   }
 }
+```
+
+## Find matching artifacts
+
+Return artifact paths that match specified target filename.
+
+**Example**
+
+```
+python -m mlflow_tools.tools.find_artifacts \
+  --run-id 2cbab69842e4412c99bfb5e15344bc42 \
+  --target MLmodel
+```
+```
+Matches:
+  onnx-model/MLmodel
+  sklearn-model/MLmodel
+```
+
+**Usage**
+```
+python -m mlflow_tools.tools.find_artifacts --help
+
+Options:
+  --run-id TEXT        Run ID.  [required]
+  --path TEXT          Relative artifact path.  [default: ]
+  --target TEXT        Target filename to search for.  [required]
+  --max-level INTEGER  Number of artifact levels to recurse.  [default:
+                       9223372036854775807]
 ```
