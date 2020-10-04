@@ -10,7 +10,7 @@ import mlflow
 client = mlflow.tracking.MlflowClient()
 print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
-def find_artifacts(run_id, path, target, max_level):
+def find_artifacts(run_id, path, target, max_level=sys.maxsize):
     return _find_artifacts(run_id, path, target, max_level, 0, [])
 
 def _find_artifacts(run_id, path, target, max_level, level, matches):
