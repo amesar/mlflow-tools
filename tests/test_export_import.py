@@ -3,7 +3,7 @@ import os, shutil
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
-from utils_test import create_experiment, compare_dirs
+from utils_test import create_experiment, compare_dirs, dump_tags
 from mlflow_tools.tools.dump_run import dump_run
 
 from mlflow_tools.export_import.export_run import RunExporter
@@ -16,6 +16,7 @@ from mlflow_tools.export_import.copy_experiment import ExperimentCopier
 
 client = mlflow.tracking.MlflowClient()
 output = "out"
+mlmodel_fix = False 
 
 def create_simple_run():
     exp = create_experiment()
@@ -64,15 +65,15 @@ def init_run_test(exporter, importer, verbose=False):
     return run1, run2
 
 def test_run_basic():
-    run1, run2 = init_run_test(RunExporter(), RunImporter())
+    run1, run2 = init_run_test(RunExporter(), RunImporter(mlmodel_fix=mlmodel_fix))
     compare_runs(run1, run2)
 
 def test_run_no_import_mlflow_tags():
-    run1, run2 = init_run_test(RunExporter(), RunImporter(import_mlflow_tags=False))
+    run1, run2 = init_run_test(RunExporter(), RunImporter(mlmodel_fix=mlmodel_fix, import_mlflow_tags=False))
     compare_run_no_import_mlflow_tags(run1, run2)
 
 def test_run_import_metadata_tags():
-    run1, run2 = init_run_test(RunExporter(export_metadata_tags=True), RunImporter(import_metadata_tags=True), verbose=False)
+    run1, run2 = init_run_test(RunExporter(export_metadata_tags=True), RunImporter(mlmodel_fix=mlmodel_fix, import_metadata_tags=True), verbose=False)
     compare_run_import_metadata_tags(run1, run2)
 
 # == Export/import Experiment tests
@@ -156,10 +157,11 @@ def compare_run_no_import_mlflow_tags(run1, run2):
     assert "mlflow.runName" in run1.data.tags
     assert not "mlflow.runName" in run2.data.tags
     run1.data.tags.pop("mlflow.runName")
-    #assert run1.data.tags == run2.data.tags
     compare_tags(run1.data.tags, run2.data.tags)
 
 def compare_run_import_metadata_tags(run1, run2):
+    #dump_tags(run1.data.tags,"Run1")
+    #dump_tags(run2.data.tags,"Run2")
     compare_runs_no_tags(run1, run2)
     metadata_tags = { k:v for k,v in run2.data.tags.items() if k.startswith("mlflow_tools.metadata") }
     assert len(metadata_tags) > 0
@@ -181,5 +183,5 @@ def compare_runs(run1, run2):
 
 def compare_tags(tags1, tags2):
     tags1 = tags1.copy()
-    tags1.pop("mlflow.log-model.history",None) # sklearn.autolog adds this - TODO to copy it to dst run
+    tags1.pop("mlflow.log-model.history",None) # sklearn.autolog adds this. TODO: Semantics? To copy this tag to dst run maybe and tweak run ID?
     assert tags1 == tags2

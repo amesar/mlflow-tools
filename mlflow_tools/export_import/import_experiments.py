@@ -13,7 +13,7 @@ from . import utils, click_doc
 class ExperimentImporter():
     def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=True, import_metadata_tags=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
-        self.run_importer = RunImporter(self.client, use_src_user_id, import_mlflow_tags, import_metadata_tags)
+        self.run_importer = RunImporter(self.client, use_src_user_id=use_src_user_id, import_mlflow_tags=import_mlflow_tags, import_metadata_tags=import_metadata_tags)
         print("MLflowClient:",self.client)
 
     def import_experiment(self, exp_name, input):

@@ -45,5 +45,6 @@ def compare_dirs(d1, d2):
 
 def dump_tags(tags, msg=""):
     print(f"==== {len(tags)} Tags:",msg)
+    tags = dict(sorted(tags.items()))
     for k,v in tags.items():
         print(f"  {k}: {v}")

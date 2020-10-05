@@ -4,14 +4,19 @@ Imports a run from a directory of zip file.
 
 import os
 import time
+import yaml
 import click
 import mlflow
+from mlflow.utils.file_utils import TempDir
+
 from mlflow_tools.export_import import utils, click_doc
 from mlflow_tools.export_import import mk_local_path
+from mlflow_tools.tools.find_artifacts import find_artifacts
 
 class RunImporter():
-    def __init__(self, mlflow_client=None, use_src_user_id=False, import_mlflow_tags=True, import_metadata_tags=False):
+    def __init__(self, mlflow_client=None, mlmodel_fix=True, use_src_user_id=False, import_mlflow_tags=True, import_metadata_tags=False):
         self.client = mlflow_client or mlflow.tracking.MlflowClient()
+        self.mlmodel_fix = mlmodel_fix
         self.use_src_user_id = use_src_user_id
         self.import_mlflow_tags = import_mlflow_tags
         self.import_metadata_tags = import_metadata_tags
@@ -42,7 +47,24 @@ class RunImporter():
             self.import_run_data(src_run_dct, run_id, src_run_dct["info"]["user_id"])
             path = os.path.join(src_run_id,"artifacts")
             mlflow.log_artifacts(mk_local_path(path))
+        if self.mlmodel_fix:
+            self.fix_dst_mlmodel_(run.info.run_id)
         return (run_id, src_run_dct["tags"].get(utils.TAG_PARENT_ID,None))
+
+    # Hacky expensive way to fix the run_id in the destination MLmodel file since there is no API to get all model artifacts of a run.
+    def fix_dst_mlmodel_(self, run_id):
+        mlmodel_paths = find_artifacts(run_id, "", "MLmodel")
+        for mlmodel_path in mlmodel_paths:
+            local_path = self.client.download_artifacts(run_id, mlmodel_path)
+            with open(local_path, "r") as f:
+                dct = yaml.load(f)
+            #print(f"MLmodel run_id: {dct['run_id']}  artifact: {mlmodel_path}")
+            dct["run_id"] = run_id
+            with TempDir() as tmp:
+                new_local_path = os.path.join(tmp.path(),"MLmodel")
+                with open(new_local_path, "w") as f:
+                    yaml.dump(dct,f)
+
 
     def dump_tags(self, tags, msg=""):
         print(f"Tags {msg} - {len(tags)}:")
@@ -72,15 +94,16 @@ class RunImporter():
 @click.command()
 @click.option("--input", help="Input path - directory or zip file.", required=True, type=str)
 @click.option("--experiment-name", help="Destination experiment name.", required=True, type=str)
+@click.option("--mlmodel-fix", help="Add correct run ID in destination MLmodel artifact. Can be expensive for deeply nested artifacts.", type=bool, default=True, show_default=True)
 @click.option("--use-src-user-id", help=click_doc.use_src_user_id, type=bool, default=False, show_default=True)
 @click.option("--import-mlflow-tags", help=click_doc.import_mlflow_tags, type=bool, default=True, show_default=True)
 @click.option("--import-metadata-tags", help=click_doc.import_metadata_tags, type=bool, default=False, show_default=True)
 
-def main(input, experiment_name, use_src_user_id, import_mlflow_tags, import_metadata_tags): # pragma: no cover
+def main(input, experiment_name, mlmodel_fix, use_src_user_id, import_mlflow_tags, import_metadata_tags): # pragma: no cover
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
-    importer = RunImporter(None,use_src_user_id, import_mlflow_tags, import_metadata_tags)
+    importer = RunImporter(None, mlmodel_fix, use_src_user_id, import_mlflow_tags, import_metadata_tags)
     importer.import_run(experiment_name, input)
 
 if __name__ == "__main__":
