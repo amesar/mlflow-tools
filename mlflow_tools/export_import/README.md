@@ -2,6 +2,10 @@
 
 Tools to export and import MLflow runs, experiments or registered models from one tracking server to another.
 
+## Architecture
+
+<img src="export_import_architecture.png" height="220" >
+
 ## Overview
 
 ### Experiments
@@ -377,6 +381,10 @@ Options:
                                   [required]
 
   --experiment-name TEXT          Destination experiment name.  [required]
+  --mlmodel-fix BOOLEAN           Add correct run ID in destination MLmodel
+                                  artifact. Can be expensive for deeply nested
+                                  artifacts.  [default: True]
+
   --use-src-user-id BOOLEAN       Set the destination user ID to the source
                                   user ID. Source user ID is ignored when
                                   importing into Databricks since setting it
