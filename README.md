@@ -26,8 +26,8 @@ Model serving
 **Conda environment**
 
 ```
-conda env create conda.yaml
-source activate mlflow-tools
+conda env create --file conda.yaml
+conda activate mlflow-tools
 ```
 
 **Build Wheel**
