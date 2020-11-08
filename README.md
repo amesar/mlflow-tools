@@ -4,11 +4,6 @@ Some useful tools for MLflow.
 
 ## Overview
 
-[Export and import](mlflow_tools/export_import/README.md)
-* Export run, experiment or registered model to a directory.
-* Import run, experiment or registered model from a directory.
-* Copy run or experiment from one MLflow tracking server to another.
-
 Model serving
   * [Serve MLflow Keras model with TensorFlow Serving](mlflow_tools/tensorflow_serving)
 
