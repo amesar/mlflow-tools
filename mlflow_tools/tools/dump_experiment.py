@@ -25,12 +25,15 @@ def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data):
         print("  #runs:",len(infos))
         #dump_runs(infos, artifact_max_level)
         print("Runs:")
+        total_bytes = 0
         for j,info in enumerate(infos):
             print("  Run {}/{}:".format(j+1,len(infos)))
             if show_data:
-                dump_run_id(info.run_uuid, artifact_max_level, indent="    ")
+                run, num_bytes, num_artifacts = dump_run_id(info.run_uuid, artifact_max_level, indent="    ")
             else:
-                dump_run_info(info, indent="    ")
+                run, num_bytes, num_artifacts = dump_run_info(info, indent="    ")
+            total_bytes += num_bytes
+        print("Total experiment bytes:",total_bytes)
 
 def dump_experiment_details(exp):
     print("Experiment Details:")
