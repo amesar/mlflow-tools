@@ -4,9 +4,6 @@ Some useful tools for MLflow.
 
 ## Overview
 
-Model serving
-  * [Serve MLflow Keras model with TensorFlow Serving](mlflow_tools/tensorflow_serving)
-
 [Tools](mlflow_tools/tools/README.md) - Basic tools
 * List all experiments
 * Dump experiment as text

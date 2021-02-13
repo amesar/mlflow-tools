@@ -1,4 +1,9 @@
+# <span style="color:red"> Deprecated</span>
+
+## See: https://github.com/amesar/mlflow-tensorflow-serving
+  
 # Serve MLflow Keras model with TensorFlow Serving
+
 
 Creates a [TensorFlow Serving](https://www.tensorflow.org/tfx/guide/serving) Docker container with an embedded MLflow Keras TensorFlow 2 model.
 
