@@ -1,6 +1,6 @@
 import mlflow
 from mlflow_tools.tools.best_run import get_best_run
-from utils_test import create_experiment
+from . utils_test import create_experiment
 
 def create_runs():
     exp = create_experiment()
