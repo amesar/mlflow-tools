@@ -1,10 +1,11 @@
 """
 Save run details for MLflow rate limited exceptions and replay later.
 
-* Designed for recoverable errors such HTTP 429 (Too Many Requests).
-* When you create MLflow runs in a UDF and overwhelm the Databricks MLflow tracking server with concurrently requests.
-* Saves run details for failed runs
-  * Saves params, metrics, tags, model, model name, artifacts and run name.
+* Designed for a rate limited MLflow tracking server that is returning an HTTP 429 (Too Many Requests) code.
+  * Designed for recoverable errors where you can safely retry and expect to succeed.
+* Best suited for UDFs when you create MLflow runs in the UDF and overwhelm the Databricks MLflow tracking server with concurrent requests.
+* Upon a 429, saves run details for failed runs.
+  * Saves params, metrics, tags, model, (model name, log_model function), artifacts and run name.
   * Run details are saved in a pickle file.
 * Replay the saved run details and create MLflow runs.
 """
