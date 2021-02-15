@@ -19,8 +19,9 @@ Save run details for MLflow rate limited exceptions and replay later.
 def train(degree, replay_dir):
    ...
    model = svm.SVC(degree=degree, kernel="rbf")
-   with open("pickled_prophet.pkl","wb") as f:
-       pickle.dump(model,f)
+   ...
+   with open("myartifact.txt","wb") as f:
+       f.write("Hello artifact\n")
    params = { "degree": str(degree) }
    metrics = { "accuracy": 0.91 }
    # Only put mlflow calls in the try
