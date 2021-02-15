@@ -9,6 +9,5 @@ source activate mlflow-tools-tests
   
 ## Run tests
 ```
-export PYTHONPATH=..
-pytest -s -v test*.py
+find . -name "test*.py" | pytest -s -v
 ```
