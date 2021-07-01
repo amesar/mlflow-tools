@@ -4,6 +4,6 @@ channels:
 dependencies:
 - python=3.7.6
 - pip:
-    - mlflow>=1.13.1
+    - mlflow>=1.18.0
     - pytest==5.3.5
     - cloudpickle==1.6.0
