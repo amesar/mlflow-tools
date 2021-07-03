@@ -6,8 +6,7 @@ import json
 import yaml
 from mlflow_tools.common.http_client import HttpClient,MlflowHttpClient
 
-client1 = MlflowHttpClient()
-client2 = HttpClient("api/2.0/preview/mlflow")
+client = MlflowHttpClient()
 
 def _dump_dct(dct, format):
     if format == "yaml":
@@ -16,9 +15,9 @@ def _dump_dct(dct, format):
         print(json.dumps(dct,indent=2))
 
 def dump(model_name, format, show_runs):
-    model = client2.get(f"registered-models/get?name={model_name}")
+    model = client.get(f"registered-models/get?name={model_name}")
     if show_runs:
-        runs = { x['version']:client1.get(f"runs/get?run_id={x['run_id']}")['run'] for x in model["registered_model"]["latest_versions"] }
+        runs = { x['version']:client.get(f"runs/get?run_id={x['run_id']}")['run'] for x in model["registered_model"]["latest_versions"] }
         dct = { "model": model, "version_runs": runs }
         _dump_dct(dct, format)
     else:
@@ -34,5 +33,4 @@ if __name__ == "__main__":
     print("Options:")
     for arg in vars(args):
         print("  {}: {}".format(arg,getattr(args, arg)))
-    print(f"  {arg}: {getattr(args, arg)}")
     dump(args.model, args.format, args.show_runs)
