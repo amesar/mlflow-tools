@@ -16,6 +16,17 @@ Some useful tools for MLflow.
 Advanced Tools
 * [Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.
 
+MLflow Spark UDF Workaound
+* Problem
+  * Currently you cannot load a SparkML model as a UDF with MLflow due to named column bug.
+  * Error message: pyspark.sql.utils.IllegalArgumentException: sepal_length does not exist. Available: 0, 1, 2, 3
+  * [mlflow git issue 4131](https://github.com/mlflow/mlflow/issues/4131) - Spark UDF throws IllegalArgumentException
+* Solution
+  * There is a workaround that leverages a custom PythonModel wrapper.
+  * Wrapper: [sparkml_udf_workaround.py](mlflow_tools/spark/sparkml_udf_workaround.py)
+  * Usage: [test_sparkml_udf_workaround.py](tests/spark/test_sparkml_udf_workaround.py)
+
+
 ## Setup 
 
 **Conda environment**
