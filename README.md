@@ -4,7 +4,8 @@ Some useful tools for MLflow.
 
 ## Overview
 
-[Basic Tools](mlflow_tools/tools/README.md)
+### Basic Tools
+ [Basic Tools README](mlflow_tools/tools/README.md)
 * List all experiments
 * Dump experiment as text
 * Dump run as text
@@ -13,10 +14,10 @@ Some useful tools for MLflow.
 * Dump registered model as JSON or YAML
 * Find matching artifacts
 
-Advanced Tools
+### Advanced Tools
 * [Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.
 
-MLflow Spark UDF Workaound
+### MLflow Spark UDF Workaound
 * Problem
   * Currently you cannot load a SparkML model as a UDF with MLflow due to named column bug.
   * Error message: pyspark.sql.utils.IllegalArgumentException: sepal_length does not exist. Available: 0, 1, 2, 3
@@ -28,6 +29,12 @@ MLflow Spark UDF Workaound
 
 
 ## Setup 
+
+```
+python -m venv mlflow-tools-env
+source mlflow-tools-env/bin/activate
+pip install -e .
+```
 
 **Conda environment**
 

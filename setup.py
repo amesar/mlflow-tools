@@ -6,4 +6,9 @@ setup(name="mlflow_tools",
       description="MLflow Tools",
       url="https://github.com/amesar/mlflow-tools",
       packages=find_packages(),
-      zip_safe=False)
+      zip_safe=False,
+      install_requires=[
+          "mlflow>=1.19.0",
+          "pytest==5.3.5",
+          "wheel"
+      ])
