@@ -8,6 +8,7 @@ class UdfModelWrapper(mlflow.pyfunc.PythonModel):
     def __init__(self, ordered_df_columns, model_artifact):
         self.ordered_df_columns = ordered_df_columns
         self.model_artifact = model_artifact
+        self.spark_pyfunc = None
 
     def load_context(self, context):
         import mlflow.pyfunc
@@ -34,5 +35,5 @@ def log_udf_model(run_id, artifact_path, ordered_columns, model_name=None):
     return udf_artifact_path
 
 def log_spark_and_udf_models(model, artifact_path, run_id, ordered_columns):   
-  mlflow.spark.log_model(model, artifact_path)
-  return log_udf_model(artifact_path, ordered_columns, run_id)
+    mlflow.spark.log_model(model, artifact_path)
+    return log_udf_model(artifact_path, ordered_columns, run_id)
