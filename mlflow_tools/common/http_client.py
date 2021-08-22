@@ -1,14 +1,17 @@
-import os, json, requests
-from mlflow_tools.common import mlflow_utils
-from mlflow_tools.common import MlflowToolsException
+import os
+import json
+import requests
+from mlflow_export_import.common import mlflow_utils
+from mlflow_export_import.common import MlflowExportImportException
 
-""" Wrapper for get and post methods for Databricks REST APIs. """
 class HttpClient():
+    """ Wrapper for get and post methods for Databricks REST APIs. """
     def __init__(self, api_name, host=None, token=None):
+        self.api_uri = "?"
         if host is None:
             (host,token) = mlflow_utils.get_mlflow_host_token()
             if host is None:
-                raise MlflowToolsException("MLflow host or token is not configured correctly")
+                raise MlflowExportImportException("MLflow host or token is not configured correctly")
         self.api_uri = os.path.join(host,api_name)
         self.token = token
 
@@ -43,7 +46,7 @@ class HttpClient():
 
     def _check_response(self, rsp, uri):
         if rsp.status_code < 200 or rsp.status_code > 299:
-            raise MlflowToolsException(f"HTTP status code: {rsp.status_code}. Reason: {rsp.reason} URL: {uri}")
+            raise MlflowExportImportException(f"HTTP status code: {rsp.status_code}. Reason: {rsp.reason} URL: {uri}")
 
     def __repr__(self): 
         return self.api_uri
