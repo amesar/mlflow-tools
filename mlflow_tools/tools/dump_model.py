@@ -4,7 +4,7 @@ Dump a registered model in JSON or YAML.
 
 import json
 import yaml
-from mlflow_tools.common.http_client import HttpClient,MlflowHttpClient
+from mlflow_tools.common.http_client import MlflowHttpClient
 
 client = MlflowHttpClient()
 

@@ -15,7 +15,7 @@ print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data):
     exp = mlflow_utils.get_experiment(client, exp_id_or_name)
     if exp is None:
-         raise Exception("Cannot find experiment {} '{}'".format(which,exp_id_or_name))
+        raise Exception("Cannot find experiment '{exp_id_or_name}'")
     exp_id = exp.experiment_id
     print("experiment_id:",exp_id)
     dump_experiment_details(exp)
@@ -29,9 +29,9 @@ def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data):
         for j,info in enumerate(infos):
             print("  Run {}/{}:".format(j+1,len(infos)))
             if show_data:
-                run, num_bytes, num_artifacts = dump_run_id(info.run_uuid, artifact_max_level, indent="    ")
+                _, num_bytes, _ = dump_run_id(info.run_uuid, artifact_max_level, indent="    ")
             else:
-                run, num_bytes, num_artifacts = dump_run_info(info, indent="    ")
+                _, num_bytes, _ = dump_run_info(info, indent="    ")
             total_bytes += num_bytes
         print("Total experiment bytes:",total_bytes)
 
