@@ -3,6 +3,7 @@ Replace a non-file MLflow URI (models: or runs: scheme) with the downloaded file
 """
 
 import os
+import shutil
 import json
 import click
 from mlflow_tools.common.model_download_utils import download_model
@@ -19,12 +20,16 @@ def main(model_settings_path, output_dir):
         dct = json.loads(f.read())
     model_uri = dct["parameters"]["uri"]
     print("model_uri:",model_uri)
-    local_model_path = download_model(model_uri, output_dir)
-    print("local_model_path:",local_model_path)
 
-    dct["parameters"]["uri"] = local_model_path
-    with open("model-settings.json", "w") as f:
-        f.write(json.dumps(dct,indent=4)+"\n")
+    if model_uri.startswith("runs") or model_uri.startswith("models"):
+        model_path = download_model(model_uri, output_dir)
+        print("model_path:",model_path)
+        dct["parameters"]["uri"] = model_path
+        with open("model-settings.json", "w") as f:
+            f.write(json.dumps(dct,indent=4)+"\n")
+    else:
+        model_path = model_uri
+        shutil.copyfile(model_settings_path, "model-settings.json")
 
 if __name__ == "__main__":
     main()
