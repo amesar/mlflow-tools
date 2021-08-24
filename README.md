@@ -13,6 +13,7 @@ Some useful tools for MLflow.
 * Find best run of an experiment
 * Dump registered model as JSON or YAML
 * Find matching artifacts
+* Download model artifacts.
 
 ### Advanced Tools
 * [Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.

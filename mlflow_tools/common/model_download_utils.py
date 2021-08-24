@@ -8,7 +8,6 @@ Nomenclature:
 - See: https://mlflow.org/docs/latest/tracking.html#artifact-stores.
 """
 
-import sys
 import mlflow
 client = mlflow.tracking.MlflowClient()
 print("MLflow Version:", mlflow.__version__)
@@ -25,6 +24,7 @@ def download_model(model_uri, output_dir):
     """
     if model_uri.startswith("runs") or model_uri.startswith("models"):
         run_id, path = get_run_id_and_model_relative_path(model_uri)
+        print("run_id:",run_id)
         artifact_path = client.download_artifacts(run_id, path, dst_path=output_dir)
     else:
         artifact_path = model_uri
@@ -49,7 +49,6 @@ def get_run_id_and_model_relative_path(model_uri):
             v = client.get_model_version(model_name, version_or_stage)
         else:
             versions = client.get_latest_versions(model_name, [version_or_stage])
-            #print("#versions:",len(versions))
             if len(versions) == 0:
                 raise Exception(f"No '{version_or_stage}' stage for model '{model_name}'")
             v = versions[0]
@@ -86,6 +85,3 @@ def get_relative_model_path(absolute_model_path, run_id):
     if relative_model_path.startswith("artifacts/"): # Bizarre - sometimes there is no 'artifacts' after run_id
         relative_model_path = relative_model_path.replace("artifacts/","")
     return relative_model_path
-
-if __name__ == "__main__":
-    download_model(sys.argv[1])

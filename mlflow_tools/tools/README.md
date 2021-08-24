@@ -9,6 +9,7 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * [Find best run of experiment](#Find-best-run-of-experiment)
 * [Dump registered model as JSON or YAML](#Dump-registered-model-as-JSON-or-YAML)
 * [Find matching artifacts](#Find-matching-artifacts)
+* [Download model artifacts](#Download-model-artifacts)
 
 ## Setup
 ```
@@ -309,4 +310,29 @@ Options:
   --target TEXT        Target filename to search for.  [required]
   --max-level INTEGER  Number of artifact levels to recurse.  [default:
                        9223372036854775807]
+```
+
+## Download model artifacts
+
+Download the model artifacts associated with a model URI.
+
+```
+python -m mlflow_tools.tools.download_model \
+   --model-uri models:/sklearn_wine
+   --output-dir /tmp/my-model
+```
+
+```
+python -m mlflow_tools.tools.download_model \
+   --model-uri runs:/18f6b9a2f72f44de8bb9591d163c6754/sklearn-model \
+   --output-dir /tmp/my-model
+```
+
+/tmp/my-model
+```
++-sklearn-model/
+  +-requirements.txt
+  +-model.pkl
+  +-conda.yaml
+  +-MLmodel
 ```
