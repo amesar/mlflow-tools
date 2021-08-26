@@ -5,10 +5,26 @@ Dump a registered model in JSON or YAML.
 import json
 import yaml
 from mlflow_tools.common.http_client import MlflowHttpClient
+from . import format_dt
 
 client = MlflowHttpClient()
 
+def _format_dt(dct, key):
+    v = dct.get(key,None)
+    if v: 
+        dct[f"_{key}"] = format_dt(int(v))
+
+def _preprocess(dct):
+    dct =  dct["registered_model"]
+    _format_dt(dct, "creation_timestamp")
+    _format_dt(dct, "last_updated_timestamp")
+
+    for v in dct["latest_versions"]:
+        _format_dt(v, "creation_timestamp")
+        _format_dt(v, "last_updated_timestamp")
+
 def _dump_dct(dct, format):
+    _preprocess(dct)
     if format == "yaml":
         print(yaml.safe_dump(dct))
     else:
