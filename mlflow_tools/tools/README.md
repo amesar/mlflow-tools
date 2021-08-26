@@ -169,6 +169,17 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine
   }
 }
 ```
+**Usage**
+
+```
+python -m mlflow_tools.tools.dump_model --help
+
+Options:
+  --model MODEL      Registered model name
+  --format FORMAT    Format: json|yaml
+  --show_runs        Show run details
+  --format_datetime  Show human-readable datetime formats
+```
 
 ### Dump registered model with run details
 ```
@@ -287,6 +298,13 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
 ```
 python -m mlflow_tools.tools.delete_model --model sklearn_wine
 ```
+**Usage**
+```
+python -m mlflow_tools.tools.delete_model --help
+
+Options:
+  --model MODEL  Registered model name
+```
 
 ## Find matching artifacts
 
@@ -343,6 +361,12 @@ python -m mlflow_tools.tools.download_model \
   +-MLmodel
 ```
 
+**Usage**
+```
+python -m mlflow_tools.tools.download_model --help
 
-
-Download the model artifacts associated with a model URI.
+Options:
+  --model-uri TEXT   Model URI  [required]
+  --output-dir TEXT  Output directory for downloaded model  [required]
+  --help             Show this message and exit.
+```
