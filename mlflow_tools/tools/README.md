@@ -283,6 +283,11 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
 }
 ```
 
+## Delete registered model 
+```
+python -m mlflow_tools.tools.delete_model --model sklearn_wine
+```
+
 ## Find matching artifacts
 
 Return artifact paths that match specified target filename.
@@ -312,6 +317,7 @@ Options:
                        9223372036854775807]
 ```
 
+
 ## Download model artifacts
 
 Download the model artifacts associated with a model URI.
@@ -336,3 +342,7 @@ python -m mlflow_tools.tools.download_model \
   +-conda.yaml
   +-MLmodel
 ```
+
+
+
+Download the model artifacts associated with a model URI.

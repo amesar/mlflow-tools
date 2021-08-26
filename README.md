@@ -12,6 +12,7 @@ Some useful tools for MLflow.
 * Dump experiment runs as CSV file
 * Find best run of an experiment
 * Dump registered model as JSON or YAML
+* Delete registered model.
 * Find matching artifacts
 * Download model artifacts.
 
