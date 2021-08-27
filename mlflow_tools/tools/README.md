@@ -207,30 +207,14 @@ Options:
 Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv_file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
 ```
 python -m mlflow_tools.tools.dump_experiment_as_csv \
-  --experiment_id_or_name sklearn \
-  --csv_file sklearn.csv
+  --experiment-id-or-name sklearn \
+  --csv-file sklearn.csv
 ```
 
-## Find best run of experiment
 
-Find the best run for a metric of an experiment. 
-Default order is descending (max). See [best_run.py](best_run.py).
+## Dump registered model
 
-Displays the run ID and best metric value.
-
-```
-python -m mlflow_tools.tools.best_run --experiment_id 2 --metric rmse --ascending 
-```
-```
-Best run:
-  run_id: 7890e3ec549442ebae453394ea7dd1ea
-  rmse: 0.8829449794492825
-
-```
-
-## Dump registered model as JSON or YAML
-
-Dumps a registered model and optionally the run details of each of its versions.
+Dumps a registered model (as JSON and YAML) and optionally the run details of each of its versions.
 See [dump_model.py](dump_model.py).
 
 ### Dump only registered model
@@ -383,6 +367,34 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
 }
 ```
 
+## Find best run of experiment
+
+Find the best run for a metric of an experiment. 
+Default order is descending (max). See [best_run.py](best_run.py).
+
+Displays the run ID and best metric value.
+
+```
+python -m mlflow_tools.tools.best_run --experiment-id-or-nam 2 --metric rmse --ascending True
+```
+```
+Best run:
+  run_id: 7890e3ec549442ebae453394ea7dd1ea
+  rmse: 0.8829449794492825
+```
+
+**Usage**
+
+```
+python -m mlflow_tools.tools.best_run --help
+
+Options:
+  --experiment-id-or-name TEXT  Experiment ID or name.  [required]
+  --metric TEXT                 Metric.  [required]
+  --ascending BOOLEAN           Sort ascending.  [default: False]
+  --ignore-nested-runs BOOLEAN  Ignore_nested_runs.  [default: False]
+```
+
 ## Delete registered model 
 ```
 python -m mlflow_tools.tools.delete_model --model sklearn_wine
@@ -420,8 +432,7 @@ Options:
   --run-id TEXT        Run ID.  [required]
   --path TEXT          Relative artifact path.  [default: ]
   --target TEXT        Target filename to search for.  [required]
-  --max-level INTEGER  Number of artifact levels to recurse.  [default:
-                       9223372036854775807]
+  --max-level INTEGER  Number of artifact levels to recurse.  [default: 9223372036854775807]
 ```
 
 

@@ -1,4 +1,6 @@
+""" Dump experiment runs as CSV """
 
+import click
 import mlflow
 from tabulate import tabulate
 from ..common import mlflow_utils
@@ -16,13 +18,13 @@ def dump_experiment(experiment_id_or_name, csv_file):
     with open(csv_file, "w") as f:
         pdf.to_csv(f, index=False)
 
+@click.command()
+@click.option("--experiment-id-or-name", help="Experiment ID or name", required=True)
+@click.option("--csv-file", help="Output CSV file", default=None, type=str)
+def main(experiment_id_or_name, csv_file):
+    print("Options:")
+    for k,v in locals().items(): print(f"  {k}: {v}")
+    dump_experiment(experiment_id_or_name, csv_file)
+
 if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--experiment_id_or_name", dest="experiment_id_or_name", help="Experiment ID or name", required=True)
-    parser.add_argument("--csv_file", dest="csv_file", help="csv_file", default=None, required=False)
-    args = parser.parse_args()
-    print("Arguments:")
-    for arg in vars(args):
-        print(f"  {arg}: {getattr(args, arg)}")
-    dump_experiment(args.experiment_id_or_name, args.csv_file)
+    main()

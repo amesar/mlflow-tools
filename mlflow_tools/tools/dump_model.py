@@ -4,6 +4,7 @@ Dump a registered model in JSON or YAML.
 
 import json
 import yaml
+import click
 from mlflow_tools.common.http_client import MlflowHttpClient
 from . import format_dt
 
@@ -40,15 +41,15 @@ def dump(model_name, format, show_runs, format_datetime):
     else:
         _dump_dct(model, format, format_datetime)
 
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--model", dest="model", help="Registered model name", required=True)
-    parser.add_argument("--format", dest="format", help="Format: json|yaml", default="json")
-    parser.add_argument("--show_runs", dest="show_runs", help="Show run details", default=False, action='store_true')
-    parser.add_argument("--format_datetime", dest="format_datetime", help="Show human-readable datetime formats", default=False, action='store_true')
-    args = parser.parse_args()
+@click.command()
+@click.option("--format", help="Output format: json|yaml", default="name")
+@click.option("--model", help="Registered model name", required=True, type=str)
+@click.option("--show-runs", help="Show run details", type=bool, default=False, show_default=False)
+@click.option("--format-datetime", help="Show human-readable datetime formats", type=bool, default=False, show_default=False)
+def main(model, show_runs, format, format_datetime):
     print("Options:")
-    for arg in vars(args):
-        print("  {}: {}".format(arg,getattr(args, arg)))
-    dump(args.model, args.format, args.show_runs, args.format_datetime)
+    for k,v in locals().items(): print(f"  {k}: {v}")
+    dump(model, format, show_runs, format_datetime)
+
+if __name__ == "__main__":
+    main()
