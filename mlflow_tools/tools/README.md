@@ -4,10 +4,10 @@
 
 Some useful tools for MLflow. Run the examples from the root of repository.
 * [List all experiments](#List-all-experiments)
-* [Dump experiment or run as text](#Dump-experiment-or-run-as-text)
-* [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
-* [Find best run of experiment](#Find-best-run-of-experiment)
+* [Dump run](#Dump-run)
+* [Dump experiment](#Dump-experimentt) - [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
 * [Dump registered model as JSON or YAML](#Dump-registered-model-as-JSON-or-YAML)
+* [Find best run of experiment](#Find-best-run-of-experiment)
 * [Find matching artifacts](#Find-matching-artifacts)
 * [Download model artifacts](#Download-model-artifacts)
 
@@ -35,91 +35,180 @@ python -m mlflow_tools.tools.list_experiments --csv_file my_experiments.csv
 +----+-----------------+------------------+
 ```
 
-## Dump experiment or run as text
-Dumps all experiment or run information recursively.
+## Dump run
 
-### Overview
-* [dump_experiment.py](dump_experiment.py) - Dumps experiment information.
-  * If `showInfo` is true, then just the run infos will be dumped.
-  * If `showData` is true, then an API call for each run will be executed. Beware of experiments with many runs.
-* [dump_run.py](dump_run.py) - Dumps run information.
-  * Shows info, params, metrics and tags.
-  * Recursively shows all artifacts up to the specified level.
+Dumps run information.
+* [dump_run.py](dump_run.py).
+* Shows info, params, metrics and tags.
+* Recursively shows all artifacts up to the specified level.
 * A large value for `artifact_max_level` will execute many API calls.
+* If `show-info` is true, then just the run infos will be dumped.
+* If `show-data` is true, then an API call for each run will be executed. Beware of experiments with many runs.
+* Samples:
+  [run.json](../../samples/oss_mlflow/run.json), 
+  [run.yaml](../../samples/oss_mlflow/run.yaml)
+  and [run.txt](../../samples/oss_mlflow/run.txt).
 
-### Run dump tools
+**Example**
+
+
 ```
-python -m mlflow_tools.tools.dump_run --run_id 2cbab69842e4412c99bfb5e15344bc42 --artifact_max_level 5 
+python -m mlflow_tools.tools.dump_run --run-id 4af184e8527a4f4a8fc563386807acb2 \
+  --artifact-max-level 5 \
+  --format yaml \
+  --explode-json-string True
 ```
-  
 ```
-python -m mlflow_tools.tools.dump_experiment --experiment_id 1812 --show_info --show_data  --artifact_max_level 5
+summary:
+  artifacts: 9
+  artifact_bytes: 33319
+  params: 2
+  metrics: 3
+  tags: 18
+run:
+  info:
+    run_uuid: 4af184e8527a4f4a8fc563386807acb2
+    experiment_id: '1'
+    user_id: andre
+    status: FINISHED
+    start_time: '1629947182813'
+    end_time: '1629947184041'
+    artifact_uri: /opt/mlflow/server/mlruns/1/4af184e8527a4f4a8fc563386807acb2/artifacts
+    lifecycle_stage: active
+    run_id: 4af184e8527a4f4a8fc563386807acb2
+    _start_time: '2021-08-26 03:06:22'
+    _end_time: '2021-08-26 03:06:24'
+    _duration: 1.228
+  data:
+    metrics:
+    - key: rmse
+      value: 0.7367947360663162
+      timestamp: '1629947183157'
+      step: '0'
+. . .
+    params:
+    - key: max_depth
+      value: '4'
+. . .
+    tags:
+    - key: mlflow.user
+      value: andre
+    - key: mlflow.source.name
+      value: main.py
+. . .
+artifacts:
+  root_uri: /opt/mlflow/server/mlruns/1/4af184e8527a4f4a8fc563386807acb2/artifacts
+  files:
+  - path: onnx-model
+    is_dir: true
+    artifacts:
+      root_uri: /opt/mlflow/server/mlruns/1/4af184e8527a4f4a8fc563386807acb2/artifacts
+      files:
+      - path: onnx-model/MLmodel
+        is_dir: false
+        file_size: '293'
+      - path: onnx-model/conda.yaml
+        is_dir: false
+        file_size: '133'
+      - path: onnx-model/model.onnx
+        is_dir: false
+        file_size: '1621'
+      - path: onnx-model/requirements.txt
+        is_dir: false
+        file_size: '37'
+  - path: plot.png
+    is_dir: false
+    file_size: '27836'
+. . .
+
 ```
 
-**Sample output for dump_experiment.py**
+**Usage**
+
 ```
-MLflow Version: 1.10.0
-Experiment Details:
-  experiment_id: 2
+python -m mlflow_tools.tools.dump_run --help
+
+Options:
+  --run-id TEXT                  Run ID  [required]
+  --artifact-max-level INTEGER   Number of artifact levels to recurse
+  --format TEXT                  Output Format: json|yaml|txt
+  --explode-json-string BOOLEAN  Explode JSON string  [default: False]
+  --verbose BOOLEAN              Verbose
+  --help                         Show this message and exit.
+```
+
+## Dump experiment 
+
+Dumps all experiment including its run information as JSON, YAML or text.
+* [dump_experiment.py](dump_experiment.py)
+* Samples:
+  [experiment.json](../../samples/oss_mlflow/experiment.json), 
+  [experiment.yaml](../../samples/oss_mlflow/experiment.yaml)
+  and [experiment.txt](../../samples/oss_mlflow/experiment.txt).
+
+**Example**
+
+
+```
+python -m mlflow_tools.tools.dump_experiment \
+   --experiment-id-or-name sklearn_wine \
+  --show-info True --show-data True \
+  --artifact-max-level 10 \
+  --format yaml \
+  --explode-json-string True
+```
+```
+experiment_info:
+  experiment_id: '1'
   name: sklearn
-  artifact_location: /opt/mlflow/server/mlruns/1812/2
+  artifact_location: /opt/mlflow/server/mlruns/1
   lifecycle_stage: active
-  tags: {}
-  #runs: 3
-Runs:
-  Run 1/3:
-    RunInfo:
-      experiment_name: sklearn
-      artifact_uri: /opt/mlflow/server/mlruns/1812/2/19323fe0d6fd400aa32c8fc923f0d7c8/artifacts
-      experiment_id: 2
-      lifecycle_stage: active
-      run_id: 19323fe0d6fd400aa32c8fc923f0d7c8
-      status: FINISHED
-      user_id: andre
-      start_time: 2020-07-30_03:35:14   1596080114006
-      end_time:   2020-07-30_03:35:14   1596080114880
-      _duration:  0.874 seconds
-    Params:
-      max_depth: 4
-      max_leaf_nodes: 32
-    Metrics:
-      mae: 0.586355440756998
-      r2: 0.2547711505595145
-      rmse: 0.7640325255609308
-    Tags:
-      data_path: ../../data/train/wine-quality-white.csv
-      mlflow.log-model.history: [{"run_id": "19323fe0d6fd400aa32c8fc923f0d7c8", "artifact_path": "sklearn-model", "utc_time_created": "2020-07-30 03:35:14.162889", "flavors": {"python_function": {"model_path": "model.pkl", "loader_module": "mlflow.sklearn", "python_version": "3.7.6", "env": "conda.yaml"}, "sklearn": {"pickled_model": "model.pkl", "sklearn_version": "0.20.2", "serialization_format": "cloudpickle"}}}, {"run_id": "19323fe0d6fd400aa32c8fc923f0d7c8", "artifact_path": "onnx-model", "utc_time_created": "2020-07-30 03:35:14.593898", "flavors": {"python_function": {"loader_module": "mlflow.onnx", "python_version": "3.7.6", "data": "model.onnx", "env": "conda.yaml"}, "onnx": {"onnx_version": "1.7.0", "data": "model.onnx"}}}]
-      mlflow.runName: train.sh
-      mlflow.source.git.commit: e7f840a012c019c65a688e4ba69fbb949371f3e1
-      mlflow.source.name: main.py
-      mlflow.source.type: LOCAL
-      mlflow.user: andre
-      run_origin: train.sh
-      version.mlflow: 1.10.0
-      version.python: 3.7.6
-    Artifacts:
-      Artifact 1/2 - level 0:
-        path: plot.png
-        bytes: 32417
-      Artifact 2/2 - level 0:
-        path: sklearn-model
-        Artifact 1/3 - level 1:
-          path: sklearn-model/MLmodel
-          bytes: 357
-        Artifact 2/3 - level 1:
-          path: sklearn-model/conda.yaml
-          bytes: 150
-        Artifact 3/3 - level 1:
-          path: sklearn-model/model.pkl
-          bytes: 4893
-    Total: bytes: 41050 artifacts: 7
+  tags:
+  - key: mlflow.note.content
+    value: Hello experiment
+summary:
+  runs: 2
+  artifacts: 18
+  artifact_bytes: 66638
+  last_run: 1630006099305
+  _last_run: '2021-08-26 19:28:19'
+runs:
+- summary:
+    artifacts: 9
+    artifact_bytes: 33319
+    params: 2
+    metrics: 3
+    tags: 17
+  run:
+    info:
+      run_uuid: b2a34eb3d1f245c68e3586beb6912bc1
+      experiment_id: '1
+. . .
+```
+
+**Usage**
+
+```
+python -m mlflow_tools.tools.dump_experiment --help
+
+Options:
+  --experiment-id-or-name TEXT   Experiment ID or name  [required]
+  --artifact-max-level INTEGER   Number of artifact levels to recurse
+  --show-info BOOLEAN            Show run info  [default: False]
+  --show-data BOOLEAN            Show data run info and data  [default: False]
+  --format TEXT                  Output format: json|yaml|txt
+  --explode-json-string BOOLEAN  Explode JSON string  [default: False]
+  --verbose BOOLEAN              Verbose
+  --help                         Show this message and exit.
 ```
 
 ## Dump experiment runs to CSV file
 
 Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv_file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
 ```
-python -m dump_experiment_as_csv --csv_file sklearn.csv
+python -m mlflow_tools.tools.dump_experiment_as_csv \
+  --experiment_id_or_name sklearn \
+  --csv_file sklearn.csv
 ```
 
 ## Find best run of experiment
@@ -314,7 +403,7 @@ Return artifact paths that match specified target filename.
 
 ```
 python -m mlflow_tools.tools.find_artifacts \
-  --run-id 2cbab69842e4412c99bfb5e15344bc42 \
+  --run-id 4af184e8527a4f4a8fc563386807acb2 \
   --target MLmodel
 ```
 ```

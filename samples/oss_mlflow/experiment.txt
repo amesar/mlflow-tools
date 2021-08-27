@@ -1,0 +1,154 @@
+experiment_id: 1
+Experiment Details:
+  experiment_id: 1
+  name: sklearn
+  artifact_location: /opt/mlflow/server/mlruns/1
+  lifecycle_stage: active
+  tags: {'mlflow.note.content': 'Hello experiment'}
+  #runs: 2
+Runs:
+  Run 1/2:
+    RunInfo:
+      experiment_name: sklearn
+      artifact_uri: /opt/mlflow/server/mlruns/1/b2a34eb3d1f245c68e3586beb6912bc1/artifacts
+      experiment_id: 1
+      lifecycle_stage: active
+      run_id: b2a34eb3d1f245c68e3586beb6912bc1
+      run_uuid: b2a34eb3d1f245c68e3586beb6912bc1
+      status: FINISHED
+      user_id: andre
+      start_time :2021-08-26 19:28:17   1630006097710
+      end_time   :2021-08-26 19:28:19   1630006099305
+      _duration:  1.595 seconds
+    Params:
+      max_depth: 4
+      max_leaf_nodes: 32
+    Metrics:
+      mae: 0.5877424565761121
+      r2: 0.28100217442439346
+      rmse: 0.7367947360663162
+    Tags:
+      autolog: False
+      data_path: ../../data/train/wine-quality-white.csv
+      mlflow.log-model.history: [{"run_id": "b2a34eb3d1f245c68e3586beb6912bc1", "artifact_path": "sklearn-model", "utc_time_created": "2021-08-26 19:28:18.367151", "flavors": {"python_function": {"model_path": "model.pkl", "loader_module": "mlflow.sklearn", "python_version": "3.7.6", "env": "conda.yaml"}, "sklearn": {"pickled_model": "model.pkl", "sklearn_version": "0.24.2", "serialization_format": "cloudpickle"}}}, {"run_id": "b2a34eb3d1f245c68e3586beb6912bc1", "artifact_path": "onnx-model", "utc_time_created": "2021-08-26 19:28:18.876243", "flavors": {"python_function": {"loader_module": "mlflow.onnx", "python_version": "3.7.6", "data": "model.onnx", "env": "conda.yaml"}, "onnx": {"onnx_version": "1.9.0", "data": "model.onnx"}}}]
+      mlflow.runName: train.sh
+      mlflow.source.git.commit: 84e1e13d65cff84bafe3ef6cb7d9d9ebf481b3e4
+      mlflow.source.name: main.py
+      mlflow.source.type: LOCAL
+      mlflow.user: andre
+      model_name: sklearn_wine
+      output_path: out_run_id.txt
+      run_origin: train.sh
+      save_signature: False
+      version.mlflow: 1.19.0
+      version.onnx: 1.9.0
+      version.platform: Darwin-19.4.0-x86_64-i386-64bit
+      version.python: 3.7.6
+      version.sklearn: 0.24.2
+    Artifacts:
+      Artifact 1/3 - level 0:
+        path: onnx-model
+        Artifact 1/4 - level 1:
+          path: onnx-model/MLmodel
+          bytes: 293
+        Artifact 2/4 - level 1:
+          path: onnx-model/conda.yaml
+          bytes: 133
+        Artifact 3/4 - level 1:
+          path: onnx-model/model.onnx
+          bytes: 1621
+        Artifact 4/4 - level 1:
+          path: onnx-model/requirements.txt
+          bytes: 37
+      Artifact 2/3 - level 0:
+        path: plot.png
+        bytes: 27836
+      Artifact 3/3 - level 0:
+        path: sklearn-model
+        Artifact 1/4 - level 1:
+          path: sklearn-model/MLmodel
+          bytes: 357
+        Artifact 2/4 - level 1:
+          path: sklearn-model/conda.yaml
+          bytes: 142
+        Artifact 3/4 - level 1:
+          path: sklearn-model/model.pkl
+          bytes: 2854
+        Artifact 4/4 - level 1:
+          path: sklearn-model/requirements.txt
+          bytes: 46
+    Total: bytes: 33319 artifacts: 9
+  Run 2/2:
+    RunInfo:
+      experiment_name: sklearn
+      artifact_uri: /opt/mlflow/server/mlruns/1/4af184e8527a4f4a8fc563386807acb2/artifacts
+      experiment_id: 1
+      lifecycle_stage: active
+      run_id: 4af184e8527a4f4a8fc563386807acb2
+      run_uuid: 4af184e8527a4f4a8fc563386807acb2
+      status: FINISHED
+      user_id: andre
+      start_time :2021-08-26 03:06:22   1629947182813
+      end_time   :2021-08-26 03:06:24   1629947184041
+      _duration:  1.228 seconds
+    Params:
+      max_depth: 4
+      max_leaf_nodes: 32
+    Metrics:
+      mae: 0.5877424565761121
+      r2: 0.28100217442439346
+      rmse: 0.7367947360663162
+    Tags:
+      autolog: False
+      data_path: ../../data/train/wine-quality-white.csv
+      mlflow.log-model.history: [{"run_id": "4af184e8527a4f4a8fc563386807acb2", "artifact_path": "sklearn-model", "utc_time_created": "2021-08-26 03:06:23.226070", "flavors": {"python_function": {"model_path": "model.pkl", "loader_module": "mlflow.sklearn", "python_version": "3.7.6", "env": "conda.yaml"}, "sklearn": {"pickled_model": "model.pkl", "sklearn_version": "0.24.2", "serialization_format": "cloudpickle"}}}, {"run_id": "4af184e8527a4f4a8fc563386807acb2", "artifact_path": "onnx-model", "utc_time_created": "2021-08-26 03:06:23.636420", "flavors": {"python_function": {"loader_module": "mlflow.onnx", "python_version": "3.7.6", "data": "model.onnx", "env": "conda.yaml"}, "onnx": {"onnx_version": "1.9.0", "data": "model.onnx"}}}]
+      mlflow.note.content: hello there
+
+      mlflow.runName: train.sh
+      mlflow.source.git.commit: 84e1e13d65cff84bafe3ef6cb7d9d9ebf481b3e4
+      mlflow.source.name: main.py
+      mlflow.source.type: LOCAL
+      mlflow.user: andre
+      model_name: sklearn_wine
+      output_path: out_run_id.txt
+      run_origin: train.sh
+      save_signature: False
+      version.mlflow: 1.19.0
+      version.onnx: 1.9.0
+      version.platform: Darwin-19.4.0-x86_64-i386-64bit
+      version.python: 3.7.6
+      version.sklearn: 0.24.2
+    Artifacts:
+      Artifact 1/3 - level 0:
+        path: onnx-model
+        Artifact 1/4 - level 1:
+          path: onnx-model/MLmodel
+          bytes: 293
+        Artifact 2/4 - level 1:
+          path: onnx-model/conda.yaml
+          bytes: 133
+        Artifact 3/4 - level 1:
+          path: onnx-model/model.onnx
+          bytes: 1621
+        Artifact 4/4 - level 1:
+          path: onnx-model/requirements.txt
+          bytes: 37
+      Artifact 2/3 - level 0:
+        path: plot.png
+        bytes: 27836
+      Artifact 3/3 - level 0:
+        path: sklearn-model
+        Artifact 1/4 - level 1:
+          path: sklearn-model/MLmodel
+          bytes: 357
+        Artifact 2/4 - level 1:
+          path: sklearn-model/conda.yaml
+          bytes: 142
+        Artifact 3/4 - level 1:
+          path: sklearn-model/model.pkl
+          bytes: 2854
+        Artifact 4/4 - level 1:
+          path: sklearn-model/requirements.txt
+          bytes: 46
+    Total: bytes: 33319 artifacts: 9
+Total experiment bytes: 66638

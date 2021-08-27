@@ -1,86 +1,100 @@
 """
-Run dump utilities.
+Dump a run in JSON, YAML or text.
 """
 
-import time
-import mlflow
-from . import format_dt
+import json
+import click
+from mlflow_tools.common.http_client import MlflowHttpClient
+from . import dump_dct, format_dt, show_mlflow_info
+from . import dump_run_as_text
 
-INDENT = "  "
-MAX_LEVEL = 1
-client = mlflow.tracking.MlflowClient()
-print("MLflow Tracking URI:", mlflow.get_tracking_uri())
+# Tags to explode from JSON string
+explode_tags = [ "mlflow.databricks.cluster.info", "mlflow.databricks.cluster.libraries", "mlflow.log-model.history" ]
 
-def dump_run(run, max_level=1, indent=""):
-    dump_run_info(run.info,indent)
-    print(indent+"Params:")
-    for k,v in sorted(run.data.params.items()):
-        print(f"{indent}  {k}: {v}")
-    print(indent+"Metrics:")
-    for k,v in sorted(run.data.metrics.items()):
-        print(f"{indent}  {k}: {v}")
-    print(indent+"Tags:")
-    for k,v in sorted(run.data.tags.items()):
-        print(f"{indent}  {k}: {v}")
-    print(f"{indent}Artifacts:")
-    num_bytes, num_artifacts = dump_artifacts(run.info.run_id, "", 0, max_level, indent+INDENT)
-    print(f"{indent}Total: bytes: {num_bytes} artifacts: {num_artifacts}")
-    return run, num_bytes, num_artifacts
-        
-def dump_run_id(run_id, max_level=1, indent=""):
-    run = client.get_run(run_id)
-    return dump_run(run,max_level,indent)
+client = MlflowHttpClient()
 
-def dump_run_info(info, indent=""):
-    print(f"{indent}RunInfo:")
-    exp = client.get_experiment(info.experiment_id)
-    if exp is None:
-        print(f"ERROR: Cannot find experiment ID '{info.experiment_id}'")
-        return 
-    print(f"{indent}  experiment_name: {exp.name}")
-    for k,v in sorted(info.__dict__.items()):
-        if not k.endswith("_time"):
-            print(f"{indent}  {k[1:]}: {v}")
-    start = _dump_time(info,'_start_time',indent)
-    end = _dump_time(info,'_end_time',indent)
+def _adjust_time(info, k):
+    v = info.get(k,None)
+    if v is not None:
+        v = format_dt(int(v))
+    info[f"_{k}"] = v
+
+def _adjust_times(info):
+    start = info.get("start_time",None)
+    end = info.get("end_time",None)
+    _adjust_time(info, "start_time")
+    _adjust_time(info, "end_time")
     if start is not None and end is not None:
-        dur = float(end - start)/1000
-        print(f"{indent}  _duration:  {dur} seconds")
+        dur = float(int(end) - int(start))/1000
+        info["_duration"] = dur
 
-def _dump_time(info, k, indent=""):
-    v = info.__dict__.get(k,None)
-    if v is None:
-        print(f"{indent}  {k[1:] : <11}:{v}")
+def _explode_json_string(run):
+    for tag in run["data"]["tags"]:
+        if tag["key"] in explode_tags:
+            tag["value"] = json.loads(tag["value"])
+
+def build_run(run, max_level, explode_json_string):
+    info = run["info"]
+    data = run["data"]
+    run_id = info["run_id"]
+    _adjust_times(info)
+
+    if explode_json_string:
+        _explode_json_string(run)
+
+    if max_level == 0:
+        dct = run
+        num_bytes = -1
+        num_artifacts= -1
     else:
-        stime = format_dt(v)
-        print(f"{indent}  {k[1:] : <11}:{stime}   {v}")
-    return v
+        artifacts,num_bytes,num_artifacts = build_artifacts(run_id, "", 0, max_level)
+        summary = { 
+            "artifacts": num_artifacts, 
+            "artifact_bytes": num_bytes,
+            "params": len(data["params"]),
+            "metrics": len(data["metrics"]),
+            "tags": len(data["tags"])
+            }
+        dct = { "summary": summary, "run": run, "artifacts": artifacts }
+    return dct
 
-def dump_artifacts(run_id, path, level, max_level, indent):
+def build_artifacts(run_id, path, level, max_level):
+    artifacts = client.get(f"artifacts/list?run_id={run_id}&path={path}")
     if level+1 > max_level: 
-        return 0,0
-    artifacts = client.list_artifacts(run_id,path)
+        return artifacts, 0, 0
     num_bytes, num_artifacts = (0,0)
-    for j,art in enumerate(artifacts):
-        print(f"{indent}Artifact {j+1}/{len(artifacts)} - level {level}:")
-        num_bytes += art.file_size or 0
-        print(f"  {indent}path: {art.path}")
-        if art.is_dir:
-            b,a = dump_artifacts(run_id, art.path, level+1, max_level, indent+INDENT)
+    for _,artifact in enumerate(artifacts["files"]):
+        num_bytes += int(artifact.get("file_size",0)) or 0
+        if artifact["is_dir"]:
+            arts,b,a = build_artifacts(run_id, artifact["path"], level+1, max_level)
             num_bytes += b
             num_artifacts += a
+            artifact["artifacts"] = arts
         else:
-            print(f"  {indent}bytes: {art.file_size}")
             num_artifacts += 1
-    return num_bytes,num_artifacts
+    return artifacts, num_bytes, num_artifacts
+
+def dump_run_id(run_id, artifact_max_level, format, explode_json_string):
+    if (format in ["text","txt"]):
+        dump_run_as_text.dump_run_id(run_id, artifact_max_level)
+    else:
+        run = client.get(f"runs/get?run_id={run_id}")["run"]
+        dct = build_run(run, artifact_max_level, explode_json_string)
+        dump_dct(dct, format)
+
+@click.command()
+@click.option("--run-id", help="Run ID", required=True)
+@click.option("--artifact-max-level", help="Number of artifact levels to recurse", default=1, type=int)
+@click.option("--format", help="Output Format: json|yaml|txt", type=str, default="json")
+@click.option("--explode-json-string", help="Explode JSON string", type=bool, default=False, show_default=True)
+@click.option("--verbose", help="Verbose", type=bool, default=False, show_default=False)
+
+def main(run_id, artifact_max_level, format, explode_json_string, verbose):
+    if verbose: 
+        show_mlflow_info()
+        print("Options:")
+        for k,v in locals().items(): print(f"  {k}: {v}")
+    dump_run_id(run_id, artifact_max_level, format, explode_json_string)
 
 if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--run_id", dest="run_id", help="Run ID", required=True)
-    parser.add_argument("--artifact_max_level", dest="artifact_max_level", help="Number of artifact levels to recurse", required=False, default=1, type=int)
-    args = parser.parse_args()
-    print("Arguments:")
-    for arg in vars(args):
-        print(f"  {arg}: {getattr(args, arg)}")
-    dump_run_id(args.run_id, args.artifact_max_level)
+    main()
