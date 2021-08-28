@@ -19,7 +19,7 @@ def _adjust_time(info, k):
         v = format_dt(int(v))
     info[f"_{k}"] = v
 
-def _adjust_times(info):
+def adjust_times(info):
     start = info.get("start_time",None)
     end = info.get("end_time",None)
     _adjust_time(info, "start_time")
@@ -33,21 +33,21 @@ def _explode_json_string(run):
         if tag["key"] in explode_tags:
             tag["value"] = json.loads(tag["value"])
 
-def build_run(run, max_level, explode_json_string):
+def build_run(run, artifact_max_level, explode_json_string):
     info = run["info"]
     data = run["data"]
     run_id = info["run_id"]
-    _adjust_times(info)
+    adjust_times(info)
 
     if explode_json_string:
         _explode_json_string(run)
 
-    if max_level == 0:
+    if artifact_max_level == 0:
         dct = run
         num_bytes = -1
         num_artifacts= -1
     else:
-        artifacts,num_bytes,num_artifacts = build_artifacts(run_id, "", 0, max_level)
+        artifacts,num_bytes,num_artifacts = build_artifacts(run_id, "", 0, artifact_max_level)
         summary = { 
             "artifacts": num_artifacts, 
             "artifact_bytes": num_bytes,
@@ -58,15 +58,15 @@ def build_run(run, max_level, explode_json_string):
         dct = { "summary": summary, "run": run, "artifacts": artifacts }
     return dct
 
-def build_artifacts(run_id, path, level, max_level):
+def build_artifacts(run_id, path, level, artifact_max_level):
     artifacts = client.get(f"artifacts/list?run_id={run_id}&path={path}")
-    if level+1 > max_level: 
+    if level+1 > artifact_max_level: 
         return artifacts, 0, 0
     num_bytes, num_artifacts = (0,0)
     for _,artifact in enumerate(artifacts["files"]):
         num_bytes += int(artifact.get("file_size",0)) or 0
         if artifact["is_dir"]:
-            arts,b,a = build_artifacts(run_id, artifact["path"], level+1, max_level)
+            arts,b,a = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
             num_bytes += b
             num_artifacts += a
             artifact["artifacts"] = arts
@@ -83,11 +83,11 @@ def dump_run_id(run_id, artifact_max_level, format, explode_json_string):
         dump_dct(dct, format)
 
 @click.command()
-@click.option("--run-id", help="Run ID", required=True)
-@click.option("--artifact-max-level", help="Number of artifact levels to recurse", default=1, type=int)
-@click.option("--format", help="Output Format: json|yaml|txt", type=str, default="json")
-@click.option("--explode-json-string", help="Explode JSON string", type=bool, default=False, show_default=True)
-@click.option("--verbose", help="Verbose", type=bool, default=False, show_default=False)
+@click.option("--run-id", help="Run ID.", required=True)
+@click.option("--artifact-max-level", help="Number of artifact levels to recurse.", default=1, type=int)
+@click.option("--format", help="Output Format: json|yaml|txt.", type=str, default="json")
+@click.option("--explode-json-string", help="Explode JSON string.", type=bool, default=False, show_default=True)
+@click.option("--verbose", help="Verbose.", type=bool, default=False, show_default=False)
 
 def main(run_id, artifact_max_level, format, explode_json_string, verbose):
     if verbose: 

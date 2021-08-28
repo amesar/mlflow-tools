@@ -129,12 +129,11 @@ artifacts:
 python -m mlflow_tools.tools.dump_run --help
 
 Options:
-  --run-id TEXT                  Run ID  [required]
-  --artifact-max-level INTEGER   Number of artifact levels to recurse
-  --format TEXT                  Output Format: json|yaml|txt
-  --explode-json-string BOOLEAN  Explode JSON string  [default: False]
-  --verbose BOOLEAN              Verbose
-  --help                         Show this message and exit.
+  --run-id TEXT                  Run ID.  [required]
+  --artifact-max-level INTEGER   Number of artifact levels to recurse.
+  --format TEXT                  Output Format: json|yaml|txt.
+  --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
+  --verbose BOOLEAN              Verbose.
 ```
 
 ## Dump experiment 
@@ -199,7 +198,6 @@ Options:
   --format TEXT                  Output format: json|yaml|txt
   --explode-json-string BOOLEAN  Explode JSON string  [default: False]
   --verbose BOOLEAN              Verbose
-  --help                         Show this message and exit.
 ```
 
 ## Dump experiment runs to CSV file
@@ -241,17 +239,6 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine
     ]
   }
 }
-```
-**Usage**
-
-```
-python -m mlflow_tools.tools.dump_model --help
-
-Options:
-  --model MODEL      Registered model name
-  --format FORMAT    Format: json|yaml
-  --show_runs        Show run details
-  --format_datetime  Show human-readable datetime formats
 ```
 
 ### Dump registered model with run details
@@ -367,6 +354,19 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
 }
 ```
 
+**Usage**
+```
+python -m mlflow_tools.tools.dump_model --help
+
+Options:
+  --format TEXT                  Output format: json|yaml.
+  --model TEXT                   Registered model name.  [required]
+  --show-runs BOOLEAN            Show run details.
+  --format-datetime BOOLEAN      Show human-readable datetime formats.
+  --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
+  --artifact-max-level INTEGER   Number of artifact levels to recurse.
+```
+
 ## Find best run of experiment
 
 Find the best run for a metric of an experiment. 
@@ -468,5 +468,4 @@ python -m mlflow_tools.tools.download_model --help
 Options:
   --model-uri TEXT   Model URI  [required]
   --output-dir TEXT  Output directory for downloaded model  [required]
-  --help             Show this message and exit.
 ```
