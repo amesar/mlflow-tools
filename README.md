@@ -40,7 +40,6 @@ However MLServer only accepts file-based MLflow model URI schems such as `s3`, `
 MLServer does not support the `models` or `runs` schemes which download the requested model using the MLflowClient.
 
 
-
 #### Setup
 
 ```
@@ -49,6 +48,7 @@ source mlserver/bin/activate
 
 pip install mlserver
 pip install mlserver-mlflow
+pip install sklearn
 
 git clone https://github.com/amesar/mlflow-tools
 pip install -e mlflow-tools
