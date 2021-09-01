@@ -63,15 +63,17 @@ def build_artifacts(run_id, path, level, artifact_max_level):
     if level+1 > artifact_max_level: 
         return artifacts, 0, 0
     num_bytes, num_artifacts = (0,0)
-    for _,artifact in enumerate(artifacts["files"]):
-        num_bytes += int(artifact.get("file_size",0)) or 0
-        if artifact["is_dir"]:
-            arts,b,a = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
-            num_bytes += b
-            num_artifacts += a
-            artifact["artifacts"] = arts
-        else:
-            num_artifacts += 1
+    files = artifacts.get("files",None)
+    if files:
+        for _,artifact in enumerate(files):
+            num_bytes += int(artifact.get("file_size",0)) or 0
+            if artifact["is_dir"]:
+                arts,b,a = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
+                num_bytes += b
+                num_artifacts += a
+                artifact["artifacts"] = arts
+            else:
+                num_artifacts += 1
     return artifacts, num_bytes, num_artifacts
 
 def dump_run_id(run_id, artifact_max_level, format, explode_json_string):
