@@ -7,6 +7,7 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * [Dump run](#Dump-run)
 * [Dump experiment](#Dump-experimentt) - [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
 * [Dump registered model as JSON or YAML](#Dump-registered-model-as-JSON-or-YAML)
+* [List versions of registered model as text table](#List-versions-of-a-registered-model-as-text-table)
 * [Find best run of experiment](#Find-best-run-of-experiment)
 * [Find matching artifacts](#Find-matching-artifacts)
 * [Download model artifacts](#Download-model-artifacts)
@@ -50,7 +51,6 @@ Dumps run information.
   and [run.txt](../../samples/oss_mlflow/run.txt).
 
 **Example**
-
 
 ```
 python -m mlflow_tools.tools.dump_run --run-id 4af184e8527a4f4a8fc563386807acb2 \
@@ -209,7 +209,6 @@ python -m mlflow_tools.tools.dump_experiment_as_csv \
   --csv-file sklearn.csv
 ```
 
-
 ## Dump registered model
 
 Dumps a registered model (as JSON and YAML) and optionally the run details of each of its versions.
@@ -367,6 +366,38 @@ Options:
   --artifact-max-level INTEGER   Number of artifact levels to recurse.
 ```
 
+## List versions of registered model as text table.
+
+```
+python -m mlflow_tools.tools.list_model_versions --model Sklearn_Train_Predict
+```
+
+```
+Model: Sklearn_Train_Predict
+
+Latest 2 versions
++-----------+------------+----------+---------------------+
+|   Version | Stage      | Status   | Creation            |
+|-----------+------------+----------+---------------------|
+|         8 | Production | READY    | 2021-09-10 03:09:43 |
+|         7 | Staging    | READY    | 2021-09-10 03:09:28 |
++-----------+------------+----------+---------------------+
+
+All 8 versions
++-----------+------------+----------+---------------------+
+|   Version | Stage      | Status   | Creation            |
+|-----------+------------+----------+---------------------|
+|         8 | Production | READY    | 2021-09-10 03:09:43 |
+|         6 | Production | READY    | 2021-09-10 03:09:07 |
+|         4 | Production | READY    | 2021-09-10 03:01:38 |
+|         2 | Production | READY    | 2021-09-10 03:00:01 |
+|         7 | Staging    | READY    | 2021-09-10 03:09:28 |
+|         5 | Staging    | READY    | 2021-09-10 03:08:51 |
+|         3 | Staging    | READY    | 2021-09-10 03:01:21 |
+|         1 | Staging    | READY    | 2021-09-10 02:59:44 |
++-----------+------------+----------+---------------------+`
+```
+
 ## Find best run of experiment
 
 Find the best run for a metric of an experiment. 
@@ -468,4 +499,21 @@ python -m mlflow_tools.tools.download_model --help
 Options:
   --model-uri TEXT   Model URI  [required]
   --output-dir TEXT  Output directory for downloaded model  [required]
+```
+
+## Delete model versions of the specified version
+
+Delete model versions of the specified version.
+
+```
+python -m mlflow_tools.tools.delete_model_stage \
+  --model sklearn_wine \
+  --stages None,Archived
+```
+
+**Usage**
+```
+Options:
+  --model TEXT   Registered model name  [required]
+  --stages TEXT  Stages to export (comma seperated). Default is all stages.
 ```

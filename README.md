@@ -12,6 +12,7 @@ Some useful tools for MLflow.
 * Dump experiment runs as CSV file
 * Find best run of an experiment
 * Dump registered model as JSON or YAML
+* List registered model's versions as text table.
 * Delete registered model.
 * Find matching artifacts
 * Download model artifacts.
@@ -82,7 +83,6 @@ The [mlflow_tools.seldon_mlflow.download_model](mlflow_tools/seldon_mlflow/downl
   * Creates a standard model-settings.json file from your custom settings file that points to this temporary location.
 
 ```
-
 python -u -m mlflow_tools.seldon_mlflow.download_model \
   --model-settings-path my-model-settings.json \
   --output-dir /tmp/my-model
