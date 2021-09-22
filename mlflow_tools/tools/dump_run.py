@@ -51,12 +51,15 @@ def build_run(run, artifact_max_level, explode_json_string):
         summary = { 
             "artifacts": num_artifacts, 
             "artifact_bytes": num_bytes,
-            "params": len(data["params"]),
-            "metrics": len(data["metrics"]),
-            "tags": len(data["tags"])
+            "params": _get_size(data.get("params",None)),
+            "metrics": _get_size(data.get("metrics",None)),
+            "tags": _get_size(data.get("tags",None)),
             }
         dct = { "summary": summary, "run": run, "artifacts": artifacts }
     return dct
+
+def _get_size(dct):
+    return len(dct) if dct else 0
 
 def build_artifacts(run_id, path, level, artifact_max_level):
     artifacts = client.get(f"artifacts/list?run_id={run_id}&path={path}")
