@@ -138,20 +138,25 @@ Options:
 
 ## Dump experiment 
 
-Dumps all experiment including its run information as JSON, YAML or text.
+Dumps all experiment details including its run information as JSON, YAML or text.
 * [dump_experiment.py](dump_experiment.py)
 * Samples:
-  [experiment.json](../../samples/oss_mlflow/experiment.json), 
-  [experiment.yaml](../../samples/oss_mlflow/experiment.yaml)
-  and [experiment.txt](../../samples/oss_mlflow/experiment.txt).
+  * Open source MLflow: 
+    [experiment.json](../../samples/oss_mlflow/experiment.json) \-
+    [experiment.yaml](../../samples/oss_mlflow/experiment.yaml) \-
+    [experiment.txt](../../samples/oss_mlflow/experiment.txt).
+  * Databricks MLflow: 
+    [sklearn_wine_quality.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality.json) \-
+    [sklearn_wine_quality_autolog.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality_autolog.json)
+  
 
 **Example**
-
 
 ```
 python -m mlflow_tools.tools.dump_experiment \
    --experiment-id-or-name sklearn_wine \
-  --show-info True --show-data True \
+  --show-info True \
+  --show-data True \
   --artifact-max-level 10 \
   --format yaml \
   --explode-json-string True
