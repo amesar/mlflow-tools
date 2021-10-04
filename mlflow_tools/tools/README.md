@@ -6,7 +6,7 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * [List all experiments](#List-all-experiments)
 * [Dump run](#Dump-run)
 * [Dump experiment](#Dump-experimentt) - [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
-* [Dump registered model as JSON or YAML](#Dump-registered-model-as-JSON-or-YAML)
+* [Dump registered model](#Dump-registered-model)
 * [List versions of registered model as text table](#List-versions-of-a-registered-model-as-text-table)
 * [Find best run of experiment](#Find-best-run-of-experiment)
 * [Find matching artifacts](#Find-matching-artifacts)
