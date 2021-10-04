@@ -217,7 +217,8 @@ python -m mlflow_tools.tools.dump_experiment_as_csv \
 ## Dump registered model
 
 Dumps a registered model (as JSON and YAML) and optionally the run details of each of its versions.
-See [dump_model.py](dump_model.py).
+* JSON examples: [Open source MLflow](../../samples/oss_mlflow/registered_model.json) - [Databricks MLflow](../../samples/databricks_mlflow/models/registered_model.json).
+* Source code: [dump_model.py](dump_model.py).
 
 ### Dump only registered model
 ```
