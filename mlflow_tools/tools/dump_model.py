@@ -20,20 +20,26 @@ def _preprocess(dct):
     dct =  dct["registered_model"]
     _format_dt(dct, "creation_timestamp")
     _format_dt(dct, "last_updated_timestamp")
-    for v in dct["latest_versions"]:
-        _format_dt(v, "creation_timestamp")
-        _format_dt(v, "last_updated_timestamp")
+    latest_versions = dct.get("latest_versions",None)
+    if latest_versions:
+        for v in latest_versions:
+            _format_dt(v, "creation_timestamp")
+            _format_dt(v, "last_updated_timestamp")
 
 def dump(model_name, format, show_runs, format_datetime, explode_json_string, artifact_max_level):
     model = client.get(f"registered-models/get?name={model_name}")
     if format_datetime:
         _preprocess(model)
     if show_runs:
-        vruns = { x['version']:client.get(f"runs/get?run_id={x['run_id']}")['run'] for x in model["registered_model"]["latest_versions"] }
-        if format_datetime or explode_json_string or artifact_max_level > 0:
-            for k,run in vruns.items():
-                vruns[k] = dump_run.build_run(run, artifact_max_level, explode_json_string)
-        dct = { "model": model, "version_runs": vruns }
+        latest_versions =  model["registered_model"].get("latest_versions",None)
+        if latest_versions:
+            vruns = { x['version']:client.get(f"runs/get?run_id={x['run_id']}")['run'] for x in latest_versions }
+            if format_datetime or explode_json_string or artifact_max_level > 0:
+                for k,run in vruns.items():
+                    vruns[k] = dump_run.build_run(run, artifact_max_level, explode_json_string)
+            dct = { "model": model, "version_runs": vruns }
+        else:
+            dct = { "model": model }
         dump_dct(dct,format)
     else:
         dump_dct(model, format)
