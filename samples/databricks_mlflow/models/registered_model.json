@@ -10,7 +10,7 @@
           "version": "43",
           "creation_timestamp": 1628623250163,
           "last_updated_timestamp": 1628986328616,
-          "user_id": "me@@databricks.com",
+          "user_id": "me@mycompany.com",
           "current_stage": "Production",
           "source": "dbfs:/databricks/mlflow/3532228/2079b9ee113b4b6c8ae631790d4c1009/artifacts/sklearn-model",
           "run_id": "2079b9ee113b4b6c8ae631790d4c1009",
@@ -23,7 +23,7 @@
           "version": "42",
           "creation_timestamp": 1627398252257,
           "last_updated_timestamp": 1628986347074,
-          "user_id": "me@@databricks.com",
+          "user_id": "me@mycompany.com",
           "current_stage": "Staging",
           "source": "dbfs:/databricks/mlflow-tracking/10778613/d49d561a112041bba2e11eab8139c6a7/artifacts/sklearn-model",
           "run_id": "d49d561a112041bba2e11eab8139c6a7",
@@ -130,7 +130,7 @@
             },
             {
               "key": "mlflow.databricks.notebookPath",
-              "value": "/Users/me@@databricks.com/mlflow/Sklearn_Wine"
+              "value": "/Users/me@mycompany.com/mlflow/Sklearn_Wine"
             },
             {
               "key": "mlflow.databricks.notebookRevisionID",
@@ -138,7 +138,7 @@
             },
             {
               "key": "mlflow.databricks.webappURL",
-              "value": "https://demo.cloud.databricks.com"
+              "value": "https://demo.cloud.mycompany.com"
             },
             {
               "key": "mlflow.log-model.history",
@@ -169,7 +169,7 @@
             },
             {
               "key": "mlflow.source.name",
-              "value": "/Users/me@@databricks.com/mlflow/Sklearn_Wine"
+              "value": "/Users/me@mycompany.com/mlflow/Sklearn_Wine"
             },
             {
               "key": "mlflow.source.type",
@@ -177,7 +177,7 @@
             },
             {
               "key": "mlflow.user",
-              "value": "me@@databricks.com"
+              "value": "me@mycompany.com"
             },
             {
               "key": "save_signature",
@@ -297,7 +297,7 @@
             },
             {
               "key": "mlflow.databricks.notebookPath",
-              "value": "/Users/me@@databricks.com/mlflow/Sklearn_Wine_ONNX"
+              "value": "/Users/me@mycompany.com/mlflow/Sklearn_Wine_ONNX"
             },
             {
               "key": "mlflow.databricks.notebookRevisionID",
@@ -305,7 +305,7 @@
             },
             {
               "key": "mlflow.databricks.webappURL",
-              "value": "https://demo.cloud.databricks.com"
+              "value": "https://demo.cloud.mycompany.com"
             },
             {
               "key": "mlflow.log-model.history",
@@ -353,7 +353,7 @@
             },
             {
               "key": "mlflow.source.name",
-              "value": "/Users/me@@databricks.com/mlflow/Sklearn_Wine_ONNX"
+              "value": "/Users/me@mycompany.com/mlflow/Sklearn_Wine_ONNX"
             },
             {
               "key": "mlflow.source.type",
@@ -361,7 +361,7 @@
             },
             {
               "key": "mlflow.user",
-              "value": "me@@databricks.com"
+              "value": "me@mycompany.com"
             },
             {
               "key": "version.mlflow",
