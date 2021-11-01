@@ -11,6 +11,7 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * [Find best run of experiment](#Find-best-run-of-experiment)
 * [Find matching artifacts](#Find-matching-artifacts)
 * [Download model artifacts](#Download-model-artifacts)
+* [Call MLflow model server](#Call-MLflow-model-server)
 
 ## Setup
 ```
@@ -472,7 +473,6 @@ Options:
   --max-level INTEGER  Number of artifact levels to recurse.  [default: 9223372036854775807]
 ```
 
-
 ## Download model artifacts
 
 Download the model artifacts associated with a model URI.
@@ -522,4 +522,23 @@ python -m mlflow_tools.tools.delete_model_stage \
 Options:
   --model TEXT   Registered model name  [required]
   --stages TEXT  Stages to export (comma seperated). Default is all stages.
+```
+
+## Call MLflow model server
+
+Invoke the MLflow model server to score wine quality file.
+
+Invoke open source MLfow model server.
+```
+python -m mlflow_tools.tools.call_model_server \
+   --api-uri http://localhost:5001/invocations \
+   --datapath wine-quality-split-orient.json
+```
+
+Invoke Databricks MLfow model server.
+```
+python -m mlflow_tools.tools.call_model_server \
+   --api-uri https://my-workspace.mycompany.com/model-endpoint/Sklearn_Train_Predict/1/invocations \
+   --datapath wine-quality-split-orient.json \
+   --token MY_TOKEN
 ```

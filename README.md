@@ -16,6 +16,7 @@ Some useful tools for MLflow.
 * Delete registered model.
 * Find matching artifacts
 * Download model artifacts.
+* Call MLflow model server.
 
 ### Advanced Tools
 * [Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.
