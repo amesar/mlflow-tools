@@ -7,8 +7,8 @@ import click
 import requests
 
 @click.command()
-@click.option("--api-uri", help="API URI.", required=True)
-@click.option("--token", help="Databricks token (PAT).", default=None, type=str)
+@click.option("--api-uri", help="Model serving URI.", required=True)
+@click.option("--token", help="Databricks personal access token (PAT).", default=None, type=str)
 @click.option("--datapath", help="Data path.", required=True)
 
 def main(api_uri, token, datapath):
