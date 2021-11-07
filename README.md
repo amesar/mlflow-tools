@@ -6,17 +6,20 @@ Some useful tools for MLflow.
 
 ### Basic Tools
  [Basic Tools README](mlflow_tools/tools/README.md)
-* List all experiments
-* Dump experiment as text
-* Dump run as text
-* Dump experiment runs as CSV file
-* Find best run of an experiment
-* Dump registered model as JSON or YAML
-* List registered model's versions as text table.
-* Delete registered model.
+* List all experiments.
+* Dump experiment as text.
+* Dump run as text.
+* Dump experiment runs as CSV file.
+* Find best run of an experiment.
 * Find matching artifacts
 * Download model artifacts.
 * Call MLflow model server.
+* Registered model tools
+  * Register a run's model as a registered model.
+  * Delete registered model.
+  * Delete model stages.
+  * Dump registered model as JSON or YAML.
+  * List registered model's versions as text table.
 
 ### Advanced Tools
 * [Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.
