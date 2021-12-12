@@ -7,10 +7,11 @@ Some useful tools for MLflow.
 ### Basic Tools
  [Basic Tools README](mlflow_tools/tools/README.md)
 * List all experiments.
-* Dumps 
-  * Dump experiment as text.
-  * Dump run as text.
-  * Dump experiment runs as CSV file.
+* [Dumps](mlflow_tools/tools/README.md)
+  * [Dump run](mlflow-tools/mlflow_tools/tools/README.md#Dump-run)
+  * [Dump experiment](mlflow_tools/tools/README.md#Dump-experiment)
+  * [Dump experiment runs as CSV file](mlflow_tools/tools/README.md#Dump-experiment-runs-to-CSV-file)
+  * [Dump registered model](mlflow_tools/tools/README.md#Dump-registered-model)
   * [Dump samples](samples/README.md)
 * Find best run of an experiment.
 * Find matching artifacts

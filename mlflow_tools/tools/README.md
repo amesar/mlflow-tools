@@ -5,7 +5,7 @@
 Some useful tools for MLflow. Run the examples from the root of repository.
 * [List all experiments](#List-all-experiments)
 * [Dump run](#Dump-run)
-* [Dump experiment](#Dump-experimentt) 
+* [Dump experiment](#Dump-experiment) 
   * [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
 * [Find best run of experiment](#Find-best-run-of-experiment)
 * [Find matching artifacts](#Find-matching-artifacts)
@@ -52,9 +52,11 @@ Dumps run information.
 * If `show-info` is true, then just the run infos will be dumped.
 * If `show-data` is true, then an API call for each run will be executed. Beware of experiments with many runs.
 * Samples:
+  * Open source MLflow
   [run.json](../../samples/oss_mlflow/run.json), 
   [run.yaml](../../samples/oss_mlflow/run.yaml)
   and [run.txt](../../samples/oss_mlflow/run.txt).
+  * Databricks MLflow - [run.json](../../samples/oss_mlflow/runs/run.json)
 
 **Example**
 
