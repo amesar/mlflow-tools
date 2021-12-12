@@ -52,11 +52,28 @@
         },
         {
           "key": "mlflow.databricks.cluster.info",
-          "value": "{\"cluster_name\":\"Shared Autoscaling Americas\",\"spark_version\":\"9.1.x-cpu-ml-scala2.12\",\"node_type_id\":\"i3.2xlarge\",\"driver_node_type_id\":\"i3.4xlarge\",\"autotermination_minutes\":120,\"disk_spec\":{\"disk_count\":0},\"autoscale\":{\"min_workers\":1,\"max_workers\":14,\"target_workers\":14}}"
+          "value": {
+            "cluster_name": "Shared Autoscaling Americas",
+            "spark_version": "9.1.x-cpu-ml-scala2.12",
+            "node_type_id": "i3.2xlarge",
+            "driver_node_type_id": "i3.4xlarge",
+            "autotermination_minutes": 120,
+            "disk_spec": {
+              "disk_count": 0
+            },
+            "autoscale": {
+              "min_workers": 1,
+              "max_workers": 14,
+              "target_workers": 14
+            }
+          }
         },
         {
           "key": "mlflow.databricks.cluster.libraries",
-          "value": "{\"installable\":[],\"redacted\":[]}"
+          "value": {
+            "installable": [],
+            "redacted": []
+          }
         },
         {
           "key": "mlflow.databricks.notebook.commandID",
@@ -80,7 +97,27 @@
         },
         {
           "key": "mlflow.log-model.history",
-          "value": "[{\"artifact_path\":\"sklearn-model\",\"flavors\":{\"python_function\":{\"model_path\":\"model.pkl\",\"loader_module\":\"mlflow.sklearn\",\"python_version\":\"3.8.10\",\"env\":\"conda.yaml\"},\"sklearn\":{\"pickled_model\":\"model.pkl\",\"sklearn_version\":\"0.24.1\",\"serialization_format\":\"cloudpickle\"}},\"run_id\":\"bbae231c840745acbfd9e53f85ec5668\",\"utc_time_created\":\"2021-10-25 20:15:43.174690\",\"databricks_runtime\":\"9.1.x-cpu-ml-scala2.12\"}]"
+          "value": [
+            {
+              "artifact_path": "sklearn-model",
+              "flavors": {
+                "python_function": {
+                  "model_path": "model.pkl",
+                  "loader_module": "mlflow.sklearn",
+                  "python_version": "3.8.10",
+                  "env": "conda.yaml"
+                },
+                "sklearn": {
+                  "pickled_model": "model.pkl",
+                  "sklearn_version": "0.24.1",
+                  "serialization_format": "cloudpickle"
+                }
+              },
+              "run_id": "bbae231c840745acbfd9e53f85ec5668",
+              "utc_time_created": "2021-10-25 20:15:43.174690",
+              "databricks_runtime": "9.1.x-cpu-ml-scala2.12"
+            }
+          ]
         },
         {
           "key": "mlflow.runName",
