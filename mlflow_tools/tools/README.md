@@ -56,7 +56,7 @@ Dumps run information.
   [run.json](../../samples/oss_mlflow/run.json), 
   [run.yaml](../../samples/oss_mlflow/run.yaml)
   and [run.txt](../../samples/oss_mlflow/run.txt).
-  * Databricks MLflow - [run.json](../../samples/databricks_mlflow/runs/sklearn_wine/run.json).
+  * Databricks MLflow - [run.json](../../samples/databricks_mlflow/runs/sparkml/run.json).
 
 **Example**
 

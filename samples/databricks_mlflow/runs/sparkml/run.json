@@ -1,0 +1,216 @@
+{
+  "summary": {
+    "artifacts": 2,
+    "artifact_bytes": 457,
+    "params": 2,
+    "metrics": 3,
+    "tags": 18
+  },
+  "run": {
+    "info": {
+      "run_uuid": "9fd2aab028f74262b3803ad3722add64",
+      "experiment_id": "3532509",
+      "status": "FINISHED",
+      "start_time": 1635566606103,
+      "end_time": 1635566623710,
+      "artifact_uri": "dbfs:/databricks/mlflow/3532509/9fd2aab028f74262b3803ad3722add64/artifacts",
+      "lifecycle_stage": "active",
+      "run_id": "9fd2aab028f74262b3803ad3722add64",
+      "_start_time": "2021-10-30 04:03:26",
+      "_end_time": "2021-10-30 04:03:43",
+      "_duration": 17.607
+    },
+    "data": {
+      "metrics": [
+        {
+          "key": "mae",
+          "value": 0.5909146357728868,
+          "timestamp": 1635566619473,
+          "step": 0
+        },
+        {
+          "key": "r2",
+          "value": 0.27366661984924434,
+          "timestamp": 1635566618782,
+          "step": 0
+        },
+        {
+          "key": "rmse",
+          "value": 0.7553156283399545,
+          "timestamp": 1635566615526,
+          "step": 0
+        }
+      ],
+      "params": [
+        {
+          "key": "maxBins",
+          "value": "32.0"
+        },
+        {
+          "key": "maxDepth",
+          "value": "5"
+        }
+      ],
+      "tags": [
+        {
+          "key": "DATABRICKS_RUNTIME_VERSION",
+          "value": "9.1"
+        },
+        {
+          "key": "mlflow.databricks.cluster.id",
+          "value": "0318-151752-abed99"
+        },
+        {
+          "key": "mlflow.databricks.cluster.info",
+          "value": {
+            "cluster_name": "Shared Autoscaling Americas",
+            "spark_version": "9.1.x-cpu-ml-scala2.12",
+            "node_type_id": "i3.2xlarge",
+            "driver_node_type_id": "i3.4xlarge",
+            "autotermination_minutes": 120,
+            "disk_spec": {
+              "disk_count": 0
+            },
+            "autoscale": {
+              "min_workers": 1,
+              "max_workers": 14,
+              "target_workers": 11
+            }
+          }
+        },
+        {
+          "key": "mlflow.databricks.cluster.libraries",
+          "value": {
+            "installable": [],
+            "redacted": []
+          }
+        },
+        {
+          "key": "mlflow.databricks.notebook.commandID",
+          "value": "1474474642005914283_7686988661984310259_7ebce0c34c8747f7b4218a6f457a27c0"
+        },
+        {
+          "key": "mlflow.databricks.notebookID",
+          "value": "3532509"
+        },
+        {
+          "key": "mlflow.databricks.notebookPath",
+          "value": "/Users/andre@mycompany/mlflow/03a_SparkML_Train_Predict"
+        },
+        {
+          "key": "mlflow.databricks.notebookRevisionID",
+          "value": "1635566623921"
+        },
+        {
+          "key": "mlflow.databricks.webappURL",
+          "value": "https://demo.cloud.mycompany"
+        },
+        {
+          "key": "mlflow.source.name",
+          "value": "/Users/andre@mycompany/mlflow/03a_SparkML_Train_Predict"
+        },
+        {
+          "key": "mlflow.source.type",
+          "value": "NOTEBOOK"
+        },
+        {
+          "key": "mlflow.user",
+          "value": "andre@mycompany"
+        },
+        {
+          "key": "mlflow_version",
+          "value": "1.20.2"
+        },
+        {
+          "key": "pyspark_version",
+          "value": "3.1.2"
+        },
+        {
+          "key": "sparkDatasourceInfo",
+          "value": "path=dbfs:REDACTED_LOCAL_PART@mycompany/mlflow_demo/wine-quality.csv,format=text"
+        },
+        {
+          "key": "sparkVersion",
+          "value": "9.1.x-cpu-ml-scala2.12"
+        },
+        {
+          "key": "spark_autolog",
+          "value": "False"
+        },
+        {
+          "key": "spark_version",
+          "value": "3.1.2"
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "root_uri": "dbfs:/databricks/mlflow/3532509/9fd2aab028f74262b3803ad3722add64/artifacts",
+    "files": [
+      {
+        "path": "spark-model",
+        "is_dir": true,
+        "artifacts": {
+          "root_uri": "dbfs:/databricks/mlflow/3532509/9fd2aab028f74262b3803ad3722add64/artifacts",
+          "files": [
+            {
+              "path": "spark-model/MLmodel",
+              "is_dir": false,
+              "file_size": 343
+            },
+            {
+              "path": "spark-model/conda.yaml",
+              "is_dir": false,
+              "file_size": 114
+            },
+            {
+              "path": "spark-model/sparkml",
+              "is_dir": true,
+              "artifacts": {
+                "root_uri": "dbfs:/databricks/mlflow/3532509/9fd2aab028f74262b3803ad3722add64/artifacts",
+                "files": [
+                  {
+                    "path": "spark-model/sparkml/metadata",
+                    "is_dir": true,
+                    "artifacts": {
+                      "root_uri": "dbfs:/databricks/mlflow/3532509/9fd2aab028f74262b3803ad3722add64/artifacts",
+                      "files": [
+                        {
+                          "path": "spark-model/sparkml/metadata/_SUCCESS",
+                          "is_dir": false,
+                          "file_size": 0
+                        },
+                        {
+                          "path": "spark-model/sparkml/metadata/part-00000",
+                          "is_dir": false,
+                          "file_size": 246
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "path": "spark-model/sparkml/stages",
+                    "is_dir": true,
+                    "artifacts": {
+                      "root_uri": "dbfs:/databricks/mlflow/3532509/9fd2aab028f74262b3803ad3722add64/artifacts",
+                      "files": [
+                        {
+                          "path": "spark-model/sparkml/stages/0_VectorAssembler_f49056e68c64",
+                          "is_dir": true
+                        },
+                        {
+                          "path": "spark-model/sparkml/stages/1_DecisionTreeRegressor_b0b580e6f0fe",
+                          "is_dir": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
