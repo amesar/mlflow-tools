@@ -1,0 +1,239 @@
+{
+  "summary": {
+    "artifacts": 3,
+    "artifact_bytes": 2255,
+    "params": 13,
+    "metrics": 5,
+    "tags": 14
+  },
+  "run": {
+    "info": {
+      "run_uuid": "6275d86fd7174738954d955a87efbfbe",
+      "experiment_id": "11188495",
+      "status": "FINISHED",
+      "start_time": 1631116526897,
+      "end_time": 1631116528701,
+      "artifact_uri": "dbfs:/databricks/mlflow-tracking/11188495/6275d86fd7174738954d955a87efbfbe/artifacts",
+      "lifecycle_stage": "active",
+      "run_id": "6275d86fd7174738954d955a87efbfbe",
+      "_start_time": "2021-09-08 15:55:26",
+      "_end_time": "2021-09-08 15:55:28",
+      "_duration": 1.804
+    },
+    "data": {
+      "metrics": [
+        {
+          "key": "training_mae",
+          "value": 0.6762577101850822,
+          "timestamp": 1631116527442,
+          "step": 0
+        },
+        {
+          "key": "training_mse",
+          "value": 0.6667228939007687,
+          "timestamp": 1631116527442,
+          "step": 0
+        },
+        {
+          "key": "training_r2_score",
+          "value": 0.1628691928264817,
+          "timestamp": 1631116527442,
+          "step": 0
+        },
+        {
+          "key": "training_rmse",
+          "value": 0.8165310122100499,
+          "timestamp": 1631116527442,
+          "step": 0
+        },
+        {
+          "key": "training_score",
+          "value": 0.1628691928264817,
+          "timestamp": 1631116527657,
+          "step": 0
+        }
+      ],
+      "params": [
+        {
+          "key": "ccp_alpha",
+          "value": "0.0"
+        },
+        {
+          "key": "criterion",
+          "value": "mse"
+        },
+        {
+          "key": "max_depth",
+          "value": "1"
+        },
+        {
+          "key": "max_features",
+          "value": "None"
+        },
+        {
+          "key": "max_leaf_nodes",
+          "value": "None"
+        },
+        {
+          "key": "min_impurity_decrease",
+          "value": "0.0"
+        },
+        {
+          "key": "min_impurity_split",
+          "value": "None"
+        },
+        {
+          "key": "min_samples_leaf",
+          "value": "1"
+        },
+        {
+          "key": "min_samples_split",
+          "value": "2"
+        },
+        {
+          "key": "min_weight_fraction_leaf",
+          "value": "0.0"
+        },
+        {
+          "key": "presort",
+          "value": "deprecated"
+        },
+        {
+          "key": "random_state",
+          "value": "None"
+        },
+        {
+          "key": "splitter",
+          "value": "best"
+        }
+      ],
+      "tags": [
+        {
+          "key": "estimator_class",
+          "value": "sklearn.tree._classes.DecisionTreeRegressor"
+        },
+        {
+          "key": "estimator_name",
+          "value": "DecisionTreeRegressor"
+        },
+        {
+          "key": "mlflow.databricks.cluster.id",
+          "value": "0804-220509-stead130"
+        },
+        {
+          "key": "mlflow.databricks.cluster.info",
+          "value": {
+            "cluster_name": "Shared Autoscaling EMEA",
+            "spark_version": "8.3.x-cpu-ml-scala2.12",
+            "node_type_id": "i3.2xlarge",
+            "driver_node_type_id": "i3.4xlarge",
+            "autotermination_minutes": 120,
+            "disk_spec": {
+              "disk_count": 0
+            },
+            "autoscale": {
+              "min_workers": 1,
+              "max_workers": 14,
+              "target_workers": 1
+            }
+          }
+        },
+        {
+          "key": "mlflow.databricks.cluster.libraries",
+          "value": {
+            "installable": [],
+            "redacted": []
+          }
+        },
+        {
+          "key": "mlflow.databricks.notebookID",
+          "value": "11188495"
+        },
+        {
+          "key": "mlflow.databricks.notebookPath",
+          "value": "/Users/andre@mycompany/mlflow/02a_Sklearn_Train_Predict_Autolog"
+        },
+        {
+          "key": "mlflow.databricks.notebookRevisionID",
+          "value": "1631116528818"
+        },
+        {
+          "key": "mlflow.databricks.webappURL",
+          "value": "https://demo.cloud.mycompany"
+        },
+        {
+          "key": "mlflow.log-model.history",
+          "value": [
+            {
+              "artifact_path": "model",
+              "signature": {
+                "inputs": "[{\"name\": \"fixed acidity\", \"type\": \"double\"}, {\"name\": \"volatile acidity\", \"type\": \"double\"}, {\"name\": \"citric acid\", \"type\": \"double\"}, {\"name\": \"residual sugar\", \"type\": \"double\"}, {\"name\": \"chlorides\", \"type\": \"double\"}, {\"name\": \"free sulfur dioxide\", \"type\": \"double\"}, {\"name\": \"total sulfur dioxide\", \"type\": \"double\"}, {\"name\": \"density\", \"type\": \"double\"}, {\"name\": \"pH\", \"type\": \"double\"}, {\"name\": \"sulphates\", \"type\": \"double\"}, {\"name\": \"alcohol\", \"type\": \"double\"}]",
+                "outputs": "[{\"type\": \"tensor\", \"tensor-spec\": {\"dtype\": \"float64\", \"shape\": [-1]}}]"
+              },
+              "flavors": {
+                "python_function": {
+                  "model_path": "model.pkl",
+                  "loader_module": "mlflow.sklearn",
+                  "python_version": "3.8.8",
+                  "env": "conda.yaml"
+                },
+                "sklearn": {
+                  "pickled_model": "model.pkl",
+                  "sklearn_version": "0.23.2",
+                  "serialization_format": "cloudpickle"
+                }
+              },
+              "run_id": "6275d86fd7174738954d955a87efbfbe",
+              "utc_time_created": "2021-09-08 15:55:27.807872"
+            }
+          ]
+        },
+        {
+          "key": "mlflow.runName",
+          "value": "sklearn"
+        },
+        {
+          "key": "mlflow.source.name",
+          "value": "/Users/andre@mycompany/mlflow/02a_Sklearn_Train_Predict_Autolog"
+        },
+        {
+          "key": "mlflow.source.type",
+          "value": "NOTEBOOK"
+        },
+        {
+          "key": "mlflow.user",
+          "value": "andre@mycompany"
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "root_uri": "dbfs:/databricks/mlflow-tracking/11188495/6275d86fd7174738954d955a87efbfbe/artifacts",
+    "files": [
+      {
+        "path": "model",
+        "is_dir": true,
+        "artifacts": {
+          "root_uri": "dbfs:/databricks/mlflow-tracking/11188495/6275d86fd7174738954d955a87efbfbe/artifacts",
+          "files": [
+            {
+              "path": "model/MLmodel",
+              "is_dir": false,
+              "file_size": 958
+            },
+            {
+              "path": "model/conda.yaml",
+              "is_dir": false,
+              "file_size": 153
+            },
+            {
+              "path": "model/model.pkl",
+              "is_dir": false,
+              "file_size": 1144
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
