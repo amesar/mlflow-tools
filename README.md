@@ -23,6 +23,7 @@ Some useful tools for MLflow.
   * Delete model stages.
   * Dump registered model as JSON or YAML.
   * List registered model's versions as text table.
+* Call http_client - either MLflow API or Databricks API.
 
 ### Advanced Tools
 * [Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.

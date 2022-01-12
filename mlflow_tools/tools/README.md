@@ -18,6 +18,9 @@ Some useful tools for MLflow. Run the examples from the root of repository.
   * [Dump registered model](#Dump-registered-model)
   * [List versions of registered model as text table](#List-versions-of-a-registered-model-as-text-table)
 * [Call MLflow model server](#Call-MLflow-model-server)
+* [Call http_client: either MLflow API or Databricks API](#Call-http_client:-either-MLflow-API-or-Databricks-API)
+
+
 
 ## Setup
 ```
@@ -573,4 +576,38 @@ All 8 versions
 |         3 | Staging    | READY    | 2021-09-10 03:01:21 |
 |         1 | Staging    | READY    | 2021-09-10 02:59:44 |
 +-----------+------------+----------+---------------------+`
+```
+
+## Call http_client - either MLflow API or Databricks API
+
+**Usage**
+```
+python -m mlflow_tools.common.http_client --help
+
+Options:
+  --api TEXT          API: mlflow|databricks
+  --resource TEXT     API resource.  [required]
+  --method TEXT       HTTP method: GET|POST.
+  --params TEXT       HTTP GET query parameters as JSON.
+  --data TEXT         HTTP POST data as JSON.
+  --output-file TEXT  Output file.
+  --verbose BOOLEAN   Verbose.  [default: False]
+```
+
+**HTTP GET example**
+```
+export MLFLOW_TRACKING_URI=http://localhost:5000
+
+python -m mlflow_tools.common.http_client \
+  --resource experiments/list\
+  --output-file experiments.json
+```
+
+**HTTP POST example**
+```
+export MLFLOW_TRACKING_URI=http://localhost:5000
+
+python -m mlflow_tools.common.http_client \
+  --resource experiments/create \
+  --data '{"name": "my_experiment"}'
 ```
