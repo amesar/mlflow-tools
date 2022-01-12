@@ -585,13 +585,14 @@ All 8 versions
 python -m mlflow_tools.common.http_client --help
 
 Options:
-  --api TEXT          API: mlflow|databricks
-  --resource TEXT     API resource.  [required]
+  --api TEXT          API: mlflow|databricks.
+  --resource TEXT     API resource such as 'experiments/list'.  [required]
   --method TEXT       HTTP method: GET|POST.
   --params TEXT       HTTP GET query parameters as JSON.
   --data TEXT         HTTP POST data as JSON.
   --output-file TEXT  Output file.
   --verbose BOOLEAN   Verbose.  [default: False]
+  --help              Show this message and exit.
 ```
 
 **HTTP GET example**
