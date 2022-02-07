@@ -17,10 +17,9 @@ Some useful tools for MLflow. Run the examples from the root of repository.
   * [Delete model stages](#Delete-model-stages)
   * [Dump registered model](#Dump-registered-model)
   * [List versions of registered model as text table](#List-versions-of-a-registered-model-as-text-table)
+  *[List all model versions and their backing run](#List-all-model-versions-and-their-backing-run)
 * [Call MLflow model server](#Call-MLflow-model-server)
 * [Call http_client: either MLflow API or Databricks API](#Call-http_client:-either-MLflow-API-or-Databricks-API)
-
-
 
 ## Setup
 ```
@@ -576,6 +575,28 @@ All 8 versions
 |         3 | Staging    | READY    | 2021-09-10 03:01:21 |
 |         1 | Staging    | READY    | 2021-09-10 02:59:44 |
 +-----------+------------+----------+---------------------+`
+```
+
+## List all model versions and their backing run
+
+List all versions of all registered models with emphasis on if the version's backing run exists.
+
+See [list_all_model_versions.py](list_all_model_versions.py).
+
+```
+python -m mlflow_tools.tools.list_all_model_versions
+```
+
+```
++---------------------+-----------+---------+----------------------------------+--------------+
+| Model               |   Version | Stage   | Run ID                           | Run exists   |
+|---------------------+-----------+---------+----------------------------------+--------------|
+| sklearn_iris        |         1 | None    | 658e452a242a4070a4ce667ecc7a7853 | False        |
+| sklearn_iris        |         2 | None    | 5d2185773e244866aa1a6e242f51beb0 | True         |
+| sklearn_wine        |         1 | None    | 6ffc04f9b98c4511ab4adff8e17cdba8 | True         |
+| sklearn_wine_custom |         2 | None    | e4a4dd7ffcaa43d79e23d20079453ad7 | True         |
+| sklearn_wine_onnx   |         1 | None    | 6ffc04f9b98c4511ab4adff8e17cdba8 | True         |
++---------------------+-----------+---------+----------------------------------+--------------+
 ```
 
 ## Call http_client - either MLflow API or Databricks API
