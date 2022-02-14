@@ -588,15 +588,15 @@ python -m mlflow_tools.tools.list_all_model_versions
 ```
 
 ```
-+---------------------+-----------+---------+----------------------------------+--------------+
-| Model               |   Version | Stage   | Run ID                           | Run exists   |
-|---------------------+-----------+---------+----------------------------------+--------------|
-| sklearn_iris        |         1 | None    | 658e452a242a4070a4ce667ecc7a7853 | False        |
-| sklearn_iris        |         2 | None    | 5d2185773e244866aa1a6e242f51beb0 | True         |
-| sklearn_wine        |         1 | None    | 6ffc04f9b98c4511ab4adff8e17cdba8 | True         |
-| sklearn_wine_custom |         2 | None    | e4a4dd7ffcaa43d79e23d20079453ad7 | True         |
-| sklearn_wine_onnx   |         1 | None    | 6ffc04f9b98c4511ab4adff8e17cdba8 | True         |
-+---------------------+-----------+---------+----------------------------------+--------------+
++-----------------------+-----------+-----------------+--------+-------------+--------------+
+| Model                 |   Version | Version stage   | Run ID | Run stage   | Run exists   |
+|-----------------------+-----------+-----------------+--------+-------------+--------------|
+| Sklearn_Wine_Quality  |         2 | Production      | 1776   | active      | True         |
+| Sklearn_Wine_Quality  |         1 | Staging         | 1783   | active      | True         |
+| Bad_Loan_Model        |        14 | Production      | 1812   | deleted     | True         |
+| Bad_Loan_Model        |         8 | Archived        | 1815   |             | False        |
+| Bad_Loan_Model        |        13 | None            | 1865   |             | False        |
++-----------------------+-----------+-----------------+--------+-------------+--------------+
 ```
 
 ## Call http_client - either MLflow API or Databricks API

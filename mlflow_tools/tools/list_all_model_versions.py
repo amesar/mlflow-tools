@@ -22,14 +22,18 @@ def main(format, max_results):
         vdata = []
         for  vr in versions:
             try:
-                client.get_run(vr.run_id)
+                run = client.get_run(vr.run_id)
+                #run_deleted = run.info.lifecycle_stage
+                run_stage = run.info.lifecycle_stage
                 run_exists = True
             #except mlflow.exceptions.RestException:
             except Exception:
                 run_exists = False
-            vdata.append([model.name, vr.version, vr.current_stage, vr.run_id, run_exists ])
+                #run_deleted = True
+                run_stage = None
+            vdata.append([model.name, vr.version, vr.current_stage, vr.run_id, run_stage, run_exists ])
         data = data + vdata
-    columns = ["Model","Version","Stage", "Run ID", "Run exists"]
+    columns = ["Model","Version","Version stage", "Run ID", "Run stage", "Run exists"]
     df = pd.DataFrame(data, columns = columns)
     if format.lower() == "csv":
         print(df.to_csv(sys.stdout, index=False))
