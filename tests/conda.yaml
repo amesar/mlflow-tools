@@ -4,9 +4,10 @@ channels:
 dependencies:
 - python=3.7.6
 - pip:
-    - mlflow>=1.13.1
+    - mlflow
     - pytest==5.3.5
     - scikit-learn==0.24.1
     - coverage
     - cloudpickle==1.6.0
-    - pyspark==2.4.5
+    - pyspark==3.2.1
+    #- pyspark==2.4.5
