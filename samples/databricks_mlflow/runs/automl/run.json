@@ -1,0 +1,481 @@
+{
+  "summary": {
+    "artifacts": 5,
+    "artifact_bytes": 415223,
+    "params": 65,
+    "metrics": 15,
+    "tags": 8
+  },
+  "run": {
+    "info": {
+      "run_uuid": "d19d4557bb6d4c698133519895366f10",
+      "experiment_id": "12409523",
+      "status": "FINISHED",
+      "start_time": 1646446431847,
+      "end_time": 1646446444273,
+      "artifact_uri": "dbfs:/databricks/mlflow-tracking/12409523/d19d4557bb6d4c698133519895366f10/artifacts",
+      "lifecycle_stage": "active",
+      "run_id": "d19d4557bb6d4c698133519895366f10",
+      "_start_time": "2022-03-05 02:13:51",
+      "_end_time": "2022-03-05 02:14:04",
+      "_duration": 12.426
+    },
+    "data": {
+      "metrics": [
+        {
+          "key": "test_mae",
+          "value": 0.5128033168499286,
+          "timestamp": 1646446444129,
+          "step": 0
+        },
+        {
+          "key": "test_mse",
+          "value": 0.46176380733952693,
+          "timestamp": 1646446444129,
+          "step": 0
+        },
+        {
+          "key": "test_r2_score",
+          "value": 0.3828522712576391,
+          "timestamp": 1646446444129,
+          "step": 0
+        },
+        {
+          "key": "test_rmse",
+          "value": 0.6795320502665985,
+          "timestamp": 1646446444129,
+          "step": 0
+        },
+        {
+          "key": "test_score",
+          "value": 0.3828522712576391,
+          "timestamp": 1646446444151,
+          "step": 0
+        },
+        {
+          "key": "training_mae",
+          "value": 0.4267129257069055,
+          "timestamp": 1646446440292,
+          "step": 0
+        },
+        {
+          "key": "training_mse",
+          "value": 0.30649162595332197,
+          "timestamp": 1646446440292,
+          "step": 0
+        },
+        {
+          "key": "training_r2_score",
+          "value": 0.5952202360650094,
+          "timestamp": 1646446440292,
+          "step": 0
+        },
+        {
+          "key": "training_rmse",
+          "value": 0.5536168584439259,
+          "timestamp": 1646446440292,
+          "step": 0
+        },
+        {
+          "key": "training_score",
+          "value": 0.5952202360650094,
+          "timestamp": 1646446440318,
+          "step": 0
+        },
+        {
+          "key": "val_mae",
+          "value": 0.5312928195363105,
+          "timestamp": 1646446443964,
+          "step": 0
+        },
+        {
+          "key": "val_mse",
+          "value": 0.4784381160367939,
+          "timestamp": 1646446443964,
+          "step": 0
+        },
+        {
+          "key": "val_r2_score",
+          "value": 0.39621887078278073,
+          "timestamp": 1646446443964,
+          "step": 0
+        },
+        {
+          "key": "val_rmse",
+          "value": 0.6916922119243457,
+          "timestamp": 1646446443964,
+          "step": 0
+        },
+        {
+          "key": "val_score",
+          "value": 0.39621887078278073,
+          "timestamp": 1646446444007,
+          "step": 0
+        }
+      ],
+      "params": [
+        {
+          "key": "column_selector",
+          "value": "ColumnSelector(cols=['free_sulfur_dioxide', 'fixed_acidity', 'density',\n                     'sulphates', 'pH', 'residual_sugar', 'citric_acid',\n                     'total_sulfur_dioxide', 'alcohol', 'chlorides',\n                     'volatile_ac..."
+        },
+        {
+          "key": "column_selector__cols",
+          "value": "['free_sulfur_dioxide', 'fixed_acidity', 'density', 'sulphates', 'pH', 'residual_sugar', 'citric_acid', 'total_sulfur_dioxide', 'alcohol', 'chlorides', 'volatile_acidity']"
+        },
+        {
+          "key": "memory",
+          "value": "None"
+        },
+        {
+          "key": "preprocessor",
+          "value": "ColumnTransformer(remainder='passthrough', sparse_threshold=0,\n                  transformers=[('numerical',\n                                 Pipeline(steps=[('converter',\n                                                  FunctionTransformer(func=..."
+        },
+        {
+          "key": "preprocessor__n_jobs",
+          "value": "None"
+        },
+        {
+          "key": "preprocessor__numerical",
+          "value": "Pipeline(steps=[('converter',\n                 FunctionTransformer(func=<function <lambda> at 0x7f58f21d8160>)),\n                ('imputer', SimpleImputer())])"
+        },
+        {
+          "key": "preprocessor__numerical__converter",
+          "value": "FunctionTransformer(func=<function <lambda> at 0x7f58f21d8160>)"
+        },
+        {
+          "key": "preprocessor__numerical__converter__accept_sparse",
+          "value": "False"
+        },
+        {
+          "key": "preprocessor__numerical__converter__check_inverse",
+          "value": "True"
+        },
+        {
+          "key": "preprocessor__numerical__converter__func",
+          "value": "<function <lambda> at 0x7f58f21d8160>"
+        },
+        {
+          "key": "preprocessor__numerical__converter__inv_kw_args",
+          "value": "None"
+        },
+        {
+          "key": "preprocessor__numerical__converter__inverse_func",
+          "value": "None"
+        },
+        {
+          "key": "preprocessor__numerical__converter__kw_args",
+          "value": "None"
+        },
+        {
+          "key": "preprocessor__numerical__converter__validate",
+          "value": "False"
+        },
+        {
+          "key": "preprocessor__numerical__imputer",
+          "value": "SimpleImputer()"
+        },
+        {
+          "key": "preprocessor__numerical__imputer__add_indicator",
+          "value": "False"
+        },
+        {
+          "key": "preprocessor__numerical__imputer__copy",
+          "value": "True"
+        },
+        {
+          "key": "preprocessor__numerical__imputer__fill_value",
+          "value": "None"
+        },
+        {
+          "key": "preprocessor__numerical__imputer__missing_values",
+          "value": "nan"
+        },
+        {
+          "key": "preprocessor__numerical__imputer__strategy",
+          "value": "mean"
+        },
+        {
+          "key": "preprocessor__numerical__imputer__verbose",
+          "value": "0"
+        },
+        {
+          "key": "preprocessor__numerical__memory",
+          "value": "None"
+        },
+        {
+          "key": "preprocessor__numerical__steps",
+          "value": "[('converter', FunctionTransformer(func=<function <lambda> at 0x7f58f21d8160>)), ('imputer', SimpleImputer())]"
+        },
+        {
+          "key": "preprocessor__numerical__verbose",
+          "value": "False"
+        },
+        {
+          "key": "preprocessor__remainder",
+          "value": "passthrough"
+        },
+        {
+          "key": "preprocessor__sparse_threshold",
+          "value": "0"
+        },
+        {
+          "key": "preprocessor__transformer_weights",
+          "value": "None"
+        },
+        {
+          "key": "preprocessor__transformers",
+          "value": "[('numerical', Pipeline(steps=[('converter',\n                 FunctionTransformer(func=<function <lambda> at 0x7f58f21d8160>)),\n                ('imputer', SimpleImputer())]), ['free_sulfur_dioxide', 'fixed_acidity', 'density', 'sulphates', 'pH', ..."
+        },
+        {
+          "key": "preprocessor__verbose",
+          "value": "False"
+        },
+        {
+          "key": "regressor",
+          "value": "XGBRegressor(base_score=None, booster=None, colsample_bylevel=None,\n             colsample_bynode=None, colsample_bytree=0.7891999135734751,\n             enable_categorical=False, gamma=None, gpu_id=None,\n             importance_type=None, interac..."
+        },
+        {
+          "key": "regressor__base_score",
+          "value": "None"
+        },
+        {
+          "key": "regressor__booster",
+          "value": "None"
+        },
+        {
+          "key": "regressor__colsample_bylevel",
+          "value": "None"
+        },
+        {
+          "key": "regressor__colsample_bynode",
+          "value": "None"
+        },
+        {
+          "key": "regressor__colsample_bytree",
+          "value": "0.7891999135734751"
+        },
+        {
+          "key": "regressor__enable_categorical",
+          "value": "False"
+        },
+        {
+          "key": "regressor__gamma",
+          "value": "None"
+        },
+        {
+          "key": "regressor__gpu_id",
+          "value": "None"
+        },
+        {
+          "key": "regressor__importance_type",
+          "value": "None"
+        },
+        {
+          "key": "regressor__interaction_constraints",
+          "value": "None"
+        },
+        {
+          "key": "regressor__learning_rate",
+          "value": "0.06443550297582884"
+        },
+        {
+          "key": "regressor__max_delta_step",
+          "value": "None"
+        },
+        {
+          "key": "regressor__max_depth",
+          "value": "12"
+        },
+        {
+          "key": "regressor__min_child_weight",
+          "value": "13"
+        },
+        {
+          "key": "regressor__missing",
+          "value": "nan"
+        },
+        {
+          "key": "regressor__monotone_constraints",
+          "value": "None"
+        },
+        {
+          "key": "regressor__n_estimators",
+          "value": "161"
+        },
+        {
+          "key": "regressor__n_jobs",
+          "value": "100"
+        },
+        {
+          "key": "regressor__num_parallel_tree",
+          "value": "None"
+        },
+        {
+          "key": "regressor__objective",
+          "value": "reg:squarederror"
+        },
+        {
+          "key": "regressor__predictor",
+          "value": "None"
+        },
+        {
+          "key": "regressor__random_state",
+          "value": "309541433"
+        },
+        {
+          "key": "regressor__reg_alpha",
+          "value": "None"
+        },
+        {
+          "key": "regressor__reg_lambda",
+          "value": "None"
+        },
+        {
+          "key": "regressor__scale_pos_weight",
+          "value": "None"
+        },
+        {
+          "key": "regressor__subsample",
+          "value": "0.20942692266224444"
+        },
+        {
+          "key": "regressor__tree_method",
+          "value": "None"
+        },
+        {
+          "key": "regressor__validate_parameters",
+          "value": "None"
+        },
+        {
+          "key": "regressor__verbosity",
+          "value": "0"
+        },
+        {
+          "key": "standardizer",
+          "value": "StandardScaler()"
+        },
+        {
+          "key": "standardizer__copy",
+          "value": "True"
+        },
+        {
+          "key": "standardizer__with_mean",
+          "value": "True"
+        },
+        {
+          "key": "standardizer__with_std",
+          "value": "True"
+        },
+        {
+          "key": "steps",
+          "value": "[('column_selector', ColumnSelector(cols=['free_sulfur_dioxide', 'fixed_acidity', 'density',\n                     'sulphates', 'pH', 'residual_sugar', 'citric_acid',\n                     'total_sulfur_dioxide', 'alcohol', 'chlorides',\n            ..."
+        },
+        {
+          "key": "verbose",
+          "value": "False"
+        }
+      ],
+      "tags": [
+        {
+          "key": "estimator_class",
+          "value": "sklearn.pipeline.Pipeline"
+        },
+        {
+          "key": "estimator_name",
+          "value": "Pipeline"
+        },
+        {
+          "key": "mlflow.databricks.notebookID",
+          "value": "12410476"
+        },
+        {
+          "key": "mlflow.log-model.history",
+          "value": [
+            {
+              "artifact_path": "model",
+              "saved_input_example_info": {
+                "artifact_path": "input_example.json",
+                "type": "dataframe",
+                "pandas_orient": "split"
+              },
+              "signature": {
+                "inputs": "[{\"name\": \"fixed_acidity\", \"type\": \"double\"}, {\"name\": \"volatile_acidity\", \"type\": \"double\"}, {\"name\": \"citric_acid\", \"type\": \"double\"}, {\"name\": \"residual_sugar\", \"type\": \"double\"}, {\"name\": \"chlorides\", \"type\": \"double\"}, {\"name\": \"free_sulfur_dioxide\", \"type\": \"double\"}, {\"name\": \"total_sulfur_dioxide\", \"type\": \"double\"}, {\"name\": \"density\", \"type\": \"double\"}, {\"name\": \"pH\", \"type\": \"double\"}, {\"name\": \"sulphates\", \"type\": \"double\"}, {\"name\": \"alcohol\", \"type\": \"double\"}]",
+                "outputs": "[{\"type\": \"tensor\", \"tensor-spec\": {\"dtype\": \"float32\", \"shape\": [-1]}}]"
+              },
+              "flavors": {
+                "python_function": {
+                  "model_path": "model.pkl",
+                  "loader_module": "mlflow.sklearn",
+                  "python_version": "3.8.10",
+                  "env": "conda.yaml"
+                },
+                "sklearn": {
+                  "pickled_model": "model.pkl",
+                  "sklearn_version": "0.24.1",
+                  "serialization_format": "cloudpickle"
+                }
+              },
+              "run_id": "d19d4557bb6d4c698133519895366f10",
+              "utc_time_created": "2022-03-05 02:14:00.332886"
+            }
+          ]
+        },
+        {
+          "key": "mlflow.runName",
+          "value": "xgboost"
+        },
+        {
+          "key": "mlflow.source.name",
+          "value": "Notebook: XGBoostRegressor"
+        },
+        {
+          "key": "mlflow.source.type",
+          "value": "NOTEBOOK"
+        },
+        {
+          "key": "mlflow.user",
+          "value": "andre@mycompany"
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "root_uri": "dbfs:/databricks/mlflow-tracking/12409523/d19d4557bb6d4c698133519895366f10/artifacts",
+    "files": [
+      {
+        "path": "model",
+        "is_dir": true,
+        "artifacts": {
+          "root_uri": "dbfs:/databricks/mlflow-tracking/12409523/d19d4557bb6d4c698133519895366f10/artifacts",
+          "files": [
+            {
+              "path": "model/MLmodel",
+              "is_dir": false,
+              "file_size": 1062
+            },
+            {
+              "path": "model/conda.yaml",
+              "is_dir": false,
+              "file_size": 310
+            },
+            {
+              "path": "model/input_example.json",
+              "is_dir": false,
+              "file_size": 540
+            },
+            {
+              "path": "model/model.pkl",
+              "is_dir": false,
+              "file_size": 413141
+            },
+            {
+              "path": "model/requirements.txt",
+              "is_dir": false,
+              "file_size": 170
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
