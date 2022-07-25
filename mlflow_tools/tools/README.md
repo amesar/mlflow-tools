@@ -3,21 +3,26 @@
 ## Overview
 
 Some useful tools for MLflow. Run the examples from the root of repository.
-* [Dump samples](../../samples/README.md)
+
+**Dumps**
+* [Samples of dumps](../../samples/README.md)
 * [List all experiments](#List-all-experiments)
 * [Dump run](#Dump-run)
 * [Dump experiment](#Dump-experiment) 
   * [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
+
+**Registered model**
+* [Register a run's model as a registered model version and optional stage](#Register-a-run's-model-as-a-registered-model-version-and-optional-stage)
+* [Delete registered model](#Delete-registered-model)
+* [Delete model stages](#Delete-model-stages)
+* [Dump registered model](#Dump-registered-model)
+* [List versions of registered model as text table](#List-versions-of-a-registered-model-as-text-table)
+*[List all model versions and their backing run](#List-all-model-versions-and-their-backing-run)
+
+**Other**
 * [Find best run of experiment](#Find-best-run-of-experiment)
 * [Find matching artifacts](#Find-matching-artifacts)
 * [Download model artifacts](#Download-model-artifacts)
-* Registered model tools
-  * [Register a run's model as a registered model version and optional stage](#Register-a-run's-model-as-a-registered-model-version-and-optional-stage)
-  * [Delete registered model](#Delete-registered-model)
-  * [Delete model stages](#Delete-model-stages)
-  * [Dump registered model](#Dump-registered-model)
-  * [List versions of registered model as text table](#List-versions-of-a-registered-model-as-text-table)
-  *[List all model versions and their backing run](#List-all-model-versions-and-their-backing-run)
 * [Call MLflow model server](#Call-MLflow-model-server)
 * [Call http_client: either MLflow API or Databricks API](#Call-http_client:-either-MLflow-API-or-Databricks-API)
 
