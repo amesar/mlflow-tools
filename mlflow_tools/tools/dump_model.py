@@ -5,6 +5,7 @@ Dump a registered model in JSON or YAML.
 import json
 import yaml
 import click
+from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.http_client import MlflowHttpClient
 from . import format_dt, dump_dct
 from . import dump_run
@@ -33,7 +34,16 @@ def dump(model_name, format, show_runs, format_datetime, explode_json_string, ar
     if show_runs:
         latest_versions =  model["registered_model"].get("latest_versions",None)
         if latest_versions:
-            vruns = { x['version']:client.get(f"runs/get?run_id={x['run_id']}")['run'] for x in latest_versions }
+            #vruns = { vr['version']:client.get(f"runs/get?run_id={vr['run_id']}")['run'] for vr in latest_versions }
+            vruns = {}
+            for vr in latest_versions:
+                try:
+                    run = client.get(f"runs/get?run_id={vr['run_id']}")
+                    vruns[vr['version']] = run['run']
+                except MlflowToolsException as e:
+                    print(f"WARNING: Model '{model_name}' version {vr['version']}: run ID {vr['run_id']} does not exist.")
+                    #print(e)
+                    # HTTP status code: 404
             if format_datetime or explode_json_string or artifact_max_level > 0:
                 for k,run in vruns.items():
                     vruns[k] = dump_run.build_run(run, artifact_max_level, explode_json_string)

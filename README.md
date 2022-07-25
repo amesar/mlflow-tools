@@ -12,7 +12,7 @@ Some useful tools for MLflow.
   * [Dump experiment](mlflow_tools/tools/README.md#Dump-experiment)
   * [Dump experiment runs as CSV file](mlflow_tools/tools/README.md#Dump-experiment-runs-to-CSV-file)
   * [Dump registered model](mlflow_tools/tools/README.md#Dump-registered-model)
-  * [Dump samples](samples/README.md)
+  * [Samples of dumps](samples/README.md)
 * Find best run of an experiment.
 * Find matching artifacts
 * Download model artifacts.
