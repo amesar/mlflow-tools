@@ -17,10 +17,11 @@ def main(model):
     print("\nModel:",model)
 
     versions = client.get_latest_versions(model)
+    versions = sorted(versions, key=lambda x: x.current_stage, reverse=True)
     show_versions(versions, f"\nLatest {len(versions)} versions")
 
     versions = client.search_model_versions(f"name='{model}'")
-    versions = sorted(versions, key=lambda x: x.current_stage)
+    versions = sorted(versions, key=lambda x: x.current_stage, reverse=True)
     show_versions(versions, f"\nAll {len(versions)} versions")
 
 def show_versions(versions, msg):
