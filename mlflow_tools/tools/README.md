@@ -16,15 +16,15 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * [Delete registered model](#Delete-registered-model)
 * [Delete model stages](#Delete-model-stages)
 * [Dump registered model](#Dump-registered-model)
-* [List versions of registered model as text table](#List-versions-of-a-registered-model-as-text-table)
-*[List all model versions and their backing run](#List-all-model-versions-and-their-backing-run)
+* [List versions of a registered model](#List-versions-of-a-registered-model-as-text-table)
+* [List all model versions and their backing run](#List-all-model-versions-and-their-backing-run)
 
 **Other**
 * [Find best run of experiment](#Find-best-run-of-experiment)
 * [Find matching artifacts](#Find-matching-artifacts)
 * [Download model artifacts](#Download-model-artifacts)
 * [Call MLflow model server](#Call-MLflow-model-server)
-* [Call http_client: either MLflow API or Databricks API](#Call-http_client:-either-MLflow-API-or-Databricks-API)
+* [Call http_client either MLflow API or Databricks API](#Call-http_client-either-MLflow-API-or-Databricks-API)
 
 ## Setup
 ```
@@ -550,36 +550,41 @@ Options:
 ```
 
 
-## List versions of registered model as text table.
+## List versions of a registered model
+
+Lists two views of versions:
+  *  Latest versions using [MlflowClient.get_latest_versions()](https://mlflow.org/docs/latest/python_api/mlflow.tracking.html#mlflow.tracking.MlflowClient.get_latest_versions).
+  * All versions using [MlflowClient.search_model_versions()](https://mlflow.org/docs/latest/python_api/mlflow.tracking.html#mlflow.tracking.MlflowClient.search_model_versions).
+
+See [list_model_versions.py](list_model_versions.py).
 
 ```
-python -m mlflow_tools.tools.list_model_versions --model Sklearn_Train_Predict
+python -m mlflow_tools.tools.list_model_versions --model sklearn_wine
 ```
 
 ```
-Model: Sklearn_Train_Predict
+Model: sklearn_iris
 
-Latest 2 versions
+Latest 4 versions
 +-----------+------------+----------+---------------------+
 |   Version | Stage      | Status   | Creation            |
 |-----------+------------+----------+---------------------|
-|         8 | Production | READY    | 2021-09-10 03:09:43 |
-|         7 | Staging    | READY    | 2021-09-10 03:09:28 |
+|        25 | Staging    | READY    | 2022-08-05 17:44:27 |
+|        23 | Production | READY    | 2022-08-05 17:43:55 |
+|        28 | None       | READY    | 2022-08-07 01:17:14 |
+|        24 | Archived   | READY    | 2022-08-05 17:44:10 |
 +-----------+------------+----------+---------------------+
 
-All 8 versions
+All 5 versions
 +-----------+------------+----------+---------------------+
 |   Version | Stage      | Status   | Creation            |
 |-----------+------------+----------+---------------------|
-|         8 | Production | READY    | 2021-09-10 03:09:43 |
-|         6 | Production | READY    | 2021-09-10 03:09:07 |
-|         4 | Production | READY    | 2021-09-10 03:01:38 |
-|         2 | Production | READY    | 2021-09-10 03:00:01 |
-|         7 | Staging    | READY    | 2021-09-10 03:09:28 |
-|         5 | Staging    | READY    | 2021-09-10 03:08:51 |
-|         3 | Staging    | READY    | 2021-09-10 03:01:21 |
-|         1 | Staging    | READY    | 2021-09-10 02:59:44 |
-+-----------+------------+----------+---------------------+`
+|        25 | Staging    | READY    | 2022-08-05 17:44:27 |
+|        23 | Production | READY    | 2022-08-05 17:43:55 |
+|        26 | None       | READY    | 2022-08-05 17:44:42 |
+|        28 | None       | READY    | 2022-08-07 01:17:14 |
+|        24 | Archived   | READY    | 2022-08-05 17:44:10 |
++-----------+------------+----------+---------------------+
 ```
 
 ## List all model versions and their backing run
