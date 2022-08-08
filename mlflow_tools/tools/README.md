@@ -16,8 +16,9 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * [Delete registered model](#Delete-registered-model)
 * [Delete model stages](#Delete-model-stages)
 * [Dump registered model](#Dump-registered-model)
-* [List versions of a registered model](#List-versions-of-a-registered-model-as-text-table)
-* [List all model versions and their backing run](#List-all-model-versions-and-their-backing-run)
+* Registered model versions
+  * [List versions of a registered model](#List-versions-of-a-registered-model-as-text-table)
+  * [List versions and their backing run for all registered models](#List-versions-and-their-backing-run-for-all-registered-models)
 
 **Other**
 * [Find best run of experiment](#Find-best-run-of-experiment)
@@ -587,7 +588,6 @@ All 5 versions
 +-----------+------------+----------+---------------------+
 ```
 
-## List all model versions and their backing run
 ## List versions and their backing run for all registered models
 
 List all versions of all registered models with emphasis on if the version's backing run exists.
