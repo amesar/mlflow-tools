@@ -553,8 +553,8 @@ Options:
 ## List versions of a registered model
 
 Lists two views of versions:
-  *  Latest versions using [MlflowClient.get_latest_versions()](https://mlflow.org/docs/latest/python_api/mlflow.tracking.html#mlflow.tracking.MlflowClient.get_latest_versions).
-  * All versions using [MlflowClient.search_model_versions()](https://mlflow.org/docs/latest/python_api/mlflow.tracking.html#mlflow.tracking.MlflowClient.search_model_versions).
+  *  Latest versions use [MlflowClient.get_latest_versions()](https://mlflow.org/docs/latest/python_api/mlflow.tracking.html#mlflow.tracking.MlflowClient.get_latest_versions).
+  * All versions use [MlflowClient.search_model_versions()](https://mlflow.org/docs/latest/python_api/mlflow.tracking.html#mlflow.tracking.MlflowClient.search_model_versions).
 
 See [list_model_versions.py](list_model_versions.py).
 
@@ -588,8 +588,11 @@ All 5 versions
 ```
 
 ## List all model versions and their backing run
+## List versions and their backing run for all registered models
 
 List all versions of all registered models with emphasis on if the version's backing run exists.
+
+Uses [MlflowClient.search_model_versions()](https://mlflow.org/docs/latest/python_api/mlflow.tracking.html#mlflow.tracking.MlflowClient.search_model_versions).
 
 See [list_all_model_versions.py](list_all_model_versions.py).
 
