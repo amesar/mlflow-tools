@@ -7,7 +7,7 @@ Some useful tools for MLflow.
 ### Basic Tools
  [Basic Tools README](mlflow_tools/tools/README.md)
 * List all experiments.
-* [Dumps](mlflow_tools/tools/README.md)
+* [Dump MLflow objects](mlflow_tools/tools/README.md)
   * [Dump run](mlflow_tools/tools/README.md#Dump-run)
   * [Dump experiment](mlflow_tools/tools/README.md#Dump-experiment)
   * [Dump experiment runs as CSV file](mlflow_tools/tools/README.md#Dump-experiment-runs-to-CSV-file)
@@ -22,7 +22,7 @@ Some useful tools for MLflow.
   * Delete registered model.
   * Delete model stages.
   * Dump registered model as JSON or YAML.
-  * List registered model's versions as text table.
+  * List registered model's versions.
 * Call http_client - either MLflow API or Databricks API.
 
 ### Advanced Tools

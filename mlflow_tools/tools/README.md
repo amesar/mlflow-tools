@@ -17,7 +17,7 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 * [Delete model stages](#Delete-model-stages)
 * [Dump registered model](#Dump-registered-model)
 * Registered model versions
-  * [List versions of a registered model](#List-versions-of-a-registered-model-as-text-table)
+  * [List versions of a registered model](#List-all-and-latest-versions-of-a-registered-model)
   * [List versions and their backing run for all registered models](#List-versions-and-their-backing-run-for-all-registered-models)
 
 **Other**
@@ -551,7 +551,7 @@ Options:
 ```
 
 
-## List versions of a registered model
+## List all and latest versions of a registered model
 
 Lists two views of versions:
   *  Latest versions use [MlflowClient.get_latest_versions()](https://mlflow.org/docs/latest/python_api/mlflow.tracking.html#mlflow.tracking.MlflowClient.get_latest_versions).
