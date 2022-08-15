@@ -548,7 +548,7 @@ Options:
   --artifact-max-level INTEGER   Number of artifact levels to recurse.
 ```
 
-## List latest and all versions of a registered model
+## List `latest` and `all` versions of a registered model
 
 List versions and information about the runs they point to.
 
@@ -560,6 +560,10 @@ See [list_model_versions.py](list_model_versions.py).
 
 
 ```
+python -m mlflow_tools.tools.list_model_versions.py \
+  --model all \
+  --view both 
+
 Latest 6 versions
 +-------------------+-----------+------------+---------------------+----------------------------------+-------------+--------------+
 | Model             |   Version | Stage      | Creation            | Run ID                           | Run stage   | Run exists   |
@@ -593,11 +597,15 @@ All 9 versions
 python -m mlflow_tools.tools.list_model_versions --help
 
 Options:
-  --model TEXT           Registered model name or 'all' for all models
+  --model TEXT           Registered model name or 'all' for all models.
                          [required]
 
+  --view TEXT            Display latest, all or both views of versions. Values
+                         are: 'latest|all|both'.  [default: latest]
+
   --max-results INTEGER  max_results parameter to
-                         MlflowClient.list_registered_models()
+                         MlflowClient.list_registered_models().  [default:
+                         1000]
 ```
 
 ## Call http_client - either MLflow API or Databricks API

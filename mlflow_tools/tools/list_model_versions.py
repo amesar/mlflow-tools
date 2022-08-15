@@ -10,7 +10,7 @@ from tabulate import tabulate
 client = mlflow.tracking.MlflowClient()
 
 
-def run(models, get_latest):
+def list_view(models, get_latest):
     data = []
     for model in models:
         if get_latest:
@@ -41,21 +41,41 @@ def dt(ms):
     return dt.strftime("%Y-%m-%d %H:%M:%S")
 
 
-@click.command()
-@click.option("--model", help="Registered model name or 'all' for all models", required=True, type=str)
-@click.option("--max-results", help="max_results parameter to MlflowClient.list_registered_models()", default=1000, type=int)
-def main(model, max_results):
-    print("Options:")
-    for k,v in locals().items(): print(f"  {k}: {v}")
-
+def run(model, view, max_results):
     if model == "all":
         models = client.list_registered_models(max_results=max_results)
     else:
         models = [ client.get_registered_model(model) ]
+    if view in ["latest","both"]:
+        list_view(models, True)
+    if view in ["all","both"]:
+        list_view(models, False)
+    if view not in ["latest", "all","both"]:
+        print(f"ERROR: Bad 'view' value '{view}'")
 
-    run(models, True)
-    run(models, False)
 
-
+@click.command()
+@click.option("--model", 
+  help="Registered model name or 'all' for all models.", 
+  type=str,
+  required=True
+)
+@click.option("--view", 
+  help="Display latest, all or both views of versions. Values are: 'latest|all|both'.", 
+  type=str,
+  default="latest", 
+  show_default=True
+)
+@click.option("--max-results", 
+  help="max_results parameter to MlflowClient.list_registered_models().", 
+  type=int,
+  default=1000,
+  show_default=True
+)
+def main(model, view, max_results):
+    print("Options:")
+    for k,v in locals().items(): print(f"  {k}: {v}")
+    run(model, view, max_results
+)
 if __name__ == "__main__":
     main()
