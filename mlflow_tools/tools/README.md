@@ -542,10 +542,10 @@ python -m mlflow_tools.tools.dump_model --help
 Options:
   --format TEXT                  Output format: json|yaml.
   --model TEXT                   Registered model name.  [required]
-  --show-runs BOOLEAN            Show run details.
-  --format-datetime BOOLEAN      Show human-readable datetime formats.
+  --show-runs BOOLEAN            Show run details.  [default: False]
+  --format-datetime BOOLEAN      Show human-readable datetime formats.  [default: False]
   --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
-  --artifact-max-level INTEGER   Number of artifact levels to recurse.
+  --artifact-max-level INTEGER   Number of artifact levels to recurse.  [default: 0]
 ```
 
 ## List `latest` and `all` versions of a registered model

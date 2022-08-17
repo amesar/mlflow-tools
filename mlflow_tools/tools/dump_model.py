@@ -2,8 +2,6 @@
 Dump a registered model in JSON or YAML.
 """
 
-import json
-import yaml
 import click
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.http_client import MlflowHttpClient
@@ -12,10 +10,12 @@ from . import dump_run
 
 client = MlflowHttpClient()
 
+
 def _format_dt(dct, key):
     v = dct.get(key,None)
     if v: 
         dct[f"_{key}"] = format_dt(int(v))
+
 
 def _preprocess(dct):
     dct =  dct["registered_model"]
@@ -27,7 +27,8 @@ def _preprocess(dct):
             _format_dt(v, "creation_timestamp")
             _format_dt(v, "last_updated_timestamp")
 
-def dump(model_name, format, show_runs, format_datetime, explode_json_string, artifact_max_level):
+
+def dump(model_name, format="json", show_runs=False, format_datetime=False, explode_json_string=False, artifact_max_level=0):
     model = client.get(f"registered-models/get?name={model_name}")
     if format_datetime:
         _preprocess(model)
@@ -40,7 +41,7 @@ def dump(model_name, format, show_runs, format_datetime, explode_json_string, ar
                 try:
                     run = client.get(f"runs/get?run_id={vr['run_id']}")
                     vruns[vr['version']] = run['run']
-                except MlflowToolsException as e:
+                except MlflowToolsException:
                     print(f"WARNING: Model '{model_name}' version {vr['version']}: run ID {vr['run_id']} does not exist.")
                     #print(e)
                     # HTTP status code: 404
@@ -54,18 +55,47 @@ def dump(model_name, format, show_runs, format_datetime, explode_json_string, ar
     else:
         dump_dct(model, format)
 
-@click.command()
-@click.option("--format", help="Output format: json|yaml.", default="name")
-@click.option("--model", help="Registered model name.", required=True, type=str)
-@click.option("--show-runs", help="Show run details.", type=bool, default=False, show_default=False)
-@click.option("--format-datetime", help="Show human-readable datetime formats.", type=bool, default=False, show_default=False)
-@click.option("--explode-json-string", help="Explode JSON string.", type=bool, default=False, show_default=True)
-@click.option("--artifact-max-level", help="Number of artifact levels to recurse.", default=0, type=int)
 
-def main(model, show_runs, format, format_datetime, explode_json_string, artifact_max_level):
+@click.command()
+@click.option("--format", 
+    help="Output format: json|yaml.",
+    type=str,
+    default="json"
+)
+@click.option("--model",
+     help="Registered model name.",
+     required=True, type=str
+)
+@click.option("--show-runs",
+    help="Show run details.",
+    type=bool,
+    default=False, 
+    show_default=True
+)
+@click.option("--format-datetime",
+    help="Show human-readable datetime formats.",
+    type=bool,
+    default=False,
+    show_default=True
+)
+@click.option("--explode-json-string",
+    help="Explode JSON string.",
+    type=bool, 
+    default=False,
+    show_default=True
+)
+@click.option("--artifact-max-level",
+    help="Number of artifact levels to recurse.",
+    type=int,
+    default=0,
+    show_default=True
+)
+def main(model, show_runs, format, format_datetime, explode_json_string, artifact_max_level
+):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
     dump(model, format, show_runs, format_datetime, explode_json_string, artifact_max_level)
+
 
 if __name__ == "__main__":
     main()
