@@ -1,0 +1,201 @@
+{
+  "summary": {
+    "artifacts": 5,
+    "artifact_bytes": 4486,
+    "params": 0,
+    "metrics": 1,
+    "tags": 21
+  },
+  "run": {
+    "info": {
+      "run_uuid": "bd9b5091a47f4abe929176c67a3d109c",
+      "experiment_id": "76bcc705806b407fb971843bfb5e5cae",
+      "run_name": "carefree-penguin-236",
+      "status": "FINISHED",
+      "start_time": 1668754360331,
+      "end_time": 1668754363829,
+      "artifact_uri": "dbfs:/databricks/mlflow-tracking/76bcc705806b407fb971843bfb5e5cae/bd9b5091a47f4abe929176c67a3d109c/artifacts",
+      "lifecycle_stage": "active",
+      "run_id": "bd9b5091a47f4abe929176c67a3d109c",
+      "_start_time": "2022-11-18 06:52:40",
+      "_end_time": "2022-11-18 06:52:43",
+      "_duration": 3.498
+    },
+    "data": {
+      "metrics": [
+        {
+          "key": "degree",
+          "value": 5.0,
+          "timestamp": 1668754360669,
+          "step": 0
+        }
+      ],
+      "tags": [
+        {
+          "key": "mlflow.databricks.cluster.id",
+          "value": "0318-151752-abed99"
+        },
+        {
+          "key": "mlflow.databricks.cluster.info",
+          "value": {
+            "cluster_name": "Shared Autoscaling Americas",
+            "spark_version": "11.3.x-cpu-ml-scala2.12",
+            "node_type_id": "i3.4xlarge",
+            "driver_node_type_id": "i3.4xlarge",
+            "autotermination_minutes": 120,
+            "disk_spec": {
+              "disk_count": 0
+            },
+            "autoscale": {
+              "min_workers": 1,
+              "max_workers": 8,
+              "target_workers": 1
+            }
+          }
+        },
+        {
+          "key": "mlflow.databricks.cluster.libraries",
+          "value": {
+            "installable": [],
+            "redacted": []
+          }
+        },
+        {
+          "key": "mlflow.databricks.gitRepoCommit",
+          "value": "4821ee8bce01873be5574e58506dbab8b6051488"
+        },
+        {
+          "key": "mlflow.databricks.gitRepoProvider",
+          "value": "gitHub"
+        },
+        {
+          "key": "mlflow.databricks.gitRepoReference",
+          "value": "main"
+        },
+        {
+          "key": "mlflow.databricks.gitRepoReferenceType",
+          "value": "branch"
+        },
+        {
+          "key": "mlflow.databricks.gitRepoRelativePath",
+          "value": "01_Iris_Train"
+        },
+        {
+          "key": "mlflow.databricks.gitRepoStatus",
+          "value": "unknown"
+        },
+        {
+          "key": "mlflow.databricks.gitRepoUrl",
+          "value": "https://github.com/amesar/dbx-repo-mlflow"
+        },
+        {
+          "key": "mlflow.databricks.notebook.commandID",
+          "value": "8755535409679113122_9195992324270466942_f8dbc3adc1114d57b1c51981d861f40c"
+        },
+        {
+          "key": "mlflow.databricks.notebookID",
+          "value": "13333928"
+        },
+        {
+          "key": "mlflow.databricks.notebookPath",
+          "value": "/Repos/andre@mycompany.com/dbx-repo-mlflow/01_Iris_Train"
+        },
+        {
+          "key": "mlflow.databricks.webappURL",
+          "value": "https://demo.cloud.databricks.com"
+        },
+        {
+          "key": "mlflow.databricks.workspaceID",
+          "value": "0"
+        },
+        {
+          "key": "mlflow.databricks.workspaceURL",
+          "value": "https://demo.cloud.databricks.com"
+        },
+        {
+          "key": "mlflow.log-model.history",
+          "value": [
+            {
+              "artifact_path": "model",
+              "flavors": {
+                "python_function": {
+                  "predict_fn": "predict",
+                  "model_path": "model.pkl",
+                  "loader_module": "mlflow.sklearn",
+                  "env": "conda.yaml",
+                  "python_version": "3.9.5"
+                },
+                "sklearn": {
+                  "pickled_model": "model.pkl",
+                  "sklearn_version": "0.24.2",
+                  "serialization_format": "cloudpickle",
+                  "code": null
+                }
+              },
+              "run_id": "bd9b5091a47f4abe929176c67a3d109c",
+              "model_uuid": "2688c550b8054a92a118ba507ce58439",
+              "utc_time_created": "2022-11-18 06:52:40.809210",
+              "mlflow_version": "1.29.0",
+              "databricks_runtime": "11.3.x-cpu-ml-scala2.12"
+            }
+          ]
+        },
+        {
+          "key": "mlflow.runName",
+          "value": "carefree-penguin-236"
+        },
+        {
+          "key": "mlflow.source.name",
+          "value": "/Repos/andre@mycompany.com/dbx-repo-mlflow/01_Iris_Train"
+        },
+        {
+          "key": "mlflow.source.type",
+          "value": "NOTEBOOK"
+        },
+        {
+          "key": "mlflow.user",
+          "value": "andre@mycompany.com"
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "root_uri": "dbfs:/databricks/mlflow-tracking/76bcc705806b407fb971843bfb5e5cae/bd9b5091a47f4abe929176c67a3d109c/artifacts",
+    "files": [
+      {
+        "path": "model",
+        "is_dir": true,
+        "artifacts": {
+          "root_uri": "dbfs:/databricks/mlflow-tracking/76bcc705806b407fb971843bfb5e5cae/bd9b5091a47f4abe929176c67a3d109c/artifacts",
+          "files": [
+            {
+              "path": "model/MLmodel",
+              "is_dir": false,
+              "file_size": 500
+            },
+            {
+              "path": "model/conda.yaml",
+              "is_dir": false,
+              "file_size": 200
+            },
+            {
+              "path": "model/model.pkl",
+              "is_dir": false,
+              "file_size": 3577
+            },
+            {
+              "path": "model/python_env.yaml",
+              "is_dir": false,
+              "file_size": 121
+            },
+            {
+              "path": "model/requirements.txt",
+              "is_dir": false,
+              "file_size": 88
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
