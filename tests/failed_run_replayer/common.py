@@ -81,7 +81,7 @@ def run_test_raise_mlflow_429_ex_exception(process):
     assert len(failed_runs) == 3
     replayed_runs = replayer.create_runs()
     assert len(replayed_runs) == 3
-    runs = client.list_run_infos(exp.experiment_id)
+    runs = client.search_runs(exp.experiment_id)
     assert 10 == len(runs)
 
 def dump(replayer):

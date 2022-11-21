@@ -19,7 +19,7 @@ def main(csv_file, sort, verbose):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
 
-    exps = client.list_experiments()
+    exps = client.search_experiments()
     print("Found {} experiments".format(len(exps)))
 
     if sort == "name":

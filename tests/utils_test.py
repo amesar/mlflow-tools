@@ -17,8 +17,8 @@ def create_experiment():
     exp_count += 1
     mlflow.set_experiment(exp_name)
     exp = client.get_experiment_by_name(exp_name)
-    for info in client.list_run_infos(exp.experiment_id):
-        client.delete_run(info.run_id)
+    for run in client.search_runs(exp.experiment_id):
+        client.delete_run(run.info.run_id)
     return exp
 
 def create_runs():

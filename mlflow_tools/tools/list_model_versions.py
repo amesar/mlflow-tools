@@ -43,7 +43,7 @@ def dt(ms):
 
 def run(model, view, max_results):
     if model == "all":
-        models = client.list_registered_models(max_results=max_results)
+        models = client.search_registered_models(max_results=max_results)
     else:
         models = [ client.get_registered_model(model) ]
     if view in ["latest","both"]:
@@ -67,7 +67,7 @@ def run(model, view, max_results):
   show_default=True
 )
 @click.option("--max-results", 
-  help="max_results parameter to MlflowClient.list_registered_models().", 
+  help="max_results parameter to MlflowClient.search_registered_models().", 
   type=int,
   default=1000,
   show_default=True

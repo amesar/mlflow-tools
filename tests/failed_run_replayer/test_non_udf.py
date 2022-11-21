@@ -17,7 +17,7 @@ def process(raise_mlflow_429_ex, raise_mlflow_non_429_ex, raise_non_mlflow_ex):
         ex = None
     except Exception as e:
         ex = e
-    runs = client.list_run_infos(exp.experiment_id)
+    runs = client.search_runs(exp.experiment_id)
     return replayer,exp,runs,ex
 
 def test_no_exception():

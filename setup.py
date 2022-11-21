@@ -13,12 +13,11 @@ setup(
         "Documentation": "https://github.com/amesar/mlflow-tools/",
         "Source Code": "https://github.com/amesar/mlflow-tools/"
     },
-    python_requires = ">=3.7",
+    python_requires = ">=3.8",
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
-        "mlflow>=1.26.0",
-        "pytest==5.3.5",
+        "mlflow>=1.30.0",
         "wheel"
     ],
     license = "Apache License 2.0",
