@@ -15,7 +15,7 @@ def dump_experiment(experiment_id_or_name, csv_file):
     print(tabulate(pdf, headers='keys', tablefmt='psql'))
     if csv_file is None: 
         csv_file = f"experimenty_{exp.experiment_id}.csv"
-    with open(csv_file, "w") as f:
+    with open(csv_file, "w", encoding="utf-8") as f:
         pdf.to_csv(f, index=False)
 
 @click.command()

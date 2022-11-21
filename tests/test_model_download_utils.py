@@ -14,7 +14,7 @@ def test_split_models_2():
 
 def test_split_file():
     uri = "/opt/mlflow/mlruns/1/18f6b9a2f72f44de8bb9591d163c6754/artifacts"
-    result = split_model_uri(uri)
+    split_model_uri(uri)
 
 def _test_split(scheme, p1, p2):
     uri = f"{scheme}:/{p1}/{p2}"
@@ -23,8 +23,6 @@ def _test_split(scheme, p1, p2):
     assert result[1] == p2
 
 # requires client - TODO
-"""
-def test_get_run_id_and_relative_path():
-    models_uri = "models:/sklearn_wine/production"
-    result = get_run_id_and_relative_path(models_uri)
-"""
+#def test_get_run_id_and_relative_path():
+    #models_uri = "models:/sklearn_wine/production"
+    #result = get_run_id_and_relative_path(models_uri)

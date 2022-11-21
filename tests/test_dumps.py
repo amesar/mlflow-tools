@@ -10,14 +10,18 @@ with mlflow.start_run() as run:
 run_id = run.info.run_id
 artifact_max_level = 4
 
+
 def test_dump_run_as_json():
     dump_run_id(run_id, artifact_max_level, "json", True)
+
 
 def test_dump_run_as_yaml():
     dump_run_id(run_id, artifact_max_level, "yaml", True)
 
+
 def test_dump_run_as_txt():
     dump_run_id(run_id, artifact_max_level, "txt", True)
+
 
 def test_list_experiments():
     path = "/tmp/experiments.csv" # TODO: make a tmpdir

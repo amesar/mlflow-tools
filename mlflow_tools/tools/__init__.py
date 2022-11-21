@@ -17,7 +17,7 @@ def dump_dct(dct, format="json"):
 
 def write_dct(dct, base_path, format="json"):
     path = base_path if base_path.endswith(format) else f"{base_path}.{format}"
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         if format == "yaml":
             yaml.dump(dct, f)
         else:

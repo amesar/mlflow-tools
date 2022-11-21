@@ -31,7 +31,7 @@ def list(csv_file, sort_attribute="name", verbose=False):
         list = [(exp.experiment_id, exp.name) for exp in exps ]
         df = pd.DataFrame(list,columns=["experiment_id","name"])
 
-    with open(csv_file, 'w') as f:
+    with open(csv_file, "w", encoding="utf-8") as f:
         df.to_csv(f, index=False)
 
     print(tabulate(df, headers='keys', tablefmt='psql'))
