@@ -12,9 +12,11 @@ def dump_mlflow_info():
     print("  DATABRICKS_HOST:", os.environ.get("DATABRICKS_HOST",""))
     print("  DATABRICKS_TOKEN:", os.environ.get("DATABRICKS_TOKEN",""))
 
+
 def get_mlflow_host():
     """ Returns the host (tracking URI) and token."""
     return get_mlflow_host_token()[0]
+
 
 def get_mlflow_host_token():
     """ Returns the host (tracking URI) and token. """
@@ -31,6 +33,7 @@ def get_mlflow_host_token():
         print("WARNING:",e)
         return (None,None)
 
+
 def get_experiment(client, exp_id_or_name):
     """
     Gets an experiment either by ID or name.
@@ -45,3 +48,9 @@ def get_experiment(client, exp_id_or_name):
         except Exception:
             raise Exception(f"Cannot find experiment ID or name '{exp_id_or_name}'. Client: {client}'")
     return exp
+
+
+def get_last_run(mlflow_client, exp_id_or_name):
+    exp = get_experiment(mlflow_client, exp_id_or_name)
+    runs = mlflow_client.search_runs(exp.experiment_id, order_by=["attributes.start_time desc"], max_results=1)
+    return runs[0]
