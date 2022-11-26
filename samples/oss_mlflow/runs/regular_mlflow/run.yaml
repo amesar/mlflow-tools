@@ -1,0 +1,141 @@
+summary:
+  artifacts: 6
+  artifact_bytes: 31711
+  params: 8
+  metrics: 3
+  tags: 21
+run:
+  info:
+    run_uuid: a50163ec4f9e4343ac8d7e46df730a96
+    experiment_id: '2'
+    run_name: train_mult.sh
+    user_id: andre
+    status: FINISHED
+    start_time: 1669434180226
+    end_time: 1669434186906
+    artifact_uri: /opt/mlflow/server/mlruns/2/a50163ec4f9e4343ac8d7e46df730a96/artifacts
+    lifecycle_stage: active
+    run_id: a50163ec4f9e4343ac8d7e46df730a96
+    _start_time: '2022-11-26 03:43:00'
+    _end_time: '2022-11-26 03:43:06'
+    _duration: 6.68
+  data:
+    metrics:
+    - key: rmse
+      value: 0.7367947360663162
+      timestamp: 1669434184499
+      step: 0
+    - key: r2
+      value: 0.28100217442439346
+      timestamp: 1669434184507
+      step: 0
+    - key: mae
+      value: 0.5877424565761121
+      timestamp: 1669434184518
+      step: 0
+    params:
+    - key: data-path
+      value: ../../data/train/wine-quality-white.csv
+    - key: max-depth
+      value: '4'
+    - key: max-leaf-nodes
+      value: '32'
+    - key: model-name
+      value: ''''''
+    - key: run-origin
+      value: train_mult.sh
+    - key: log-as-onnx
+      value: 'False'
+    - key: max_depth
+      value: '4'
+    - key: max_leaf_nodes
+      value: '32'
+    tags:
+    - key: mlflow.user
+      value: andre
+    - key: mlflow.source.name
+      value: https://github.com/amesar/mlflow-examples.git#python/sklearn
+    - key: mlflow.source.type
+      value: PROJECT
+    - key: mlflow.project.entryPoint
+      value: main
+    - key: mlflow.source.git.commit
+      value: c6201fcbf3a50b93667ba6d6063932ec55a44afa
+    - key: mlflow.source.git.repoURL
+      value: https://github.com/amesar/mlflow-examples.git
+    - key: mlflow.gitRepoURL
+      value: https://github.com/amesar/mlflow-examples.git
+    - key: mlflow.runName
+      value: train_mult.sh
+    - key: mlflow.project.env
+      value: conda
+    - key: mlflow.project.backend
+      value: local
+    - key: save_signature
+      value: 'False'
+    - key: data_path
+      value: ../../data/train/wine-quality-white.csv
+    - key: run_origin
+      value: train_mult.sh
+    - key: version.mlflow
+      value: 2.0.1
+    - key: version.sklearn
+      value: 1.1.1
+    - key: version.platform
+      value: macOS-10.16-x86_64-i386-64bit
+    - key: version.python
+      value: 3.8.14
+    - key: model_name
+      value: None
+    - key: uuid
+      value: oCxoxUdYksR8uZndKMqwjY
+    - key: mlflow.log-model.history
+      value:
+      - run_id: a50163ec4f9e4343ac8d7e46df730a96
+        artifact_path: model
+        utc_time_created: '2022-11-26 03:43:04.528346'
+        flavors:
+          python_function:
+            model_path: model.pkl
+            predict_fn: predict
+            loader_module: mlflow.sklearn
+            python_version: 3.8.14
+            env:
+              conda: conda.yaml
+              virtualenv: python_env.yaml
+          sklearn:
+            pickled_model: model.pkl
+            sklearn_version: 1.1.1
+            serialization_format: cloudpickle
+            code: null
+        model_uuid: 8a0632e7787f464aa07e909de35cccc5
+        mlflow_version: 2.0.1
+    - key: output_path
+      value: none
+artifacts:
+  root_uri: /opt/mlflow/server/mlruns/2/a50163ec4f9e4343ac8d7e46df730a96/artifacts
+  files:
+  - path: model
+    is_dir: true
+    artifacts:
+      root_uri: /opt/mlflow/server/mlruns/2/a50163ec4f9e4343ac8d7e46df730a96/artifacts
+      files:
+      - path: model/MLmodel
+        is_dir: false
+        file_size: 502
+      - path: model/conda.yaml
+        is_dir: false
+        file_size: 179
+      - path: model/model.pkl
+        is_dir: false
+        file_size: 3070
+      - path: model/python_env.yaml
+        is_dir: false
+        file_size: 122
+      - path: model/requirements.txt
+        is_dir: false
+        file_size: 70
+  - path: plot.png
+    is_dir: false
+    file_size: 27768
+

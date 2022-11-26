@@ -1,0 +1,63 @@
+RunInfo:
+  experiment_name: sklearn_autolog_python
+  artifact_uri: /opt/mlflow/server/mlruns/3/ad499b3da1cc4ec39f5b6c639e18aa42/artifacts
+  experiment_id: 3
+  lifecycle_stage: active
+  run_id: ad499b3da1cc4ec39f5b6c639e18aa42
+  run_name: chill-jay-280
+  run_uuid: ad499b3da1cc4ec39f5b6c639e18aa42
+  status: FINISHED
+  user_id: andre
+  start_time :2022-11-26 03:43:09   1669434189294
+  end_time   :2022-11-26 03:43:11   1669434191067
+  _duration:  1.773 seconds
+Params:
+  ccp_alpha: 0.0
+  criterion: squared_error
+  max_depth: None
+  max_features: None
+  max_leaf_nodes: 32
+  min_impurity_decrease: 0.0
+  min_samples_leaf: 1
+  min_samples_split: 2
+  min_weight_fraction_leaf: 0.0
+  random_state: None
+  splitter: best
+Metrics:
+  training_mae: 0.5419326209637838
+  training_mse: 0.4774090166607226
+  training_r2_score: 0.40056986324428123
+  training_rmse: 0.6909479116841751
+  training_score: 0.40056986324428123
+Tags:
+  estimator_class: sklearn.tree._classes.DecisionTreeRegressor
+  estimator_name: DecisionTreeRegressor
+  mlflow.autologging: sklearn
+  mlflow.log-model.history: [{"run_id": "ad499b3da1cc4ec39f5b6c639e18aa42", "artifact_path": "model", "utc_time_created": "2022-11-26 03:43:09.344903", "flavors": {"python_function": {"model_path": "model.pkl", "predict_fn": "predict", "loader_module": "mlflow.sklearn", "python_version": "3.8.14", "env": {"conda": "conda.yaml", "virtualenv": "python_env.yaml"}}, "sklearn": {"pickled_model": "model.pkl", "sklearn_version": "1.1.1", "serialization_format": "cloudpickle", "code": null}}, "model_uuid": "e1ed0832e7b54fab9e6836c10215a012", "mlflow_version": "2.0.1", "signature": {"inputs": "[{\"name\": \"fixed acidity\", \"type\": \"double\"}, {\"name\": \"volatile acidity\", \"type\": \"double\"}, {\"name\": \"citric acid\", \"type\": \"double\"}, {\"name\": \"residual sugar\", \"type\": \"double\"}, {\"name\": \"chlorides\", \"type\": \"double\"}, {\"name\": \"free sulfur dioxide\", \"type\": \"double\"}, {\"name\": \"total sulfur dioxide\", \"type\": \"double\"}, {\"name\": \"density\", \"type\": \"double\"}, {\"name\": \"pH\", \"type\": \"double\"}, {\"name\": \"sulphates\", \"type\": \"double\"}, {\"name\": \"alcohol\", \"type\": \"double\"}]", "outputs": "[{\"type\": \"tensor\", \"tensor-spec\": {\"dtype\": \"float64\", \"shape\": [-1]}}]"}}]
+  mlflow.runName: chill-jay-280
+  mlflow.source.git.commit: c6201fcbf3a50b93667ba6d6063932ec55a44afa
+  mlflow.source.name: /Users/andre/git/andre/mlflow-examples/python/sklearn/wine_quality/autolog_train.py
+  mlflow.source.type: LOCAL
+  mlflow.user: andre
+Artifacts:
+  Artifact 1/2 - level 0:
+    path: estimator.html
+    bytes: 4936
+  Artifact 2/2 - level 0:
+    path: model
+    Artifact 1/5 - level 1:
+      path: model/MLmodel
+      bytes: 1111
+    Artifact 2/5 - level 1:
+      path: model/conda.yaml
+      bytes: 179
+    Artifact 3/5 - level 1:
+      path: model/model.pkl
+      bytes: 5248
+    Artifact 4/5 - level 1:
+      path: model/python_env.yaml
+      bytes: 122
+    Artifact 5/5 - level 1:
+      path: model/requirements.txt
+      bytes: 70
+Total: bytes: 11666 artifacts: 6

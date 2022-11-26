@@ -1,0 +1,141 @@
+summary:
+  artifacts: 6
+  artifact_bytes: 11666
+  params: 11
+  metrics: 5
+  tags: 9
+run:
+  info:
+    run_uuid: ad499b3da1cc4ec39f5b6c639e18aa42
+    experiment_id: '3'
+    run_name: chill-jay-280
+    user_id: andre
+    status: FINISHED
+    start_time: 1669434189294
+    end_time: 1669434191067
+    artifact_uri: /opt/mlflow/server/mlruns/3/ad499b3da1cc4ec39f5b6c639e18aa42/artifacts
+    lifecycle_stage: active
+    run_id: ad499b3da1cc4ec39f5b6c639e18aa42
+    _start_time: '2022-11-26 03:43:09'
+    _end_time: '2022-11-26 03:43:11'
+    _duration: 1.773
+  data:
+    metrics:
+    - key: training_mse
+      value: 0.4774090166607226
+      timestamp: 1669434189328
+      step: 0
+    - key: training_mae
+      value: 0.5419326209637838
+      timestamp: 1669434189328
+      step: 0
+    - key: training_r2_score
+      value: 0.40056986324428123
+      timestamp: 1669434189328
+      step: 0
+    - key: training_rmse
+      value: 0.6909479116841751
+      timestamp: 1669434189328
+      step: 0
+    - key: training_score
+      value: 0.40056986324428123
+      timestamp: 1669434189330
+      step: 0
+    params:
+    - key: ccp_alpha
+      value: '0.0'
+    - key: criterion
+      value: squared_error
+    - key: max_depth
+      value: None
+    - key: max_features
+      value: None
+    - key: max_leaf_nodes
+      value: '32'
+    - key: min_impurity_decrease
+      value: '0.0'
+    - key: min_samples_leaf
+      value: '1'
+    - key: min_samples_split
+      value: '2'
+    - key: min_weight_fraction_leaf
+      value: '0.0'
+    - key: random_state
+      value: None
+    - key: splitter
+      value: best
+    tags:
+    - key: mlflow.user
+      value: andre
+    - key: mlflow.source.name
+      value: /Users/andre/git/andre/mlflow-examples/python/sklearn/wine_quality/autolog_train.py
+    - key: mlflow.source.type
+      value: LOCAL
+    - key: mlflow.source.git.commit
+      value: c6201fcbf3a50b93667ba6d6063932ec55a44afa
+    - key: mlflow.autologging
+      value: sklearn
+    - key: mlflow.runName
+      value: chill-jay-280
+    - key: estimator_name
+      value: DecisionTreeRegressor
+    - key: estimator_class
+      value: sklearn.tree._classes.DecisionTreeRegressor
+    - key: mlflow.log-model.history
+      value:
+      - run_id: ad499b3da1cc4ec39f5b6c639e18aa42
+        artifact_path: model
+        utc_time_created: '2022-11-26 03:43:09.344903'
+        flavors:
+          python_function:
+            model_path: model.pkl
+            predict_fn: predict
+            loader_module: mlflow.sklearn
+            python_version: 3.8.14
+            env:
+              conda: conda.yaml
+              virtualenv: python_env.yaml
+          sklearn:
+            pickled_model: model.pkl
+            sklearn_version: 1.1.1
+            serialization_format: cloudpickle
+            code: null
+        model_uuid: e1ed0832e7b54fab9e6836c10215a012
+        mlflow_version: 2.0.1
+        signature:
+          inputs: '[{"name": "fixed acidity", "type": "double"}, {"name": "volatile
+            acidity", "type": "double"}, {"name": "citric acid", "type": "double"},
+            {"name": "residual sugar", "type": "double"}, {"name": "chlorides", "type":
+            "double"}, {"name": "free sulfur dioxide", "type": "double"}, {"name":
+            "total sulfur dioxide", "type": "double"}, {"name": "density", "type":
+            "double"}, {"name": "pH", "type": "double"}, {"name": "sulphates", "type":
+            "double"}, {"name": "alcohol", "type": "double"}]'
+          outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape":
+            [-1]}}]'
+artifacts:
+  root_uri: /opt/mlflow/server/mlruns/3/ad499b3da1cc4ec39f5b6c639e18aa42/artifacts
+  files:
+  - path: estimator.html
+    is_dir: false
+    file_size: 4936
+  - path: model
+    is_dir: true
+    artifacts:
+      root_uri: /opt/mlflow/server/mlruns/3/ad499b3da1cc4ec39f5b6c639e18aa42/artifacts
+      files:
+      - path: model/MLmodel
+        is_dir: false
+        file_size: 1111
+      - path: model/conda.yaml
+        is_dir: false
+        file_size: 179
+      - path: model/model.pkl
+        is_dir: false
+        file_size: 5248
+      - path: model/python_env.yaml
+        is_dir: false
+        file_size: 122
+      - path: model/requirements.txt
+        is_dir: false
+        file_size: 70
+

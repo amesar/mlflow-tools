@@ -1,0 +1,70 @@
+RunInfo:
+  experiment_name: sklearn_regular_mlflow_git
+  artifact_uri: /opt/mlflow/server/mlruns/2/a50163ec4f9e4343ac8d7e46df730a96/artifacts
+  experiment_id: 2
+  lifecycle_stage: active
+  run_id: a50163ec4f9e4343ac8d7e46df730a96
+  run_name: train_mult.sh
+  run_uuid: a50163ec4f9e4343ac8d7e46df730a96
+  status: FINISHED
+  user_id: andre
+  start_time :2022-11-26 03:43:00   1669434180226
+  end_time   :2022-11-26 03:43:06   1669434186906
+  _duration:  6.68 seconds
+Params:
+  data-path: ../../data/train/wine-quality-white.csv
+  log-as-onnx: False
+  max-depth: 4
+  max-leaf-nodes: 32
+  max_depth: 4
+  max_leaf_nodes: 32
+  model-name: ''
+  run-origin: train_mult.sh
+Metrics:
+  mae: 0.5877424565761121
+  r2: 0.28100217442439346
+  rmse: 0.7367947360663162
+Tags:
+  data_path: ../../data/train/wine-quality-white.csv
+  mlflow.gitRepoURL: https://github.com/amesar/mlflow-examples.git
+  mlflow.log-model.history: [{"run_id": "a50163ec4f9e4343ac8d7e46df730a96", "artifact_path": "model", "utc_time_created": "2022-11-26 03:43:04.528346", "flavors": {"python_function": {"model_path": "model.pkl", "predict_fn": "predict", "loader_module": "mlflow.sklearn", "python_version": "3.8.14", "env": {"conda": "conda.yaml", "virtualenv": "python_env.yaml"}}, "sklearn": {"pickled_model": "model.pkl", "sklearn_version": "1.1.1", "serialization_format": "cloudpickle", "code": null}}, "model_uuid": "8a0632e7787f464aa07e909de35cccc5", "mlflow_version": "2.0.1"}]
+  mlflow.project.backend: local
+  mlflow.project.entryPoint: main
+  mlflow.project.env: conda
+  mlflow.runName: train_mult.sh
+  mlflow.source.git.commit: c6201fcbf3a50b93667ba6d6063932ec55a44afa
+  mlflow.source.git.repoURL: https://github.com/amesar/mlflow-examples.git
+  mlflow.source.name: https://github.com/amesar/mlflow-examples.git#python/sklearn
+  mlflow.source.type: PROJECT
+  mlflow.user: andre
+  model_name: None
+  output_path: none
+  run_origin: train_mult.sh
+  save_signature: False
+  uuid: oCxoxUdYksR8uZndKMqwjY
+  version.mlflow: 2.0.1
+  version.platform: macOS-10.16-x86_64-i386-64bit
+  version.python: 3.8.14
+  version.sklearn: 1.1.1
+Artifacts:
+  Artifact 1/2 - level 0:
+    path: model
+    Artifact 1/5 - level 1:
+      path: model/MLmodel
+      bytes: 502
+    Artifact 2/5 - level 1:
+      path: model/conda.yaml
+      bytes: 179
+    Artifact 3/5 - level 1:
+      path: model/model.pkl
+      bytes: 3070
+    Artifact 4/5 - level 1:
+      path: model/python_env.yaml
+      bytes: 122
+    Artifact 5/5 - level 1:
+      path: model/requirements.txt
+      bytes: 70
+  Artifact 2/2 - level 0:
+    path: plot.png
+    bytes: 27768
+Total: bytes: 31711 artifacts: 6
