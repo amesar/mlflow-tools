@@ -32,21 +32,33 @@ export MLFLOW_TRACKING_URI=http://localhost:5000
 
 ## List all experiments
 See [list_experiments.py](list_experiments.py).
+
+
+**Example**
 ```
 python -m mlflow_tools.tools.list_experiments --csv_file my_experiments.csv
 ```
 ```
-+----+-----------------+------------------+
-|    |   experiment_id | name             |
-|----+-----------------+------------------|
-|  0 |               0 | Default          |
-|  1 |               1 | hello_world      |
-|  2 |               4 | keras_tensorflow |
-|  3 |               3 | pyspark_wine     |
-|  4 |               6 | scala_HelloWorld |
-|  5 |               5 | scala_wine       |
-|  6 |               2 | sklearn_wine     |
-+----+-----------------+------------------+
++-----------------+--------------+---------------------+-------------------+-----------------------------+
+|   experiment_id | name         | creation_time       | lifecycle_stage   | artifact_location           |
+|-----------------+--------------+---------------------+-------------------+-----------------------------|
+|               4 | sparkml      | 2023-01-15 08:53:51 | active            | /opt/mlflow/server/mlruns/4 |
+|               3 | hello_world  | 2023-01-15 08:53:37 | active            | /opt/mlflow/server/mlruns/3 |
+|               2 | sklearn_iris | 2023-01-01 19:32:59 | active            | /opt/mlflow/server/mlruns/2 |
+|               1 | sklearn_wine | 2023-01-01 19:31:25 | active            | /opt/mlflow/server/mlruns/1 |
+|               0 | Default      | 2023-01-01 19:31:19 | active            | /opt/mlflow/server/mlruns/0 |
+|-----------------+--------------+---------------------+-------------------+-----------------------------|
+```
+
+**Usage**
+```
+python -m mlflow_tools.tools.list_experiments --help
+
+Options:
+  --csv-file TEXT    Output CSV file  [default: experiments.csv]
+  --sort-attr TEXT   Sort by this attibute  [default: name]
+  --sort-order TEXT  Sort by this attibute  [default: name]
+  --verbose BOOLEAN  Verbose  [default: False]
 ```
 
 ## Dump run
@@ -325,16 +337,16 @@ Options:
 
 ## Call MLflow model server
 
-Invoke the MLflow model server to score wine quality file.
+Invoke the MLflow model server to score the wine quality file.
 
-Invoke open source MLfow model server.
+Invoke open source MLfow model server
 ```
 python -m mlflow_tools.tools.call_model_server \
    --api-uri http://localhost:5001/invocations \
    --datapath wine-quality-split-orient.json
 ```
 
-Invoke Databricks MLfow model server.
+Invoke Databricks MLfow model server
 ```
 python -m mlflow_tools.tools.call_model_server \
    --api-uri https://my-workspace.mycompany.com/model-endpoint/Sklearn_Train_Predict/1/invocations \
