@@ -12,18 +12,25 @@ from . import dump_run, dump_experiment_as_text
 
 http_client = MlflowHttpClient()
 mlflow_client = mlflow.tracking.MlflowClient()
+max_results = 10000
 
-def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data, format, output_file, explode_json_string):
+def dump(exp_id_or_name, 
+        artifact_max_level, 
+        show_run_info=True, 
+        show_run_data=False, 
+        format="json", 
+        output_file=None, 
+        explode_json_string=False):
     exp = mlflow_utils.get_experiment(mlflow_client, exp_id_or_name)
     if exp is None:
         raise Exception("Cannot find experiment '{exp_id_or_name}'")
     experiment_id = exp.experiment_id
     if (format in ["text","txt"]):
-        dump_experiment_as_text.dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data)
+        dump_experiment_as_text.dump_experiment(exp_id_or_name, artifact_max_level, show_run_info, show_run_data)
     else:
         exp = http_client.get(f"experiments/get?experiment_id={experiment_id}")["experiment"]
-        if show_info or show_data:
-            data = { "experiment_ids" : [experiment_id] , "max_results": 10000}
+        if show_run_info or show_run_data:
+            data = { "experiment_ids" : [experiment_id] , "max_results": max_results}
             runs = http_client.post("runs/search",data)["runs"]
             runs = [dump_run.build_run(run, artifact_max_level, explode_json_string) for run in runs]
             num_artifacts,artifact_bytes = (0,0)
@@ -35,9 +42,11 @@ def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data, fo
             summary = { "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
                "last_run": last_run, "_last_run": format_time(last_run) }
             dct = { "experiment_info": exp, "summary": summary, "runs": runs }
-            dump_dct(dct, format)
-            if output_file:
-                write_dct(dct, output_file, format)
+        else:
+            dct = exp
+        dump_dct(dct, format)
+        if output_file:
+            write_dct(dct, output_file, format)
 
 
 @click.command()
@@ -49,15 +58,16 @@ def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data, fo
 @click.option("--artifact-max-level", 
   help="Number of artifact levels to recurse", 
   type=int,
-  default=1
+  default=1,
+  show_default=True
 )
-@click.option("--show-info", 
-  help="Show run info", 
+@click.option("--show-run-info", 
+  help="Show run info for runs", 
   type=bool, default=False, 
   show_default=True
 )
-@click.option("--show-data", 
-  help="Show data run info and data", 
+@click.option("--show-run-data", 
+  help="Show data run data for runs", 
   type=bool, 
   default=False, 
   show_default=True
@@ -65,10 +75,11 @@ def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data, fo
 @click.option("--format", 
   help="Output format: json|yaml|txt", 
   type=str, 
-  default="json"
+  default="json",
+  show_default=True
 )
 @click.option("--explode-json-string", 
-  help="Explode JSON string", 
+  help="Explode attributes that are a JSON string", 
   type=bool, 
   default=False, 
   show_default=True
@@ -84,12 +95,13 @@ def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data, fo
   default=False, 
   show_default=False
 )
-def main(experiment_id_or_name, artifact_max_level, show_info, show_data, format, explode_json_string, output_file, verbose):
+def main(experiment_id_or_name, artifact_max_level, show_run_info, show_run_data, format, explode_json_string, output_file, verbose):
     if verbose:
         show_mlflow_info()
         print("Options:")
         for k,v in locals().items(): print(f"  {k}: {v}")
-    dump_experiment(experiment_id_or_name, artifact_max_level,show_info, show_data, format, output_file, explode_json_string)
+    dump(experiment_id_or_name, artifact_max_level, 
+       show_run_info, show_run_data, format, output_file, explode_json_string)
 
 
 if __name__ == "__main__":

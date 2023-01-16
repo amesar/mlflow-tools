@@ -91,7 +91,6 @@ Options:
   --sort-attr TEXT   Sort by this attibute  [default: name]
   --sort-order TEXT  Sort order: asc|desc  [default: asc]
 ```
-XX
 ## Dump run
 
 Dumps run information.
@@ -202,51 +201,67 @@ Dumps all experiment details including its run information as JSON, YAML or text
 * [dump_experiment.py](dump_experiment.py)
 * Samples:
   * Open source MLflow: 
-    [experiment.json](../../samples/oss_mlflow/experiment.json) \-
-    [experiment.yaml](../../samples/oss_mlflow/experiment.yaml) \-
-    [experiment.txt](../../samples/oss_mlflow/experiment.txt).
+    [experiment.json](../../samples/oss_mlflow/experiments/experiment.json) \-
+    [experiment.yaml](../../samples/oss_mlflow/experiments/experiment.yaml) \-
+    [experiment.txt](../../samples/oss_mlflow/experiments/experiment.txt).
   * Databricks MLflow: 
     [sklearn_wine_quality.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality.json) \-
     [sklearn_wine_quality_autolog.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality_autolog.json)
   
 
 **Example**
-
 ```
-python -m mlflow_tools.tools.dump_experiment \
-   --experiment-id-or-name sklearn_wine \
-  --show-info True \
-  --show-data True \
-  --artifact-max-level 10 \
-  --format yaml \
-  --explode-json-string True
-```
-```
-experiment_info:
-  experiment_id: '1'
-  name: sklearn
-  artifact_location: /opt/mlflow/server/mlruns/1
-  lifecycle_stage: active
-  tags:
-  - key: mlflow.note.content
-    value: Hello experiment
-summary:
-  runs: 2
-  artifacts: 18
-  artifact_bytes: 66638
-  last_run: 1630006099305
-  _last_run: '2021-08-26 19:28:19'
-runs:
-- summary:
-    artifacts: 9
-    artifact_bytes: 33319
-    params: 2
-    metrics: 3
-    tags: 17
-  run:
-    info:
-      run_uuid: b2a34eb3d1f245c68e3586beb6912bc1
-      experiment_id: '1
+{
+  "experiment_info": {
+    "experiment_id": "2",
+    "name": "sklearn_wine",
+    "artifact_location": "/opt/mlflow/server_02_imported/mlruns/2",
+    "lifecycle_stage": "active",
+    "last_update_time": 1673530308830,
+    "creation_time": 1673530308830,
+    "tags": [
+      {
+        "key": "experiment_created",
+        "value": "2023-01-01 19:31:23"
+      },
+      {
+        "key": "version_mlflow",
+        "value": "2.1.1"
+      }
+    ]
+  },
+  "summary": {
+    "runs": 1,
+    "artifacts": 6,
+    "artifact_bytes": 31767,
+    "last_run": 1673530308926,
+    "_last_run": "2023-01-12 13:31:49"
+  },```
+  "runs": [
+    {
+      "summary": {
+        "artifacts": 6,
+        "artifact_bytes": 31767,
+        "params": 2,
+        "metrics": 3,
+        "tags": 18
+      },
+      "run": {
+        "info": {
+          "run_uuid": "e128c31217fe4e8d92d8256ca24dc28e",
+          "experiment_id": "2",
+          "run_name": "2023-01-01 19:31:23 train.sh 2.1.1",
+          "user_id": "unknown",
+          "status": "FINISHED",
+          "start_time": 1673530308860,
+          "end_time": 1673530308926,
+          "artifact_uri": "/opt/mlflow/server_02_imported/mlruns/2/e128c31217fe4e8d92d8256ca24dc28e/artifacts",
+          "lifecycle_stage": "active",
+          "run_id": "e128c31217fe4e8d92d8256ca24dc28e",
+          "_start_time": "2023-01-12 13:31:49",
+          "_end_time": "2023-01-12 13:31:49",
+          "_duration": 0.066
+        },
 . . .
 ```
 
@@ -258,10 +273,13 @@ python -m mlflow_tools.tools.dump_experiment --help
 Options:
   --experiment-id-or-name TEXT   Experiment ID or name  [required]
   --artifact-max-level INTEGER   Number of artifact levels to recurse
-  --show-info BOOLEAN            Show run info  [default: False]
-  --show-data BOOLEAN            Show data run info and data  [default: False]
-  --format TEXT                  Output format: json|yaml|txt
-  --explode-json-string BOOLEAN  Explode JSON string  [default: False]
+                                 [default: 1]
+  --show-run-info BOOLEAN        Show run info for runs  [default: False]
+  --show-run-data BOOLEAN        Show data run data for runs  [default: False]
+  --format TEXT                  Output format: json|yaml|txt  [default: json]
+  --explode-json-string BOOLEAN  Explode attributes that are a JSON string
+                                 [default: False]
+  --output-file TEXT             Output file (extension will be the format)
   --verbose BOOLEAN              Verbose
 ```
 
