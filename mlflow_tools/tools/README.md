@@ -34,7 +34,9 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 export MLFLOW_TRACKING_URI=http://localhost:5000
 ```
 
-## List all experiments
+## Experiments 
+
+### List all experiments
 See [list_experiments.py](list_experiments.py).
 
 
@@ -65,33 +67,101 @@ Options:
   --verbose BOOLEAN  Verbose  [default: False]
 ```
 
-## List all registered models
-See [list_models.py](list_models.py).
+### Dump experiment 
 
+Dumps all experiment details including its run information as JSON, YAML or text.
+* Source: [dump_experiment.py](dump_experiment.py)
+* Samples:
+  * Open source MLflow: 
+    [experiment.json](../../samples/oss_mlflow/experiments/experiment.json) \-
+    [experiment.yaml](../../samples/oss_mlflow/experiments/experiment.yaml) \-
+    [experiment.txt](../../samples/oss_mlflow/experiments/experiment.txt).
+  * Databricks MLflow: 
+    [sklearn_wine_quality.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality.json) \-
+    [sklearn_wine_quality_autolog.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality_autolog.json)
+  
 
 **Example**
 ```
-python -m mlflow_tools.tools.list_models --csv_file models.csv
+python -m mlflow_tools.tools.dump_experiment \
+  --experiment-id-or-name 1812 \
+  --artifact-max-level 3 \
+  --show-run-info True \
+  --show-run-data True \
+  --format json
 ```
+
 ```
-+--------------+------------+----------------------+--------------------------+---------------------------+
-| name         |   versions | creation_timestamp   | last_updated_timestamp   | description               |
-|--------------+------------+----------------------+--------------------------+---------------------------|
-| sklearn_iris |          2 | 2023-01-01 19:33:02  | 2023-01-02 04:31:08      |                           |
-| sklearn_wine |          1 | 2023-01-01 19:31:28  | 2023-01-16 04:34:42      | Skearn Wine Quality model |
-|--------------+------------+----------------------+--------------------------+---------------------------|
+{
+  "experiment_info": {
+    "experiment_id": "2",
+    "name": "sklearn_wine",
+    "artifact_location": "/opt/mlflow/server/mlruns/2",
+    "lifecycle_stage": "active",
+    "last_update_time": 1673530308830,
+    "creation_time": 1673530308830,
+    "tags": [
+      {
+        "key": "version_mlflow",
+        "value": "2.1.1"
+      }
+    ]
+  },
+  "summary": {
+    "runs": 1,
+    "artifacts": 6,
+    "artifact_bytes": 31767,
+    "last_run": 1673530308926,
+    "_last_run": "2023-01-12 13:31:49"
+  },```
+  "runs": [
+    {
+      "summary": {
+        "artifacts": 6,
+        "artifact_bytes": 31767,
+        "params": 2,
+        "metrics": 3,
+        "tags": 18
+      },
+      "run": {
+        "info": {
+          "experiment_id": "2",
+          "artifact_uri": "/opt/mlflow/server/mlruns/2/e128c31217fe4e8d92d8256ca24dc28e/artifacts",
+          . . .
+          "lifecycle_stage": "active",
+          "run_id": "e128c31217fe4e8d92d8256ca24dc28e",
+        },
+. . .
 ```
 
 **Usage**
+
 ```
-python -m mlflow_tools.tools.list_models --help
+python -m mlflow_tools.tools.dump_experiment --help
 
 Options:
-  --csv-file TEXT    Output CSV file  [default: experiments.csv]
-  --sort-attr TEXT   Sort by this attibute  [default: name]
-  --sort-order TEXT  Sort order: asc|desc  [default: asc]
+  --experiment-id-or-name TEXT   Experiment ID or name  [required]
+  --artifact-max-level INTEGER   Number of artifact levels to recurse
+                                 [default: 1]
+  --show-run-info BOOLEAN        Show run info for runs  [default: False]
+  --show-run-data BOOLEAN        Show data run data for runs  [default: False]
+  --format TEXT                  Output format: json|yaml|txt  [default: json]
+  --explode-json-string BOOLEAN  Explode attributes that are a JSON string
+                                 [default: False]
+  --output-file TEXT             Output file (extension will be the format)
+  --verbose BOOLEAN              Verbose
 ```
-## Dump run
+
+### Dump experiment runs to CSV file
+
+Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv_file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
+```
+python -m mlflow_tools.tools.dump_experiment_as_csv \
+  --experiment-id-or-name sklearn \
+  --csv-file sklearn.csv
+```
+
+### Dump run
 
 Dumps run information.
 * [dump_run.py](dump_run.py).
@@ -195,269 +265,42 @@ Options:
   --verbose BOOLEAN              Verbose.
 ```
 
-## Dump experiment 
+## Registered models 
 
-Dumps all experiment details including its run information as JSON, YAML or text.
-* [dump_experiment.py](dump_experiment.py)
-* Samples:
-  * Open source MLflow: 
-    [experiment.json](../../samples/oss_mlflow/experiments/experiment.json) \-
-    [experiment.yaml](../../samples/oss_mlflow/experiments/experiment.yaml) \-
-    [experiment.txt](../../samples/oss_mlflow/experiments/experiment.txt).
-  * Databricks MLflow: 
-    [sklearn_wine_quality.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality.json) \-
-    [sklearn_wine_quality_autolog.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality_autolog.json)
-  
+### List all registered models
+See [list_models.py](list_models.py).
+
 
 **Example**
 ```
-{
-  "experiment_info": {
-    "experiment_id": "2",
-    "name": "sklearn_wine",
-    "artifact_location": "/opt/mlflow/server_02_imported/mlruns/2",
-    "lifecycle_stage": "active",
-    "last_update_time": 1673530308830,
-    "creation_time": 1673530308830,
-    "tags": [
-      {
-        "key": "experiment_created",
-        "value": "2023-01-01 19:31:23"
-      },
-      {
-        "key": "version_mlflow",
-        "value": "2.1.1"
-      }
-    ]
-  },
-  "summary": {
-    "runs": 1,
-    "artifacts": 6,
-    "artifact_bytes": 31767,
-    "last_run": 1673530308926,
-    "_last_run": "2023-01-12 13:31:49"
-  },```
-  "runs": [
-    {
-      "summary": {
-        "artifacts": 6,
-        "artifact_bytes": 31767,
-        "params": 2,
-        "metrics": 3,
-        "tags": 18
-      },
-      "run": {
-        "info": {
-          "run_uuid": "e128c31217fe4e8d92d8256ca24dc28e",
-          "experiment_id": "2",
-          "run_name": "2023-01-01 19:31:23 train.sh 2.1.1",
-          "user_id": "unknown",
-          "status": "FINISHED",
-          "start_time": 1673530308860,
-          "end_time": 1673530308926,
-          "artifact_uri": "/opt/mlflow/server_02_imported/mlruns/2/e128c31217fe4e8d92d8256ca24dc28e/artifacts",
-          "lifecycle_stage": "active",
-          "run_id": "e128c31217fe4e8d92d8256ca24dc28e",
-          "_start_time": "2023-01-12 13:31:49",
-          "_end_time": "2023-01-12 13:31:49",
-          "_duration": 0.066
-        },
-. . .
-```
-
-**Usage**
-
-```
-python -m mlflow_tools.tools.dump_experiment --help
-
-Options:
-  --experiment-id-or-name TEXT   Experiment ID or name  [required]
-  --artifact-max-level INTEGER   Number of artifact levels to recurse
-                                 [default: 1]
-  --show-run-info BOOLEAN        Show run info for runs  [default: False]
-  --show-run-data BOOLEAN        Show data run data for runs  [default: False]
-  --format TEXT                  Output format: json|yaml|txt  [default: json]
-  --explode-json-string BOOLEAN  Explode attributes that are a JSON string
-                                 [default: False]
-  --output-file TEXT             Output file (extension will be the format)
-  --verbose BOOLEAN              Verbose
-```
-
-## Dump experiment runs to CSV file
-
-Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv_file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
-```
-python -m mlflow_tools.tools.dump_experiment_as_csv \
-  --experiment-id-or-name sklearn \
-  --csv-file sklearn.csv
-```
-
-
-## Find best run of experiment
-
-Find the best run for a metric of an experiment. 
-Default order is descending (max). See [best_run.py](best_run.py).
-
-Displays the run ID and best metric value.
-
-```
-python -m mlflow_tools.tools.best_run --experiment-id-or-nam 2 --metric rmse --ascending True
+python -m mlflow_tools.tools.list_models --csv_file models.csv
 ```
 ```
-Best run:
-  run_id: 7890e3ec549442ebae453394ea7dd1ea
-  rmse: 0.8829449794492825
-```
-
-**Usage**
-
-```
-python -m mlflow_tools.tools.best_run --help
-
-Options:
-  --experiment-id-or-name TEXT  Experiment ID or name.  [required]
-  --metric TEXT                 Metric.  [required]
-  --ascending BOOLEAN           Sort ascending.  [default: False]
-  --ignore-nested-runs BOOLEAN  Ignore_nested_runs.  [default: False]
-```
-
-
-## Find matching artifacts
-
-Return artifact paths that match specified target filename.
-
-**Example**
-
-```
-python -m mlflow_tools.tools.find_artifacts \
-  --run-id 4af184e8527a4f4a8fc563386807acb2 \
-  --target MLmodel
-```
-```
-Matches:
-  onnx-model/MLmodel
-  sklearn-model/MLmodel
++--------------+------------+----------------------+--------------------------+---------------------------+
+| name         |   versions | creation_timestamp   | last_updated_timestamp   | description               |
+|--------------+------------+----------------------+--------------------------+---------------------------|
+| sklearn_iris |          2 | 2023-01-01 19:33:02  | 2023-01-02 04:31:08      |                           |
+| sklearn_wine |          1 | 2023-01-01 19:31:28  | 2023-01-16 04:34:42      | Skearn Wine Quality model |
+|--------------+------------+----------------------+--------------------------+---------------------------|
 ```
 
 **Usage**
 ```
-python -m mlflow_tools.tools.find_artifacts --help
+python -m mlflow_tools.tools.list_models --help
 
 Options:
-  --run-id TEXT        Run ID.  [required]
-  --path TEXT          Relative artifact path.  [default: ]
-  --target TEXT        Target filename to search for.  [required]
-  --max-level INTEGER  Number of artifact levels to recurse.  [default: 9223372036854775807]
+  --csv-file TEXT    Output CSV file  [default: experiments.csv]
+  --sort-attr TEXT   Sort by this attibute  [default: name]
+  --sort-order TEXT  Sort order: asc|desc  [default: asc]
 ```
 
-## Download model artifacts
-
-Download the model artifacts associated with a model URI.
-
-```
-python -m mlflow_tools.tools.download_model \
-   --model-uri models:/sklearn_wine \
-   --output-dir /tmp/my-model
-```
-
-```
-python -m mlflow_tools.tools.download_model \
-   --model-uri runs:/18f6b9a2f72f44de8bb9591d163c6754/sklearn-model \
-   --output-dir /tmp/my-model
-```
-
-```
-+-sklearn-model/
-  +-requirements.txt
-  +-model.pkl
-  +-conda.yaml
-  +-MLmodel
-```
-
-**Usage**
-```
-python -m mlflow_tools.tools.download_model --help
-
-Options:
-  --model-uri TEXT   Model URI  [required]
-  --output-dir TEXT  Output directory for downloaded model  [required]
-```
-
-
-## Call MLflow model server
-
-Invoke the MLflow model server to score the wine quality file.
-
-Invoke open source MLfow model server
-```
-python -m mlflow_tools.tools.call_model_server \
-   --api-uri http://localhost:5001/invocations \
-   --datapath wine-quality-split-orient.json
-```
-
-Invoke Databricks MLfow model server
-```
-python -m mlflow_tools.tools.call_model_server \
-   --api-uri https://my-workspace.mycompany.com/model-endpoint/Sklearn_Train_Predict/1/invocations \
-   --datapath wine-quality-split-orient.json \
-   --token MY_TOKEN
-```
-
-## Register a run's model as a registered model version and optional stage
-
-```
-python -m mlflow_tools.tools.register_model \
-  --registered-model my-registered-model \
-  --run-id 123 \
-  --model-artifact my-model \
-  --stage production
-```
-
-**Usage**
-```
-python -m mlflow_tools.tools.register_model --help
-
-Options:
-  --registered-model TEXT  New registered model name.  [required]
-  --run-id TEXT            Run ID  [required]
-  --model-artifact TEXT    Source relative model artifact path.  [required]
-  --stage TEXT             Stage
-```
-
-## Delete registered model 
-```
-python -m mlflow_tools.tools.delete_model --model sklearn_wine
-```
-**Usage**
-```
-python -m mlflow_tools.tools.delete_model --help
-
-Options:
-  --model MODEL  Registered model name
-```
-## Delete model stages
-
-Delete model stages.
-
-```
-python -m mlflow_tools.tools.delete_model_stages \
-  --model sklearn_wine \
-  --stages None,Archived
-```
-
-**Usage**
-```
-Options:
-  --model TEXT   Registered model name  [required]
-  --stages TEXT  Stages to export (comma seperated). Default is all stages.
-```
-## Dump registered model
+### Dump registered model
 
 Dumps a registered model (as JSON and YAML) and optionally the run details of each of its versions.
-* JSON examples: [Open source MLflow](../../samples/oss_mlflow/registered_model.json) - [Databricks MLflow](../../samples/databricks_mlflow/models/registered_model.json).
 * Source code: [dump_model.py](dump_model.py).
+* JSON examples: [Open source MLflow](../../samples/oss_mlflow/models/registered_model.json) - [Databricks MLflow](../../samples/databricks_mlflow/models/registered_model.json).
 
-### Dump only registered model
+#### Dump only registered model
 ```
 python -m mlflow_tools.tools.dump_model --model sklearn_wine 
 ```
@@ -483,9 +326,9 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine
 }
 ```
 
-### Dump registered model with run details
+#### Dump registered model with version run details
 ```
-python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
+python -m mlflow_tools.tools.dump_model --model sklearn_wine --show-runs
 ```
 ```
 {
@@ -528,67 +371,20 @@ python -m mlflow_tools.tools.dump_model --model sklearn_wine --show_runs
             "value": 0.5866345750858584,
             "timestamp": "1584980474565",
             "step": "0"
-          },
-          {
-            "key": "r2",
-            "value": 0.2543237115463549,
-            "timestamp": "1584980474546",
-            "step": "0"
-          },
-          {
-            "key": "rmse",
-            "value": 0.7642618555591052,
-            "timestamp": "1584980474518",
-            "step": "0"
           }
         ],
         "params": [
           {
             "key": "max_depth",
             "value": "4"
-          },
-          {
-            "key": "max_leaf_nodes",
-            "value": "32"
           }
         ],
         "tags": [
           {
-            "key": "data_path",
-            "value": "../../data/wine-quality-white.csv"
-          },
-          {
-            "key": "mlflow.log-model.history",
-            "value": "[{\"run_id\": \"bd19af4c8b67420e8371bbe5b6982402\", \"artifact_path\": \"sklearn-model\", \"utc_time_created\": \"2020-03-23 16:21:14.622448\", \"flavors\": {\"python_function\": {\"loader_module\": \"mlflow.sklearn\", \"python_version\": \"3.7.5\", \"data\": \"model.pkl\", \"env\": \"conda.yaml\"}, \"sklearn\": {\"pickled_model\": \"model.pkl\", \"sklearn_version\": \"0.19.2\", \"serialization_format\": \"cloudpickle\"}}}, {\"run_id\": \"bd19af4c8b67420e8371bbe5b6982402\", \"artifact_path\": \"onnx-model\", \"utc_time_created\": \"2020-03-23 16:21:17.799155\", \"flavors\": {\"python_function\": {\"loader_module\": \"mlflow.onnx\", \"python_version\": \"3.7.5\", \"data\": \"model.onnx\", \"env\": \"conda.yaml\"}, \"onnx\": {\"onnx_version\": \"1.6.0\", \"data\": \"model.onnx\"}}}]"
-          },
-          {
-            "key": "mlflow.runName",
-            "value": "train.sh"
-          },
-          {
             "key": "mlflow.source.git.commit",
             "value": "a82570aadbd19b8736a097ea23eded98b7c42a43"
           },
-          {
-            "key": "mlflow.source.name",
-            "value": "main.py"
-          },
-          {
-            "key": "mlflow.source.type",
-            "value": "LOCAL"
-          },
-          {
-            "key": "mlflow.user",
-            "value": "andre"
-          },
-          {
-            "key": "mlflow_version",
-            "value": "1.7.0"
-          },
-          {
-            "key": "onnx_version",
-            "value": "1.6.0"
-          }
+          . . .
         ]
       }
     }
@@ -604,12 +400,14 @@ Options:
   --format TEXT                  Output format: json|yaml.
   --model TEXT                   Registered model name.  [required]
   --show-runs BOOLEAN            Show run details.  [default: False]
-  --format-datetime BOOLEAN      Show human-readable datetime formats.  [default: False]
+  --format-datetime BOOLEAN      Show human-readable datetime formats.
+                                 [default: False]
   --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
-  --artifact-max-level INTEGER   Number of artifact levels to recurse.  [default: 0]
+  --artifact-max-level INTEGER   Number of artifact levels to recurse.
+                                 [default: 0]
 ```
 
-## List `latest` and `all` versions of a registered model
+### List `latest` and `all` versions of a registered model
 
 List versions and information about the runs they point to.
 
@@ -669,7 +467,170 @@ Options:
                          1000]
 ```
 
-## Call http_client - either MLflow API or Databricks API
+### Register a run's model as a registered model version and optional stage
+
+```
+python -m mlflow_tools.tools.register_model \
+  --registered-model my-registered-model \
+  --run-id 123 \
+  --model-artifact my-model \
+  --stage production
+```
+
+**Usage**
+```
+python -m mlflow_tools.tools.register_model --help
+
+Options:
+  --registered-model TEXT  New registered model name.  [required]
+  --run-id TEXT            Run ID  [required]
+  --model-artifact TEXT    Source relative model artifact path.  [required]
+  --stage TEXT             Stage
+```
+
+### Delete registered model 
+```
+python -m mlflow_tools.tools.delete_model --model sklearn_wine
+```
+**Usage**
+```
+python -m mlflow_tools.tools.delete_model --help
+
+Options:
+  --model MODEL  Registered model name
+```
+### Delete model stages
+
+Delete model stages.
+
+```
+python -m mlflow_tools.tools.delete_model_stages \
+  --model sklearn_wine \
+  --stages None,Archived
+```
+
+**Usage**
+```
+Options:
+  --model TEXT   Registered model name  [required]
+  --stages TEXT  Stages to export (comma seperated). Default is all stages.
+```
+
+## Other 
+
+### Find best run of experiment
+
+Find the best run for a metric of an experiment. 
+Default order is descending (max). See [best_run.py](best_run.py).
+
+Displays the run ID and best metric value.
+
+```
+python -m mlflow_tools.tools.best_run --experiment-id-or-nam 2 --metric rmse --ascending True
+```
+```
+Best run:
+  run_id: 7890e3ec549442ebae453394ea7dd1ea
+  rmse: 0.8829449794492825
+```
+
+**Usage**
+
+```
+python -m mlflow_tools.tools.best_run --help
+
+Options:
+  --experiment-id-or-name TEXT  Experiment ID or name.  [required]
+  --metric TEXT                 Metric.  [required]
+  --ascending BOOLEAN           Sort ascending.  [default: False]
+  --ignore-nested-runs BOOLEAN  Ignore_nested_runs.  [default: False]
+```
+
+
+### Find matching artifacts
+
+Return artifact paths that match specified target filename.
+
+**Example**
+
+```
+python -m mlflow_tools.tools.find_artifacts \
+  --run-id 4af184e8527a4f4a8fc563386807acb2 \
+  --target MLmodel
+```
+```
+Matches:
+  onnx-model/MLmodel
+  sklearn-model/MLmodel
+```
+
+**Usage**
+```
+python -m mlflow_tools.tools.find_artifacts --help
+
+Options:
+  --run-id TEXT        Run ID.  [required]
+  --path TEXT          Relative artifact path.  [default: ]
+  --target TEXT        Target filename to search for.  [required]
+  --max-level INTEGER  Number of artifact levels to recurse.  [default: 9223372036854775807]
+```
+
+### Download model artifacts
+
+Download the model artifacts associated with a model URI.
+
+```
+python -m mlflow_tools.tools.download_model \
+   --model-uri models:/sklearn_wine \
+   --output-dir /tmp/my-model
+```
+
+```
+python -m mlflow_tools.tools.download_model \
+   --model-uri runs:/18f6b9a2f72f44de8bb9591d163c6754/sklearn-model \
+   --output-dir /tmp/my-model
+```
+
+```
++-sklearn-model/
+  +-requirements.txt
+  +-model.pkl
+  +-conda.yaml
+  +-MLmodel
+```
+
+**Usage**
+```
+python -m mlflow_tools.tools.download_model --help
+
+Options:
+  --model-uri TEXT   Model URI  [required]
+  --output-dir TEXT  Output directory for downloaded model  [required]
+```
+
+
+### Call MLflow model server
+
+Invoke the MLflow model server to score the wine quality file.
+
+Invoke open source MLfow model server
+```
+python -m mlflow_tools.tools.call_model_server \
+   --api-uri http://localhost:5001/invocations \
+   --datapath wine-quality-split-orient.json
+```
+
+Invoke Databricks MLfow model server
+```
+python -m mlflow_tools.tools.call_model_server \
+   --api-uri https://my-workspace.mycompany.com/model-endpoint/Sklearn_Train_Predict/1/invocations \
+   --datapath wine-quality-split-orient.json \
+   --token MY_TOKEN
+```
+
+
+
+### Call http_client - either MLflow API or Databricks API
 
 **Usage**
 ```
