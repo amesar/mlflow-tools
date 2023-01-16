@@ -14,11 +14,13 @@ explode_tags = [ "mlflow.databricks.cluster.info", "mlflow.databricks.cluster.li
 
 client = MlflowHttpClient()
 
+
 def _adjust_time(info, k):
     v = info.get(k,None)
     if v is not None:
         v = format_time(int(v))
     info[f"_{k}"] = v
+
 
 def adjust_times(info):
     start = info.get("start_time",None)
@@ -29,10 +31,12 @@ def adjust_times(info):
         dur = float(int(end) - int(start))/1000
         info["_duration"] = dur
 
+
 def _explode_json_string(run):
     for tag in run["data"]["tags"]:
         if tag["key"] in explode_tags:
             tag["value"] = json.loads(tag["value"])
+
 
 def build_run(run, artifact_max_level, explode_json_string):
     info = run["info"]
@@ -59,8 +63,10 @@ def build_run(run, artifact_max_level, explode_json_string):
         dct = { "summary": summary, "run": run, "artifacts": artifacts }
     return dct
 
+
 def _get_size(dct):
     return len(dct) if dct else 0
+
 
 def build_artifacts(run_id, path, level, artifact_max_level):
     artifacts = client.get(f"artifacts/list?run_id={run_id}&path={path}")
@@ -80,7 +86,8 @@ def build_artifacts(run_id, path, level, artifact_max_level):
                 num_artifacts += 1
     return artifacts, num_bytes, num_artifacts
 
-def dump_run_id(run_id, artifact_max_level, format, explode_json_string):
+
+def dump_run_id(run_id, artifact_max_level=1, format="json", explode_json_string=False):
     if (format in ["text","txt"]):
         dump_run_as_text.dump_run_id(run_id, artifact_max_level)
     else:
@@ -88,19 +95,20 @@ def dump_run_id(run_id, artifact_max_level, format, explode_json_string):
         dct = build_run(run, artifact_max_level, explode_json_string)
         dump_dct(dct, format)
 
+
 @click.command()
 @click.option("--run-id", help="Run ID.", required=True)
-@click.option("--artifact-max-level", help="Number of artifact levels to recurse.", default=1, type=int)
-@click.option("--format", help="Output Format: json|yaml|txt.", type=str, default="json")
+@click.option("--artifact-max-level", help="Number of artifact levels to recurse.", default=1, type=int, show_default=True)
+@click.option("--format", help="Output Format: json|yaml|txt.", type=str, default="json", show_default=True)
 @click.option("--explode-json-string", help="Explode JSON string.", type=bool, default=False, show_default=True)
 @click.option("--verbose", help="Verbose.", type=bool, default=False, show_default=False)
-
 def main(run_id, artifact_max_level, format, explode_json_string, verbose):
     if verbose: 
         show_mlflow_info()
         print("Options:")
         for k,v in locals().items(): print(f"  {k}: {v}")
     dump_run_id(run_id, artifact_max_level, format, explode_json_string)
+
 
 if __name__ == "__main__":
     main()
