@@ -7,7 +7,7 @@ import mlflow
 import pandas as pd
 from tabulate import tabulate
 from mlflow_tools.common.iterators import ListExperimentsIterator
-from mlflow_tools.tools.utils import fmt_time
+from mlflow_tools.tools.utils import format_time
 
 client = mlflow.client.MlflowClient()
 print("MLflow Version:", mlflow.version.VERSION)
@@ -31,7 +31,7 @@ def list(csv_file, sort_attribute="name", sort_order="asc", verbose=False):
             exps = sorted(exps, key=lambda x: x.artifact_location)
         elif sort_attribute == "creation_time":
             exps = sorted(exps, key=lambda x: x.creation_time, reverse=reverse)
-        list = [(exp.experiment_id, exp.name, fmt_time(exp.creation_time), exp.lifecycle_stage, exp.artifact_location) for exp in exps ]
+        list = [(exp.experiment_id, exp.name, format_time(exp.creation_time), exp.lifecycle_stage, exp.artifact_location) for exp in exps ]
         df = pd.DataFrame(list, columns=["experiment_id","name","creation_time","lifecycle_stage","artifact_location"])
     else:
         list = [(str(exp.experiment_id), exp.name) for exp in exps ]

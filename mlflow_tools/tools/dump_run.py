@@ -5,7 +5,8 @@ Dump a run in JSON, YAML or text.
 import json
 import click
 from mlflow_tools.common.http_client import MlflowHttpClient
-from . import dump_dct, format_dt, show_mlflow_info
+from mlflow_tools.tools.utils import format_time
+from . import dump_dct, show_mlflow_info
 from . import dump_run_as_text
 
 # Tags to explode from JSON string
@@ -16,7 +17,7 @@ client = MlflowHttpClient()
 def _adjust_time(info, k):
     v = info.get(k,None)
     if v is not None:
-        v = format_dt(int(v))
+        v = format_time(int(v))
     info[f"_{k}"] = v
 
 def adjust_times(info):

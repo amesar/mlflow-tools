@@ -18,7 +18,8 @@ def normalize_stages(stages):
     return stages
 
 
-def fmt_time(ms):
+def format_time(ms):
+    """ Format milliseconds as date time """
     import time
     TS_FORMAT = "%Y-%m-%d %H:%M:%S"
     return time.strftime(TS_FORMAT, time.gmtime(round(ms/1000)))

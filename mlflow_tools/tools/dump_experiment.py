@@ -4,9 +4,10 @@ Dump an experiment in JSON, YAML or text.
 
 import click
 import mlflow
+from mlflow_tools.tools.utils import format_time
 from ..common.http_client import MlflowHttpClient
 from ..common import mlflow_utils
-from . import dump_dct, show_mlflow_info, format_dt, write_dct
+from . import dump_dct, show_mlflow_info, write_dct
 from . import dump_run, dump_experiment_as_text
 
 http_client = MlflowHttpClient()
@@ -32,7 +33,7 @@ def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data, fo
                 num_artifacts += run["summary"]["artifacts"]
                 last_run = max(last_run,int(run["run"]["info"]["end_time"]))
             summary = { "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
-               "last_run": last_run, "_last_run": format_dt(last_run) }
+               "last_run": last_run, "_last_run": format_time(last_run) }
             dct = { "experiment_info": exp, "summary": summary, "runs": runs }
             dump_dct(dct, format)
             if output_file:

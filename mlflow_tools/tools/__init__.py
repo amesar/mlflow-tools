@@ -2,11 +2,6 @@ import time
 import json
 import yaml
 
-DT_FORMAT = "%Y-%m-%d %H:%M:%S"
-
-def format_dt(millis):
-    return time.strftime(DT_FORMAT,time.gmtime(millis/1000))
-
 
 def dump_dct(dct, format="json"):
     if format == "yaml":

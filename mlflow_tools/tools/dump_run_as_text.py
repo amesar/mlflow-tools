@@ -3,11 +3,12 @@ Dump run as text.
 """
 
 import mlflow
-from . import format_dt
+from mlflow_tools.tools.utils import format_time
 
 INDENT = "  "
 MAX_LEVEL = 1
 client = mlflow.tracking.MlflowClient()
+
 
 def dump_run(run, max_level=1, indent=""):
     dump_run_info(run.info,indent)
@@ -25,9 +26,11 @@ def dump_run(run, max_level=1, indent=""):
     print(f"{indent}Total: bytes: {num_bytes} artifacts: {num_artifacts}")
     return run, num_bytes, num_artifacts
         
+
 def dump_run_id(run_id, max_level=1, indent=""):
     run = client.get_run(run_id)
     return dump_run(run,max_level,indent)
+
 
 def dump_run_info(info, indent=""):
     print(f"{indent}RunInfo:")
@@ -45,14 +48,16 @@ def dump_run_info(info, indent=""):
         dur = float(end - start)/1000
         print(f"{indent}  _duration:  {dur} seconds")
 
+
 def _dump_time(info, k, indent=""):
     v = info.__dict__.get(k,None)
     if v is None:
         print(f"{indent}  {k[1:] : <11}:{v}")
     else:
-        stime = format_dt(v)
+        stime = format_time(v)
         print(f"{indent}  {k[1:] : <11}:{stime}   {v}")
     return v
+
 
 def dump_artifacts(run_id, path, level, max_level, indent):
     if level+1 > max_level: 

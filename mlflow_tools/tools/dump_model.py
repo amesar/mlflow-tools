@@ -5,8 +5,8 @@ Dump a registered model in JSON or YAML.
 import click
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.http_client import MlflowHttpClient
-from . import format_dt, dump_dct
-from . import dump_run
+from mlflow_tools.tools.utils import format_time
+from . import dump_dct, dump_run
 
 client = MlflowHttpClient()
 
@@ -14,7 +14,7 @@ client = MlflowHttpClient()
 def _format_dt(dct, key):
     v = dct.get(key,None)
     if v: 
-        dct[f"_{key}"] = format_dt(int(v))
+        dct[f"_{key}"] = format_time(int(v))
 
 
 def _preprocess(dct):
