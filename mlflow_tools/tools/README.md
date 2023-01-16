@@ -6,17 +6,21 @@ Some useful tools for MLflow. Run the examples from the root of repository.
 
 **Dumps**
 * [Samples of dumps](../../samples/README.md)
+
+**Experiments**
 * [List all experiments](#List-all-experiments)
-* [Dump run](#Dump-run)
 * [Dump experiment](#Dump-experiment) 
   * [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
+* [Dump run](#Dump-run)
 
-**Registered model**
+**Registered models**
+* [List all registered models](#List-all-registered-models)
+* [Dump registered model](#Dump-registered-model)
 * [Register a run's model as a registered model version and optional stage](#Register-a-run's-model-as-a-registered-model-version-and-optional-stage)
 * [Delete registered model](#Delete-registered-model)
 * [Delete model stages](#Delete-model-stages)
-* [Dump registered model](#Dump-registered-model)
 * [List latest and all versions of a registered model](#List-latest-and-all-versions-of-a-registered-model) - List versions and information about the runs they point to.
+
 
 **Other**
 * [Find best run of experiment](#Find-best-run-of-experiment)
@@ -36,7 +40,7 @@ See [list_experiments.py](list_experiments.py).
 
 **Example**
 ```
-python -m mlflow_tools.tools.list_experiments --csv_file my_experiments.csv
+python -m mlflow_tools.tools.list_experiments --csv_file experiments.csv
 ```
 ```
 +-----------------+--------------+---------------------+-------------------+-----------------------------+
@@ -57,10 +61,37 @@ python -m mlflow_tools.tools.list_experiments --help
 Options:
   --csv-file TEXT    Output CSV file  [default: experiments.csv]
   --sort-attr TEXT   Sort by this attibute  [default: name]
-  --sort-order TEXT  Sort by this attibute  [default: name]
+  --sort-order TEXT  Sort order: asc|desc  [default: asc]
   --verbose BOOLEAN  Verbose  [default: False]
 ```
 
+## List all registered models
+See [list_models.py](list_models.py).
+
+
+**Example**
+```
+python -m mlflow_tools.tools.list_models --csv_file models.csv
+```
+```
++--------------+------------+----------------------+--------------------------+---------------------------+
+| name         |   versions | creation_timestamp   | last_updated_timestamp   | description               |
+|--------------+------------+----------------------+--------------------------+---------------------------|
+| sklearn_iris |          2 | 2023-01-01 19:33:02  | 2023-01-02 04:31:08      |                           |
+| sklearn_wine |          1 | 2023-01-01 19:31:28  | 2023-01-16 04:34:42      | Skearn Wine Quality model |
+|--------------+------------+----------------------+--------------------------+---------------------------|
+```
+
+**Usage**
+```
+python -m mlflow_tools.tools.list_models --help
+
+Options:
+  --csv-file TEXT    Output CSV file  [default: experiments.csv]
+  --sort-attr TEXT   Sort by this attibute  [default: name]
+  --sort-order TEXT  Sort order: asc|desc  [default: asc]
+```
+XX
 ## Dump run
 
 Dumps run information.
