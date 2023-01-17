@@ -90,10 +90,12 @@ def build_artifacts(run_id, path, level, artifact_max_level):
 def dump_run_id(run_id, artifact_max_level=1, format="json", explode_json_string=False):
     if (format in ["text","txt"]):
         dump_run_as_text.dump_run_id(run_id, artifact_max_level)
+        return ""
     else:
         run = client.get(f"runs/get?run_id={run_id}")["run"]
         dct = build_run(run, artifact_max_level, explode_json_string)
         dump_dct(dct, format)
+        return dct
 
 
 @click.command()

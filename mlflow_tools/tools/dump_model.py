@@ -53,7 +53,9 @@ def dump(model_name, format="json", show_runs=False, format_datetime=False, expl
             dct = { "model": model }
         dump_dct(dct,format)
     else:
-        dump_dct(model, format)
+        dct = model
+        dump_dct(dct, format)
+    return dct
 
 
 @click.command()

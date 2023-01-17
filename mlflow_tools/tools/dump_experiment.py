@@ -25,6 +25,7 @@ def dump(exp_id_or_name,
     if exp is None:
         raise Exception("Cannot find experiment '{exp_id_or_name}'")
     experiment_id = exp.experiment_id
+    dct = {}
     if (format in ["text","txt"]):
         dump_experiment_as_text.dump_experiment(exp_id_or_name, artifact_max_level, show_run_info, show_run_data)
     else:
@@ -47,6 +48,7 @@ def dump(exp_id_or_name,
         dump_dct(dct, format)
         if output_file:
             write_dct(dct, output_file, format)
+    return dct
 
 
 @click.command()
