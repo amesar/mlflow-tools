@@ -16,7 +16,7 @@ max_results = 10000
 
 def dump(exp_id_or_name, 
         artifact_max_level, 
-        show_run_info=True, 
+        show_runs=True, 
         show_run_data=False, 
         format="json", 
         output_file=None, 
@@ -27,21 +27,25 @@ def dump(exp_id_or_name,
     experiment_id = exp.experiment_id
     dct = {}
     if (format in ["text","txt"]):
-        dump_experiment_as_text.dump_experiment(exp_id_or_name, artifact_max_level, show_run_info, show_run_data)
+        dump_experiment_as_text.dump_experiment(exp_id_or_name, artifact_max_level, show_runs, show_run_data)
     else:
         exp = http_client.get(f"experiments/get?experiment_id={experiment_id}")["experiment"]
-        if show_run_info or show_run_data:
+        ##if show_run_info or show_run_data:
+        if show_runs:
             data = { "experiment_ids" : [experiment_id] , "max_results": max_results}
             runs = http_client.post("runs/search",data)["runs"]
             runs = [dump_run.build_run(run, artifact_max_level, explode_json_string) for run in runs]
             num_artifacts,artifact_bytes = (0,0)
             last_run = 0
             for run in runs:
+                if not show_run_data:
+                    del run["run"]["data"]
                 artifact_bytes += run["summary"]["artifact_bytes"]
                 num_artifacts += run["summary"]["artifacts"]
                 last_run = max(last_run,int(run["run"]["info"]["end_time"]))
-            summary = { "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
-               "last_run": last_run, "_last_run": format_time(last_run) }
+            summary = { 
+                "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
+                "last_run": last_run, "_last_run": format_time(last_run) }
             dct = { "experiment_info": exp, "summary": summary, "runs": runs }
         else:
             dct = exp
@@ -63,13 +67,13 @@ def dump(exp_id_or_name,
   default=1,
   show_default=True
 )
-@click.option("--show-run-info", 
-  help="Show run info for runs", 
+@click.option("--show-runs", 
+  help="Show runs",
   type=bool, default=False, 
   show_default=True
 )
 @click.option("--show-run-data", 
-  help="Show data run data for runs", 
+  help="Show run data run if showing runs", 
   type=bool, 
   default=False, 
   show_default=True
@@ -97,13 +101,13 @@ def dump(exp_id_or_name,
   default=False, 
   show_default=False
 )
-def main(experiment_id_or_name, artifact_max_level, show_run_info, show_run_data, format, explode_json_string, output_file, verbose):
+def main(experiment_id_or_name, artifact_max_level, show_runs, show_run_data, format, explode_json_string, output_file, verbose):
     if verbose:
         show_mlflow_info()
         print("Options:")
         for k,v in locals().items(): print(f"  {k}: {v}")
     dump(experiment_id_or_name, artifact_max_level, 
-       show_run_info, show_run_data, format, output_file, explode_json_string)
+       show_runs, show_run_data, format, output_file, explode_json_string)
 
 
 if __name__ == "__main__":

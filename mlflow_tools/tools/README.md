@@ -39,7 +39,6 @@ export MLFLOW_TRACKING_URI=http://localhost:5000
 ### List all experiments
 See [list_experiments.py](list_experiments.py).
 
-
 **Example**
 ```
 python -m mlflow_tools.tools.list_experiments --csv_file experiments.csv
@@ -69,7 +68,7 @@ Options:
 
 ### Dump experiment 
 
-Dumps all experiment details including its run information as JSON, YAML or text.
+Dumps all experiment details including its runs as JSON or YAML.
 * Source: [dump_experiment.py](dump_experiment.py)
 * Samples:
   * Open source MLflow: 
@@ -86,7 +85,7 @@ Dumps all experiment details including its run information as JSON, YAML or text
 python -m mlflow_tools.tools.dump_experiment \
   --experiment-id-or-name 1812 \
   --artifact-max-level 3 \
-  --show-run-info True \
+  --show-runs True \
   --show-run-data True \
   --format json
 ```
@@ -143,8 +142,9 @@ Options:
   --experiment-id-or-name TEXT   Experiment ID or name  [required]
   --artifact-max-level INTEGER   Number of artifact levels to recurse
                                  [default: 1]
-  --show-run-info BOOLEAN        Show run info for runs  [default: False]
-  --show-run-data BOOLEAN        Show data run data for runs  [default: False]
+  --show-runs BOOLEAN            Show runs  [default: False]
+  --show-run-data BOOLEAN        Show run data run if showing runs  [default:
+                                 False]
   --format TEXT                  Output format: json|yaml|txt  [default: json]
   --explode-json-string BOOLEAN  Explode attributes that are a JSON string
                                  [default: False]
