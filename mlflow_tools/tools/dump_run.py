@@ -51,6 +51,14 @@ def build_run(run, artifact_max_level, explode_json_string):
         dct = run
         num_bytes = -1
         num_artifacts= -1
+        summary = { 
+            "artifacts": -1, 
+            "artifact_bytes": -1,
+            "params": _get_size(data.get("params",None)),
+            "metrics": _get_size(data.get("metrics",None)),
+            "tags": _get_size(data.get("tags",None)),
+        }
+        dct = { "summary": summary, "run": run }
     else:
         artifacts,num_bytes,num_artifacts = build_artifacts(run_id, "", 0, artifact_max_level)
         summary = { 
@@ -59,7 +67,7 @@ def build_run(run, artifact_max_level, explode_json_string):
             "params": _get_size(data.get("params",None)),
             "metrics": _get_size(data.get("metrics",None)),
             "tags": _get_size(data.get("tags",None)),
-            }
+        }
         dct = { "summary": summary, "run": run, "artifacts": artifacts }
     return dct
 
