@@ -30,7 +30,6 @@ def dump(exp_id_or_name,
         dump_experiment_as_text.dump_experiment(exp_id_or_name, artifact_max_level, show_runs, show_run_data)
     else:
         exp = http_client.get(f"experiments/get?experiment_id={experiment_id}")["experiment"]
-        ##if show_run_info or show_run_data:
         if show_runs:
             data = { "experiment_ids" : [experiment_id] , "max_results": max_results}
             runs = http_client.post("runs/search",data)["runs"]
