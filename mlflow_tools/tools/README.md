@@ -405,6 +405,8 @@ Options:
   --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
   --artifact-max-level INTEGER   Number of artifact levels to recurse.
                                  [default: 0]
+  --show-all-versions BOOLEAN    Dump all versions in addition to latest
+                                 versions.  [default: False]
 ```
 
 ### List `latest` and `all` versions of a registered model

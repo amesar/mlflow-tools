@@ -17,30 +17,36 @@ def _format_dt(dct, key):
         dct[f"_{key}"] = format_time(int(v))
 
 
-def _preprocess(dct):
-    dct =  dct["registered_model"]
+def _preprocess(model):
+    dct =  model["registered_model"]
     _format_dt(dct, "creation_timestamp")
     _format_dt(dct, "last_updated_timestamp")
-    latest_versions = dct.get("latest_versions",None)
+    latest_versions = dct.get("latest_versions", None)
     if latest_versions:
         for v in latest_versions:
             _format_dt(v, "creation_timestamp")
             _format_dt(v, "last_updated_timestamp")
 
 
-def dump(model_name, format="json", show_runs=False, format_datetime=False, explode_json_string=False, artifact_max_level=0):
+def dump(model_name, format="json", show_runs=False, format_datetime=False, explode_json_string=False, artifact_max_level=0, show_all_versions=False):
     model = client.get(f"registered-models/get?name={model_name}")
+    if show_all_versions:
+        all_versions =  client.get(f"model-versions/search?name={model_name}")
+        for v in all_versions["model_versions"]:
+            _format_dt(v, "creation_timestamp")
+            _format_dt(v, "last_updated_timestamp")
+        model["registered_model"]["all_versions"] = all_versions
     if format_datetime:
         _preprocess(model)
     if show_runs:
         latest_versions =  model["registered_model"].get("latest_versions",None)
+        _preprocess(latest_versions)
         if latest_versions:
-            #vruns = { vr['version']:client.get(f"runs/get?run_id={vr['run_id']}")['run'] for vr in latest_versions }
             vruns = {}
             for vr in latest_versions:
                 try:
                     run = client.get(f"runs/get?run_id={vr['run_id']}")
-                    vruns[vr['version']] = run['run']
+                    vruns[vr["version"]] = run["run"]
                 except MlflowToolsException:
                     print(f"WARNING: Model '{model_name}' version {vr['version']}: run ID {vr['run_id']} does not exist.")
                     #print(e)
@@ -92,11 +98,16 @@ def dump(model_name, format="json", show_runs=False, format_datetime=False, expl
     default=0,
     show_default=True
 )
-def main(model, show_runs, format, format_datetime, explode_json_string, artifact_max_level
-):
+@click.option("--show-all-versions",
+    help="Dump all versions in addition to latest versions.",
+    type=bool, 
+    default=False,
+    show_default=True
+)
+def main(model, show_runs, format, format_datetime, explode_json_string, artifact_max_level, show_all_versions):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
-    dump(model, format, show_runs, format_datetime, explode_json_string, artifact_max_level)
+    dump(model, format, show_runs, format_datetime, explode_json_string, artifact_max_level, show_all_versions)
 
 
 if __name__ == "__main__":
