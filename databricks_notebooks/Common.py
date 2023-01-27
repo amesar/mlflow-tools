@@ -28,3 +28,9 @@ def write_file(dct, path, format):
     print(f"Writing to: {path}.{format}")
     from mlflow_tools.tools import write_dct
     write_dct(dct, from_dbfs(path), format)
+
+# COMMAND ----------
+
+def assert_widget(value, name):
+    if len(value.rstrip())==0:
+        raise Exception(f"ERROR: '{name}' widget is required")
