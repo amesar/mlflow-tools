@@ -17,18 +17,28 @@ def _format_dt(dct, key):
         dct[f"_{key}"] = format_time(int(v))
 
 
-def _preprocess(model):
-    dct =  model["registered_model"]
-    _format_dt(dct, "creation_timestamp")
-    _format_dt(dct, "last_updated_timestamp")
-    latest_versions = dct.get("latest_versions", None)
+def _preprocess_model(model):
+    model =  model["registered_model"]
+    _format_dt(model, "creation_timestamp")
+    _format_dt(model, "last_updated_timestamp")
+    latest_versions = model.get("latest_versions", None)
     if latest_versions:
-        for v in latest_versions:
-            _format_dt(v, "creation_timestamp")
-            _format_dt(v, "last_updated_timestamp")
+        _preprocess_versions(latest_versions)
 
 
-def dump(model_name, format="json", show_runs=False, format_datetime=False, explode_json_string=False, artifact_max_level=0, show_all_versions=False):
+def _preprocess_versions(versions):
+    for vr in versions:
+        _format_dt(vr, "creation_timestamp")
+        _format_dt(vr, "last_updated_timestamp")
+
+
+def dump(model_name, 
+        format="json", 
+        show_runs=False, 
+        format_datetime=False, 
+        explode_json_string=False, 
+        artifact_max_level=0, 
+        show_all_versions=False):
     model = client.get(f"registered-models/get?name={model_name}")
     if show_all_versions:
         all_versions =  client.get(f"model-versions/search?name={model_name}")
@@ -37,11 +47,11 @@ def dump(model_name, format="json", show_runs=False, format_datetime=False, expl
             _format_dt(v, "last_updated_timestamp")
         model["registered_model"]["all_versions"] = all_versions
     if format_datetime:
-        _preprocess(model)
+        _preprocess_model(model)
     if show_runs:
         latest_versions =  model["registered_model"].get("latest_versions",None)
-        _preprocess(latest_versions)
         if latest_versions:
+            _preprocess_versions(latest_versions)
             vruns = {}
             for vr in latest_versions:
                 try:
