@@ -11,7 +11,7 @@ print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 def delete_model(model_name, client=None):
     """ Delete a model and all its versions. """
     if not client:
-        mlflow.client.MlflowClient()
+        client = mlflow.client.MlflowClient()
     versions = client.search_model_versions(f"name='{model_name}'") # TODO: handle page token
     print(f"Deleting {len(versions)} versions for model '{model_name}'")
     for vr in versions:
