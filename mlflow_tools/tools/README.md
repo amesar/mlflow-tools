@@ -499,8 +499,11 @@ python -m mlflow_tools.tools.delete_model --model sklearn_wine
 python -m mlflow_tools.tools.delete_model --help
 
 Options:
-  --model MODEL  Registered model name
+  --model TEXT                    Registered model name  [required]
+  --delete-only-versions BOOLEAN  Delete only versions and not the registered
+                                  model
 ```
+
 ### Delete model stages
 
 Delete model stages.
