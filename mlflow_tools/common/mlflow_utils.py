@@ -54,3 +54,10 @@ def get_last_run(mlflow_client, exp_id_or_name):
     exp = get_experiment(mlflow_client, exp_id_or_name)
     runs = mlflow_client.search_runs(exp.experiment_id, order_by=["attributes.start_time desc"], max_results=1)
     return runs[0]
+
+
+def get_model_versions(client, model_name, get_latest_versions=False):
+    if get_latest_versions:
+        return client.get_latest_versions(model_name)
+    else:
+        return client.search_model_versions(f"name='{model_name}'")
