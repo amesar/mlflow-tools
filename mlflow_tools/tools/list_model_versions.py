@@ -12,7 +12,7 @@ from mlflow_tools.tools.utils import format_time
 client = mlflow.tracking.MlflowClient()
 
 
-def mk_versions_pandas_df(models, get_latest_versions):
+def mk_versions_pandas_df(models, get_latest_versions=False):
     table = []
     if isinstance(models,str):
         model_names = [ models ]
