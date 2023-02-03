@@ -6,7 +6,7 @@ import click
 import mlflow
 import pandas as pd
 from tabulate import tabulate
-from mlflow_tools.common.iterators import ListExperimentsIterator
+from mlflow_tools.common.iterators import SearchExperimentsIterator
 from mlflow_tools.tools.utils import format_time
 
 client = mlflow.client.MlflowClient()
@@ -15,7 +15,7 @@ print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
 
 def to_pandas_dataframe(sort_attribute="name", sort_order="asc", verbose=False):
-    exps = [ exp for exp in ListExperimentsIterator(client) ]
+    exps = [ exp for exp in SearchExperimentsIterator(client) ]
     print(f"Found {len(exps)} experiments")
     if sort_attribute == "name":
         exps = sorted(exps, key=lambda x: x.name)

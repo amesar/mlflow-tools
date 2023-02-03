@@ -7,13 +7,13 @@ import pandas as pd
 import mlflow
 from tabulate import tabulate
 from mlflow_tools.tools.utils import format_time
-from mlflow_tools.common.iterators import ListRegisteredModelsIterator
+from mlflow_tools.common.iterators import SearchRegisteredModelsIterator
 
 client = mlflow.tracking.MlflowClient()
 
 
 def to_pandas_dataframe(sort_attribute="name", sort_order="asc"):
-    models = [ m for m in ListRegisteredModelsIterator(client) ]
+    models = [ m for m in SearchRegisteredModelsIterator(client) ]
     list = [ [ m.name, len(m.latest_versions), 
                format_time(m.creation_timestamp), format_time(m.last_updated_timestamp), 
                m.description ] 
