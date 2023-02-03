@@ -56,7 +56,7 @@ def get_last_run(mlflow_client, exp_id_or_name):
     return runs[0]
 
 
-def get_model_versions(client, model_name, get_latest_versions=False):
+def list_model_versions(client, model_name, get_latest_versions=False):
     if get_latest_versions:
         return client.get_latest_versions(model_name)
     else:

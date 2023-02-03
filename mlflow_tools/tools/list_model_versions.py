@@ -6,58 +6,70 @@ import click
 import pandas as pd
 import mlflow
 from tabulate import tabulate
-from mlflow_tools.common.mlflow_utils import get_model_versions
+from mlflow_tools.common.mlflow_utils import list_model_versions
 from mlflow_tools.tools.utils import format_time
 
 client = mlflow.tracking.MlflowClient()
 
+columns = ["Model", "Version", "Stage", "Creation", "Last Updated", "Run ID", "Run stage", "Run exists"]
 
 def mk_versions_pandas_df(models, get_latest_versions=False):
-    table = []
     if isinstance(models,str):
-        model_names = [ models ]
+        models = [ client.get_registered_model(models) ]
+        df = mk_pandas_version_for_one_model(models[0].name, get_latest_versions)
+    elif len(models)==1:
+        df = mk_pandas_version_for_one_model(models[0].name, get_latest_versions)
     else:
-        if len(models) == 0:
-            model_names = []
-        elif not isinstance(models[0], str):
-            model_names = [ m.name for m in models ]
-        else:
-            model_names = models
-    for model_name in model_names:
-        versions = get_model_versions(client, model_name, get_latest_versions)
-        vtable = []
-        for  vr in versions:
-            try:
-                run = client.get_run(vr.run_id)
-                run_stage = run.info.lifecycle_stage
-                run_exists = True
-            except mlflow.exceptions.RestException:
-                run_exists = False
-                run_stage = None
-            row = [
-                vr.version,
-                vr.current_stage,
-                format_time(vr.creation_timestamp),
-                format_time(vr.last_updated_timestamp),
-                vr.run_id,
-                run_stage,
-                run_exists 
-            ]
-            if len(models) > 1:
-                row = [ vr.name ] + row
-            vtable.append(row)
-        table = table + vtable
-    columns = ["Version", "Stage", "Creation", "Last Updated", "Run ID", "Run stage", "Run exists"]
-    if len(models) > 1:
-        columns = ["Model" ] + columns
-        df = pd.DataFrame(table, columns = columns)
-        df = df.sort_values(by=["Model", "Version"], ascending=False)
-    else:
-        columns = ["Model" ] + columns
-        df = pd.DataFrame(table, columns = columns)
-        df = df.sort_values(by=["Version"], ascending=False)
+        df = mk_pandas_version_for_several_models(models, get_latest_versions)
     return df
 
+
+def mk_pandas_version_for_one_model(model_name, get_latest_versions):
+    versions = list_model_versions(client, model_name, get_latest_versions)
+    table = [ create_row(vr) for  vr in versions ]
+    df = pd.DataFrame(table, columns=columns)
+    del df["Model"]
+    df = df.sort_values(by=["Version"], ascending=False)
+    return df
+
+
+def mk_pandas_version_for_several_models(models, get_latest_versions):
+    if len(models) == 0:
+        model_names = []
+    elif not isinstance(models[0], str):
+        model_names = [ m.name for m in models ]
+    else:
+        model_names = models
+    table = []
+    for model_name in model_names:
+        versions = list_model_versions(client, model_name, get_latest_versions)
+        vtable = [ create_row(vr) for  vr in versions ]
+        table += vtable
+    df = pd.DataFrame(table, columns=columns)
+    df = df.sort_values(by=["Model","Version"], ascending=True)
+    return df 
+
+
+def create_row(vr):
+    try:
+        run = client.get_run(vr.run_id)
+        run_stage = run.info.lifecycle_stage
+        run_exists = True
+    except mlflow.exceptions.MlflowException:
+    #except except mlflow.exceptions.RestException:
+        run_stage = None
+        run_exists = False
+    return [
+        vr.name,
+        vr.version,
+        vr.current_stage,
+        format_time(vr.creation_timestamp),
+        format_time(vr.last_updated_timestamp),
+        vr.run_id,
+        run_stage,
+        run_exists 
+    ]
+    
 
 def show_versions(models, get_latest_versions):
     df = mk_versions_pandas_df(models, get_latest_versions)
@@ -67,11 +79,14 @@ def show_versions(models, get_latest_versions):
     print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
 
 
-def run(model, view, max_results):
+def get_models(model, max_results=1000):
     if model == "all":
-        models = client.search_registered_models(max_results=max_results)
+        return client.search_registered_models(max_results=max_results)
     else:
-        models = [ client.get_registered_model(model) ]
+        return [ client.get_registered_model(model) ]
+
+def show(model, view, max_results=1000):
+    models = get_models(model, max_results)
     if view in ["latest","both"]:
         show_versions(models, True)
     if view in ["all","both"]:
@@ -101,7 +116,7 @@ def run(model, view, max_results):
 def main(model, view, max_results):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
-    run(model, view, max_results
+    show(model, view, max_results
 )
 if __name__ == "__main__":
     main()
