@@ -40,30 +40,33 @@ export MLFLOW_TRACKING_URI=http://localhost:5000
 See [list_experiments.py](list_experiments.py).
 
 **Example**
+
 ```
-python -m mlflow_tools.tools.list_experiments --csv_file experiments.csv
+list-experiments --csv_file experiments.csv
 ```
 ```
-+-----------------+--------------+---------------------+-------------------+-----------------------------+
-|   experiment_id | name         | creation_time       | lifecycle_stage   | artifact_location           |
-|-----------------+--------------+---------------------+-------------------+-----------------------------|
-|               4 | sparkml      | 2023-01-15 08:53:51 | active            | /opt/mlflow/server/mlruns/4 |
-|               3 | hello_world  | 2023-01-15 08:53:37 | active            | /opt/mlflow/server/mlruns/3 |
-|               2 | sklearn_iris | 2023-01-01 19:32:59 | active            | /opt/mlflow/server/mlruns/2 |
-|               1 | sklearn_wine | 2023-01-01 19:31:25 | active            | /opt/mlflow/server/mlruns/1 |
-|               0 | Default      | 2023-01-01 19:31:19 | active            | /opt/mlflow/server/mlruns/0 |
-|-----------------+--------------+---------------------+-------------------+-----------------------------|
++-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
+|   experiment_id | name          | creation_time       | last_update_time    | lifecycle_stage   | artifact_location           |
++-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
+|               3 | hello_world   | 2023-02-12 03:26:23 | 2023-02-12 05:36:54 | deleted           | /opt/mlflow/server/mlruns/3 |
+|               4 | sparkml_scala | 2023-02-12 03:51:07 | 2023-02-12 03:51:07 | active            | /opt/mlflow/server/mlruns/4 |
+|               2 | sklearn_iris  | 2023-02-08 02:13:32 | 2023-02-08 02:13:32 | active            | /opt/mlflow/server/mlruns/2 |
+|               1 | sklearn_wine  | 2023-02-08 02:04:13 | 2023-02-08 02:04:13 | active            | /opt/mlflow/server/mlruns/1 |
+|               0 | Default       | 2023-02-08 02:04:09 | 2023-02-08 02:04:09 | active            | /opt/mlflow/server/mlruns/0 |
++-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
 ```
 
 **Usage**
 ```
-python -m mlflow_tools.tools.list_experiments --help
+list-experiments --hellp
 
 Options:
-  --csv-file TEXT    Output CSV file  [default: experiments.csv]
-  --sort-attr TEXT   Sort by this attibute  [default: name]
-  --sort-order TEXT  Sort order: asc|desc  [default: asc]
-  --verbose BOOLEAN  Verbose  [default: False]
+  --csv-file TEXT    Output CSV file.  [default: experiments.csv]
+  --sort-attr TEXT   Sort by this attibute.  [default: name]
+  --sort-order TEXT  Sort order. One of: asc|desc.  [default: asc]
+  --view-type TEXT   View type. One of: active_only|deleted_only|all.
+                     [default: active_only]
+  --filter TEXT      Filter
 ```
 
 ### Dump experiment 

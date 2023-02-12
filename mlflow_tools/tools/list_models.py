@@ -3,23 +3,12 @@ List all registered models.
 """
 
 import click
-import pandas as pd
-import mlflow
 from tabulate import tabulate
-from mlflow_tools.tools.utils import format_time
-from mlflow_tools.common.iterators import SearchRegisteredModelsIterator
-
-client = mlflow.tracking.MlflowClient()
+from mlflow_tools.common import pandas_api
 
 
 def to_pandas_dataframe(sort_attribute="name", sort_order="asc"):
-    models = [ m for m in SearchRegisteredModelsIterator(client) ]
-    list = [ [ m.name, len(m.latest_versions), 
-               format_time(m.creation_timestamp), format_time(m.last_updated_timestamp), 
-               m.description ] 
-        for m in models ]
-    columns = ["name", "versions", "creation_timestamp", "last_updated_timestamp", "description" ]
-    df = pd.DataFrame(list, columns=columns)
+    df = pandas_api.list_models(filter=None)
     if sort_attribute in df.columns:
         df = df.sort_values(by=[sort_attribute], ascending=(sort_order == "asc"))
     return df
