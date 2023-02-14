@@ -4,7 +4,7 @@ Dump an experiment in JSON, YAML or text.
 
 import click
 import mlflow
-from mlflow_tools.tools.utils import format_time
+from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from ..common.http_client import MlflowHttpClient
 from ..common import mlflow_utils
 from . import dump_dct, show_mlflow_info, write_dct
@@ -30,8 +30,8 @@ def dump(exp_id_or_name,
         dump_experiment_as_text.dump_experiment(exp_id_or_name, artifact_max_level, show_runs, show_run_data)
     else:
         exp = http_client.get(f"experiments/get?experiment_id={experiment_id}")["experiment"]
-        exp["_last_update_time"] = format_time(exp.get("last_update_time",None))
-        exp["_creation_time"] = format_time(exp.get("creation_time",None))
+        exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None))
+        exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None))
         tags = exp.pop("tags", None)
         if tags:
             exp["tags"] = tags
@@ -49,7 +49,7 @@ def dump(exp_id_or_name,
                 last_run = max(last_run,int(run["run"]["info"]["end_time"]))
             summary = { 
                 "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
-                "last_run": last_run, "_last_run": format_time(last_run) }
+                "last_run": last_run, "_last_run": fmt_ts_millis(last_run) }
             dct = { "experiment_info": exp, "summary": summary, "runs": runs }
         else:
             dct = exp

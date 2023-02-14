@@ -5,7 +5,7 @@ Dump a run in JSON, YAML or text.
 import json
 import click
 from mlflow_tools.common.http_client import MlflowHttpClient
-from mlflow_tools.tools.utils import format_time
+from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from . import dump_dct, show_mlflow_info
 from . import dump_run_as_text
 
@@ -18,7 +18,7 @@ client = MlflowHttpClient()
 def _adjust_time(info, k):
     v = info.get(k,None)
     if v is not None:
-        v = format_time(int(v))
+        v = fmt_ts_millis(int(v))
     info[f"_{k}"] = v
 
 
@@ -39,6 +39,9 @@ def _explode_json_string(run):
 
 
 def build_run(run, artifact_max_level, explode_json_string):
+    """
+    Returns dict representation of run.
+    """
     info = run["info"]
     data = run["data"]
     run_id = info["run_id"]

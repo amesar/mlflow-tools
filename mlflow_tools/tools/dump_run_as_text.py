@@ -3,7 +3,8 @@ Dump run as text.
 """
 
 import mlflow
-from mlflow_tools.tools.utils import format_time
+from mlflow_tools.common.timestamp_utils import fmt_ts_millis
+
 
 INDENT = "  "
 MAX_LEVEL = 1
@@ -54,7 +55,7 @@ def _dump_time(info, k, indent=""):
     if v is None:
         print(f"{indent}  {k[1:] : <11}:{v}")
     else:
-        stime = format_time(v)
+        stime = fmt_ts_millis(v)
         print(f"{indent}  {k[1:] : <11}:{stime}   {v}")
     return v
 

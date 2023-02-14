@@ -7,7 +7,8 @@ import pandas as pd
 import mlflow
 from tabulate import tabulate
 from mlflow_tools.common.mlflow_utils import list_model_versions
-from mlflow_tools.tools.utils import format_time
+from mlflow_tools.common.timestamp_utils import fmt_ts_millis
+
 
 client = mlflow.tracking.MlflowClient()
 
@@ -63,8 +64,8 @@ def create_row(vr):
         vr.name,
         vr.version,
         vr.current_stage,
-        format_time(vr.creation_timestamp),
-        format_time(vr.last_updated_timestamp),
+        fmt_ts_millis(vr.creation_timestamp),
+        fmt_ts_millis(vr.last_updated_timestamp),
         vr.run_id,
         run_stage,
         run_exists 

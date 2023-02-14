@@ -16,12 +16,3 @@ def normalize_stages(stages):
         if stage not in model_version_stages._CANONICAL_MAPPING:
             print(f"WARNING: stage '{stage}' must be one of: {model_version_stages.ALL_STAGES}")
     return stages
-
-
-def format_time(ms):
-    """ Format milliseconds as date time """
-    if not ms:
-        return None
-    import time
-    TS_FORMAT = "%Y-%m-%d %H:%M:%S"
-    return time.strftime(TS_FORMAT, time.gmtime(round(ms/1000)))
