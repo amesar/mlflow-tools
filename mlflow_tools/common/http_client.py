@@ -2,7 +2,7 @@ import os
 import json
 import requests
 import click
-from mlflow_tools.common import mlflow_utils
+from mlflow_tools.common import mlflow_auth_utils
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common import USER_AGENT
 
@@ -18,7 +18,7 @@ class HttpClient():
         """
         self.api_uri = "?"
         if host is None:
-            (host, token) = mlflow_utils.get_mlflow_host_token()
+            (host, token) = mlflow_auth_utils.get_mlflow_host_token()
             if host is None:
                 raise MlflowToolsException("MLflow host or token is not configured correctly")
         self.api_uri = os.path.join(host, api_name)
