@@ -6,6 +6,8 @@ from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common import USER_AGENT
 
+TIMEOUT = 15
+
 class HttpClient():
     """ Wrapper for GET and POST methods for Databricks REST APIs  - standard Databricks API and MLflow API. """
     def __init__(self, api_name, host=None, token=None):
@@ -16,10 +18,10 @@ class HttpClient():
         """
         self.api_uri = "?"
         if host is None:
-            (host,token) = mlflow_utils.get_mlflow_host_token()
+            (host, token) = mlflow_utils.get_mlflow_host_token()
             if host is None:
                 raise MlflowToolsException("MLflow host or token is not configured correctly")
-        self.api_uri = os.path.join(host,api_name)
+        self.api_uri = os.path.join(host, api_name)
         self.token = token
 
     def _get(self, resource, params=None):
@@ -28,8 +30,8 @@ class HttpClient():
         :param params: Dict of query parameters 
         """
         uri = self._mk_uri(resource)
-        rsp = requests.get(uri, headers=self._mk_headers(), json=params)
-        self._check_response(rsp, uri)
+        rsp = requests.get(uri, headers=self._mk_headers(), json=params, timeout=TIMEOUT)
+        self._check_response(rsp, uri, params)
         return rsp
 
     def get(self, resource, params=None):
@@ -42,12 +44,28 @@ class HttpClient():
         """
         uri = self._mk_uri(resource)
         data = json.dumps(data) if data else None
-        rsp = requests.post(uri, headers=self._mk_headers(), data=data)
-        self._check_response(rsp,uri)
+        rsp = requests.post(uri, headers=self._mk_headers(), data=data, timeout=TIMEOUT)
+        self._check_response(rsp, uri, data)
         return rsp
 
     def post(self, resource, data=None):
         return json.loads(self._post(resource, data).text)
+
+
+    def _delete(self, resource, data=None):
+        """ Executes an HTTP POST call
+        :param resource: Relative path name of resource such as runs/search
+        :param data: Post request payload
+        """
+        uri = self._mk_uri(resource)
+        data = json.dumps(data) if data else None
+        rsp = requests.delete(uri, headers=self._mk_headers(), data=data, timeout=TIMEOUT)
+        self._check_response(rsp, uri, data)
+        return rsp
+
+    def delete(self, resource, data=None):
+        return json.loads(self._delete(resource, data).text)
+
 
     def _mk_headers(self):
         headers = { "User-Agent": USER_AGENT }
@@ -58,24 +76,31 @@ class HttpClient():
     def _mk_uri(self, resource):
         return f"{self.api_uri}/{resource}"
 
-    def _check_response(self, rsp, uri):
+    def _check_response(self, rsp, uri, params=None):
         if rsp.status_code < 200 or rsp.status_code > 299:
-            raise MlflowToolsException(f"HTTP status code: {rsp.status_code}. Reason: {rsp.reason} URL: {uri}")
+            #print("rsp.text:",rsp.text)
+            raise MlflowToolsException(rsp.reason,
+               http_status_code=rsp.status_code,
+               http_reason=rsp.reason,
+               uri=uri, params=params)
 
     def __repr__(self): 
         return self.api_uri
+
 
 class DatabricksHttpClient(HttpClient):
     def __init__(self, host=None, token=None):
         super().__init__("api/2.0", host, token)
 
+
 class MlflowHttpClient(HttpClient):
     def __init__(self, host=None, token=None):
         super().__init__("api/2.0/mlflow", host, token)
 
+
 @click.command()
 @click.option("--api", help="API: mlflow|databricks.", default="mlflow", type=str)
-@click.option("--resource", help="API resource such as 'experiment/list'.", required=True, type=str)
+@click.option("--resource", help="API resource such as 'experiments/search'.", required=True, type=str)
 @click.option("--method", help="HTTP method: GET|POST.", default="GET", type=str)
 @click.option("--params", help="HTTP GET query parameters as JSON.", required=False, type=str)
 @click.option("--data", help="HTTP POST data as JSON.", required=False, type=str)
@@ -86,7 +111,7 @@ def main(api, resource, method, params, data, output_file, verbose):
     def write_output(rsp, output_file):
         if output_file:
             print(f"Output file: {output_file}")
-            with open(output_file, "w") as f:
+            with open(output_file, "w", encoding="utf-8") as f:
                 f.write(rsp.text)
         else:
             print(rsp.text)
@@ -108,6 +133,7 @@ def main(api, resource, method, params, data, output_file, verbose):
         write_output(rsp, output_file)
     else:
         print(f"ERROR: Unsupported HTTP method '{method}'")
+
 
 if __name__ == "__main__":
     main()
