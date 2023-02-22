@@ -642,7 +642,7 @@ python -m mlflow_tools.tools.call_model_server \
 
 **Usage**
 ```
-python -m mlflow_tools.common.http_client --help
+python -m mlflow_tools.client.http_client --help
 
 Options:
   --api TEXT          API: mlflow|databricks.
