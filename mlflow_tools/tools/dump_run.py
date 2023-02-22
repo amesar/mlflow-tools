@@ -4,7 +4,7 @@ Dump a run in JSON, YAML or text.
 
 import json
 import click
-from mlflow_tools.common.http_client import MlflowHttpClient
+from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from . import dump_dct, show_mlflow_info
 from . import dump_run_as_text

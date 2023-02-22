@@ -1,5 +1,5 @@
 import os
-from mlflow_tools.common import databricks_cli_utils
+from mlflow_tools.client import databricks_cli_utils
 
 
 def get_mlflow_host():

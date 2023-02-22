@@ -2,9 +2,9 @@ import os
 import json
 import requests
 import click
-from mlflow_tools.common import mlflow_auth_utils
 from mlflow_tools.common import MlflowToolsException
-from mlflow_tools.common import USER_AGENT
+from mlflow_tools.client import mlflow_auth_utils
+from mlflow_tools.client import USER_AGENT
 
 TIMEOUT = 15
 

@@ -5,7 +5,7 @@ Dump an experiment in JSON, YAML or text.
 import click
 import mlflow
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
-from ..common.http_client import MlflowHttpClient
+from ..client.http_client import MlflowHttpClient
 from ..common import mlflow_utils
 from . import dump_dct, show_mlflow_info, write_dct
 from . import dump_run, dump_experiment_as_text

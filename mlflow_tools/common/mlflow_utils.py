@@ -1,6 +1,6 @@
 import os
 import mlflow
-from mlflow_tools.common import mlflow_auth_utils
+from mlflow_tools.client import mlflow_auth_utils
 
 
 def dump_mlflow_info():

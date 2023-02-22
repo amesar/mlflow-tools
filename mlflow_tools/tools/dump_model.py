@@ -5,8 +5,8 @@ Dump a registered model in JSON or YAML.
 import click
 import json
 from mlflow_tools.common import MlflowToolsException
-from mlflow_tools.common.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
+from mlflow_tools.client.http_client import MlflowHttpClient
 from . import dump_dct, dump_run
 
 client = MlflowHttpClient()
