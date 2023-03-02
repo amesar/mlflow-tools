@@ -29,9 +29,9 @@ class BaseIterator(metaclass=ABCMeta):
 
     def __next__(self):
         if self.idx < len(self.paged_list):
-            model = self.paged_list[self.idx]
+            chunk = self.paged_list[self.idx]
             self.idx += 1
-            return model
+            return chunk
         elif self.paged_list.token is None or self.paged_list.token == "":
             raise StopIteration
         else:
