@@ -51,7 +51,6 @@ def build_run(run, artifact_max_level, explode_json_string):
         _explode_json_string(run)
 
     if artifact_max_level == 0:
-        dct = run
         num_bytes = -1
         num_artifacts= -1
         summary = { 
