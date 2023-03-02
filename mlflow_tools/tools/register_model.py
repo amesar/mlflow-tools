@@ -17,7 +17,7 @@ def main(registered_model, run_id, model_artifact, stage):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
-    client = mlflow.tracking.MlflowClient()
+    client = mlflow.client.MlflowClient()
     try:
         client.create_registered_model(registered_model)
         print(f"Created new model '{registered_model}'")

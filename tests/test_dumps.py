@@ -1,6 +1,6 @@
 import mlflow
-from mlflow_tools.tools.dump_run import dump_run_id
-from mlflow_tools.tools import list_experiments
+from mlflow_tools.display.dump_run import dump_run_id
+from mlflow_tools.display import list_experiments
 from . utils_test import create_experiment
 
 exp = create_experiment()

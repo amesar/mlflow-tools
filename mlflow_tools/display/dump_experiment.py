@@ -4,15 +4,16 @@ Dump an experiment in JSON, YAML or text.
 
 import click
 import mlflow
+from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
-from ..client.http_client import MlflowHttpClient
-from ..common import mlflow_utils
-from . import dump_dct, show_mlflow_info, write_dct
-from . import dump_run, dump_experiment_as_text
+from mlflow_tools.common import mlflow_utils
+from mlflow_tools.display import dump_dct, show_mlflow_info, write_dct
+from mlflow_tools.display import dump_run, dump_experiment_as_text
 
 http_client = MlflowHttpClient()
-mlflow_client = mlflow.tracking.MlflowClient()
+mlflow_client = mlflow.client.MlflowClient()
 max_results = 10000
+
 
 def dump(exp_id_or_name, 
         artifact_max_level, 

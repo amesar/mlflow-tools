@@ -6,7 +6,7 @@ import click
 import mlflow
 from mlflow_tools.tools import utils 
 
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
 

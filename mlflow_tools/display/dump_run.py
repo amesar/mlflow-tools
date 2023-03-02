@@ -12,7 +12,7 @@ from . import dump_run_as_text
 # Tags to explode from JSON string
 explode_tags = [ "mlflow.databricks.cluster.info", "mlflow.databricks.cluster.libraries", "mlflow.log-model.history" ]
 
-client = MlflowHttpClient()
+http_client = MlflowHttpClient()
 
 
 def _adjust_time(info, k):
@@ -79,7 +79,7 @@ def _get_size(dct):
 
 
 def build_artifacts(run_id, path, level, artifact_max_level):
-    artifacts = client.get(f"artifacts/list?run_id={run_id}&path={path}")
+    artifacts = http_client.get(f"artifacts/list?run_id={run_id}&path={path}")
     if level+1 > artifact_max_level: 
         return artifacts, 0, 0
     num_bytes, num_artifacts = (0,0)
@@ -102,7 +102,7 @@ def dump_run_id(run_id, artifact_max_level=1, format="json", explode_json_string
         dump_run_as_text.dump_run_id(run_id, artifact_max_level)
         return ""
     else:
-        run = client.get(f"runs/get?run_id={run_id}")["run"]
+        run = http_client.get(f"runs/get?run_id={run_id}")["run"]
         dct = build_run(run, artifact_max_level, explode_json_string)
         dump_dct(dct, format)
         return dct

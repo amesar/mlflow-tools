@@ -29,12 +29,12 @@ setup(
     ],
     entry_points = {
         "console_scripts": [
-            "dump-run = mlflow_tools.tools.dump_run:main",
-            "dump-experiment = mlflow_tools.tools.dump_experiment:main",
-            "dump-model = mlflow_tools.tools.dump_model:main",
-            "list-experiments = mlflow_tools.tools.list_experiments:main",
-            "list-models = mlflow_tools.tools.list_models:main",
-            "list-model-versions = mlflow_tools.tools.list_model_versions:main"
+            "dump-run = mlflow_tools.display.dump_run:main",
+            "dump-experiment = mlflow_tools.display.dump_experiment:main",
+            "dump-model = mlflow_tools.display.dump_model:main",
+            "list-experiments = mlflow_tools.display.list_experiments:main",
+            "list-models = mlflow_tools.display.list_models:main",
+            "list-model-versions = mlflow_tools.display.list_model_versions:main"
         ]
     }
 )

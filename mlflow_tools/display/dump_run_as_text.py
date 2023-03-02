@@ -8,7 +8,7 @@ from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 
 INDENT = "  "
 MAX_LEVEL = 1
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 
 
 def dump_run(run, max_level=1, indent=""):

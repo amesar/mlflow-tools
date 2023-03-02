@@ -8,7 +8,7 @@ import mlflow
 from ..common import mlflow_utils
 from .dump_run_as_text import dump_run_info, dump_run_id
 
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 
 def dump_experiment(exp_id_or_name, artifact_max_level, show_info, show_data):
     exp = mlflow_utils.get_experiment(client, exp_id_or_name)

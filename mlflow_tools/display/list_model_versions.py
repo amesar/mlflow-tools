@@ -9,8 +9,7 @@ from tabulate import tabulate
 from mlflow_tools.common.mlflow_utils import list_model_versions
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 
-
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 
 columns = ["Model", "Version", "Stage", "Creation", "Last Updated", "Run ID", "Run stage", "Run exists"]
 

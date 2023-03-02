@@ -85,7 +85,7 @@ Dumps all experiment details including its runs as JSON or YAML.
 
 **Example**
 ```
-python -m mlflow_tools.tools.dump_experiment \
+python -m mlflow_tools.display.dump_experiment \
   --experiment-id-or-name 1812 \
   --artifact-max-level 3 \
   --show-runs True \
@@ -139,7 +139,7 @@ python -m mlflow_tools.tools.dump_experiment \
 **Usage**
 
 ```
-python -m mlflow_tools.tools.dump_experiment --help
+python -m mlflow_tools.display.dump_experiment --help
 
 Options:
   --experiment-id-or-name TEXT   Experiment ID or name  [required]
@@ -159,7 +159,7 @@ Options:
 
 Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv_file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
 ```
-python -m mlflow_tools.tools.dump_experiment_as_csv \
+python -m mlflow_tools.display.dump_experiment_as_csv \
   --experiment-id-or-name sklearn \
   --csv-file sklearn.csv
 ```

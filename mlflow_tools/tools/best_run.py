@@ -2,7 +2,7 @@ import click
 import mlflow
 from ..common import mlflow_utils
 
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 
 TAG_PARENT_RUN_ID = "mlflow.parentRunId"
 
