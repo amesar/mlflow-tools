@@ -8,7 +8,8 @@ Tools to list and dump MLflow objects.
 * [Count of all MLflow objects](#Count-of-all-MLflow-objects)
 * [List all experiments](#List-all-experiments)
 * [List all registered models](#List-all-registered-models)
-* [List latest and all versions of a registered model](#List-latest-and-all-versions-of-a-registered-model) - List versions and information about the runs they point to.
+* Advanced
+  * [List latest and all versions of a registered model](#List-latest-and-all-versions-of-a-registered-model) - List versions and information about the runs they point to.
 
 **Dump Tools**
 * [Samples of dumps](../../samples/README.md)
@@ -445,11 +446,11 @@ Lists two views of versions:
   *  Latest versions use [MlflowClient.get_latest_versions()](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.get_latest_versions).
   * All versions use [MlflowClient.search_model_versions()](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.search_model_versions).
 
-See [list_model_versions.py](list_model_versions.py).
+See [list_model_versions_advanced.py](list_model_versions_advanced.py).
 
 
 ```
-list-model-versions.py \
+list-model-versions_advanced \
   --model all \
   --view both 
 
@@ -483,7 +484,7 @@ All 9 versions
 
 **Usage**
 ```
-list-model-versions --help
+list-model-versions-advanced --help
 
 Options:
   --model TEXT           Registered model name or 'all' for all models.
