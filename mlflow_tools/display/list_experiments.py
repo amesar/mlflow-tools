@@ -5,11 +5,12 @@ List all experiments.
 import click
 from tabulate import tabulate
 from mlflow.entities import ViewType
-from mlflow_tools.common import pandas_api
+from mlflow_tools.api import pandas_api
 
+mlflow_api = pandas_api.get_api()
 
 def to_pandas_dataframe(sort_attribute="name", sort_order="asc", view_type=ViewType.ACTIVE_ONLY, filter=None, verbose=False):
-    df = pandas_api.list_experiments(view_type=view_type, filter=filter)
+    df = mlflow_api.search_experiments(view_type=view_type, filter=filter)
     if not verbose:
         df = df[["experiment_id","name"]]
     if sort_attribute in df.columns:
@@ -69,10 +70,12 @@ def main(csv_file, sort_attr, sort_order, view_type, filter, verbose):
         view_type = ViewType.from_string(view_type)
         list(csv_file, sort_attr, sort_order, view_type, filter, verbose)
 
+
 def print_help():
     ctx = click.get_current_context()
     click.echo(ctx.get_help())
     ctx.exit()
+
 
 if __name__ == "__main__":
     main()

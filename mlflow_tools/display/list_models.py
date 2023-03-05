@@ -4,11 +4,12 @@ List all registered models.
 
 import click
 from tabulate import tabulate
-from mlflow_tools.common import pandas_api
+from mlflow_tools.api import pandas_api
 
+mlflow_api = pandas_api.get_api()
 
 def to_pandas_dataframe(sort_attribute="name", sort_order="asc"):
-    df = pandas_api.list_models(filter=None)
+    df = mlflow_api.search_registered_models(filter=None)
     if sort_attribute in df.columns:
         df = df.sort_values(by=[sort_attribute], ascending=(sort_order == "asc"))
     return df
