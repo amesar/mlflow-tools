@@ -55,7 +55,7 @@ def list_model_versions(filter=None):
     return pd.DataFrame(list, columns=columns)
 
 
-# List methods
+# Count methods
 
 def count_experiments(view_type=ViewType.ACTIVE_ONLY, filter=None):
     it = SearchExperimentsIterator(client, view_type=view_type, filter=filter)
@@ -68,11 +68,19 @@ def count_models(filter=None):
 
 
 def count_versions(filter=None):
+    #print(">> count_versions: filter:",filter)
     it = SearchModelVersionsIterator(client, filter=filter)
     return _count_iter(it)
 
-def _count_iter(it):
 
+def count_versions_by_models():
+    it = SearchRegisteredModelsIterator(client)
+    vr_count=0
+    for m in it:
+        vr_count += count_versions(filter=f"name = '{m.name}'")
+    return vr_count
+
+def _count_iter(it):
     count = 0
     for _ in it:
         count += 1
