@@ -7,7 +7,7 @@ from mlflow_tools.failed_run_replayer import SaveFailedRunReplayer
 from mlflow_tools.failed_run_replayer import RunDetails, ModelDetails, ArtifactDetails
 
 print("MLflow Tracking URI:", mlflow.get_tracking_uri())
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 
 error_msg = "failed with error code 429 != 200"
 replay_dir = "out"

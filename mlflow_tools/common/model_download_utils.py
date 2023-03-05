@@ -9,7 +9,7 @@ Nomenclature:
 """
 
 import mlflow
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 print("MLflow Version:", mlflow.__version__)
 print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 

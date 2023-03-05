@@ -63,7 +63,7 @@ class SaveFailedRunReplayer:
         # If call fails in mlflow.start_run we won't be inside a run.
         if run_id:
             print("Deleting failed run_id:",run_id)
-            mlflow.tracking.MlflowClient().delete_run(run_id)
+            mlflow.client.MlflowClient().delete_run(run_id)
                     
         # Save run details as a pickle file for later replay                      
         path = os.path.join(replay_dir, f"{(uuid.uuid4())}.pkl")
@@ -84,7 +84,7 @@ class CreateFailedRunReplayer:
             params = [ Param(k,v) for k,v in run.params.items() ] 
             metrics = [ Metric(k,v,int(time.time()),0) for k,v in run.metrics.items() ] # TODO: timestamp and step?
             tags = [ RunTag(k,v) for k,v in run.tags.items() ]
-            mlflow.tracking.MlflowClient().log_batch(active_run.info.run_id, metrics, params, tags)
+            mlflow.client.MlflowClient().log_batch(active_run.info.run_id, metrics, params, tags)
             if self.do_tag:
                 mlflow.set_tag("replayed","true")
             for m in run.models:

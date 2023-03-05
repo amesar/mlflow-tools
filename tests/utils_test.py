@@ -5,7 +5,7 @@ import mlflow.sklearn
 print("Mlflow path:", mlflow.__file__)
 print("MLflow version:", mlflow.__version__)
 
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 exp_count = 0
 
 def now():

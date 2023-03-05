@@ -2,7 +2,7 @@ import mlflow
 from mlflow_tools.common.search_runs_iterator import SearchRunsIterator
 from . utils_test import create_experiment
 
-client = mlflow.tracking.MlflowClient()
+client = mlflow.client.MlflowClient()
 
 def create_runs(num_runs):
     exp = create_experiment()
