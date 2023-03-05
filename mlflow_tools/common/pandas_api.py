@@ -11,7 +11,7 @@ from mlflow_tools.common.iterators import SearchModelVersionsIterator
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 
 client = mlflow.client.MlflowClient()
-
+print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
 # List methods
 
