@@ -4,25 +4,57 @@
 
 Tools to list and dump MLflow objects.
 
-**Dumps**
-* [Samples of dumps](../../samples/README.md)
-
-**Experiments**
+**List Tools**
+* [Count of all MLflow objects](#Count-of-all-MLflow-objects)
 * [List all experiments](#List-all-experiments)
+* [List all registered models](#List-all-registered-models)
+* [List latest and all versions of a registered model](#List-latest-and-all-versions-of-a-registered-model) - List versions and information about the runs they point to.
+
+**Dump Tools**
+* [Samples of dumps](../../samples/README.md)
 * [Dump experiment](#Dump-experiment) 
   * [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
-
-**Runs**
+* [Dump registered model](#Dump-registered-model)
 * [Dump run](#Dump-run)
 
-**Registered models**
-* [List all registered models](#List-all-registered-models)
-* [Dump registered model](#Dump-registered-model)
-* [List latest and all versions of a registered model](#List-latest-and-all-versions-of-a-registered-model) - List versions and information about the runs they point to.
 
 ## Setup
 ```
 export MLFLOW_TRACKING_URI=http://localhost:5000
+```
+
+## Count of all MLflow objects
+See [count_objects.py](count_objects.py).
+
+**Example**
+
+```
+count-objects --csv_file experiments.csv
+```
+
+```
+MLflow object counts
++--------------------+---------+
+| Object             |   Count |
+|--------------------+---------|
+| experiments        |       3 |
+| models             |       3 |
+| versions           |       9 |
+| versions by models |       9 |
++--------------------+---------+
+```
+
+**Usage**
+```
+count-objects --help
+
+Options:
+  --experiments         Experiments count
+  --models              Registered models count
+  --versions            Model versions count
+  --versions-by-models  Model versions by models count
+  --mlflow-api TEXT     MLflowApi implementation: iterator|list  [default:
+                        iterator]
 ```
 
 ## Experiments 
@@ -49,7 +81,7 @@ list-experiments --csv_file experiments.csv
 
 **Usage**
 ```
-list-experiments --hellp
+list-experiments --help
 
 Options:
   --csv-file TEXT    Output CSV file.  [default: experiments.csv]
