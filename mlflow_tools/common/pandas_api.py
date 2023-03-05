@@ -60,7 +60,7 @@ def list_model_versions_by_models(filter=None):
     df = None
     for m in it:
         _df = list_model_versions(filter=f"name = '{m.name}'")
-        print(f"model={m.name} versions={_df.shape[0]}")
+        #print(f"model={m.name} versions={_df.shape[0]}")
         if df is None:
             df = _df
         else:
@@ -91,6 +91,7 @@ def count_versions_by_models():
     for m in it:
         vr_count += count_versions(filter=f"name = '{m.name}'")
     return vr_count
+
 
 def _count_iter(it):
     count = 0
