@@ -13,6 +13,8 @@ from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 client = mlflow.client.MlflowClient()
 
 
+# List methods
+
 def list_experiments(view_type=ViewType.ACTIVE_ONLY, filter=None):
     exps = [ exp for exp in SearchExperimentsIterator(client, view_type=view_type, filter=filter) ]
     list = [(exp.experiment_id, 
@@ -51,3 +53,27 @@ def list_model_versions(filter=None):
          for vr in versions ]
     columns = ["name", "version", "current_stage", "status", "creation_timestamp", "last_updated_timestamp", "run_id", "run_link", "source" ]
     return pd.DataFrame(list, columns=columns)
+
+
+# List methods
+
+def count_experiments(view_type=ViewType.ACTIVE_ONLY, filter=None):
+    it = SearchExperimentsIterator(client, view_type=view_type, filter=filter)
+    return _count_iter(it)
+
+
+def count_models(filter=None):
+    it = SearchRegisteredModelsIterator(client, filter=filter)
+    return _count_iter(it)
+
+
+def count_versions(filter=None):
+    it = SearchModelVersionsIterator(client, filter=filter)
+    return _count_iter(it)
+
+def _count_iter(it):
+
+    count = 0
+    for _ in it:
+        count += 1
+    return count
