@@ -55,12 +55,12 @@ def list_model_versions(filter=None):
     return pd.DataFrame(list, columns=columns)
 
 
-def list_model_versions_by_models():
-    it = SearchRegisteredModelsIterator(client)
+def list_model_versions_by_models(filter=None):
+    it = SearchRegisteredModelsIterator(client, filter=filter)
     df = None
     for m in it:
         _df = list_model_versions(filter=f"name = '{m.name}'")
-        #print(f"model={m.name} versions={_df.shape[0]}")
+        print(f"model={m.name} versions={_df.shape[0]}")
         if df is None:
             df = _df
         else:
