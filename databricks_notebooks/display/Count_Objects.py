@@ -2,18 +2,20 @@
 # MAGIC %md ## Count MLflow Objects
 # MAGIC 
 # MAGIC **Overview**
-# MAGIC * Displays counts for the extent of MLflow searchable objects.
+# MAGIC * Displays count for the extent of MLflow searchable objects.
+# MAGIC * Uses: https://github.com/amesar/mlflow-tools/blob/master/mlflow_tools/display/count_objects.py.
 # MAGIC 
 # MAGIC **Example**
 # MAGIC ```
 # MAGIC Object counts for 'iterator' implementation
-# MAGIC +--------------------+---------+
-# MAGIC | Object             |   Count |
-# MAGIC |--------------------+---------|
-# MAGIC | experiments        |     624 |
-# MAGIC | models             |      38 |
-# MAGIC | versions by models |      83 |
-# MAGIC +--------------------+---------+
+# MAGIC +----------------------+---------+
+# MAGIC | Object               |   Count | 
+# MAGIC +----------------------+---------+
+# MAGIC | experiments          |    2188 |
+# MAGIC | models               |    2176 |
+# MAGIC | versions             |   22630 |
+# MAGIC | versions (by models) |   22630 |
+# MAGIC +----------------------+---------+
 # MAGIC ```
 
 # COMMAND ----------
