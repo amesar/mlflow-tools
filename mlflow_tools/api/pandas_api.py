@@ -7,6 +7,7 @@ from mlflow.entities import ViewType
 from mlflow_tools.api.mlflow_api import MlflowApi
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 
+
 class PandasMlflowApi(MlflowApi):
     def __init__(self, mlflow_api):
         self.mlflow_api = mlflow_api
@@ -75,12 +76,3 @@ class PandasMlflowApi(MlflowApi):
 
     def __repr__(self):
         return str(type(self.mlflow_api))
-
-
-def get_api(which="iterator"):
-    from mlflow_tools.api.mlflow_iterator_api import IteratorMlflowApi
-    from mlflow_tools.api.mlflow_list_api import ListMlflowApi
-    if which == "iterator":
-        return PandasMlflowApi(IteratorMlflowApi())
-    else:
-        return PandasMlflowApi(ListMlflowApi())

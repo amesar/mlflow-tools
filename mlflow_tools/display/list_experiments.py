@@ -5,12 +5,13 @@ List all experiments.
 import click
 from tabulate import tabulate
 from mlflow.entities import ViewType
-from mlflow_tools.api import pandas_api
+from mlflow_tools.api import api_factory
 
-mlflow_api = pandas_api.get_api()
+pandas_api = api_factory.get_pandas_api()
+
 
 def to_pandas_dataframe(sort_attribute="name", sort_order="asc", view_type=ViewType.ACTIVE_ONLY, filter=None, verbose=False):
-    df = mlflow_api.search_experiments(view_type=view_type, filter=filter)
+    df = pandas_api.search_experiments(view_type=view_type, filter=filter)
     if not verbose:
         df = df[["experiment_id","name"]]
     if sort_attribute in df.columns:
