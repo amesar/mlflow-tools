@@ -1,9 +1,10 @@
 # Databricks notebook source
 # MAGIC %md ## Count MLflow Objects
 # MAGIC 
-# MAGIC Displays count for the extent of MLflow searcheable objects.
+# MAGIC **Overview**
+# MAGIC * Displays counts for the extent of MLflow searchable objects.
 # MAGIC 
-# MAGIC Example:
+# MAGIC **Example**
 # MAGIC ```
 # MAGIC Object counts for 'iterator' implementation
 # MAGIC +--------------------+---------+
@@ -25,11 +26,6 @@ from mlflow_tools.api.api_factory import MLFLOW_API_ITERATOR, MLFLOW_API_SEARCH,
 
 # COMMAND ----------
 
-#dbutils.widgets.removeAll()
-
-
-# COMMAND ----------
-
 dbutils.widgets.dropdown("1. Experiments","yes",["yes","no"])
 experiments = dbutils.widgets.get("1. Experiments") == "yes"
 dbutils.widgets.dropdown("2. Registered models","yes",["yes","no"])
@@ -47,10 +43,6 @@ print("models:", models)
 print("versions:", versions)
 print("versions_by_models:", versions_by_models)
 print("implementation:", implementation)
-
-# COMMAND ----------
-
-
 
 # COMMAND ----------
 
