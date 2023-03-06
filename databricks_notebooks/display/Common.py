@@ -34,3 +34,9 @@ def write_file(dct, path, format):
 def assert_widget(value, name):
     if len(value.rstrip())==0:
         raise Exception(f"ERROR: '{name}' widget is required")
+
+# COMMAND ----------
+
+import mlflow, os
+print("mlflow version:", mlflow.__version__)
+print("DATABRICKS_RUNTIME_VERSION:", os.environ.get("DATABRICKS_RUNTIME_VERSION",None))
