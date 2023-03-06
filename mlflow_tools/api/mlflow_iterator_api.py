@@ -58,7 +58,7 @@ class IteratorMlflowApi(MlflowApi):
         it = SearchRegisteredModelsIterator(self.client, filter=filter)
         vr_count=0
         for m in it:
-            vr_count += self.count_versions(filter=f"name = '{m.name}'")
+            vr_count += self.count_model_versions(filter=f"name = '{m.name}'")
         return vr_count
 
 
