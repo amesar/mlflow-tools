@@ -11,6 +11,7 @@
 # MAGIC * [List_Registered_Models]($List_Registered_Models)
 # MAGIC * [List_Model_Versions]($List_Model_Versions)
 # MAGIC   * [List_Model_Versions_Advanced]($List_Model_Versions_Advanced) - Advanced versions analytics. WIP.
+# MAGIC * [MLflow_Version_Analytics]($MLflow_Version_Analytics) - list versions by model, etc.
 # MAGIC 
 # MAGIC **Dump Tools**
 # MAGIC * [Dump_Experiment]($Dump_Experiment)
@@ -18,10 +19,9 @@
 # MAGIC 
 # MAGIC 
 # MAGIC **Other**
-# MAGIC * [MLflow_Version_Analytics]($MLflow_Version_Analytics) - list versions by model, etc.
 # MAGIC * [Common]($Common)
 # MAGIC 
 # MAGIC **Documentation**
 # MAGIC * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html) - Databricks documentation.
 # MAGIC 
-# MAGIC Last updated: 2023-03-05
+# MAGIC Last updated: 2023-03-06
