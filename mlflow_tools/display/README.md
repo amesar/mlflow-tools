@@ -54,9 +54,11 @@ Options:
   --experiments         Experiments count
   --models              Registered models count
   --versions            Model versions count
-  --versions-by-models  Model versions by models count
-  --mlflow-api TEXT     MLflowApi implementation: iterator|list  [default:
-                        iterator]
+  --versions-by-models  Model versions (by models count)
+  --mlflow-api TEXT     MLflowApi implementation: iterator|search|both.
+                        'search' directly calls MlflowClient.search methods.
+                        'iterator' calls wrapper with page token. 'both'
+                        compares the two.  [default: iterator]
 ```
 
 ## Experiments 

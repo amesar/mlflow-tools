@@ -7,7 +7,7 @@ from mlflow.entities import ViewType
 from mlflow_tools.api.mlflow_api import MlflowApi
 
 
-class ListMlflowApi(MlflowApi):
+class SearchMlflowApi(MlflowApi):
     def __init__(self, client=None):
         self.client = client if client else mlflow.client.MlflowClient()
 
