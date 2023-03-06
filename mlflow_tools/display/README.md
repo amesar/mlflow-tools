@@ -8,6 +8,7 @@ Tools to list and dump MLflow objects.
 * [Count of all MLflow objects](#Count-of-all-MLflow-objects)
 * [List all experiments](#List-all-experiments)
 * [List all registered models](#List-all-registered-models)
+* [List all model versions](#List-all-model-versions)
 * Advanced
   * [List latest and all versions of a registered model](#List-latest-and-all-versions-of-a-registered-model) - List versions and information about the runs they point to.
 
@@ -436,6 +437,45 @@ Options:
                                  [default: 0]
   --show-all-versions BOOLEAN    Dump all versions in addition to latest
                                  versions.  [default: False]
+```
+
+### List all model versions XXX
+
+See [list_model_versions.py](list_model_versions.py).
+
+List all versions using the [search_model_versions](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.search_model_versions).
+
+**Example**
+```
+list-model-versions
+```
+
+```
++-------------------+-----------+-----------------+----------+----------------------+--------------------------+----------------------------------+------------+-------------------------------------------------------------------------------+
+| name              |   version | current_stage   | status   | creation_timestamp   | last_updated_timestamp   | run_id                           | run_link   | source                                                                        |
+|-------------------+-----------+-----------------+----------+----------------------+--------------------------+----------------------------------+------------+-------------------------------------------------------------------------------|
+| sklearn_iris      |         1 | Production      | READY    | 2023-03-04 20:37:59  | 2023-03-04 20:37:59      | b0244cc3d83b4eefaa7f43f9c0d3ed16 |            | s3://mlflow_server/2/b0244cc3d83b4eefaa7f43f9c0d3ed16/artifacts/sklearn-model |
+| sklearn_wine      |         4 | None            | READY    | 2023-03-04 20:25:09  | 2023-03-04 20:25:09      | 3f8875ccef60486b9644a30c132ff586 |            | s3://mlflow_server/1/3f8875ccef60486b9644a30c132ff586/artifacts/model         |
+| sklearn_wine      |         3 | Staging         | READY    | 2023-03-04 20:24:58  | 2023-03-04 20:24:58      | 7a991537ba4a4244ad2e90f26274a3da |            | s3://mlflow_server/1/7a991537ba4a4244ad2e90f26274a3da/artifacts/model         |
+| sklearn_wine      |         2 | Production      | READY    | 2023-03-04 20:24:48  | 2023-03-04 20:24:48      | bfbe5e23cdbd4f43b450f2749850a2b5 |            | s3://mlflow_server/1/bfbe5e23cdbd4f43b450f2749850a2b5/artifacts/model         |
+| sklearn_wine      |         1 | Archived        | READY    | 2023-03-04 20:23:36  | 2023-03-04 20:24:48      | c9ec16d723c849608f87548d65eed8a7 |            | s3://mlflow_server/1/c9ec16d723c849608f87548d65eed8a7/artifacts/model         |
+| sklearn_wine_onnx |         4 | None            | READY    | 2023-03-04 20:25:12  | 2023-03-04 20:25:12      | 3f8875ccef60486b9644a30c132ff586 |            | s3://mlflow_server/1/3f8875ccef60486b9644a30c132ff586/artifacts/onnx-model    |
+| sklearn_wine_onnx |         3 | None            | READY    | 2023-03-04 20:25:01  | 2023-03-04 20:25:01      | 7a991537ba4a4244ad2e90f26274a3da |            | s3://mlflow_server/1/7a991537ba4a4244ad2e90f26274a3da/artifacts/onnx-model    |
+| sklearn_wine_onnx |         2 | None            | READY    | 2023-03-04 20:24:51  | 2023-03-04 20:24:51      | bfbe5e23cdbd4f43b450f2749850a2b5 |            | s3://mlflow_server/1/bfbe5e23cdbd4f43b450f2749850a2b5/artifacts/onnx-model    |
+| sklearn_wine_onnx |         1 | None            | READY    | 2023-03-04 20:23:39  | 2023-03-04 20:23:39      | c9ec16d723c849608f87548d65eed8a7 |            | s3://mlflow_server/1/c9ec16d723c849608f87548d65eed8a7/artifacts/onnx-model    |
++-------------------+-----------+-----------------+----------+----------------------+--------------------------+----------------------------------+------------+-------------------------------------------------------------------------------+
+```
+
+**Usage**
+```
+list-model-versions --help
+
+Options:
+  --csv-file TEXT          Output CSV file.  [default: model_versions.csv]
+  --sort-attr TEXT         Sort by this attibute.  [default: name]
+  --sort-order TEXT        Sort order. One of: asc|desc.  [default: asc]
+  --use-by-models BOOLEAN  Use 'by models' variant to search for versions.
+  --model TEXT             Registered model to filter by.
 ```
 
 ### List `latest` and `all` versions of a registered model
