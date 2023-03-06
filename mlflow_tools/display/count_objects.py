@@ -7,8 +7,6 @@ import pandas as pd
 from tabulate import tabulate
 import mlflow
 from  mlflow.exceptions import RestException
-from mlflow_tools.api import pandas_api
-
 from mlflow_tools.api.api_factory import MLFLOW_API_ITERATOR, MLFLOW_API_SEARCH, DEFAULT_MLFLOW_API
 from mlflow_tools.api import api_factory
 
@@ -29,7 +27,7 @@ def _build_count(mlflow_api=DEFAULT_MLFLOW_API, experiments=False, models=False,
         except RestException as e:
             data.append([ "versions", str(e)])
     if versions_by_models:
-        data.append([ "versions by models", mlflow_api.count_model_versions_by_models() ])
+        data.append([ "versions (by models)", mlflow_api.count_model_versions_by_models() ])
     return data
 
 
@@ -59,7 +57,7 @@ def count(mlflow_api=DEFAULT_MLFLOW_API, experiments=False, models=False, versio
 @click.option("--experiments", help="Experiments count", type=bool, is_flag=True)
 @click.option("--models", help="Registered models count", type=bool, is_flag=True)
 @click.option("--versions", help="Model versions count", type=bool, is_flag=True)
-@click.option("--versions-by-models", help="Model versions by models count", type=bool, is_flag=True)
+@click.option("--versions-by-models", help="Model versions (by models count)", type=bool, is_flag=True)
 @click.option("--mlflow-api", 
     help=f"MLflowApi implementation: {MLFLOW_API_ITERATOR}|{MLFLOW_API_SEARCH}|both.\
         '{MLFLOW_API_SEARCH}' directly calls MlflowClient.search methods.\
