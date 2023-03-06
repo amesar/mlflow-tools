@@ -16,7 +16,7 @@ class IteratorMlflowApi(MlflowApi):
     def __init__(self, client=None):
         self.client = client if client else mlflow.client.MlflowClient()
 
-    # List methods
+    # Search methods
 
     def search_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
         return [ exp for exp in SearchExperimentsIterator(self.client, view_type=view_type, filter=filter) ]
@@ -26,7 +26,6 @@ class IteratorMlflowApi(MlflowApi):
 
     def search_model_versions(self, filter=None):
         return [ vr for vr in SearchModelVersionsIterator(self.client, filter=filter) ]
-
 
     def search_model_versions_by_models(self, filter=None):
         models = self.search_registered_models(filter=filter)

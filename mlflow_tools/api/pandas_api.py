@@ -9,8 +9,11 @@ from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 
 
 class PandasMlflowApi(MlflowApi):
+
     def __init__(self, mlflow_api):
         self.mlflow_api = mlflow_api
+
+    # Search methods
 
     def search_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
         exps = self.mlflow_api.search_experiments(view_type=view_type, filter=filter)
@@ -38,22 +41,31 @@ class PandasMlflowApi(MlflowApi):
 
     def search_model_versions(self, filter=None):
         versions = self.mlflow_api.search_model_versions(filter=filter)
-        list = [(vr.name,
-                 vr.version,
-                 vr.current_stage,
-                 vr.status,
-                 fmt_ts_millis(vr.creation_timestamp), 
-                 fmt_ts_millis(vr.last_updated_timestamp),
-                 vr.run_id,
-                 vr.run_link,
-                 vr.source)
-             for vr in versions ]
-        columns = ["name", "version", "current_stage", "status", "creation_timestamp", "last_updated_timestamp", "run_id", "run_link", "source" ]
-        return pd.DataFrame(list, columns=columns)
-
+        return self._versions_to_pandas_df(versions)
+        
 
     def search_model_versions_by_models(self, filter=None):
-        return self.search_model_versions(filter=filter)
+        models = self.mlflow_api.search_registered_models(filter=filter)
+        versions = []
+        for m in models:
+            _versions = self.mlflow_api.search_model_versions(filter=f"name = '{m.name}'")
+            versions += _versions
+        return self._versions_to_pandas_df(versions)
+
+
+    def _versions_to_pandas_df(self, versions):
+        lst = [(vr.name,
+                vr.version,
+                vr.current_stage,
+                vr.status,
+                fmt_ts_millis(vr.creation_timestamp), 
+                fmt_ts_millis(vr.last_updated_timestamp),
+                vr.run_id,
+                vr.run_link,
+                vr.source)
+            for vr in versions ]
+        columns = ["name", "version", "current_stage", "status", "creation_timestamp", "last_updated_timestamp", "run_id", "run_link", "source" ]
+        return pd.DataFrame(lst, columns=columns)
 
 
     # Count methods
