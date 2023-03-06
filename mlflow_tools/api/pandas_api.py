@@ -35,7 +35,7 @@ class PandasMlflowApi(MlflowApi):
                    fmt_ts_millis(m.last_updated_timestamp),
                    m.description ] 
             for m in models ]
-        columns = ["name", "versions", "creation_timestamp", "last_updated_timestamp", "description" ]
+        columns = ["name", "latest_versions", "creation_timestamp", "last_updated_timestamp", "description" ]
         return pd.DataFrame(list, columns=columns)
 
 
