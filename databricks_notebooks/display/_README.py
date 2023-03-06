@@ -6,7 +6,7 @@
 # MAGIC * [List_Experiments]($List_Experiments)
 # MAGIC * [List_Registered_Models]($List_Registered_Models)
 # MAGIC * [List_Model_Versions]($List_Model_Versions)
-# MAGIC   * [List_Model_Versions_Advanced]($List_Model_Versions_Advanced) - latest versions vs. all versions (besides 'latest' versions)
+# MAGIC   * [List_Model_Versions_Advanced]($List_Model_Versions_Advanced) - Advanced versions analytics. WIP.
 # MAGIC 
 # MAGIC **Dump Tools**
 # MAGIC * Coming soon
