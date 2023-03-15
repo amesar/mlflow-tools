@@ -2,7 +2,7 @@
 # MAGIC %md ### Dump registered model details
 # MAGIC 
 # MAGIC Overview
-# MAGIC * Dump registered in JSON or YAML
+# MAGIC * Dump registered as JSON or YAML
 # MAGIC 
 # MAGIC Widgets
 # MAGIC * 1. Model - registered model name
@@ -18,10 +18,13 @@
 
 dbutils.widgets.text("1. Model", "")
 model = dbutils.widgets.get("1. Model")
+
 dbutils.widgets.dropdown("2. Show version runs", "yes", ["yes","no"])
 dump_runs = dbutils.widgets.get("2. Show version runs") == "yes"
+
 dbutils.widgets.dropdown("3. Format","json", ["json", "yaml"])
 format = dbutils.widgets.get("3. Format")
+
 dbutils.widgets.text("4. Output JSON file", "")
 output_file = dbutils.widgets.get("4. Output JSON file")
 
@@ -36,9 +39,11 @@ print("output_file:", output_file)
 
 from mlflow_tools.display import dump_model
 
-dct = dump_model.dump(model, 
-                      dump_runs=dump_runs, 
-                      format=format)
+dct = dump_model.dump(
+    model_name = model, 
+    dump_runs = dump_runs, 
+    format = format
+)
 
 # COMMAND ----------
 
@@ -59,4 +64,5 @@ df = spark.createDataFrame(pdf)
 display(df)
 
 # COMMAND ----------
+
 

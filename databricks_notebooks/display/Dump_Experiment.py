@@ -43,8 +43,6 @@ show_run_data = dbutils.widgets.get("4. Show run data") == "yes"
 format = dbutils.widgets.get("5. Format")
 output_file = dbutils.widgets.get("6. Output file")
 
-if experiment_id_or_name=="":
-    raise Exception("Missing '1. Experiment ID or name' value")
 print("experiment_id_or_name:",experiment_id_or_name)
 print("artifact_max_level:",artifact_max_level)
 print("show_runs:",show_runs)
@@ -54,18 +52,24 @@ print("output_file:",output_file)
 
 # COMMAND ----------
 
+assert_widget(experiment_id_or_name, "1. Experiment ID or name")
+
+# COMMAND ----------
+
 # MAGIC %md ### Display experiment details
 
 # COMMAND ----------
 
 from mlflow_tools.display import dump_experiment
 
-dct = dump_experiment.dump(experiment_id_or_name, 
-                     artifact_max_level, 
-                     show_runs=show_runs, 
-                     show_run_data=show_run_data, 
-                     format=format,
-                     explode_json_string=False)
+dct = dump_experiment.dump(
+    exp_id_or_name = experiment_id_or_name, 
+    artifact_max_level = artifact_max_level, 
+    show_runs = show_runs, 
+    show_run_data = show_run_data, 
+    format = format,
+    explode_json_string = False
+)
 
 # COMMAND ----------
 

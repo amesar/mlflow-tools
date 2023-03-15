@@ -15,7 +15,7 @@
 # MAGIC 
 # MAGIC **Dump Tools**
 # MAGIC * [Dump_Experiment]($Dump_Experiment)
-# MAGIC * [Delete_Registered_Model]($Delete_Registered_Model)
+# MAGIC * [Dump_Registered_Model]($Dump_Registered_Model)
 # MAGIC 
 # MAGIC 
 # MAGIC **Other**
@@ -24,4 +24,4 @@
 # MAGIC **Documentation**
 # MAGIC * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html) - Databricks documentation.
 # MAGIC 
-# MAGIC Last updated: 2023-03-06
+# MAGIC Last updated: 2023-03-15

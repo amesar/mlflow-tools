@@ -78,6 +78,3 @@ display(df)
 # MAGIC left join versions v on v.name = m.name
 # MAGIC where m.name like '%andre%'
 # MAGIC order by m.name, v.current_stage
-
-# COMMAND ----------
-

@@ -51,9 +51,9 @@ print("implementation:", implementation)
 from mlflow_tools.display import count_objects
 
 count_objects.count(
-    mlflow_api=implementation,
-    experiments=experiments,
-    models=models, 
-    versions=versions, 
-    versions_by_models=versions_by_models
+    mlflow_api = implementation,
+    experiments = experiments,
+    models = models, 
+    versions = versions, 
+    versions_by_models = versions_by_models
 )
