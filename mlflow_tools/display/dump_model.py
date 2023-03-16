@@ -6,6 +6,9 @@ import click
 import json
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
+from mlflow_tools.common import mlflow_utils
+from mlflow_tools.common import permissions_utils
+from mlflow_tools.common.click_options import opt_show_permissions
 from mlflow_tools.client.http_client import MlflowHttpClient
 from . import dump_dct, dump_run
 
@@ -41,16 +44,21 @@ def _adjust_model_timestamps(model):
 
 
 def dump(model_name, 
-        format="json", 
-        dump_all_versions=False,
-        dump_runs=False, 
-        explode_json_string = False,
+        format = "json", 
+        dump_all_versions = False,
+        dump_runs = False, 
+        explode_json_string  =  False,
         artifact_max_level = 0,
-        output_file=None
+        output_file = None,
+        show_permissions = False
     ):
 
-    model = client.get(f"registered-models/get?name={model_name}")
-    model = model["registered_model"]
+    if show_permissions and mlflow_utils.calling_databricks():
+        model = client.get(f"databricks/registered-models/get", params= {"name": model_name} )
+        model = model["registered_model_databricks"]
+    else:
+        model = client.get(f"registered-models/get", params= {"name": model_name} )
+        model = model["registered_model"]
     _adjust_model_timestamps(model)
     if dump_all_versions:
         versions = client.get(f"model-versions/search?name={model_name}")
@@ -62,6 +70,8 @@ def dump(model_name,
         versions =  model.get("latest_versions", None)
         dump_versions(versions, dump_runs, artifact_max_level, explode_json_string)
 
+    if show_permissions and mlflow_utils.calling_databricks():
+        permissions_utils.add_model_permissions(model)
     dct = { "model": model }
     dump_dct(dct, format)
 
@@ -112,10 +122,12 @@ def dump(model_name,
     required=False,
     show_default=True
 )
-def main(model, dump_all_versions, dump_runs, format, explode_json_string, artifact_max_level, output_file):
+@opt_show_permissions
+
+def main(model, dump_all_versions, dump_runs, format, explode_json_string, artifact_max_level, output_file, show_permissions):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
-    dump(model, format, dump_all_versions, dump_runs, explode_json_string, artifact_max_level, output_file)
+    dump(model, format, dump_all_versions, dump_runs, explode_json_string, artifact_max_level, output_file, show_permissions)
 
 
 if __name__ == "__main__":

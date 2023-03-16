@@ -5,8 +5,11 @@ Dump an experiment in JSON, YAML or text.
 import click
 import mlflow
 from mlflow_tools.client.http_client import MlflowHttpClient
+from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
+from mlflow_tools.common import permissions_utils
+from mlflow_tools.common.click_options import opt_show_permissions
 from mlflow_tools.display import dump_dct, show_mlflow_info, write_dct
 from mlflow_tools.display import dump_run, dump_experiment_as_text
 
@@ -15,20 +18,23 @@ mlflow_client = mlflow.client.MlflowClient()
 max_results = 10000
 
 
-def dump(exp_id_or_name, 
+def dump(
+        experiment_id_or_name, 
         artifact_max_level, 
-        show_runs=True, 
-        show_run_data=False, 
-        format="json", 
-        output_file=None, 
-        explode_json_string=False):
-    exp = mlflow_utils.get_experiment(mlflow_client, exp_id_or_name)
+        show_runs = True, 
+        show_run_data = False, 
+        format = "json", 
+        output_file = None, 
+        explode_json_string = False,
+        show_permissions = False
+    ):
+    exp = mlflow_utils.get_experiment(mlflow_client, experiment_id_or_name)
     if exp is None:
-        raise Exception("Cannot find experiment '{exp_id_or_name}'")
+        raise MlflowToolsException(f"Cannot find experiment '{experiment_id_or_name}'")
     experiment_id = exp.experiment_id
     dct = {}
     if (format in ["text","txt"]):
-        dump_experiment_as_text.dump_experiment(exp_id_or_name, artifact_max_level, show_runs, show_run_data)
+        dump_experiment_as_text.dump_experiment(experiment_id_or_name, artifact_max_level, show_runs, show_run_data)
     else:
         exp = http_client.get(f"experiments/get?experiment_id={experiment_id}")["experiment"]
         exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None))
@@ -48,12 +54,14 @@ def dump(exp_id_or_name,
                 artifact_bytes += run["summary"]["artifact_bytes"]
                 num_artifacts += run["summary"]["artifacts"]
                 last_run = max(last_run,int(run["run"]["info"]["end_time"]))
-            summary = { 
+            runs_summary = { 
                 "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
                 "last_run": last_run, "_last_run": fmt_ts_millis(last_run) }
-            dct = { "experiment_info": exp, "summary": summary, "runs": runs }
+            dct = { "experiment_info": exp, "runs_summary": runs_summary, "runs": runs }
         else:
             dct = exp
+        if show_permissions and mlflow_utils.calling_databricks():
+            permissions_utils.add_experiment_permissions(exp["experiment_id"], dct)
         dump_dct(dct, format)
         if output_file:
             write_dct(dct, output_file, format)
@@ -106,13 +114,17 @@ def dump(exp_id_or_name,
   default=False, 
   show_default=False
 )
-def main(experiment_id_or_name, artifact_max_level, show_runs, show_run_data, format, explode_json_string, output_file, verbose):
+@opt_show_permissions
+
+def main(experiment_id_or_name, artifact_max_level, 
+        show_runs, show_run_data, 
+        format, explode_json_string, output_file, show_permissions, verbose):
     if verbose:
         show_mlflow_info()
         print("Options:")
         for k,v in locals().items(): print(f"  {k}: {v}")
     dump(experiment_id_or_name, artifact_max_level, 
-       show_runs, show_run_data, format, output_file, explode_json_string)
+       show_runs, show_run_data, format, output_file, explode_json_string, show_permissions)
 
 
 if __name__ == "__main__":

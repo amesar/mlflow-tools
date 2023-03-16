@@ -1,6 +1,7 @@
 import os
 import mlflow
 from mlflow_tools.client import mlflow_auth_utils
+from mlflow_tools.common import MlflowToolsException
 
 
 def dump_mlflow_info():
@@ -27,7 +28,7 @@ def get_experiment(client, exp_id_or_name):
         try:
             exp = client.get_experiment(exp_id_or_name)
         except Exception as e:
-            raise Exception(f"Cannot find experiment ID or name '{exp_id_or_name}'. Client: {client}'. Ex: {e}")
+            raise MlflowToolsException(f"Cannot find experiment ID or name '{exp_id_or_name}'. Client: {client}'. Ex: {e}")
     return exp
 
 
@@ -42,3 +43,7 @@ def list_model_versions(client, model_name, get_latest_versions=False):
         return client.get_latest_versions(model_name)
     else:
         return client.search_model_versions(f"name='{model_name}'")
+
+
+def calling_databricks():
+    return mlflow.tracking.get_tracking_uri().startswith("databricks")
