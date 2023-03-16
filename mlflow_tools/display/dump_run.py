@@ -6,6 +6,8 @@ import json
 import click
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
+from mlflow_tools.common import mlflow_utils
+from mlflow_tools.common.click_options import opt_show_tags_as_dict
 from . import dump_dct, show_mlflow_info
 from . import dump_run_as_text
 
@@ -38,7 +40,12 @@ def _explode_json_string(run):
             tag["value"] = json.loads(tag["value"])
 
 
-def build_run(run, artifact_max_level, explode_json_string):
+def build_run(
+        run, 
+        artifact_max_level, 
+        explode_json_string,
+        show_tags_as_dict = False
+    ):
     """
     Returns dict representation of run.
     """
@@ -49,6 +56,9 @@ def build_run(run, artifact_max_level, explode_json_string):
 
     if explode_json_string:
         _explode_json_string(run)
+
+    if show_tags_as_dict:
+        run["data"]["tags"] = mlflow_utils.mk_tags_dict(run["data"]["tags"])
 
     if artifact_max_level == 0:
         num_bytes = -1
@@ -97,13 +107,19 @@ def build_artifacts(run_id, path, level, artifact_max_level):
     return artifacts, num_bytes, num_artifacts
 
 
-def dump_run_id(run_id, artifact_max_level=1, format="json", explode_json_string=False):
+def dump_run_id(
+        run_id, 
+        artifact_max_level=1, 
+        format="json", 
+        explode_json_string = False,
+        show_tags_as_dict = False,
+    ):
     if (format in ["text","txt"]):
         dump_run_as_text.dump_run_id(run_id, artifact_max_level)
         return ""
     else:
         run = http_client.get(f"runs/get?run_id={run_id}")["run"]
-        dct = build_run(run, artifact_max_level, explode_json_string)
+        dct = build_run(run, artifact_max_level, explode_json_string, show_tags_as_dict)
         dump_dct(dct, format)
         return dct
 
@@ -114,12 +130,14 @@ def dump_run_id(run_id, artifact_max_level=1, format="json", explode_json_string
 @click.option("--format", help="Output Format: json|yaml|txt.", type=str, default="json", show_default=True)
 @click.option("--explode-json-string", help="Explode JSON string.", type=bool, default=False, show_default=True)
 @click.option("--verbose", help="Verbose.", type=bool, default=False, show_default=False)
-def main(run_id, artifact_max_level, format, explode_json_string, verbose):
+@opt_show_tags_as_dict
+
+def main(run_id, artifact_max_level, format, explode_json_string, show_tags_as_dict, verbose):
     if verbose: 
         show_mlflow_info()
         print("Options:")
         for k,v in locals().items(): print(f"  {k}: {v}")
-    dump_run_id(run_id, artifact_max_level, format, explode_json_string)
+    dump_run_id(run_id, artifact_max_level, format, explode_json_string, show_tags_as_dict)
 
 
 if __name__ == "__main__":

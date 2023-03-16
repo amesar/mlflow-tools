@@ -9,7 +9,7 @@ from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
-from mlflow_tools.common.click_options import opt_show_permissions
+from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict
 from mlflow_tools.display import dump_dct, show_mlflow_info, write_dct
 from mlflow_tools.display import dump_run, dump_experiment_as_text
 
@@ -26,7 +26,8 @@ def dump(
         format = "json", 
         output_file = None, 
         explode_json_string = False,
-        show_permissions = False
+        show_permissions = False,
+        show_tags_as_dict = False
     ):
     exp = mlflow_utils.get_experiment(mlflow_client, experiment_id_or_name)
     if exp is None:
@@ -41,11 +42,19 @@ def dump(
         exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None))
         tags = exp.pop("tags", None)
         if tags:
-            exp["tags"] = tags
+            if show_tags_as_dict:
+                exp["tags"] = mlflow_utils.mk_tags_dict(tags)
+            else:
+                exp["tags"] = tags 
         if show_runs:
             data = { "experiment_ids" : [experiment_id] , "max_results": max_results}
             runs = http_client.post("runs/search",data)["runs"]
-            runs = [dump_run.build_run(run, artifact_max_level, explode_json_string) for run in runs]
+            runs = [ dump_run.build_run(
+                    run = run, 
+		    artifact_max_level = artifact_max_level, 
+                    explode_json_string = explode_json_string, 
+                    show_tags_as_dict = show_tags_as_dict) 
+                for run in runs ]
             num_artifacts,artifact_bytes = (0,0)
             last_run = 0
             for run in runs:
@@ -115,16 +124,18 @@ def dump(
   show_default=False
 )
 @opt_show_permissions
+@opt_show_tags_as_dict
 
 def main(experiment_id_or_name, artifact_max_level, 
         show_runs, show_run_data, 
-        format, explode_json_string, output_file, show_permissions, verbose):
+        format, explode_json_string, output_file, 
+        show_permissions, show_tags_as_dict, verbose):
     if verbose:
         show_mlflow_info()
         print("Options:")
         for k,v in locals().items(): print(f"  {k}: {v}")
     dump(experiment_id_or_name, artifact_max_level, 
-       show_runs, show_run_data, format, output_file, explode_json_string, show_permissions)
+       show_runs, show_run_data, format, output_file, explode_json_string, show_permissions, show_tags_as_dict)
 
 
 if __name__ == "__main__":

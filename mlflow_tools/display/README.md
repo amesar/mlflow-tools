@@ -180,6 +180,10 @@ Options:
                                  [default: False]
   --output-file TEXT             Output file (extension will be the format)
   --verbose BOOLEAN              Verbose
+  --show-permissions BOOLEAN     Show Databricks permissions.  [default:
+                                 False]
+  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
+                                 list of key/value pairs.  [default: False]
 ```
 
 ### Dump experiment runs to CSV file
@@ -292,9 +296,13 @@ dump-run --help
 Options:
   --run-id TEXT                  Run ID.  [required]
   --artifact-max-level INTEGER   Number of artifact levels to recurse.
-  --format TEXT                  Output Format: json|yaml|txt.
+                                 [default: 1]
+  --format TEXT                  Output Format: json|yaml|txt.  [default:
+                                 json]
   --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
   --verbose BOOLEAN              Verbose.
+  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
+                                 list of key/value pairs.  [default: False]
 ```
 
 ## Registered models 
@@ -431,13 +439,16 @@ dump-model --help
 Options:
   --format TEXT                  Output format: json|yaml.
   --model TEXT                   Registered model name.  [required]
-  --show-runs BOOLEAN            Show run details.  [default: False]
-  --format-datetime BOOLEAN      Show human-readable datetime formats.
+  --dump-all-versions BOOLEAN    Dump all versions instead of latest versions.
                                  [default: False]
+  --dump-runs BOOLEAN            Dump a version's run details.  [default:
+                                 False]
   --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
   --artifact-max-level INTEGER   Number of artifact levels to recurse.
                                  [default: 0]
-  --show-all-versions BOOLEAN    Dump all versions in addition to latest
+  --output-file TEXT             Output file
+  --show-permissions BOOLEAN     Show Databricks permissions.  [default:
+                                 False]
                                  versions.  [default: False]
 ```
 

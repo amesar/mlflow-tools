@@ -47,3 +47,7 @@ def list_model_versions(client, model_name, get_latest_versions=False):
 
 def calling_databricks():
     return mlflow.tracking.get_tracking_uri().startswith("databricks")
+
+
+def mk_tags_dict(tags_array):
+    return { x["key"]:x["value"] for x in tags_array }

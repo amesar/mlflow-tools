@@ -25,6 +25,16 @@ def opt_show_permissions(function):
     )(function)
     return function
 
+def opt_show_tags_as_dict(function):
+    function = click.option("--show-tags-as-dict",
+        help="Show MLflow tags as a dictionary instead of a list of key/value pairs.",
+        type=bool,
+        default=False,
+        show_default=True
+    )(function)
+    return function
+
+
 # == maybe
 
 def opt_output_csv_file(function):
