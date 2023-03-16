@@ -5,10 +5,11 @@
 # MAGIC * Dump registered as JSON or YAML
 # MAGIC 
 # MAGIC Widgets
-# MAGIC * 1. Model - registered model name
-# MAGIC * 2. Show version runs - show details of the version runs
-# MAGIC * 3. Display format - JSON or YAML
-# MAGIC * 4. Output JSON file
+# MAGIC * `1. Model` - registered model name
+# MAGIC * `2. Show version runs` - show details of the version runs
+# MAGIC * `3. Show permissions` - show run data if showing runs
+# MAGIC * `4. Display format` - JSON or YAML
+# MAGIC * `5. Output JSON file`
 
 # COMMAND ----------
 
@@ -22,18 +23,24 @@ model = dbutils.widgets.get("1. Model")
 dbutils.widgets.dropdown("2. Show version runs", "yes", ["yes","no"])
 dump_runs = dbutils.widgets.get("2. Show version runs") == "yes"
 
-dbutils.widgets.dropdown("3. Format","json", ["json", "yaml"])
-format = dbutils.widgets.get("3. Format")
+dbutils.widgets.dropdown("3. Show permissions","no",["yes","no"])
+show_permissions = dbutils.widgets.get("3. Show permissions") == "yes"
 
-dbutils.widgets.text("4. Output JSON file", "")
-output_file = dbutils.widgets.get("4. Output JSON file")
+dbutils.widgets.dropdown("4. Format","json", ["json", "yaml"])
+format = dbutils.widgets.get("4. Format")
 
-assert_widget(model, "Missing '1. Model' widget")
+dbutils.widgets.text("5. Output JSON file", "")
+output_file = dbutils.widgets.get("5. Output JSON file")
  
 print("model:", model)
 print("dump_runs:", dump_runs)
+print("show_permissions:", show_permissions)
 print("format:", format)
 print("output_file:", output_file)
+
+# COMMAND ----------
+
+assert_widget(model, "Missing '1. Model' widget")
 
 # COMMAND ----------
 
@@ -41,6 +48,7 @@ from mlflow_tools.display import dump_model
 
 dct = dump_model.dump(
     model_name = model, 
+    show_permissions = show_permissions,
     dump_runs = dump_runs, 
     format = format
 )
