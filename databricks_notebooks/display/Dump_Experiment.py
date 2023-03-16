@@ -11,6 +11,7 @@
 # MAGIC * `Artifact max level` - number of artifact levels to show
 # MAGIC * `Show runs` - show runs (by default only show run.info)
 # MAGIC * `Show run data` - show run data (params, metrics and tags) in addition to run.info if showing runs
+# MAGIC * `Show tags as dictionary` - show  MLflow tags as a dictionary instead of a list of key/value pairs                  
 # MAGIC * `Show permissions` - show run data if showing runs
 # MAGIC * `Format` - JSON or YAML
 # MAGIC * `Output file` - if set, write output to file
@@ -33,23 +34,26 @@ dbutils.widgets.text("1. Experiment ID or name", "")
 dbutils.widgets.text("2. Artifact max level", "1")
 dbutils.widgets.dropdown("3. Show runs","no",["yes","no"])
 dbutils.widgets.dropdown("4. Show run data","no",["yes","no"])
-dbutils.widgets.dropdown("5. Show permissions","no",["yes","no"])
-dbutils.widgets.dropdown("6. Format","json",["json","yaml"])
-dbutils.widgets.text("7. Output file", "")
+dbutils.widgets.dropdown("5. Show tags as dictionary","no",["yes","no"])
+dbutils.widgets.dropdown("6. Show permissions","no",["yes","no"])
+dbutils.widgets.dropdown("7. Format","json",["json","yaml"])
+dbutils.widgets.text("8. Output file", "")
 
 experiment_id_or_name = dbutils.widgets.get("1. Experiment ID or name")
 artifact_max_level = int(dbutils.widgets.get("2. Artifact max level"))
 show_runs = dbutils.widgets.get("3. Show runs") == "yes"
 show_run_data = dbutils.widgets.get("4. Show run data") == "yes"
-show_permissions = dbutils.widgets.get("5. Show permissions") == "yes"
-format = dbutils.widgets.get("6. Format")
-output_file = dbutils.widgets.get("7. Output file")
+show_tags_as_dict = dbutils.widgets.get("5. Show tags as dictionary") == "yes"
+show_permissions = dbutils.widgets.get("6. Show permissions") == "yes"
+format = dbutils.widgets.get("7. Format")
+output_file = dbutils.widgets.get("8. Output file")
 
 print("experiment_id_or_name:", experiment_id_or_name)
 print("artifact_max_level:", artifact_max_level)
 print("show_runs:", show_runs)
 print("show_run_data:", show_run_data)
-print("show_permissions:", show_permissions)
+print("show_run_data:", show_run_data)
+print("show_tags_as_dict:", show_tags_as_dict)
 print("format:", format)
 print("output_file:", output_file)
 
@@ -70,6 +74,7 @@ dct = dump_experiment.dump(
     artifact_max_level = artifact_max_level, 
     show_runs = show_runs, 
     show_run_data = show_run_data, 
+    show_tags_as_dict = show_tags_as_dict,
     format = format,
     explode_json_string = False,
     show_permissions = show_permissions
