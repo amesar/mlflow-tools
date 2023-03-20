@@ -32,7 +32,8 @@ setup(
         "console_scripts": [
             "count-objects = mlflow_tools.display.count_objects:main",
             "list-experiments = mlflow_tools.display.list_experiments:main",
-            "list-models = mlflow_tools.display.list_models:main",
+            "list-models = mlflow_tools.display.list_registered_models:main",
+            "list-registered-models = mlflow_tools.display.list_registered_models:main",
             "list-model-versions= mlflow_tools.display.list_model_versions:main",
             "list-model-versions-advanced = mlflow_tools.display.list_model_versions_advanced:main",
             "dump-run = mlflow_tools.display.dump_run:main",
