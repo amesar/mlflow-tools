@@ -72,10 +72,13 @@ def build_run(
         }
         dct = { "summary": summary, "run": run }
     else:
-        artifacts,num_bytes,num_artifacts = build_artifacts(run_id, "", 0, artifact_max_level)
+        artifacts, num_bytes, num_artifacts, num_levels = build_artifacts(run_id, "", 0, artifact_max_level)
         summary = { 
-            "artifacts": num_artifacts, 
-            "artifact_bytes": num_bytes,
+            "artifacts": {
+                "num_artifacts": num_artifacts, 
+                "num_bytes": num_bytes,
+                "num_levels": num_levels
+            },
             "params": _get_size(data.get("params",None)),
             "metrics": _get_size(data.get("metrics",None)),
             "tags": _get_size(data.get("tags",None)),
@@ -89,22 +92,23 @@ def _get_size(dct):
 
 
 def build_artifacts(run_id, path, level, artifact_max_level):
+    print(">> level:",level)
     artifacts = http_client.get(f"artifacts/list?run_id={run_id}&path={path}")
     if level+1 > artifact_max_level: 
-        return artifacts, 0, 0
+        return artifacts, 0, 0, level
     num_bytes, num_artifacts = (0,0)
     files = artifacts.get("files",None)
     if files:
         for _,artifact in enumerate(files):
             num_bytes += int(artifact.get("file_size",0)) or 0
             if artifact["is_dir"]:
-                arts,b,a = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
+                arts,b,a,level = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
                 num_bytes += b
                 num_artifacts += a
                 artifact["artifacts"] = arts
             else:
                 num_artifacts += 1
-    return artifacts, num_bytes, num_artifacts
+    return artifacts, num_bytes, num_artifacts, level
 
 
 def dump_run_id(

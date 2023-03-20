@@ -8,7 +8,7 @@ from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
-from mlflow_tools.common.click_options import opt_show_permissions
+from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict
 from mlflow_tools.client.http_client import MlflowHttpClient
 from . import dump_dct, dump_run
 
@@ -21,12 +21,17 @@ def _format_ts(dct, key):
         dct[f"_{key}"] = fmt_ts_millis(int(v))
 
 
-def dump_versions(versions, dump_runs, artifact_max_level, explode_json_string):
+def dump_versions(versions, dump_runs, artifact_max_level, explode_json_string, show_tags_as_dict):
     for vr in versions:
         if dump_runs:
             try:
                 run = client.get(f"runs/get?run_id={vr['run_id']}")["run"]
-                run = dump_run.build_run(run, artifact_max_level, explode_json_string)
+                run = dump_run.build_run(
+                    run = run, 
+                    artifact_max_level = artifact_max_level, 
+                    explode_json_string = explode_json_string,
+                    show_tags_as_dict = show_tags_as_dict
+                )
                 vr["_run"] = run
             except MlflowToolsException:
                 print(f"WARNING: Model '{vr.model_name}' version {vr['version']}: run ID {vr['run_id']} does not exist.")
@@ -43,13 +48,15 @@ def _adjust_model_timestamps(model):
     model["latest_versions"] = latest_versions
 
 
-def dump(model_name, 
+def dump(
+        model_name, 
         format = "json", 
         dump_all_versions = False,
         dump_runs = False, 
         explode_json_string  =  False,
         artifact_max_level = 0,
         output_file = None,
+        show_tags_as_dict = False,
         show_permissions = False
     ):
 
@@ -63,12 +70,12 @@ def dump(model_name,
     if dump_all_versions:
         versions = client.get(f"model-versions/search?name={model_name}")
         versions = versions["model_versions"]
-        dump_versions(versions, dump_runs, artifact_max_level, explode_json_string)
+        dump_versions(versions, dump_runs, artifact_max_level, explode_json_string, show_tags_as_dict)
         del model["latest_versions"] 
         model["all_versions"] = versions
     else:
         versions =  model.get("latest_versions", None)
-        dump_versions(versions, dump_runs, artifact_max_level, explode_json_string)
+        dump_versions(versions, dump_runs, artifact_max_level, explode_json_string, show_tags_as_dict)
 
     if show_permissions and mlflow_utils.calling_databricks():
         permissions_utils.add_model_permissions(model)
@@ -122,12 +129,24 @@ def dump(model_name,
     required=False,
     show_default=True
 )
+@opt_show_tags_as_dict
 @opt_show_permissions
 
-def main(model, dump_all_versions, dump_runs, format, explode_json_string, artifact_max_level, output_file, show_permissions):
+def main(model, dump_all_versions, dump_runs, format, explode_json_string, artifact_max_level, output_file, 
+       show_tags_as_dict, show_permissions):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
-    dump(model, format, dump_all_versions, dump_runs, explode_json_string, artifact_max_level, output_file, show_permissions)
+    dump(
+        model_name = model, 
+        format = format, 
+        dump_all_versions = dump_all_versions, 
+        dump_runs = dump_runs, 
+        explode_json_string = explode_json_string, 
+        artifact_max_level = artifact_max_level, 
+        output_file = output_file, 
+        show_tags_as_dict = show_tags_as_dict,
+        show_permissions = show_permissions
+    )
 
 
 if __name__ == "__main__":
