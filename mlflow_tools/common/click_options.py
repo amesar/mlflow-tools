@@ -41,7 +41,7 @@ def opt_output_csv_file(function):
     function = click.option("--csv-file",
         help="Output CSV file.",
         type=str,
-        default="experiments.csv",
+        required=False,
         show_default=True
     )(function)
     return function
