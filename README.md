@@ -2,17 +2,24 @@
 
 Some useful tools for MLflow.
 
-## Overview
+## Main Tools
 
-### Basic Tools
- [Basic Tools README](mlflow_tools/tools/README.md)
-* List all experiments.
-* [Dump MLflow objects](mlflow_tools/tools/README.md)
-  * [Dump run](mlflow_tools/tools/README.md#Dump-run)
-  * [Dump experiment](mlflow_tools/tools/README.md#Dump-experiment)
-  * [Dump experiment runs as CSV file](mlflow_tools/tools/README.md#Dump-experiment-runs-to-CSV-file)
-  * [Dump registered model](mlflow_tools/tools/README.md#Dump-registered-model)
-  * [Samples of dumps](samples/README.md)
+### Display (list and dump) MLflow objects
+
+#### Command line console scripts
+
+* [Display README](mlflow_tools/display/README.md)
+* [Samples of MLflow object display dumps](samples/README.md)
+
+#### Databricks display notebooks 
+
+* [Notebooks](databricks_notebooks/display)
+* Samples:
+  * [List registered models](samples/databricks_mlflow/notebooks/List_Models.png)
+  * [Dump registered model](samples/databricks_mlflow/notebooks/Dump_Model_01.png)
+  and its [versions](samples/databricks_mlflow/notebooks/Dump_Model_02.png)
+
+### Helper Tools
 * Find best run of an experiment.
 * Find matching artifacts
 * Download model artifacts.
@@ -21,9 +28,31 @@ Some useful tools for MLflow.
   * Register a run's model as a registered model.
   * Delete registered model.
   * Delete model stages.
-  * Dump registered model as JSON or YAML.
-  * List registered model's versions.
 * Call http_client - either MLflow API or Databricks API.
+
+## Setup 
+
+##### Step 1. Create a virtual environment.
+```
+python -m venv mlflow-tools
+source mlflow-tools/bin/activate
+```
+
+##### Step 2. pip install
+
+pip install from github
+```
+pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools
+```
+
+or pip install in editable mode
+```
+git clone https://github.com/amesar/mlflow-tools
+cd mlflow-tools
+pip install -e .
+```
+
+## Other Tools
 
 ### Advanced Tools
 * [Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.
@@ -37,6 +66,7 @@ Some useful tools for MLflow.
   * There is a workaround that leverages a custom PythonModel wrapper.
   * Wrapper: [sparkml_udf_workaround.py](mlflow_tools/spark/sparkml_udf_workaround.py)
   * Usage: [test_sparkml_udf_workaround.py](tests/spark/test_sparkml_udf_workaround.py)
+
 
 ### Seldon MLflow MLServer
 
@@ -128,20 +158,4 @@ curl  http://localhost:8080/invocations  \
 ```
 [5.335031847133758, 4.5]
 ```
-
-## Setup 
-
-Create a virtual environment and install package.
-```
-python -m venv mlflow-tools
-source mlflow-tools/bin/activate
-pip install -e .
-```
-
-Build a wheel in `dist/mlflow_tools-1.0.0-py3-none-any.whl`.
-
-```
-python setup.py bdist_wheel
-```
-
 
