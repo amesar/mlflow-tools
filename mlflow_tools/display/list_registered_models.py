@@ -19,13 +19,14 @@ def list(csv_file, sort_attribute="name", sort_order="asc"):
     df = to_pandas_dataframe(sort_attribute, sort_order)
     print(f"Found {df.shape[0]} models")
     print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
-    with open(csv_file, "w", encoding="utf-8") as f:
-        df.to_csv(f, index=False)
+    if csv_file:
+        with open(csv_file, "w", encoding="utf-8") as f:
+            df.to_csv(f, index=False)
     print(f"Found {df.shape[0]} models")
 
 
 @click.command()
-@click.option("--csv-file", help="Output CSV file", default="models.csv", show_default=True)
+@click.option("--csv-file", help="Output CSV file", required=False, show_default=True)
 @click.option("--sort-attr", help="Sort by this attibute", default="name", show_default=True)
 @click.option("--sort-order", help="Sort order: asc|desc", default="asc", show_default=True)
 def main(csv_file, sort_attr, sort_order):

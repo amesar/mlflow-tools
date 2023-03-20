@@ -26,8 +26,9 @@ def _to_pandas_dataframe(df, sort_attribute="name", sort_order="asc"):
 
 def list(model_name, csv_file, sort_attribute="name", sort_order="asc", use_by_models=False):
     df = to_pandas_dataframe(model_name, sort_attribute, sort_order, use_by_models)
-    with open(csv_file, "w", encoding="utf-8") as f:
-        df.to_csv(f, index=False)
+    if csv_file:
+        with open(csv_file, "w", encoding="utf-8") as f:
+            df.to_csv(f, index=False)
     print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
 
 
@@ -35,7 +36,7 @@ def list(model_name, csv_file, sort_attribute="name", sort_order="asc", use_by_m
 @click.option("--csv-file",
     help="Output CSV file.",
     type=str, 
-    default="model_versions.csv",
+    required=False,
     show_default=True
 )
 @click.option("--sort-attr",

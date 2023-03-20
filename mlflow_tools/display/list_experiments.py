@@ -21,8 +21,9 @@ def to_pandas_dataframe(sort_attribute="name", sort_order="asc", view_type=ViewT
 
 def list(csv_file, sort_attribute="name", sort_order="asc", view_type=1, filter=None, verbose=False):
     df = to_pandas_dataframe(sort_attribute, sort_order, view_type, filter, verbose)
-    with open(csv_file, "w", encoding="utf-8") as f:
-        df.to_csv(f, index=False)
+    if csv_file:
+        with open(csv_file, "w", encoding="utf-8") as f:
+            df.to_csv(f, index=False)
     print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
 
 
@@ -31,7 +32,8 @@ VIEW_TYPE_KEYS = "|".join(x for x in ViewType._STRING_TO_VIEW.keys())
 @click.command()
 @click.option("--csv-file",
     help="Output CSV file.",
-    default="experiments.csv",
+    type=str,
+    required=False,
     show_default=True
 )
 @click.option("--sort-attr",
