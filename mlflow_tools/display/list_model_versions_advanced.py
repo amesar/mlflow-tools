@@ -13,6 +13,7 @@ client = mlflow.client.MlflowClient()
 
 columns = ["Model", "Version", "Stage", "Creation", "Last Updated", "Run ID", "Run stage", "Run exists"]
 
+
 def mk_versions_pandas_df(models, get_latest_versions=False):
     if isinstance(models,str):
         models = [ client.get_registered_model(models) ]
@@ -85,6 +86,7 @@ def get_models(model, max_results=1000):
     else:
         return [ client.get_registered_model(model) ]
 
+
 def show(model, view, max_results=1000):
     models = get_models(model, max_results)
     if view in ["latest","both"]:
@@ -113,10 +115,13 @@ def show(model, view, max_results=1000):
   default=1000,
   show_default=True
 )
+
 def main(model, view, max_results):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
     show(model, view, max_results
 )
+
+
 if __name__ == "__main__":
     main()
