@@ -2,7 +2,9 @@
 Test the MLflow object iterators (Run, Experiment, Registered Model and Model Versions).
 """
 
+from mlflow.entities import ViewType
 import mlflow
+
 from mlflow_tools.common.iterators import (
     SearchExperimentsIterator,
     SearchRegisteredModelsIterator,
@@ -65,7 +67,7 @@ def test_search_experiments_max_results_custom():
 
 # == test search models 1
 
-def _init_test_search_models(): # XX
+def _init_test_search_models():
     delete_experiments(client)
     delete_models(client)
 
@@ -155,8 +157,42 @@ def test_runs_search_empty():
     runs = list(iterator)
     assert num_runs == len(runs)
 
+
+_num_runs = 5
+_num_runs_deleted = 2
+
+def _run_test_deleted_runs():
+    exp = _create_experiment(_num_runs)
+    runs = list(SearchRunsIterator(client, exp.experiment_id))
+    assert _num_runs == len(runs)
+    for j in range(0,_num_runs_deleted):
+        client.delete_run(runs[j].info.run_id)
+    return exp, runs
+
+
+def test_deleted_runs_default():
+    exp, runs = _run_test_deleted_runs()
+    runs = list(SearchRunsIterator(client, exp.experiment_id))
+    assert _num_runs - _num_runs_deleted == len(runs)
+
+def test_deleted_runs_view_active_only():
+    exp, runs = _run_test_deleted_runs()
+    runs = list(SearchRunsIterator(client, exp.experiment_id, view_type=ViewType.ACTIVE_ONLY))
+    assert _num_runs - _num_runs_deleted == len(runs)
+
+def test_deleted_runs_view_deleted_only():
+    exp, runs = _run_test_deleted_runs()
+    runs = list(SearchRunsIterator(client, exp.experiment_id, view_type=ViewType.DELETED_ONLY))
+    assert _num_runs_deleted == len(runs)
+
+def test_deleted_runs_view_all():
+    exp, runs = _run_test_deleted_runs()
+    runs = list(SearchRunsIterator(client, exp.experiment_id, view_type=ViewType.ALL))
+    assert _num_runs == len(runs)
+
+
 # Stress test - fails because of connection timeout 
-def _test_search_runs_too_many():
+def __test_search_runs_too_many():
     num_runs = 1200
     max_results = 500
     exp = _create_experiment(num_runs)
