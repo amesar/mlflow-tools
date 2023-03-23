@@ -27,6 +27,7 @@ def list(csv_file, sort_attr="name", sort_order="asc", view_type=1, filter=None,
         with open(csv_file, "w", encoding="utf-8") as f:
             df.to_csv(f, index=False)
     print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
+    print(f"Experiment: {df.shape[0]}")
 
 
 @click.command()
@@ -48,12 +49,13 @@ def list(csv_file, sort_attr="name", sort_order="asc", view_type=1, filter=None,
 
 def main(sort_attr, sort_order, view_type, filter, csv_file, verbose):
     print("Options:")
-    for k,v in locals().items(): print(f"  {k}: {v}")
-    if not ViewType._STRING_TO_VIEW.get(view_type,None):
+    for k,v in locals().items(): 
+        print(f"  {k}: {v}")
+    if view_type and not ViewType._STRING_TO_VIEW.get(view_type,None):
         print(f"ERROR: Invalid view type '{view_type}'.")
         print(click.get_current_context().get_help())
     else:
-        view_type = ViewType.from_string(view_type)
+        view_type = not view_type or ViewType.from_string(view_type)
         list(csv_file, sort_attr, sort_order, view_type, filter, verbose)
 
 

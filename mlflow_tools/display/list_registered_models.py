@@ -35,7 +35,8 @@ def list(csv_file, sort_attr="name", sort_order="asc"):
 
 def main(sort_attr, sort_order, csv_file):
     print("Options:")
-    for k,v in locals().items(): print(f"  {k}: {v}")
+    for k,v in locals().items():
+        print(f"  {k}: {v}")
     list(csv_file, sort_attr, sort_order)
 
 

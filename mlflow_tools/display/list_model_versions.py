@@ -51,7 +51,8 @@ def list(model_name, csv_file, sort_attr="name", sort_order="asc", use_by_models
 
 def main(model, sort_attr, sort_order, use_by_models, csv_file):
     print("Options:")
-    for k,v in locals().items(): print(f"  {k}: {v}")
+    for k,v in locals().items(): 
+        print(f"  {k}: {v}")
     list(model, csv_file=csv_file, sort_attr=sort_attr, sort_order=sort_order, use_by_models=use_by_models)
 
 
