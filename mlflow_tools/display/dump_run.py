@@ -92,7 +92,6 @@ def _get_size(dct):
 
 
 def build_artifacts(run_id, path, level, artifact_max_level):
-    print(">> level:",level)
     artifacts = http_client.get(f"artifacts/list?run_id={run_id}&path={path}")
     if level+1 > artifact_max_level: 
         return artifacts, 0, 0, level
