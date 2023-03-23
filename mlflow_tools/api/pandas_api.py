@@ -3,7 +3,6 @@ Return MLflow search method results as a Pandas Dataframe
 """
 
 import pandas as pd
-from mlflow.entities import ViewType
 from mlflow_tools.api.mlflow_api import MlflowApi
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 
@@ -15,7 +14,7 @@ class PandasMlflowApi(MlflowApi):
 
     # Search methods
 
-    def search_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
+    def search_experiments(self, view_type=None, filter=None):
         exps = self.mlflow_api.search_experiments(view_type=view_type, filter=filter)
         data = [(exp.experiment_id, 
                  exp.name,
@@ -64,7 +63,17 @@ class PandasMlflowApi(MlflowApi):
                 vr.run_link,
                 vr.source)
             for vr in versions ]
-        columns = ["name", "version", "current_stage", "status", "creation_timestamp", "last_updated_timestamp", "run_id", "run_link", "source" ]
+        columns = [
+            "name", 
+            "version", 
+            "current_stage", 
+            "status", 
+            "creation_timestamp", 
+            "last_updated_timestamp", 
+            "run_id", 
+            "run_link", 
+            "source" 
+        ]
         return pd.DataFrame(data, columns=columns)
 
 
@@ -96,7 +105,7 @@ class PandasMlflowApi(MlflowApi):
 
     # Count methods
 
-    def count_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
+    def count_experiments(self, view_type=None, filter=None):
         return len(self.mlflow_api.search_experiments(view_type=view_type, filter=filter))
 
 

@@ -3,7 +3,6 @@ Implements MLflowApi to return search results in "iterator" style using page tok
 """
 
 import mlflow
-from mlflow.entities import ViewType
 from mlflow_tools.api.mlflow_api import MlflowApi
 from mlflow_tools.common.iterators import (
     SearchExperimentsIterator,
@@ -19,7 +18,7 @@ class IteratorMlflowApi(MlflowApi):
 
     # Search methods
 
-    def search_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
+    def search_experiments(self, view_type=None, filter=None):
         return [ exp for exp in SearchExperimentsIterator(self.client, view_type=view_type, filter=filter) ]
 
     def search_registered_models(self, filter=None):
@@ -49,7 +48,7 @@ class IteratorMlflowApi(MlflowApi):
     # We re-implement the count methods instead of using the default base class implementation,
     # This optimization just materializes one page chunk instead of all page chunks just to count the objects.
 
-    def count_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
+    def count_experiments(self, view_type=None, filter=None):
         it = SearchExperimentsIterator(self.client, view_type=view_type, filter=filter)
         return _count_iter(it)
 

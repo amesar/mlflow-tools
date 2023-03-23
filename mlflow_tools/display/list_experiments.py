@@ -12,20 +12,17 @@ from mlflow_tools.common.click_options import \
 pandas_api = api_factory.get_pandas_api()
 
 
-def to_pandas_dataframe(sort_attr="name", sort_order="asc", view_type=ViewType.ACTIVE_ONLY, filter=None, verbose=False):
-    df = pandas_api.search_experiments(view_type=view_type, filter=filter)
-    if not verbose:
-        df = df[["experiment_id","name"]]
-    if sort_attr in df.columns:
-        df.sort_values(by=[sort_attr], inplace=True, ascending=sort_order == "asc")
-    return df
+def to_pandas_dataframe(view_type=None, filter=None):
+    return pandas_api.search_experiments(view_type=view_type, filter=filter)
 
 
-def list(csv_file, sort_attr="name", sort_order="asc", view_type=1, filter=None, verbose=False):
-    df = to_pandas_dataframe(sort_attr, sort_order, view_type, filter, verbose)
+def list(csv_file, sort_attr="name", sort_order="asc", view_type=1, filter=None):
+    df = to_pandas_dataframe(view_type, filter)
     if csv_file:
         with open(csv_file, "w", encoding="utf-8") as f:
             df.to_csv(f, index=False)
+    if sort_attr in df.columns:
+        df.sort_values(by=[sort_attr], inplace=True, ascending=sort_order == "asc")
     print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
     print(f"Experiment: {df.shape[0]}")
 
@@ -39,30 +36,15 @@ def list(csv_file, sort_attr="name", sort_order="asc", view_type=1, filter=None,
     type=str,
     required=False
 )
-@click.option("--verbose",
-    help="Verbose.",
-    type=bool,
-    default=False,
-    show_default=True
-)
 @opt_output_csv_file
 
-def main(sort_attr, sort_order, view_type, filter, csv_file, verbose):
+def main(sort_attr, sort_order, view_type, filter, csv_file):
     print("Options:")
     for k,v in locals().items(): 
         print(f"  {k}: {v}")
-    if view_type and not ViewType._STRING_TO_VIEW.get(view_type,None):
-        print(f"ERROR: Invalid view type '{view_type}'.")
-        print(click.get_current_context().get_help())
-    else:
-        view_type = not view_type or ViewType.from_string(view_type)
-        list(csv_file, sort_attr, sort_order, view_type, filter, verbose)
-
-
-def print_help():
-    ctx = click.get_current_context()
-    click.echo(ctx.get_help())
-    ctx.exit()
+    if view_type:
+        view_type = ViewType.from_string(view_type)
+    list(csv_file, sort_attr, sort_order, view_type, filter)
 
 
 if __name__ == "__main__":

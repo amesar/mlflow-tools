@@ -3,7 +3,6 @@ Implements MLflowApi to return search results in "list" style with direct calls 
 """
 
 import mlflow
-from mlflow.entities import ViewType
 from mlflow_tools.api.mlflow_api import MlflowApi
 
 
@@ -14,7 +13,7 @@ class SearchMlflowApi(MlflowApi):
 
     # List methods
 
-    def search_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
+    def search_experiments(self, view_type=None, filter=None):
         return self.client.search_experiments(view_type=view_type, filter_string=filter)
 
     def search_registered_models(self, filter=None):

@@ -3,7 +3,6 @@ Base class that return MLflow API search results for either classical "list" or 
 """
 
 from abc import abstractmethod, ABCMeta
-from mlflow.entities import ViewType
 
 
 class MlflowApi(metaclass=ABCMeta):
@@ -11,7 +10,7 @@ class MlflowApi(metaclass=ABCMeta):
     # List methods
 
     @abstractmethod
-    def search_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
+    def search_experiments(self, view_type=None, filter=None):
         pass
 
     @abstractmethod
@@ -32,7 +31,7 @@ class MlflowApi(metaclass=ABCMeta):
 
     # Count methods
 
-    def count_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
+    def count_experiments(self, view_type=None, filter=None):
         return len(self.search_experiments(view_type=view_type, filter=filter))
 
     def count_registered_models(self, filter=None):

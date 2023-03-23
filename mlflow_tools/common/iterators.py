@@ -49,7 +49,7 @@ class SearchExperimentsIterator(BaseIterator):
             print(experiment)
     """
     def __init__(self, client, view_type=None, max_results=None, filter=None):
-        super().__init__(client.search_experiments, max_results, filter)
+        super().__init__(client.search_experiments, max_results=max_results, filter=filter)
         if view_type:
             self.kwargs["view_type"] = view_type
 
@@ -78,7 +78,7 @@ class SearchModelVersionsIterator(BaseIterator):
 
 class SearchRunsIterator(BaseIterator):
     def __init__(self, client, experiment_ids, max_results=None, filter=None, view_type=None):
-        super().__init__(None, max_results, filter)
+        super().__init__(None, max_results=max_results, filter=filter)
         self.experiment_ids = experiment_ids
         self.client = client
         self._kwargs = { "run_view_type": view_type } if view_type else {}
