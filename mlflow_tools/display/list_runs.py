@@ -13,6 +13,7 @@ from mlflow_tools.common.click_options import \
     opt_sort_attr, opt_sort_order, opt_view_type, \
     opt_columns, opt_output_csv_file
 from mlflow_tools.api import api_factory
+from mlflow_tools.display.display_utils import process_df
 
 pandas_api = api_factory.get_pandas_api()
 mlflow_client = mlflow.client.MlflowClient()
@@ -31,13 +32,7 @@ def list(experiment_id_or_name, sort_attr="name", sort_order="asc", view_type=No
     if exp is None:
         raise MlflowToolsException(f"Cannot find experiment '{experiment_id_or_name}'")
     df = to_pandas_dataframe(exp.experiment_id, view_type, filter)
-    if columns:
-        df = df[columns]
-    if sort_attr in df.columns:
-        df.sort_values(by=[sort_attr], inplace=True, ascending=sort_order == "asc")
-    if csv_file:
-        with open(csv_file, "w", encoding="utf-8") as f:
-            df.to_csv(f, index=False)
+    df = process_df(df, columns, sort_attr, sort_order, csv_file)
     print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
     print(f"Runs: {df.shape[0]}")
 
