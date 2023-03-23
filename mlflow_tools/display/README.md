@@ -70,7 +70,9 @@ See [list_experiments.py](list_experiments.py).
 **Example**
 
 ```
-list-experiments --csv_file experiments.csv
+list-experiments \
+   --csv_file experiments.csv \
+   --view-type all
 ```
 ```
 +-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
@@ -89,12 +91,12 @@ list-experiments --csv_file experiments.csv
 list-experiments --help
 
 Options:
-  --csv-file TEXT    Output CSV file.  [default: experiments.csv]
-  --sort-attr TEXT   Sort by this attibute.  [default: name]
+  --sort-attr TEXT   Sort by this attr.  [default: name]
   --sort-order TEXT  Sort order. One of: asc|desc.  [default: asc]
   --view-type TEXT   View type. One of: active_only|deleted_only|all.
-                     [default: active_only]
   --filter TEXT      Filter
+  --columns TEXT     Columns to display (comma delimited).
+  --csv-file TEXT    Output CSV file.
 ```
 
 ### Dump experiment 
