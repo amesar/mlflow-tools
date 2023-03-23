@@ -46,6 +46,14 @@ def opt_output_csv_file(function):
     )(function)
     return function
 
+def opt_experiment_id_or_name(function):
+    function = click.option("--experiment-id-or-name",
+        help="Experiment ID or name",
+        type=str,
+        required=True
+    )(function)
+    return function
+
 def opt_columns(function):
     function = click.option("--columns",
         help="Columns to display (comma delimited).",

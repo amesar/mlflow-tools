@@ -9,7 +9,7 @@ from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
-from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict
+from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict, opt_experiment_id_or_name
 from mlflow_tools.display import dump_dct, show_mlflow_info, write_dct
 from mlflow_tools.display import dump_run, dump_experiment_as_text
 
@@ -78,11 +78,7 @@ def dump(
 
 
 @click.command()
-@click.option("--experiment-id-or-name",
-  help="Experiment ID or name",
-  type=str,
-  required=True
-)
+@opt_experiment_id_or_name
 @click.option("--artifact-max-level", 
   help="Number of artifact levels to recurse", 
   type=int,

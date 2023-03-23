@@ -9,7 +9,8 @@ from mlflow.entities import ViewType
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common.click_options import \
-    opt_sort_attr, opt_sort_order, opt_view_type,\
+    opt_experiment_id_or_name, \
+    opt_sort_attr, opt_sort_order, opt_view_type, \
     opt_columns, opt_output_csv_file
 from mlflow_tools.api import api_factory
 
@@ -42,11 +43,7 @@ def list(experiment_id_or_name, sort_attr="name", sort_order="asc", view_type=No
 
 
 @click.command()
-@click.option("--experiment-id-or-name",
-  help="Experiment ID or name",
-  type=str,
-  required=True
-)
+@opt_experiment_id_or_name
 @opt_sort_attr
 @opt_sort_order
 @opt_view_type
