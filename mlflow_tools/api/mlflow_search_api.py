@@ -31,6 +31,9 @@ class SearchMlflowApi(MlflowApi):
             versions += _versions
         return versions
 
+    def search_runs(self, experiment_ids, filter=None, view_type=None):
+        return self.client.search_runs(experiment_ids, filter_string=filter, run_view_type=view_type)
+
 
     # Count methods
 

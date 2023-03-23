@@ -17,26 +17,26 @@ class PandasMlflowApi(MlflowApi):
 
     def search_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):
         exps = self.mlflow_api.search_experiments(view_type=view_type, filter=filter)
-        list = [(exp.experiment_id, 
+        data = [(exp.experiment_id, 
                  exp.name,
                  fmt_ts_millis(exp.creation_time), 
                  fmt_ts_millis(exp.last_update_time),
                  exp.lifecycle_stage, exp.artifact_location)
              for exp in exps ]
         columns = ["experiment_id", "name", "creation_time", "last_update_time", "lifecycle_stage", "artifact_location"]
-        return pd.DataFrame(list, columns=columns)
+        return pd.DataFrame(data, columns=columns)
 
 
     def search_registered_models(self, filter=None):
         models = self.mlflow_api.search_registered_models(filter=filter)
-        list = [ [ m.name, 
+        data = [ [ m.name, 
                    len(m.latest_versions),
                    fmt_ts_millis(m.creation_timestamp), 
                    fmt_ts_millis(m.last_updated_timestamp),
                    m.description ] 
             for m in models ]
         columns = ["name", "latest_versions", "creation_timestamp", "last_updated_timestamp", "description" ]
-        return pd.DataFrame(list, columns=columns)
+        return pd.DataFrame(data, columns=columns)
 
 
     def search_model_versions(self, filter=None):
@@ -54,7 +54,7 @@ class PandasMlflowApi(MlflowApi):
 
 
     def _versions_to_pandas_df(self, versions):
-        lst = [(vr.name,
+        data = [(vr.name,
                 vr.version,
                 vr.current_stage,
                 vr.status,
@@ -65,7 +65,33 @@ class PandasMlflowApi(MlflowApi):
                 vr.source)
             for vr in versions ]
         columns = ["name", "version", "current_stage", "status", "creation_timestamp", "last_updated_timestamp", "run_id", "run_link", "source" ]
-        return pd.DataFrame(lst, columns=columns)
+        return pd.DataFrame(data, columns=columns)
+
+
+    def search_runs(self, experiment_ids, filter=None, view_type=None):
+        runs = self.mlflow_api.search_runs(experiment_ids, filter=filter, view_type=view_type)
+        data = [( r.info.run_id,
+                r.info.experiment_id,
+                r.info.run_name,
+                r.info.status,
+                r.info.lifecycle_stage,
+                fmt_ts_millis(r.info.start_time),
+                fmt_ts_millis(r.info.end_time),
+                r.info.artifact_uri,
+                r.info.user_id )
+            for r in runs ]
+        columns = [ 
+            "run_id", 
+            "experiment_id", 
+            "run_name",
+            "status", 
+            "lifecycle_stage", 
+            "start_time", 
+            "end_time", 
+            "artifact_uri", 
+            "user_id" 
+        ]
+        return pd.DataFrame(data, columns=columns)
 
 
     # Count methods

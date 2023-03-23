@@ -5,10 +5,11 @@
 Tools to list and dump MLflow objects.
 
 **List Tools**
-* [Count of all MLflow objects](#Count-of-all-MLflow-objects)
-* [List all experiments](#List-all-experiments)
-* [List all registered models](#List-all-registered-models)
-* [List all model versions](#List-all-model-versions)
+* [Count of all MLflow objects](#Count-all-MLflow-objects)
+* [List experiments](#List-experiments)
+* [List registered models](#List-registered-models)
+* [List model versions](#List-model-versions)
+* [List runs](#List-runs)
 * Advanced
   * [List latest and all versions of a registered model](#List-latest-and-all-versions-of-a-registered-model) - List versions and information about the runs they point to.
 
@@ -25,7 +26,7 @@ Tools to list and dump MLflow objects.
 export MLFLOW_TRACKING_URI=http://localhost:5000
 ```
 
-## Count of all MLflow objects
+## Count all MLflow objects
 See [count_objects.py](count_objects.py).
 
 **Example**
@@ -63,7 +64,7 @@ Options:
 
 ## Experiments 
 
-### List all experiments
+### List experiments
 See [list_experiments.py](list_experiments.py).
 
 **Example**
@@ -197,6 +198,51 @@ python -m mlflow_tools.tools.dump_experiment_as_csv \
 
 ## Runs 
 
+See [list_runs.py](list_runs.py).
+
+### List runs
+
+List runs of an experiment.
+
+**Example**
+
+```
+list-runs \
+  --experiment-id-or-name sklearn \
+  --view-type all \
+  --sort-attr lifecycle_stage \
+  --sort-order desc \
+  --columns run_id,run_name,status,lifecycle_stage,start_time
+```
+```
+
++----------------------------------+-------------------------------------+----------+-------------------+---------------------+
+| run_id                           | run_name                            | status   | lifecycle_stage   | start_time          |
+|----------------------------------+-------------------------------------+----------+-------------------+---------------------|
+| 79c2c0a160744c7e95956787b01d287f | 2023-03-22 22:39:36 sample.sh 2.2.2 | FINISHED | active            | 2023-03-22 22:39:36 |
+| 37d4deb43f384b7486ea7919d578ceb9 | 2023-03-22 22:39:30 sample.sh 2.2.2 | FINISHED | active            | 2023-03-22 22:39:30 |
+| e181dadc76524d5faa0f70bf4915253c | 2023-03-22 22:39:24 sample.sh 2.2.2 | FINISHED | active            | 2023-03-22 22:39:25 |
+| 11dddd8bda8b4c6c86a2891b41a9173d | 11dddd8bda8b4c6c86a2891b41a9173d    | FINISHED | active            | 2023-03-22 21:56:28 |
+| 01d0720c0bc144a1967accecaeffa031 | 01d0720c0bc144a1967accecaeffa031    | FINISHED | active            | 2023-03-21 01:33:55 |
+| 7411d1f2606e4cc28c54563f25c49a02 | 7411d1f2606e4cc28c54563f25c49a02    | FINISHED | deleted           | 2023-03-21 01:33:48 |
++----------------------------------+-------------------------------------+----------+-------------------+---------------------+
+```
+
+**Usage**
+```
+list-runs --help
+
+Options:
+  --experiment-id-or-name TEXT  Experiment ID or name  [required]
+  --sort-attr TEXT              Sort by this attr.  [default: name]
+  --sort-order TEXT             Sort order. One of: asc|desc.  [default: asc]
+  --view-type TEXT              View type. One of:
+                                active_only|deleted_only|all.
+  --columns TEXT                Columns to display (comma delimited).
+  --csv-file TEXT               Output CSV file.
+```
+
+
 ### Dump run
 
 Dumps run information.
@@ -307,7 +353,7 @@ Options:
 
 ## Registered models 
 
-### List all registered models
+### List registered models
 See [list_registered_models.py](list_registered_models.py).
 
 
@@ -452,11 +498,11 @@ Options:
                                  versions.  [default: False]
 ```
 
-### List all model versions XXX
+### List model versions 
 
 See [list_model_versions.py](list_model_versions.py).
 
-List all versions using the [search_model_versions](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.search_model_versions).
+List versions using the [search_model_versions](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.search_model_versions).
 
 **Example**
 ```

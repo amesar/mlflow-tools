@@ -26,6 +26,10 @@ class MlflowApi(metaclass=ABCMeta):
     def search_model_versions_by_models(self, filter=None):
         pass
 
+    @abstractmethod
+    def search_runs(self, experiment_ids, filter=None, view_type=None):
+        pass
+
     # Count methods
 
     def count_experiments(self, view_type=ViewType.ACTIVE_ONLY, filter=None):

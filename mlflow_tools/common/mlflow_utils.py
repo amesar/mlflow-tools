@@ -38,11 +38,16 @@ def get_last_run(mlflow_client, exp_id_or_name):
     return runs[0]
 
 
-def list_model_versions(client, model_name, get_latest_versions=False):
+def list_model_versions(client, model_name, get_latest_versions=False, stage=None):
+    """ List 'all' or the 'latest' versions of registered model. """
     if get_latest_versions:
-        return client.get_latest_versions(model_name)
+        versions = client.get_latest_versions(model_name)
     else:
-        return client.search_model_versions(f"name='{model_name}'")
+        from mlflow_tools.common.iterators import SearchModelVersionsIterator
+        versions = list(SearchModelVersionsIterator(client, filter=f"name='{model_name}'"))
+    if stage:
+        versions = [ vr for vr in versions if vr.current_stage.casefold() == stage.casefold() ]
+    return versions
 
 
 def calling_databricks():

@@ -8,7 +8,8 @@ from mlflow_tools.api.mlflow_api import MlflowApi
 from mlflow_tools.common.iterators import (
     SearchExperimentsIterator,
     SearchRegisteredModelsIterator,
-    SearchModelVersionsIterator
+    SearchModelVersionsIterator,
+    SearchRunsIterator
 )
 
 
@@ -34,6 +35,13 @@ class IteratorMlflowApi(MlflowApi):
             _versions = self.search_model_versions(filter=f"name = '{m.name}'")
             versions += _versions
         return versions
+
+    def search_runs(self, experiment_ids, filter=None, view_type=None):
+        return [ run for run in SearchRunsIterator(self.client, 
+            experiment_ids = experiment_ids, 
+            filter = filter,  
+            view_type = view_type
+        ) ]
 
 
     # Count methods

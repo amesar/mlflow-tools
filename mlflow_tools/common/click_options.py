@@ -32,7 +32,7 @@ def opt_view_type(function):
     function = click.option("--view-type",
         help=f"View type. One of: {VIEW_TYPE_KEYS}.",
         type=str,
-        default=ViewType._VIEW_TO_STRING[ViewType.ACTIVE_ONLY],
+        required=False,
         show_default=True
     )(function)
     return function
@@ -46,9 +46,26 @@ def opt_output_csv_file(function):
     )(function)
     return function
 
+def opt_columns(function):
+    function = click.option("--columns",
+        help="Columns to display (comma delimited).",
+        type=str,
+        required=False
+    )(function)
+    return function
+
 def opt_show_tags_as_dict(function):
     function = click.option("--show-tags-as-dict",
         help="Show MLflow tags as a dictionary instead of a list of key/value pairs.",
+        type=bool,
+        default=False,
+        show_default=True
+    )(function)
+    return function
+
+def opt_verbose(function):
+    function = click.option("--verbose",
+        help="Verbose.",
         type=bool,
         default=False,
         show_default=True
