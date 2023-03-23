@@ -377,9 +377,10 @@ list-models --csv_file models.csv
 list-models --help
 
 Options:
-  --csv-file TEXT    Output CSV file  [default: experiments.csv]
-  --sort-attr TEXT   Sort by this attibute  [default: name]
-  --sort-order TEXT  Sort order: asc|desc  [default: asc]
+  --sort-attr TEXT   Sort by this attr.  [default: name]
+  --sort-order TEXT  Sort order. One of: asc|desc.  [default: asc]
+  --columns TEXT     Columns to display (comma delimited).
+  --csv-file TEXT    Output CSV file.
 ```
 
 ### Dump registered model
@@ -532,11 +533,12 @@ list-model-versions
 list-model-versions --help
 
 Options:
-  --csv-file TEXT          Output CSV file.  [default: model_versions.csv]
-  --sort-attr TEXT         Sort by this attibute.  [default: name]
+  --model TEXT             Registered model to filter by.
+  --sort-attr TEXT         Sort by this attr.  [default: name]
   --sort-order TEXT        Sort order. One of: asc|desc.  [default: asc]
   --use-by-models BOOLEAN  Use 'by models' variant to search for versions.
-  --model TEXT             Registered model to filter by.
+  --columns TEXT           Columns to display (comma delimited).
+  --csv-file TEXT          Output CSV file.
 ```
 
 ### List `latest` and `all` versions of a registered model

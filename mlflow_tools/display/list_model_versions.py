@@ -27,18 +27,18 @@ def list(model_name, columns=None, csv_file=None, sort_attr="name", sort_order="
 
 
 @click.command()
+@click.option("--model",
+    help="Registered model to filter by.",
+    type=str, 
+    required=False,
+    show_default=True
+)
 @opt_sort_attr
 @opt_sort_order
 @click.option("--use-by-models", 
     help="Use 'by models' variant to search for versions.", 
     type=bool, 
     required=False
-)
-@click.option("--model",
-    help="Registered model to filter by.",
-    type=str, 
-    required=False,
-    show_default=True
 )
 @opt_columns
 @opt_output_csv_file
