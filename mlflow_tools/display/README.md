@@ -9,9 +9,8 @@ Tools to list and dump MLflow objects.
 * [List experiments](#List-experiments)
 * [List registered models](#List-registered-models)
 * [List model versions](#List-model-versions)
+  * [List model versions_with_runs](#List-model-versions_with_runs) - list versions and their run information
 * [List runs](#List-runs)
-* Advanced
-  * [List latest and all versions of a registered model](#List-latest-and-all-versions-of-a-registered-model) - List versions and information about the runs they point to.
 
 **Dump Tools**
 * [Samples of dumps](../../samples/README.md)
@@ -27,7 +26,8 @@ export MLFLOW_TRACKING_URI=http://localhost:5000
 ```
 
 ## Count all MLflow objects
-See [count_objects.py](count_objects.py).
+
+Source: [count_objects.py](count_objects.py).
 
 **Example**
 
@@ -65,7 +65,8 @@ Options:
 ## Experiments 
 
 ### List experiments
-See [list_experiments.py](list_experiments.py).
+
+Source: [list_experiments.py](list_experiments.py).
 
 **Example**
 
@@ -200,7 +201,7 @@ python -m mlflow_tools.tools.dump_experiment_as_csv \
 
 ## Runs 
 
-See [list_runs.py](list_runs.py).
+Source: [list_runs.py](list_runs.py).
 
 ### List runs
 
@@ -356,7 +357,7 @@ Options:
 ## Registered models 
 
 ### List registered models
-See [list_registered_models.py](list_registered_models.py).
+Source: [list_registered_models.py](list_registered_models.py).
 
 
 **Example**
@@ -503,7 +504,7 @@ Options:
 
 ### List model versions 
 
-See [list_model_versions.py](list_model_versions.py).
+Source: [list_model_versions.py](list_model_versions.py).
 
 List versions using the [search_model_versions](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.search_model_versions).
 
@@ -541,62 +542,99 @@ Options:
   --csv-file TEXT          Output CSV file.
 ```
 
-### List `latest` and `all` versions of a registered model
+### List model versions with runs
 
-List versions and information about the runs they point to.
+List model versions and information about the version's run.
 
-Lists two views of versions:
+This script allows you to see if a version's run is "soft deleted" or "hard deleted".
+  * Soft delete - run's `run_lifecycle_stage` column is marked as `deleted` but the run still exists in the MLflow database.
+  * Hard delete (`run_exists` column) - run has physically been removed from the MLflow database. 
+    * For Databricks, a run is recycled after [30 days](https://docs.databricks.com/mlflow/tracking.html#delete-runs). 
+    * For OSS MLflow, the procedure to hard delete is apparently not provided and is left as an exercise to the reader.
+
+Versions can be obtained from MLflow in two ways (option `get-latest-versions`).
   *  Latest versions use [MlflowClient.get_latest_versions()](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.get_latest_versions).
   * All versions use [MlflowClient.search_model_versions()](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.search_model_versions).
 
-See [list_model_versions_advanced.py](list_model_versions_advanced.py).
+Source: [list_model_versions_with_runs.py](list_model_versions_with_runs.py).
 
+_**List all 'latest' version information**_
+```
+list-model-versions-with-runs \
+    --filter "name like 'sklearn_win%'" \
+    --get_latest_versions True
+```
 
 ```
-list-model-versions_advanced \
-  --model all \
-  --view both 
+8 versions - using 'latest' get mode
++-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------+
+| model             |   version | vr_stage   | vr_created          | run_id                           | run_exists   | run_stage   | run_end             |
+|-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------|
+| sklearn_wine      |         3 | Archived   | 2023-03-22 21:56:30 | 11dddd8bda8b4c6c86a2891b41a9173d | True         | active      | 2023-03-22 21:56:32 |
+| sklearn_wine      |         4 | Production | 2023-03-22 22:39:27 | e181dadc76524d5faa0f70bf4915253c | True         | active      | 2023-03-22 22:39:28 |
+| sklearn_wine      |         5 | Staging    | 2023-03-22 22:39:32 | 37d4deb43f384b7486ea7919d578ceb9 | True         | deleted     | 2023-03-22 22:39:34 |
+| sklearn_wine      |         6 | None       | 2023-03-22 22:39:38 | 79c2c0a160744c7e95956787b01d287f | True         | active      | 2023-03-22 22:39:39 |
+| sklearn_wine_onnx |         3 | Archived   | 2023-03-22 21:56:31 | 11dddd8bda8b4c6c86a2891b41a9173d | True         | active      | 2023-03-22 21:56:32 |
+| sklearn_wine_onnx |         4 | Production | 2023-03-22 22:39:28 | e181dadc76524d5faa0f70bf4915253c | True         | active      | 2023-03-22 22:39:28 |
+| sklearn_wine_onnx |         5 | Staging    | 2023-03-22 22:39:34 | 37d4deb43f384b7486ea7919d578ceb9 | True         | deleted     | 2023-03-22 22:39:34 |
+| sklearn_wine_onnx |         6 | None       | 2023-03-22 22:39:39 | 79c2c0a160744c7e95956787b01d287f | True         | active      | 2023-03-22 22:39:39 |
++-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------+
+```
 
-Latest 6 versions
-+-------------------+-----------+------------+---------------------+----------------------------------+-------------+--------------+
-| Model             |   Version | Stage      | Creation            | Run ID                           | Run stage   | Run exists   |
-|-------------------+-----------+------------+---------------------+----------------------------------+-------------+--------------|
-| sklearn_iris      |         1 | None       | 2022-08-15 03:16:39 | f3bd1fd16aab4af083536002b0ae8a22 | deleted     | True         |
-| sklearn_iris      |         2 | Staging    | 2022-08-15 03:16:52 | 57a185d83e2c4a6587166a56762035ab | active      | True         |
-| sklearn_iris      |         3 | Archived   | 2022-08-15 03:17:04 | 5247956e9ebc4d808c11af38e3ad781e | active      | True         |
-| sklearn_iris      |         5 | Production | 2022-08-15 03:23:27 | 527275d8481e4954a141ef22c919851f | deleted     | True         |
-| sklearn_wine      |         2 | None       | 2022-08-15 03:19:15 | ff2e2185944d4bdeb084fab41dd240bf | active      | True         |
-| sklearn_wine_onnx |         2 | None       | 2022-08-15 03:19:16 | ff2e2185944d4bdeb084fab41dd240bf | active      | True         |
-+-------------------+-----------+------------+---------------------+----------------------------------+-------------+--------------+
+_**List 'latest' production versions**_
 
-All 9 versions
-+-------------------+-----------+------------+---------------------+----------------------------------+-------------+--------------+
-| Model             |   Version | Stage      | Creation            | Run ID                           | Run stage   | Run exists   |
-|-------------------+-----------+------------+---------------------+----------------------------------+-------------+--------------|
-| sklearn_iris      |         1 | None       | 2022-08-15 03:16:39 | f3bd1fd16aab4af083536002b0ae8a22 | deleted     | True         |
-| sklearn_iris      |         2 | Staging    | 2022-08-15 03:16:52 | 57a185d83e2c4a6587166a56762035ab | active      | True         |
-| sklearn_iris      |         3 | Archived   | 2022-08-15 03:17:04 | 5247956e9ebc4d808c11af38e3ad781e | active      | True         |
-| sklearn_iris      |         4 | Production | 2022-08-15 03:17:37 | e9de914e80f944fda5f10e0be4ec9e3f | active      | True         |
-| sklearn_iris      |         5 | Production | 2022-08-15 03:23:27 | 527275d8481e4954a141ef22c919851f | deleted     | True         |
-| sklearn_wine      |         1 | None       | 2022-08-15 03:19:08 | d702d6034879405f87e4b11a38f48bee | active      | True         |
-| sklearn_wine      |         2 | None       | 2022-08-15 03:19:15 | ff2e2185944d4bdeb084fab41dd240bf | active      | True         |
-| sklearn_wine_onnx |         1 | None       | 2022-08-15 03:19:10 | d702d6034879405f87e4b11a38f48bee | active      | True         |
-| sklearn_wine_onnx |         2 | None       | 2022-08-15 03:19:16 | ff2e2185944d4bdeb084fab41dd240bf | active      | True         |
-+-------------------+-----------+------------+---------------------+----------------------------------+-------------+--------------+
+```
+list-model-versions-with-runs \
+    --filter "name like 'sklearn_win%'" \
+    --version-stage production \
+    --get_latest_versions True
+```
+```
+2 versions - using 'latest' get mode
++-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------+
+| model             |   version | vr_stage   | vr_created          | run_id                           | run_exists   | run_stage   | run_end             |
+|-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------|
+| sklearn_wine      |         4 | Production | 2023-03-22 22:39:27 | e181dadc76524d5faa0f70bf4915253c | True         | active      | 2023-03-22 22:39:28 |
+| sklearn_wine_onnx |         4 | Production | 2023-03-22 22:39:28 | e181dadc76524d5faa0f70bf4915253c | True         | active      | 2023-03-22 22:39:28 |
++-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------+
+```
+
+_**List 'all' versions whose runs have been deleted**_
+```
+list-model-versions-with-runs \
+    --filter "name like 'sklearn_win%'" \
+    --run-lifecycle-stage deleted \
+    --get_latest_versions False
+```
+```
+4 versions - using 'all' get mode
++-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------+
+| model             |   version | vr_stage   | vr_created          | run_id                           | run_exists   | run_stage   | run_end             |
+|-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------|
+| sklearn_wine      |         5 | Staging    | 2023-03-22 22:39:32 | 37d4deb43f384b7486ea7919d578ceb9 | True         | deleted     | 2023-03-22 22:39:34 |
+| sklearn_wine      |         1 | Archived   | 2023-03-21 01:33:51 | 7411d1f2606e4cc28c54563f25c49a02 | True         | deleted     | 2023-03-21 01:33:52 |
+| sklearn_wine_onnx |         5 | Staging    | 2023-03-22 22:39:34 | 37d4deb43f384b7486ea7919d578ceb9 | True         | deleted     | 2023-03-22 22:39:34 |
+| sklearn_wine_onnx |         1 | Archived   | 2023-03-21 01:33:52 | 7411d1f2606e4cc28c54563f25c49a02 | True         | deleted     | 2023-03-21 01:33:52 |
++-------------------+-----------+------------+---------------------+----------------------------------+--------------+-------------+---------------------+
 ```
 
 **Usage**
 ```
-list-model-versions-advanced --help
+list-model-versions-with-runs --help
 
 Options:
-  --model TEXT           Registered model name or 'all' for all models.
-                         [required]
-
-  --view TEXT            Display latest, all or both views of versions. Values
-                         are: 'latest|all|both'.  [default: latest]
-
-  --max-results INTEGER  max_results parameter to
-                         MlflowClient.list_registered_models().  [default:
-                         1000]
+  --model-names TEXT             Model names (comma delimited)  or 'all' for
+                                 all models. Mutually exclusive with 'filter'
+                                 option
+  --filter TEXT                  Standard filter for
+                                 search_registered_models(). Mutually
+                                 exclusive with 'model-names' option
+  --get-latest-versions BOOLEAN  Get 'latest' versions. Otherwise get all
+                                 versions.  [default: False]
+  --version-stage TEXT           Show versions with specified version stage
+                                 (Production, Staging, Archived).
+  --run-lifecycle-stage TEXT     Show versions whose run is of specified
+                                 lifecycle_stage (active, deleted).
+  --columns TEXT                 Columns to display (comma delimited).
+  --csv-file TEXT                Output CSV file.
 ```

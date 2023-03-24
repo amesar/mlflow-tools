@@ -35,7 +35,7 @@ setup(
             "list-models = mlflow_tools.display.list_registered_models:main",
             "list-registered-models = mlflow_tools.display.list_registered_models:main",
             "list-model-versions = mlflow_tools.display.list_model_versions:main",
-            "list-model-versions-advanced = mlflow_tools.display.list_model_versions_advanced:main",
+            "list-model-versions-with-runs = mlflow_tools.display.list_model_versions_with_runs:main",
             "list-runs = mlflow_tools.display.list_runs:main",
             "dump-run = mlflow_tools.display.dump_run:main",
             "dump-experiment = mlflow_tools.display.dump_experiment:main",
