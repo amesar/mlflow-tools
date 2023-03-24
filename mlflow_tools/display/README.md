@@ -9,7 +9,7 @@ Tools to list and dump MLflow objects.
 * [List experiments](#List-experiments)
 * [List registered models](#List-registered-models)
 * [List model versions](#List-model-versions)
-  * [List model versions_with_runs](#List-model-versions_with_runs) - list versions and their run information
+  * [List model versions with runs](#List-model-versions-with-runs) - list versions and their run information
 * [List runs](#List-runs)
 
 **Dump Tools**
