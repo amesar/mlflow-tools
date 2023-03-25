@@ -16,7 +16,7 @@ print("model_name:", model_name)
 
 # COMMAND ----------
 
-#assert_widget(model_name, "1. Registered model")
+#assert_widget(model_name, "1. Registered model") # OSS Mlflow search_model_versions does not require filter whereas Databricks version does
 
 # COMMAND ----------
 

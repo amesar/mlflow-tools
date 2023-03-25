@@ -1,7 +1,7 @@
 # Databricks notebook source
 # MAGIC %md ## MLflow Version Analytics
 # MAGIC 
-# MAGIC Some queries joining models and their versions
+# MAGIC Some queries joining registered models and model version tables.
 
 # COMMAND ----------
 
