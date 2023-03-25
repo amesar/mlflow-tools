@@ -179,7 +179,7 @@ Options:
   --show-runs BOOLEAN            Show runs  [default: False]
   --show-run-data BOOLEAN        Show run data run if showing runs  [default:
                                  False]
-  --format TEXT                  Output format: json|yaml|txt  [default: json]
+  --format TEXT                  Output format: json|yaml  [default: json]
   --explode-json-string BOOLEAN  Explode attributes that are a JSON string
                                  [default: False]
   --output-file TEXT             Output file (extension will be the format)
@@ -346,7 +346,7 @@ Options:
   --run-id TEXT                  Run ID.  [required]
   --artifact-max-level INTEGER   Number of artifact levels to recurse.
                                  [default: 1]
-  --format TEXT                  Output Format: json|yaml|txt.  [default:
+  --format TEXT                  Output Format: json|yaml.  [default:
                                  json]
   --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
   --verbose BOOLEAN              Verbose.

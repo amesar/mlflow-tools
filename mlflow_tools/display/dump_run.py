@@ -1,5 +1,5 @@
 """
-Dump a run in JSON, YAML or text.
+Dump a run in JSON or YAML 
 """
 
 import json
@@ -9,7 +9,6 @@ from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common.click_options import opt_show_tags_as_dict
 from . import dump_dct, show_mlflow_info
-from . import dump_run_as_text
 
 # Tags to explode from JSON string
 explode_tags = [ "mlflow.databricks.cluster.info", "mlflow.databricks.cluster.libraries", "mlflow.log-model.history" ]
@@ -117,20 +116,16 @@ def dump_run_id(
         explode_json_string = False,
         show_tags_as_dict = False,
     ):
-    if (format in ["text","txt"]):
-        dump_run_as_text.dump_run_id(run_id, artifact_max_level)
-        return ""
-    else:
-        run = http_client.get(f"runs/get?run_id={run_id}")["run"]
-        dct = build_run(run, artifact_max_level, explode_json_string, show_tags_as_dict)
-        dump_dct(dct, format)
-        return dct
+    run = http_client.get(f"runs/get?run_id={run_id}")["run"]
+    dct = build_run(run, artifact_max_level, explode_json_string, show_tags_as_dict)
+    dump_dct(dct, format)
+    return dct
 
 
 @click.command()
 @click.option("--run-id", help="Run ID.", required=True)
 @click.option("--artifact-max-level", help="Number of artifact levels to recurse.", default=1, type=int, show_default=True)
-@click.option("--format", help="Output Format: json|yaml|txt.", type=str, default="json", show_default=True)
+@click.option("--format", help="Output Format: json|yaml.", type=str, default="json", show_default=True)
 @click.option("--explode-json-string", help="Explode JSON string.", type=bool, default=False, show_default=True)
 @click.option("--verbose", help="Verbose.", type=bool, default=False, show_default=False)
 @opt_show_tags_as_dict

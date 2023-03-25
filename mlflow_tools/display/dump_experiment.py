@@ -11,7 +11,7 @@ from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
 from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict, opt_experiment_id_or_name
 from mlflow_tools.display import dump_dct, show_mlflow_info, write_dct
-from mlflow_tools.display import dump_run, dump_experiment_as_text
+from mlflow_tools.display import dump_run
 
 http_client = MlflowHttpClient()
 mlflow_client = mlflow.client.MlflowClient()
@@ -34,46 +34,43 @@ def dump(
         raise MlflowToolsException(f"Cannot find experiment '{experiment_id_or_name}'")
     experiment_id = exp.experiment_id
     dct = {}
-    if (format in ["text","txt"]):
-        dump_experiment_as_text.dump_experiment(experiment_id_or_name, artifact_max_level, show_runs, show_run_data)
-    else:
-        exp = http_client.get(f"experiments/get?experiment_id={experiment_id}")["experiment"]
-        exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None))
-        exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None))
-        tags = exp.pop("tags", None)
-        if tags:
-            if show_tags_as_dict:
-                exp["tags"] = mlflow_utils.mk_tags_dict(tags)
-            else:
-                exp["tags"] = tags 
-        if show_runs:
-            data = { "experiment_ids" : [experiment_id] , "max_results": max_results}
-            runs = http_client.post("runs/search",data)["runs"]
-            runs = [ dump_run.build_run(
-                    run = run, 
-		    artifact_max_level = artifact_max_level, 
-                    explode_json_string = explode_json_string, 
-                    show_tags_as_dict = show_tags_as_dict) 
-                for run in runs ]
-            num_artifacts,artifact_bytes = (0,0)
-            last_run = 0
-            for run in runs:
-                if not show_run_data:
-                    del run["run"]["data"]
-                artifact_bytes += run["summary"]["artifact_bytes"]
-                num_artifacts += run["summary"]["artifacts"]
-                last_run = max(last_run,int(run["run"]["info"]["end_time"]))
-            runs_summary = { 
-                "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
-                "last_run": last_run, "_last_run": fmt_ts_millis(last_run) }
-            dct = { "experiment_info": exp, "runs_summary": runs_summary, "runs": runs }
+    exp = http_client.get(f"experiments/get?experiment_id={experiment_id}")["experiment"]
+    exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None))
+    exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None))
+    tags = exp.pop("tags", None)
+    if tags:
+        if show_tags_as_dict:
+            exp["tags"] = mlflow_utils.mk_tags_dict(tags)
         else:
-            dct = exp
-        if show_permissions and mlflow_utils.calling_databricks():
-            permissions_utils.add_experiment_permissions(exp["experiment_id"], dct)
-        dump_dct(dct, format)
-        if output_file:
-            write_dct(dct, output_file, format)
+            exp["tags"] = tags 
+    if show_runs:
+        data = { "experiment_ids" : [experiment_id] , "max_results": max_results}
+        runs = http_client.post("runs/search",data)["runs"]
+        runs = [ dump_run.build_run(
+                run = run, 
+		artifact_max_level = artifact_max_level, 
+                explode_json_string = explode_json_string, 
+                show_tags_as_dict = show_tags_as_dict) 
+            for run in runs ]
+        num_artifacts,artifact_bytes = (0,0)
+        last_run = 0
+        for run in runs:
+            if not show_run_data:
+                del run["run"]["data"]
+            artifact_bytes += run["summary"]["artifact_bytes"]
+            num_artifacts += run["summary"]["artifacts"]
+            last_run = max(last_run,int(run["run"]["info"]["end_time"]))
+        runs_summary = { 
+            "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
+            "last_run": last_run, "_last_run": fmt_ts_millis(last_run) }
+        dct = { "experiment_info": exp, "runs_summary": runs_summary, "runs": runs }
+    else:
+        dct = exp
+    if show_permissions and mlflow_utils.calling_databricks():
+        permissions_utils.add_experiment_permissions(exp["experiment_id"], dct)
+    dump_dct(dct, format)
+    if output_file:
+        write_dct(dct, output_file, format)
     return dct
 
 
