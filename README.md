@@ -14,7 +14,7 @@ Some useful tools for MLflow.
 #### Databricks display notebooks 
 
 * [Notebooks](databricks_notebooks/display)
-* Samples:
+* Samples notebook screenshots:
   * [List registered models](samples/databricks_mlflow/notebooks/List_Models.png)
   * [Dump registered model](samples/databricks_mlflow/notebooks/Dump_Model_01.png)
   and list its [versions](samples/databricks_mlflow/notebooks/Dump_Model_02.png)
