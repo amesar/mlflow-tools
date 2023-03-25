@@ -21,12 +21,22 @@ def dump_experiment(experiment_id_or_name, csv_file):
 
 
 @click.command()
-@click.option("--experiment-id-or-name", help="Experiment ID or name", required=True)
-@click.option("--csv-file", help="Output CSV file", default=None, type=str)
+@click.option("--experiment-id-or-name", 
+    help="Experiment ID or name", 
+    type=str,
+    required=True
+)
+@click.option("--csv-file", 
+    help="Output CSV file", 
+    type=str,
+    default=None
+)
+
 def main(experiment_id_or_name, csv_file):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
     dump_experiment(experiment_id_or_name, csv_file)
+
 
 if __name__ == "__main__":
     main()
