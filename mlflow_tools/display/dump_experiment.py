@@ -34,7 +34,7 @@ def dump(
         raise MlflowToolsException(f"Cannot find experiment '{experiment_id_or_name}'")
     experiment_id = exp.experiment_id
     dct = {}
-    exp = http_client.get(f"experiments/get?experiment_id={experiment_id}")["experiment"]
+    exp = http_client.get("experiments/get", {"experiment_id": experiment_id}) ["experiment"]
     exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None))
     exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None))
     tags = exp.pop("tags", None)
@@ -45,7 +45,7 @@ def dump(
             exp["tags"] = tags 
     if show_runs:
         data = { "experiment_ids" : [experiment_id] , "max_results": max_results}
-        runs = http_client.post("runs/search",data)["runs"]
+        runs = http_client.post("runs/search", data)["runs"]
         runs = [ dump_run.build_run(
                 run = run, 
 		artifact_max_level = artifact_max_level, 
@@ -84,7 +84,8 @@ def dump(
 )
 @click.option("--show-runs", 
   help="Show runs",
-  type=bool, default=False, 
+  type=bool, 
+  default=False, 
   show_default=True
 )
 @click.option("--show-run-data", 
@@ -94,7 +95,7 @@ def dump(
   show_default=True
 )
 @click.option("--format", 
-  help="Output format: json|yaml|txt", 
+  help="Output format: json|yaml", 
   type=str, 
   default="json",
   show_default=True
@@ -119,16 +120,25 @@ def dump(
 @opt_show_permissions
 @opt_show_tags_as_dict
 
-def main(experiment_id_or_name, artifact_max_level, 
-        show_runs, show_run_data, 
-        format, explode_json_string, output_file, 
-        show_permissions, show_tags_as_dict, verbose):
+def main(
+        experiment_id_or_name, 
+        artifact_max_level, 
+        show_runs, 
+        show_run_data, 
+        format, 
+        explode_json_string, 
+        output_file, 
+        show_permissions, 
+        show_tags_as_dict, 
+        verbose
+    ):
     if verbose:
         show_mlflow_info()
         print("Options:")
         for k,v in locals().items(): print(f"  {k}: {v}")
     dump(experiment_id_or_name, artifact_max_level, 
-       show_runs, show_run_data, format, output_file, explode_json_string, show_permissions, show_tags_as_dict)
+       show_runs, show_run_data, format, output_file, 
+       explode_json_string, show_permissions, show_tags_as_dict)
 
 
 if __name__ == "__main__":

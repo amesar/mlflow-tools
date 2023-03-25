@@ -91,7 +91,7 @@ def _get_size(dct):
 
 
 def build_artifacts(run_id, path, level, artifact_max_level):
-    artifacts = http_client.get(f"artifacts/list?run_id={run_id}&path={path}")
+    artifacts = http_client.get(f"artifacts/list", { "run_id": run_id, "path": path })
     if level+1 > artifact_max_level: 
         return artifacts, 0, 0, level
     num_bytes, num_artifacts = (0,0)
@@ -116,25 +116,50 @@ def dump_run_id(
         explode_json_string = False,
         show_tags_as_dict = False,
     ):
-    run = http_client.get(f"runs/get?run_id={run_id}")["run"]
+    run = http_client.get(f"runs/get", { "run_id": run_id })["run"]
     dct = build_run(run, artifact_max_level, explode_json_string, show_tags_as_dict)
     dump_dct(dct, format)
     return dct
 
 
 @click.command()
-@click.option("--run-id", help="Run ID.", required=True)
-@click.option("--artifact-max-level", help="Number of artifact levels to recurse.", default=1, type=int, show_default=True)
-@click.option("--format", help="Output Format: json|yaml.", type=str, default="json", show_default=True)
-@click.option("--explode-json-string", help="Explode JSON string.", type=bool, default=False, show_default=True)
-@click.option("--verbose", help="Verbose.", type=bool, default=False, show_default=False)
+@click.option("--run-id", 
+    help="Run ID.", 
+    type=str, 
+    required=True
+)
+@click.option("--artifact-max-level", 
+    help="Number of artifact levels to recurse.", 
+    type=int, 
+    default=1, 
+    show_default=True
+)
+@click.option("--format", 
+    help="Output Format: json|yaml.", 
+    type=str, 
+    default="json", 
+    show_default=True
+)
+@click.option("--explode-json-string", 
+    help="Explode JSON string.", 
+    type=bool, 
+    default=False, 
+    show_default=True
+)
+@click.option("--verbose", 
+    help="Verbose.", 
+    type=bool, 
+    default=False, 
+    show_default=False
+)
 @opt_show_tags_as_dict
 
 def main(run_id, artifact_max_level, format, explode_json_string, show_tags_as_dict, verbose):
     if verbose: 
         show_mlflow_info()
         print("Options:")
-        for k,v in locals().items(): print(f"  {k}: {v}")
+        for k,v in locals().items(): 
+            print(f"  {k}: {v}")
     dump_run_id(run_id, artifact_max_level, format, explode_json_string, show_tags_as_dict)
 
 
