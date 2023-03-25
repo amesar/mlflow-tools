@@ -10,7 +10,8 @@ from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common.iterators import SearchRegisteredModelsIterator
-from mlflow_tools.common.click_options import opt_output_csv_file, opt_columns
+from mlflow_tools.common.click_options import opt_output_csv_file, \
+  opt_columns, opt_sort_attr, opt_sort_order
 from mlflow_tools.display.display_utils import process_df
 
 client = mlflow.client.MlflowClient()
@@ -37,15 +38,22 @@ def to_pandas_dataframe(
     return pd.DataFrame(table, columns=all_columns)
 
 
-def show(model_names=None, filter=None, get_latest_versions=None, 
-        version_stage=None, run_lifecycle_stage=None, columns=None, csv_file=None
+def show(model_names=None, 
+        filter = None, 
+        get_latest_versions = None, 
+        version_stage = None, 
+        run_lifecycle_stage = None, 
+        columns = None, 
+        sort_attr = None,
+        sort_order = None,
+        csv_file=None
     ):
     df = to_pandas_dataframe(model_names, filter, get_latest_versions, )
     if version_stage:
         df = df.loc[df["vr_stage"].str.casefold() == version_stage.casefold() ]
     if run_lifecycle_stage:
         df = df.loc[df["run_stage"].str.casefold() == run_lifecycle_stage.casefold() ]
-    df = process_df(df, columns, sort_attr=None, sort_order=None, csv_file=csv_file)
+    df = process_df(df, columns, sort_attr=sort_attr, sort_order=sort_order, csv_file=csv_file)
     msg = "latest" if get_latest_versions else "all"
     print(f"\n{df.shape[0]} versions - using '{msg}' get mode")
     print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
@@ -124,10 +132,14 @@ def _create_row(vr):
   required=False,
   show_default=True
 )
+@opt_sort_attr
+@opt_sort_order
 @opt_columns
 @opt_output_csv_file
 
-def main(model_names, filter, get_latest_versions, version_stage, run_lifecycle_stage, columns, csv_file):
+def main(model_names, filter, get_latest_versions, version_stage, run_lifecycle_stage, 
+        sort_attr, sort_order, columns, csv_file
+    ):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
@@ -137,7 +149,8 @@ def main(model_names, filter, get_latest_versions, version_stage, run_lifecycle_
         model_names = model_names.split(",")
     if columns:
         columns = columns.split(",")
-    show(model_names, filter, get_latest_versions, version_stage, run_lifecycle_stage, columns, csv_file)
+    show(model_names, filter, get_latest_versions, version_stage, run_lifecycle_stage, 
+        columns, sort_attr, sort_order, csv_file)
 
 
 if __name__ == "__main__":
