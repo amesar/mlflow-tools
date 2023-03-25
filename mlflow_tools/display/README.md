@@ -4,7 +4,7 @@
 
 Tools to list and dump MLflow objects.
 
-**List Tools**
+**List objects**
 * [Count of all MLflow objects](#Count-all-MLflow-objects)
 * [List experiments](#List-experiments)
 * [List registered models](#List-registered-models)
@@ -12,18 +12,13 @@ Tools to list and dump MLflow objects.
   * [List model versions with runs](#List-model-versions-with-runs) - list versions and their run information
 * [List runs](#List-runs)
 
-**Dump Tools**
+**Dump objects**
 * [Samples of dumps](../../samples/README.md)
 * [Dump experiment](#Dump-experiment) 
   * [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
 * [Dump registered model](#Dump-registered-model)
 * [Dump run](#Dump-run)
 
-
-## Setup
-```
-export MLFLOW_TRACKING_URI=http://localhost:5000
-```
 
 ## Count all MLflow objects
 
@@ -102,13 +97,11 @@ Options:
 
 ### Dump experiment 
 
-Dumps all experiment details including its runs as JSON or YAML.
+Dumps all experiment details including its runs.
 * Source: [dump_experiment.py](dump_experiment.py)
 * Samples:
   * Open source MLflow: 
-    [experiment.json](../../samples/oss_mlflow/experiments/experiment.json) \-
-    [experiment.yaml](../../samples/oss_mlflow/experiments/experiment.yaml) \-
-    [experiment.txt](../../samples/oss_mlflow/experiments/experiment.txt).
+    [experiment.json](../../samples/oss_mlflow/experiments/experiment.json)
   * Databricks MLflow: 
     [sklearn_wine_quality.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality.json) \-
     [sklearn_wine_quality_autolog.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality_autolog.json)
@@ -201,11 +194,11 @@ python -m mlflow_tools.tools.dump_experiment_as_csv \
 
 ## Runs 
 
-Source: [list_runs.py](list_runs.py).
-
 ### List runs
 
 List runs of an experiment.
+
+Source: [list_runs.py](list_runs.py).
 
 **Example**
 
@@ -249,20 +242,19 @@ Options:
 ### Dump run
 
 Dumps run information.
-* [dump_run.py](dump_run.py).
+* Source: [dump_run.py](dump_run.py).
 * Shows info, params, metrics and tags.
 * Recursively shows all artifacts up to the specified level.
 * A large value for `artifact_max_level` will execute many API calls.
 * If `show-info` is true, then just the run infos will be dumped.
 * If `show-data` is true, then an API call for each run will be executed. Beware of experiments with many runs.
-* Samples:
-  * Open source MLflow
-  [run.json](../../samples/oss_mlflow/run.json), 
-  [run.yaml](../../samples/oss_mlflow/run.yaml)
-  and [run.txt](../../samples/oss_mlflow/run.txt).
-  * Databricks MLflow 
-    * Non-autolog: [run.json](../../samples/databricks_mlflow/runs/sparkml/run.json).
-    * Autolog: [run_autolog.json](../../samples/databricks_mlflow/runs/sklearn_wine/run_autolog.json).
+
+Samples:
+* Open source MLflow
+[run.json](../../samples/oss_mlflow/run.json).
+* Databricks MLflow 
+  * Non-autolog: [run.json](../../samples/databricks_mlflow/runs/sparkml/run.json).
+  * Autolog: [run_autolog.json](../../samples/databricks_mlflow/runs/sklearn_wine/run_autolog.json).
 
 **Example**
 

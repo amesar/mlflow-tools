@@ -38,8 +38,9 @@
 
 | Run Type | JSON  | 
 |---|--|
-| Regular | [experiment.json](databricks_mlflow/experiments/sklearn_wine_quality_autolog.json) |
-| Autolog | [experiment.json](databricks_mlflow/experiments/sklearn_wine_quality_autolog.json) |
+| Regular | [sklearn_wine_quality.json](databricks_mlflow/experiments/sklearn_wine_quality.json) |
+| ibid | [sklearn_wine_quality_permissions.json](databricks_mlflow/experiments/sklearn_wine_quality_permissions.json) |
+| Autolog | [sklearn_wine_quality_autolog.json](databricks_mlflow/experiments/sklearn_wine_quality_autolog.json) |
 | AutoML | TODO |
 
 
