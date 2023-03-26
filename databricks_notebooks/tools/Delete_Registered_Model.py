@@ -7,11 +7,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ./display/Common
-
-# COMMAND ----------
-
-#dbutils.widgets.removeAll()
+# MAGIC %run ../display/Common
 
 # COMMAND ----------
 

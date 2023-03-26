@@ -3,16 +3,12 @@
 # MAGIC 
 # MAGIC Widgets
 # MAGIC * `1. Model` - model to be renamed
-# MAGIC * `2. New model - new model name
-# MAGIC * `3.` fudge
+# MAGIC * `2. New model` - new model name
+# MAGIC * `3.` Fudge version stage - "fudge" version stage: Transition stage to 'Archived' before delete, and then restore original version stage for new model
 
 # COMMAND ----------
 
-# MAGIC %run ./display/Common
-
-# COMMAND ----------
-
-dbutils.widgets.removeAll()
+# MAGIC %run ../display/Common
 
 # COMMAND ----------
 
@@ -40,6 +36,6 @@ from mlflow_tools.tools.rename_model import rename_model
 
 rename_model(
     model_name = model_name,
-    model_name = model_name,
+    new_model_name = new_model_name,
     fudge_version_stage = fudge_version_stage
 )
