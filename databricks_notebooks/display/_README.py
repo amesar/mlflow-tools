@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %md ## MLflow Display Tools
+# MAGIC %md ## mlflow-tools - Display Notebooks
 # MAGIC 
 # MAGIC **Overview**
 # MAGIC * Notebooks to display individual or lists of MLflow objects plus some analytics about models and versions.
