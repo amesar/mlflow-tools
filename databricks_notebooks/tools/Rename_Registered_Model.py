@@ -8,7 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../display/Common
+# MAGIC %run ../Common
 
 # COMMAND ----------
 

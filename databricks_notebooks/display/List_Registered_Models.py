@@ -3,7 +3,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ./Common
+# MAGIC %run ../Common
 
 # COMMAND ----------
 
