@@ -25,9 +25,6 @@
 # MAGIC * [Dump_Experiment]($Dump_Experiment)
 # MAGIC * [Dump_Run]($Dump_Run)
 # MAGIC 
-# MAGIC **Other**
-# MAGIC * [Common]($Common)
-# MAGIC 
 # MAGIC **Documentation**
 # MAGIC * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html) - Databricks documentation.
 # MAGIC 

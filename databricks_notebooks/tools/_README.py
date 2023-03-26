@@ -14,7 +14,4 @@
 # MAGIC * [Delete_Registered_Model]($Delete_Registered_Model) 
 # MAGIC * [Rename_Registered_Model]($Rename_Registered_Model) 
 # MAGIC 
-# MAGIC **Other**
-# MAGIC * [Common]($Common)
-# MAGIC 
 # MAGIC Last updated: 2023-03-26
