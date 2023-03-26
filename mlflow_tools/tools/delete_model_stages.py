@@ -11,8 +11,16 @@ print("MLflow Tracking URI:", mlflow.get_tracking_uri())
 
 
 @click.command()
-@click.option("--model", help="Registered model name", required=True, type=str)
-@click.option("--stages", help="Stages to export (comma seperated). Default is all stages.", default="", required=False, type=str)
+@click.option("--model", 
+    help="Registered model name", 
+    type=str,
+    required=True
+)
+@click.option("--stages", 
+    help="Stages to delete (comma delimited). Default is all stages.", 
+    type=str,
+    default="",
+)
 def main(model, stages):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
