@@ -1,14 +1,13 @@
-# MLflow Display Objects - Databricks Notebooks
+# mlflow-tools - Databricks Notebooks
 
-Notebooks to dump or list MLflow objects. See [_README.py](_README.py) for details.
+Notebooks to dump or list MLflow objects. See the [_README.py](_README.py) notebook for details.
 
 You can load these notebooks into Databricks either as a workspace folder or a Git Repo.
 
 Samples notebook screenshots:
-  * [List registered models](../../samples/databricks_mlflow/notebooks/List_Models.png)
-  * [Dump registered model](../../samples/databricks_mlflow/notebooks/Dump_Model_01.png)
-  and list its [versions](../../samples/databricks_mlflow/notebooks/Dump_Model_02.png)
-
+  * [List registered models](../samples/databricks_mlflow/notebooks/List_Models.png)
+  * [Dump registered model](../samples/databricks_mlflow/notebooks/Dump_Model_01.png)
+  and list its [versions](../samples/databricks_mlflow/notebooks/Dump_Model_02.png)
 
 
 ### Load directory as Databricks workspace folder
@@ -18,11 +17,11 @@ See the [Workspace CLI](https://docs.databricks.com/dev-tools/cli/workspace-cli.
 ```
 git clone https://github.com/amesar/mlflow-tools
 
-cd mlflow-tools/databricks_notebooks
+cd mlflow-tools
 
 databricks workspace import_dir 
-  display \
-  /Users/me@my.company.com/mlflow-tools-display
+  databricks_notebooks \
+  /Users/me@my.company.com/mlflow-tools
 ```
 
 ### Clone directory as Databricks Git Repo
@@ -45,9 +44,9 @@ curl \
   -d ' {
     "url": "https://github.com/amesar/mlflow-tools",
     "provider": "gitHub",
-    "path": "/Repos/me@my.company.com/mlflow-tools-display",
+    "path": "/Repos/me@my.company.com/mlflow-tools",
     "sparse_checkout": {
-      "patterns": [ "databricks_notebooks/display" ]
+      "patterns": [ "databricks_notebooks" ]
       }
     }'
 ```
