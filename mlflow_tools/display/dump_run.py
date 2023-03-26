@@ -42,7 +42,7 @@ def _explode_json_string(run):
 def build_run(
         run, 
         artifact_max_level, 
-        explode_json_string,
+        explode_json_string = False,
         show_tags_as_dict = False
     ):
     """
@@ -52,6 +52,9 @@ def build_run(
     data = run["data"]
     run_id = info["run_id"]
     adjust_times(info)
+
+    exp = http_client.get("experiments/get", {"experiment_id": info["experiment_id"]}) ["experiment"]
+    run["info"]["_experiment_name"] = exp["name"]
 
     if explode_json_string:
         _explode_json_string(run)
