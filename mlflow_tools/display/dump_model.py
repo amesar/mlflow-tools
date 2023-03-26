@@ -25,7 +25,7 @@ def dump_versions(versions, dump_runs, artifact_max_level, explode_json_string, 
     for vr in versions:
         if dump_runs:
             try:
-                run = client.get(f"runs/get?run_id={vr['run_id']}")["run"]
+                run = client.get(f"runs/get", { "run_id": vr['run_id'] })["run"]
                 run = dump_run.build_run(
                     run = run, 
                     artifact_max_level = artifact_max_level, 
@@ -61,14 +61,14 @@ def dump(
     ):
 
     if show_permissions and mlflow_utils.calling_databricks():
-        model = client.get(f"databricks/registered-models/get", params= {"name": model_name} )
+        model = client.get(f"databricks/registered-models/get", {"name": model_name} )
         model = model["registered_model_databricks"]
     else:
-        model = client.get(f"registered-models/get", params= {"name": model_name} )
+        model = client.get(f"registered-models/get", {"name": model_name} )
         model = model["registered_model"]
     _adjust_model_timestamps(model)
     if dump_all_versions:
-        versions = client.get(f"model-versions/search?name={model_name}")
+        versions = client.get(f"model-versions/search", {"name": model_name})
         versions = versions["model_versions"]
         dump_versions(versions, dump_runs, artifact_max_level, explode_json_string, show_tags_as_dict)
         del model["latest_versions"] 
