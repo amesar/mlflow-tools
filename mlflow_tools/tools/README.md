@@ -2,12 +2,13 @@
 
 ## Overview
 
-Some useful tools for MLflow. Run the examples from the root of repository.
+Some useful tools for MLflow. 
 
 **Registered models**
-* [Register a run's model as a registered model version and optional stage](#Register-a-run's-model-as-a-registered-model-version-and-optional-stage)
+* [Register run model as a registered model version with optional stage](#Register-run-model-as-a-registered-model-version-with-optional-stage)
 * [Delete registered model](#Delete-registered-model)
 * [Delete model stages](#Delete-model-stages)
+* [Rename registered model](#Rename-registered-model)
 
 
 **Other tools**
@@ -26,7 +27,7 @@ export MLFLOW_TRACKING_URI=http://localhost:5000
 ## Registered models 
 
 
-### Register a run's model as a registered model version and optional stage
+### Register run model as a registered model version with optional stage
 
 ```
 python -m mlflow_tools.tools.register_model \
@@ -51,6 +52,15 @@ Options:
 ```
 python -m mlflow_tools.tools.delete_model --model sklearn_wine
 ```
+
+```
+Deleting 3 versions for model 'Iris-Sklearn'
+  Deleting: {'version': '3', 'stage': 'Production', 'status': 'READY', 'run_id': 'f444942453364b8985091c12ea7fa833'}
+  Deleting: {'version': '2', 'stage': 'None', 'status': 'READY', 'run_id': 'g444942453364b8985091c12ea7fa833'}
+  Deleting: {'version': '1', 'stage': 'Staging', 'status': 'READY', 'run_id': 'f444942453364b8985091c12ea7fa833'}
+Deleting model 'Iris-Sklearn'
+```
+
 **Usage**
 ```
 python -m mlflow_tools.tools.delete_model --help
@@ -63,7 +73,7 @@ Options:
 
 ### Delete model stages
 
-Delete model stages.
+Delete specified model stages.
 
 ```
 python -m mlflow_tools.tools.delete_model_stages \
@@ -72,10 +82,43 @@ python -m mlflow_tools.tools.delete_model_stages \
 ```
 
 **Usage**
+
 ```
 Options:
   --model TEXT   Registered model name  [required]
-  --stages TEXT  Stages to export (comma seperated). Default is all stages.
+  --stages TEXT  Stages to delete (comma delimited). Default is all stages.
+```
+
+### Rename registered model 
+
+```
+python -m mlflow_tools.tools.rename_model \
+  --model Sklearn_Wine \
+  --new-model new_Sklearn_Wine
+```
+
+```
+Renaming model 'Sklearn_Wine' to 'new_Sklearn_Wine'
+Transitioning versions temporarily for model 'Sklearn_Wine' to 'Archived' stage in order to rename model
+  {"version": 2, "stage": Archived}
+  {"version": 1, "stage": Staging}
+Transitioning versions for model 'new_Sklearn_Wine' back to original stage
+  {"version": 2, "stage": Archived}
+  {"version": 1, "stage": Staging}
+```
+
+**Usage**
+
+```
+python -m mlflow_tools.tools.rename_model --help
+
+Options:
+  --model TEXT                   Model name to rename  [required]
+  --new-model TEXT               New model name  [required]
+  --fudge-version-stage BOOLEAN  Fudge version stage: Transition stage to
+                                 'Archived' before delete, and then restore
+                                 original version stage for new model.
+                                 [default: True]
 ```
 
 ## Other tools
