@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %md ## mlflow-tools Notebooks
+# MAGIC %md ## mlflow-tools - Databricks Notebooks
 # MAGIC 
 # MAGIC **Overview**
 # MAGIC * Notebooks to view and manipulate MLflow objects.
@@ -7,8 +7,8 @@
 # MAGIC * Notebook code: https://github.com/amesar/mlflow-tools/tree/master/databricks_notebooks. 
 # MAGIC 
 # MAGIC **Two sets of notebooks**
-# MAGIC * [Display notebooks]($display/_README) - view MLflow objects (dump and list)
-# MAGIC * [Tools notebooks]($tools/_README) - manipulate MLflow objects
+# MAGIC * [Display notebooks]($display/_README) - view MLflow objects (dump and list), e.g. JSON dump of a registered model and its versions.
+# MAGIC * [Tools notebooks]($tools/_README) - manipulate MLflow objects, e.g. rename a registered model.
 # MAGIC 
 # MAGIC **Other**
 # MAGIC * [Common]($Common) - common utility functions
