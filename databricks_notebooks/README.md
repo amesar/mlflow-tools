@@ -1,14 +1,28 @@
 # mlflow-tools - Databricks Notebooks
 
-Notebooks to dump or list MLflow objects. See the [_README.py](_README.py) notebook for details.
 
-You can load these notebooks into Databricks either as a workspace folder or a Git Repo.
+Notebooks to view or manipulate MLflow objects.
+See also the [_README.py](_README.py) notebook.
 
-Samples notebook screenshots:
+## Overview
+
+**Two sets of notebooks**
+* [Display notebooks](display) - view MLflow objects (dump and list), e.g. dump a registered model and its versions in JSON.
+* [Tools notebooks](tools) - manipulate MLflow objects, e.g. rename a registered model. 
+
+**Console shell script notebook**
+* Shows how to call command line scripts from a notebook shell (%sh) cell.
+* [Console_Shell_Scripts](Console_Shell_Scripts.py) notebook.
+
+**Sample notebook screenshots**
   * [List registered models](../samples/databricks_mlflow/notebooks/List_Models.png)
   * [Dump registered model](../samples/databricks_mlflow/notebooks/Dump_Model_01.png)
   and list its [versions](../samples/databricks_mlflow/notebooks/Dump_Model_02.png)
 
+
+## Load notebooks into Databricks workspace
+
+You can load these notebooks into Databricks either as a workspace folder or a Git Repo.
 
 ### Load directory as Databricks workspace folder
 
