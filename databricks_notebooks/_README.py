@@ -12,7 +12,7 @@
 # MAGIC 
 # MAGIC **Console shell script notebook**
 # MAGIC * Shows how to call command line scripts from a notebook shell (%sh) cell.
-# MAGIC * [Console_Shell_Scripts]($Console_Shell_Scripts)
+# MAGIC * [Console_Shell_Scripts]($Console_Shell_Scripts) notebook.
 # MAGIC 
 # MAGIC **Other**
 # MAGIC * [Common]($Common)

@@ -3,7 +3,9 @@
 # MAGIC 
 # MAGIC Shows how to call console command line scripts from a notebooks shell (%sh) cell. 
 # MAGIC 
-# MAGIC See https://github.com/amesar/mlflow-tools/tree/master/mlflow_tools/display#mlflow-display-tools.
+# MAGIC See 
+# MAGIC * https://github.com/amesar/mlflow-tools/tree/master/mlflow_tools/display#mlflow-display-tools.
+# MAGIC * https://github.com/amesar/mlflow-tools/blob/master/mlflow_tools/tools/README.md
 
 # COMMAND ----------
 
