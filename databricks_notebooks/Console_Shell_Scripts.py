@@ -11,15 +11,15 @@
 
 # COMMAND ----------
 
+dbutils.widgets.text("1. Secrets scope", "")
+secrets_scope = dbutils.widgets.get("1. Secrets scope")
+dbutils.widgets.text("2. Secrets PAT key", "")
+secrets_token_key = dbutils.widgets.get("2. Secrets PAT key")
+secrets_scope, secrets_token_key
+
+# COMMAND ----------
+
 # MAGIC %run ./Common
-
-# COMMAND ----------
-
-# MAGIC %md #### Configure temporary `.databrickscfg`
-
-# COMMAND ----------
-
-create_databricks_config_file()
 
 # COMMAND ----------
 
