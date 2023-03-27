@@ -2,7 +2,7 @@
 # MAGIC %md ## mlflow-tools - Databricks Notebooks
 # MAGIC 
 # MAGIC **Overview**
-# MAGIC * Notebooks to display individual or lists of MLflow objects plus some analytics about models and versions.
+# MAGIC * Notebooks to view or manipulate MLflow objects.
 # MAGIC * pip install repo: https://github.com/amesar/mlflow-tools. See [Common]($Common) notebook.
 # MAGIC * Github: https://github.com/amesar/mlflow-tools/tree/master/databricks_notebooks. 
 # MAGIC 
