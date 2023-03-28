@@ -479,19 +479,20 @@ dump-model --model sklearn_wine --show-runs
 dump-model --help
 
 Options:
-  --format TEXT                  Output format: json|yaml.
   --model TEXT                   Registered model name.  [required]
   --dump-all-versions BOOLEAN    Dump all versions instead of latest versions.
                                  [default: False]
   --dump-runs BOOLEAN            Dump a version's run details.  [default:
                                  False]
-  --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
   --artifact-max-level INTEGER   Number of artifact levels to recurse.
                                  [default: 0]
-  --output-file TEXT             Output file
   --show-permissions BOOLEAN     Show Databricks permissions.  [default:
                                  False]
-                                 versions.  [default: False]
+  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
+                                 list of key/value pairs.  [default: False]
+  --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
+  --format TEXT                  Output format: json|yaml.
+  --output-file TEXT             Output file
 ```
 
 ### List model versions 

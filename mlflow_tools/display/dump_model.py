@@ -89,11 +89,6 @@ def dump(
 
 
 @click.command()
-@click.option("--format", 
-    help="Output format: json|yaml.",
-    type=str,
-    default="json"
-)
 @click.option("--model",
      help="Registered model name.",
      type=str,
@@ -111,17 +106,24 @@ def dump(
     default=False, 
     show_default=True
 )
+@click.option("--artifact-max-level",
+    help="Number of artifact levels to recurse.",
+    type=int,
+    default=0,
+    show_default=True
+)
+@opt_show_permissions
+@opt_show_tags_as_dict
 @click.option("--explode-json-string",
     help="Explode JSON string.",
     type=bool,
     default=False,
     show_default=True
 )
-@click.option("--artifact-max-level",
-    help="Number of artifact levels to recurse.",
-    type=int,
-    default=0,
-    show_default=True
+@click.option("--format", 
+    help="Output format: json|yaml.",
+    type=str,
+    default="json"
 )
 @click.option("--output-file", 
     help="Output file", 
@@ -129,11 +131,9 @@ def dump(
     required=False,
     show_default=True
 )
-@opt_show_tags_as_dict
-@opt_show_permissions
 
-def main(model, dump_all_versions, dump_runs, format, explode_json_string, artifact_max_level, output_file, 
-       show_tags_as_dict, show_permissions):
+def main(model, dump_all_versions, dump_runs, explode_json_string, artifact_max_level, output_file, 
+       format, show_tags_as_dict, show_permissions):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
     dump(

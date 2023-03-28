@@ -1,74 +1,9 @@
-# mlflow-tools
+# mlflow-tools - Other Tools
 
-Some useful tools for MLflow.
-
-## MLflow Tools
-
-### Command line scripts
-
-#### Display (list and dump) MLflow objects
-
-* [README](mlflow_tools/display/README.md)
-* List: experiments, registered models and model versions
-* Dump: run, experiment and registered model 
-* [JSON samples of MLflow object display dumps](samples/README.md)
-
-#### Helper Tools
-* [README](mlflow_tools/tools/README.md)
-* Find best run of an experiment.
-* Find matching artifacts
-* Download model artifacts.
-* Call MLflow model server.
-* Registered model tools
-  * Register a run's model as a registered model.
-  * Delete registered model.
-  * Delete model stages.
-* Call http_client - either MLflow API or Databricks API.
-
-### Databricks notebooks 
-
-* Notebook [README](databricks_notebooks/README.md) versions of command line scripts
-* Sample notebook screenshots:
-     [list registered models](samples/databricks_mlflow/notebooks/List_Models.png)
-  ,  [dump model](samples/databricks_mlflow/notebooks/Dump_Model_01.png)
-  and [list model versions](samples/databricks_mlflow/notebooks/Dump_Model_02.png)
-
-### Other tools
-
-[README](README_other.md):
-* MLflow Spark UDF Workaound
-* Failed Run Replayer
-* Seldon MLflow MLServer
+Some other useful tools for MLflow.
 
 
-## Setup 
-
-##### Step 1. Create a virtual environment.
-```
-python -m venv mlflow-tools
-source mlflow-tools/bin/activate
-```
-
-##### Step 2. pip install
-
-pip install from github
-```
-pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools
-```
-
-or pip install in editable mode
-```
-git clone https://github.com/amesar/mlflow-tools
-cd mlflow-tools
-pip install -e .
-```
-
-## Other Tools
-
-### Advanced Tools
-* [Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.
-
-### MLflow Spark UDF Workaound
+## MLflow Spark UDF Workaound
 * Problem
   * Currently you cannot load a SparkML model as a UDF with MLflow due to named column bug.
   * Error message: pyspark.sql.utils.IllegalArgumentException: sepal_length does not exist. Available: 0, 1, 2, 3
@@ -78,8 +13,11 @@ pip install -e .
   * Wrapper: [sparkml_udf_workaround.py](mlflow_tools/spark/sparkml_udf_workaround.py)
   * Usage: [test_sparkml_udf_workaround.py](tests/spark/test_sparkml_udf_workaround.py)
 
+## Failed Run Replayer
 
-### Seldon MLflow MLServer
+[Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.
+
+## Seldon MLflow MLServer
 
 Enable Seldon [MLServer](https://github.com/SeldonIO/MLServer) to support MLflow model URIs with the `models` and `runs` scheme.
 
@@ -90,7 +28,7 @@ However MLServer only accepts file-based MLflow model URI schems such as `s3`, `
 MLServer does not support the `models` or `runs` schemes which download the requested model using the MLflowClient.
 
 
-#### Setup
+### Setup
 
 ```
 python -m venv mlserver
@@ -104,12 +42,12 @@ git clone https://github.com/amesar/mlflow-tools
 pip install -e mlflow-tools
 ```
 
-#### Source Code
+### Source Code
 
 * [mlflow_tools/seldon_mlflow/download_model.py](mlflow_tools/seldon_mlflow/download_model.py)
 * [mlflow_tools/common/model_download_utils.py.py](mlflow_tools/common/model_download_utils.py)
 
-#### Create custom model-settings file
+### Create custom model-settings file
 
 Create your settings file with an MLflow model URI using the `models` scheme.
 
@@ -125,7 +63,7 @@ For example, `my-model-settings.json` file.
 }
 ```
 
-#### Download model and create model-settings.json
+### Download model and create model-settings.json
 
 The [mlflow_tools.seldon_mlflow.download_model](mlflow_tools/seldon_mlflow/download_model.py) tool does the following:
   * Downloads the model artifacts associated with the registered model to a temporary location.
@@ -137,7 +75,7 @@ python -u -m mlflow_tools.seldon_mlflow.download_model \
   --output-dir /tmp/my-model
 ```
 
-#### Generated model-setting.json file
+### Generated model-setting.json file
 ```
 {
     "name": "wine-classifier",
@@ -148,13 +86,13 @@ python -u -m mlflow_tools.seldon_mlflow.download_model \
 }
 ```
 
-#### Run MLServer
+### Run MLServer
 
 ```
 mlserver start .
 ```
 
-#### Score
+### Score
 
 Score with the MLflow model server JSON format (in another terminal).
 ```
