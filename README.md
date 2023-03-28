@@ -27,7 +27,7 @@ Some useful tools for MLflow.
 
 ### Databricks notebooks 
 
-* Notebook [README](databricks_notebooks/README.md) versions of command line scripts
+* Notebook ([README](databricks_notebooks/README.md)) versions of command line scripts
 * Sample notebook screenshots:
      [list registered models](samples/databricks_mlflow/notebooks/List_Models.png)
   ,  [dump model](samples/databricks_mlflow/notebooks/Dump_Model_01.png)
