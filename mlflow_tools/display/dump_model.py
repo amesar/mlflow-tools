@@ -21,31 +21,38 @@ def _format_ts(dct, key):
         dct[f"_{key}"] = fmt_ts_millis(int(v))
 
 
-def dump_versions(versions, dump_runs, artifact_max_level, explode_json_string, show_tags_as_dict):
+def _adjust_model_timestamps(model):
+    model.pop("tags", None)
+    latest_versions = model.pop("latest_versions", None)
+    _format_ts(model, "creation_timestamp")
+    _format_ts(model, "last_updated_timestamp")
+    model["latest_versions"] = latest_versions
+
+
+def _adjust_version_timestamps(versions):
     for vr in versions:
-        if dump_runs:
-            try:
-                run = client.get(f"runs/get", { "run_id": vr['run_id'] })["run"]
-                run = dump_run.build_run(
-                    run = run, 
-                    artifact_max_level = artifact_max_level, 
-                    explode_json_string = explode_json_string,
-                    show_tags_as_dict = show_tags_as_dict
-                )
-                vr["_run"] = run
-            except MlflowToolsException:
-                print(f"WARNING: Model '{vr.model_name}' version {vr['version']}: run ID {vr['run_id']} does not exist.")
         _format_ts(vr, "creation_timestamp")
         _format_ts(vr, "last_updated_timestamp")
 
 
-def _adjust_model_timestamps(model):
-    tags = model.pop("tags", None)
-    latest_versions = model.pop("latest_versions", None)
-    _format_ts(model, "creation_timestamp")
-    _format_ts(model, "last_updated_timestamp")
-    model["tags"] = tags
-    model["latest_versions"] = latest_versions
+def _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_dict):
+    runs = []
+    for vr in versions:
+        try:
+            run = client.get(f"runs/get", { "run_id": vr['run_id'] })["run"]
+            run = dump_run.build_run(
+                run = run, 
+                artifact_max_level = artifact_max_level, 
+                explode_json_string = explode_json_string,
+                show_tags_as_dict = show_tags_as_dict
+            )
+            runs.append({ "version": vr["version"], "run": run })
+        except MlflowToolsException:
+            dct = { "model": vr["name"], "version": vr["version"], "run_id": vr["run_id"] }
+            msg = f"WARNING: Run does not exist: {dct}"
+            print(msg)
+            runs.append({ "version": vr["version"], "run": msg })
+    return runs
 
 
 def dump(
@@ -70,22 +77,26 @@ def dump(
     if dump_all_versions:
         versions = client.get(f"model-versions/search", {"name": model_name})
         versions = versions["model_versions"]
-        dump_versions(versions, dump_runs, artifact_max_level, explode_json_string, show_tags_as_dict)
+        _adjust_version_timestamps(versions)
         del model["latest_versions"] 
         model["all_versions"] = versions
     else:
         versions =  model.get("latest_versions", None)
-        dump_versions(versions, dump_runs, artifact_max_level, explode_json_string, show_tags_as_dict)
+        _adjust_version_timestamps(versions)
 
     if show_permissions and mlflow_utils.calling_databricks():
         permissions_utils.add_model_permissions(model)
-    dct = { "model": model }
-    dump_dct(dct, format)
+
+    if dump_runs:
+        version_runs = _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_dict)
+        model["_version_runs"] = version_runs
+
+    dump_dct(model, format)
 
     if output_file:
         print(f"Writing output to '{output_file}'")
         with open(output_file, "w", encoding="utf-8") as f:
-            f.write(json.dumps(dct, indent=2)+"\n")
+            f.write(json.dumps(model, indent=2)+"\n")
 
 
 @click.command()
