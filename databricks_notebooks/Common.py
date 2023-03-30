@@ -21,7 +21,7 @@ def write_file(dct, path, format):
         path = path[0:idx]
         if len(_format) > 0: format = _format
     print(f"Writing to: {path}.{format}")
-    from mlflow_tools.tools import write_dct
+    from mlflow_tools.display import write_dct
     write_dct(dct, _from_dbfs(path), format)
 
 # COMMAND ----------
