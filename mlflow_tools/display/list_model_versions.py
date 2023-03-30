@@ -47,6 +47,8 @@ def main(model, sort_attr, sort_order, use_by_models, columns, csv_file):
     print("Options:")
     for k,v in locals().items(): 
         print(f"  {k}: {v}")
+    if columns:
+        columns = columns.split(",")
     list(model, 
         sort_attr = sort_attr, 
         sort_order = sort_order,
