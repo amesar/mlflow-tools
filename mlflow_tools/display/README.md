@@ -3,6 +3,8 @@
 ## Overview
 
 Tools to list and dump MLflow objects.
+See also [Databricks notebooks versions](../../databricks_notebooks/README.md).
+
 
 **List objects**
 * [Count of all MLflow objects](#Count-all-MLflow-objects)
