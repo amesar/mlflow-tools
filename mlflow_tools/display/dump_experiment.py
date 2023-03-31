@@ -69,7 +69,7 @@ def dump(
     if show_permissions and mlflow_utils.calling_databricks():
         permissions_utils.add_experiment_permissions(exp["experiment_id"], dct)
     dump_dct(dct, format)
-    if output_file:
+    if output_file and len(output_file) > 0:
         write_dct(dct, output_file, format)
     return dct
 

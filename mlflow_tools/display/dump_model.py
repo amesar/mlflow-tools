@@ -3,14 +3,13 @@ Dump a registered model in JSON or YAML.
 """
 
 import click
-import json
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
 from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict
 from mlflow_tools.client.http_client import MlflowHttpClient
-from . import dump_dct, dump_run
+from . import dump_dct, dump_run, write_dct
 
 client = MlflowHttpClient()
 
@@ -93,10 +92,10 @@ def dump(
 
     dump_dct(model, format)
 
-    if output_file:
-        print(f"Writing output to '{output_file}'")
-        with open(output_file, "w", encoding="utf-8") as f:
-            f.write(json.dumps(model, indent=2)+"\n")
+    if output_file and len(output_file) > 0:
+        write_dct(model, output_file, format)
+
+    return model
 
 
 @click.command()
