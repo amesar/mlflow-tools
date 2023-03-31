@@ -50,12 +50,9 @@ dct = dump_model.dump(
     model_name = model, 
     show_permissions = show_permissions,
     dump_runs = dump_runs, 
+    output_file = output_file,
     format = format
 )
-
-# COMMAND ----------
-
-write_file(dct, output_file, format)
 
 # COMMAND ----------
 
@@ -70,7 +67,3 @@ from mlflow_tools.display.list_model_versions import to_pandas_dataframe
 pdf = to_pandas_dataframe(model)
 df = spark.createDataFrame(pdf)
 display(df)
-
-# COMMAND ----------
-
-

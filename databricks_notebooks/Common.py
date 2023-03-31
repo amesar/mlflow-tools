@@ -66,4 +66,4 @@ def assert_widget(value, name):
 
 # COMMAND ----------
 
-# MAGIC %sh pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools
+# MAGIC %pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools

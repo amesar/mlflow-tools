@@ -76,17 +76,10 @@ dct = dump_experiment.dump(
     show_run_data = show_run_data, 
     show_tags_as_dict = show_tags_as_dict,
     format = format,
+    output_file = output_file,
     explode_json_string = False,
     show_permissions = show_permissions
 )
-
-# COMMAND ----------
-
-# MAGIC %md ### Write output to file
-
-# COMMAND ----------
-
-write_file(dct, output_file, format)
 
 # COMMAND ----------
 
