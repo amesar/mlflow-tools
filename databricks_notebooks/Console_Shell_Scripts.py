@@ -25,6 +25,10 @@ secrets_scope, secrets_token_key
 
 # COMMAND ----------
 
+create_databrick_config_file(secrets_scope, secrets_token_key)
+
+# COMMAND ----------
+
 # MAGIC %md #### Display available console scripts 
 
 # COMMAND ----------

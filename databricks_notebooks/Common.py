@@ -66,8 +66,4 @@ def assert_widget(value, name):
 
 # COMMAND ----------
 
-create_databrick_config_file(secrets_scope, secrets_token_key)
-
-# COMMAND ----------
-
 # MAGIC %sh pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools
