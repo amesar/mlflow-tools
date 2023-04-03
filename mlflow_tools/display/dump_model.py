@@ -30,6 +30,8 @@ def _adjust_model_timestamps(model):
 
 def _adjust_version_timestamps(versions):
     for vr in versions:
+        x = client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
+        vr["_download_uri"] = x
         _format_ts(vr, "creation_timestamp")
         _format_ts(vr, "last_updated_timestamp")
 
