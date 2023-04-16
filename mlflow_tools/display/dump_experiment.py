@@ -9,7 +9,7 @@ from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
-from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict, opt_experiment_id_or_name
+from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict, opt_experiment_id_or_name, opt_show_local_time
 from mlflow_tools.display import dump_dct, show_mlflow_info, write_dct
 from mlflow_tools.display import dump_run
 
@@ -27,7 +27,8 @@ def dump(
         output_file = None, 
         explode_json_string = False,
         show_permissions = False,
-        show_tags_as_dict = False
+        show_tags_as_dict = False,
+        show_local_time = False
     ):
     exp = mlflow_utils.get_experiment(mlflow_client, experiment_id_or_name)
     if exp is None:
@@ -35,8 +36,8 @@ def dump(
     experiment_id = exp.experiment_id
     dct = {}
     exp = http_client.get("experiments/get", {"experiment_id": experiment_id}) ["experiment"]
-    exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None))
-    exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None))
+    exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None), show_local_time)
+    exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None), show_local_time)
     tags = exp.pop("tags", None)
     if tags:
         if show_tags_as_dict:
@@ -52,17 +53,21 @@ def dump(
                 explode_json_string = explode_json_string, 
                 show_tags_as_dict = show_tags_as_dict) 
             for run in runs ]
-        num_artifacts,artifact_bytes = (0,0)
+        num_artifacts, artifact_bytes = (0, 0)
         last_run = 0
         for run in runs:
             if not show_run_data:
                 del run["run"]["data"]
-            artifact_bytes += run["summary"]["artifact_bytes"]
-            num_artifacts += run["summary"]["artifacts"]
+            artifact_bytes += run["summary"]["artifacts"]["num_bytes"]
+            num_artifacts += run["summary"]["artifacts"]["num_artifacts"]
             last_run = max(last_run,int(run["run"]["info"]["end_time"]))
         runs_summary = { 
-            "runs": len(runs), "artifacts": num_artifacts, "artifact_bytes": artifact_bytes, 
-            "last_run": last_run, "_last_run": fmt_ts_millis(last_run) }
+            "runs": len(runs), 
+            "artifacts": num_artifacts,
+             "artifact_bytes": artifact_bytes, 
+            "last_run": last_run,
+             "_last_run": fmt_ts_millis(last_run, show_local_time) 
+        }
         dct = { "experiment_info": exp, "runs_summary": runs_summary, "runs": runs }
     else:
         dct = exp
@@ -119,6 +124,7 @@ def dump(
 )
 @opt_show_permissions
 @opt_show_tags_as_dict
+@opt_show_local_time
 
 def main(
         experiment_id_or_name, 
@@ -130,6 +136,7 @@ def main(
         output_file, 
         show_permissions, 
         show_tags_as_dict, 
+        show_local_time, 
         verbose
     ):
     if verbose:
@@ -138,7 +145,8 @@ def main(
         for k,v in locals().items(): print(f"  {k}: {v}")
     dump(experiment_id_or_name, artifact_max_level, 
        show_runs, show_run_data, format, output_file, 
-       explode_json_string, show_permissions, show_tags_as_dict)
+       explode_json_string, show_permissions, show_tags_as_dict,
+       show_local_time)
 
 
 if __name__ == "__main__":
