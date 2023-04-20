@@ -23,4 +23,8 @@
 # MAGIC **Documentation**
 # MAGIC * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html) - Databricks documentation.
 # MAGIC 
-# MAGIC Last updated: 2023-03-31
+# MAGIC **NOTE**
+# MAGIC 
+# MAGIC * Requires Databricks Runtime 13 or 12.2. Errors out on 11. :(
+# MAGIC 
+# MAGIC Last updated: 2023-04-20
