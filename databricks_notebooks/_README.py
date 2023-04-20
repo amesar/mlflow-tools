@@ -17,4 +17,8 @@
 # MAGIC **Other**
 # MAGIC * [Common]($Common)
 # MAGIC 
-# MAGIC Last updated: 2023-03-26
+# MAGIC **NOTE**
+# MAGIC 
+# MAGIC * Requires Databricks Runtime 13 or 12.2. Errors out on 11. :(
+# MAGIC 
+# MAGIC Last updated: 2023-04-20
