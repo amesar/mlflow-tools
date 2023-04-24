@@ -71,6 +71,15 @@ def opt_show_tags_as_dict(function):
     )(function)
     return function
 
+def opt_show_local_time(function):
+    function = click.option("--show-local-time",
+        help="Display timestamps as local time (default is UTC).",
+        type=bool,
+        default=False,
+        show_default=True
+    )(function)
+    return function
+
 def opt_verbose(function):
     function = click.option("--verbose",
         help="Verbose.",
