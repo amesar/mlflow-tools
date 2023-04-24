@@ -13,7 +13,7 @@ Some useful tools for MLflow.
 
 **Other tools**
 * [Find best run of experiment](#Find-best-run-of-experiment)
-* [Find model artifact paths of a run](Find-model-artifact-paths-of-a-run)
+* [Find model artifact paths of a run](#Find-model-artifact-paths-of-a-run)
 * [Find matching artifacts](#Find-matching-artifacts)
 * [Download model artifacts](#Download-model-artifacts)
 * [Call MLflow model server](#Call-MLflow-model-server)
