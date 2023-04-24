@@ -62,31 +62,18 @@ def build_run(
     if show_tags_as_dict:
         run["data"]["tags"] = mlflow_utils.mk_tags_dict(run["data"]["tags"])
 
-    if artifact_max_level == 0:
-        num_bytes = -1
-        num_artifacts= -1
-        summary = { 
-            "artifacts": -1, 
-            "artifact_bytes": -1,
-            "params": _get_size(data.get("params",None)),
-            "metrics": _get_size(data.get("metrics",None)),
-            "tags": _get_size(data.get("tags",None)),
-        }
-        dct = { "summary": summary, "run": run }
-    else:
-        artifacts, num_bytes, num_artifacts, num_levels = build_artifacts(run_id, "", 0, artifact_max_level)
-        summary = { 
-            "artifacts": {
-                "num_artifacts": num_artifacts, 
-                "num_bytes": num_bytes,
-                "num_levels": num_levels
-            },
-            "params": _get_size(data.get("params",None)),
-            "metrics": _get_size(data.get("metrics",None)),
-            "tags": _get_size(data.get("tags",None)),
-        }
-        dct = { "summary": summary, "run": run, "artifacts": artifacts }
-    return dct
+    artifacts, num_bytes, num_artifacts, num_levels = build_artifacts(run_id, "", 0, artifact_max_level)
+    summary = {
+        "artifacts": {
+            "num_artifacts": num_artifacts,
+            "num_bytes": num_bytes,
+            "num_levels": num_levels
+        },
+        "params": _get_size(data.get("params",None)),
+        "metrics": _get_size(data.get("metrics",None)),
+        "tags": _get_size(data.get("tags",None)),
+    }
+    return { "summary": summary, "run": run, "artifacts": artifacts }
 
 
 def _get_size(dct):
