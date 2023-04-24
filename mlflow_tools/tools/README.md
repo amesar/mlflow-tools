@@ -156,7 +156,7 @@ Options:
 ```
 
 
-### Find model artifact paths of a run 
+### Find model artifact paths of a run
 
 See [find_run_model_names.py](find_run_model_names.py).
 
