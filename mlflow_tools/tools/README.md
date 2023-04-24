@@ -162,7 +162,7 @@ See [find_run_model_names.py](find_run_model_names.py).
 
 **Example**
 
-Assume the following run artifacts
+Assume the following run artifacts.
 ```
 -artifacts/
  +-onnx-model/
@@ -180,6 +180,20 @@ Assume the following run artifacts
    +-conda.yaml
 ```
 
+Python code
+```
+from mlflow_tools.tools import find_artifacts
+
+matches = find_artifacts.find_run_model_names(run_id)
+for m in matches:
+   print(m)
+```
+```
+model
+onnx-model
+```
+
+Python command line
 ```
 python -m mlflow_tools.tools.find_run_model_names \
   --run-id 4af184e8527a4f4a8fc563386807acb2 \
