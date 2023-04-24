@@ -13,6 +13,7 @@ Some useful tools for MLflow.
 
 **Other tools**
 * [Find best run of experiment](#Find-best-run-of-experiment)
+* [Find model artifact paths of a run](Find-model-artifact-paths-of-a-run)
 * [Find matching artifacts](#Find-matching-artifacts)
 * [Download model artifacts](#Download-model-artifacts)
 * [Call MLflow model server](#Call-MLflow-model-server)
@@ -126,12 +127,15 @@ Options:
 ### Find best run of experiment
 
 Find the best run for a metric of an experiment. 
-Default order is descending (max). See [best_run.py](best_run.py).
+Default order is descending (max). 
 
-Displays the run ID and best metric value.
+See [best_run.py](best_run.py).
 
 ```
-python -m mlflow_tools.tools.best_run --experiment-id-or-nam 2 --metric rmse --ascending True
+python -m mlflow_tools.tools.best_run \
+  --experiment-id-or-nam 2 \
+  --metric rmse \
+  --ascending True
 ```
 ```
 Best run:
@@ -152,9 +156,54 @@ Options:
 ```
 
 
+### Find model artifact paths of a run 
+
+See [find_run_model_names.py](find_run_model_names.py).
+
+**Example**
+
+Assume the following run artifacts
+```
+-artifacts/
+ +-onnx-model/
+ | +-MLmodel
+ | +-requirements.txt
+ | +-python_env.yaml
+ | +-model.onnx
+ | +-conda.yaml
+ |
+ +-model/
+   +-MLmodel
+   +-requirements.txt
+   +-python_env.yaml
+   +-model.pkl
+   +-conda.yaml
+```
+
+```
+python -m mlflow_tools.tools.find_run_model_names \
+  --run-id 4af184e8527a4f4a8fc563386807acb2 \
+```
+
+```
+Matches:
+  model
+  onnx-model
+```
+
+**Usage**
+```
+python -m mlflow_tools.tools.find_run_model_names  --help
+
+Options:
+  --run-id TEXT        Run ID.  [required]
+```
+
 ### Find matching artifacts
 
 Return artifact paths that match specified target filename.
+
+See [find_artifacts.py](find_artifacts.py).
 
 **Example**
 

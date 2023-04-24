@@ -16,6 +16,7 @@ Some useful tools for MLflow.
 #### Helper Tools
 * [README](mlflow_tools/tools/README.md)
 * Find best run of an experiment.
+* Find model artifact paths of a run
 * Find matching artifacts
 * Download model artifacts.
 * Call MLflow model server.
