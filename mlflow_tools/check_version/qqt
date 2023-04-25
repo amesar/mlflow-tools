@@ -1,5 +1,0 @@
-
-    #models1 = client1.search_registered_models()
-    #print(">> #models1:",len(models1))
-    #models2 = client2.search_registered_models()
-    #print(">> #models2:",len(models2))
