@@ -1,5 +1,5 @@
 """
-Checks if model version run model artifact matches the cached model registry model.
+Validate a version's MLflow model. Checks that a model version's run model artifact matches the cached model registry model.
 """
 
 import os
@@ -78,7 +78,7 @@ def _check_version(vr, download_dir):
 
 def main(model, version_or_stage, download_dir, report_file):
     """
-    Checks if model version run model artifact matches the cached model registry model.
+    Validate a version's MLflow model. Checks that a model version's run model artifact matches the cached model registry model.
     """
     print("Options:")
     for k,v in locals().items():

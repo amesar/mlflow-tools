@@ -1,0 +1,88 @@
+{
+  "System": {
+    "script": "compare_model_versions.py",
+    "utc_time": "2023-04-25 03:20:14",
+    "mlflow_version": "2.2.2",
+    "python_version": "3.8.15"
+  },
+  "Config": {
+    "tracking_server_1": {
+      "host": "databricks://test_env",
+      "model": "Sklearn_Wine",
+      "version_or_stage": "staging",
+      "native_model": "model.pkl"
+    },
+    "tracking_server_2": {
+      "host": "databricks://prod_env",
+      "model": "Sklearn_Wine",
+      "version_or_stage": "staging",
+      "native_model": "model.pkl"
+    }
+  },
+  "Model_Version_Summary": {
+    "tracking_server_1": {
+      "client": "databricks://test_env",
+      "version": {
+        "_name": "Sklearn_Wine",
+        "_version": "2",
+        "_creation_time": 1681757772338,
+        "_last_updated_timestamp": 1682226984978,
+        "_description": "",
+        "_user_id": "k2@karakoram.com",
+        "_current_stage": "Staging",
+        "_source": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/a3a68a4c68f642919430689c682b89c5/artifacts/model",
+        "_run_id": "a3a68a4c68f642919430689c682b89c5",
+        "_run_link": "",
+        "_status": "READY",
+        "_status_message": "",
+        "_tags": {},
+        "download_uri": "dbfs:/databricks/mlflow-registry/6ec58d8b111f4869b361e7203d8860db/models/model"
+      }
+    },
+    "tracking_server_2": {
+      "client": "databricks://prod_env",
+      "version": {
+        "_name": "Sklearn_Wine_Imported",
+        "_version": "1",
+        "_creation_time": 1682242441749,
+        "_last_updated_timestamp": 1682242448440,
+        "_description": "",
+        "_user_id": "k2@karakoram.com",
+        "_current_stage": "Staging",
+        "_source": "dbfs:/databricks/mlflow-tracking/2043997742072154/a2195852ddf7400b91cfe6b51b5b867b/artifacts/model",
+        "_run_id": "a2195852ddf7400b91cfe6b51b5b867b",
+        "_run_link": "",
+        "_status": "READY",
+        "_status_message": "",
+        "_tags": {},
+        "download_uri": "dbfs:/databricks/mlflow-registry/aa8bcdfdbbe345fc9dccd0f65d75c6cc/models/model"
+      }
+    }
+  },
+  "Run_Model_Comparison": {
+    "equals": true,
+    "tracking_server_1": {
+      "path": "/tmp/scratch_download/run_model/server_1/model/model.pkl",
+      "hash": "3027220482473d3951e8cbf591943655"
+    },
+    "tracking_server_2": {
+      "path": "/tmp/scratch_download/run_model/server_2/model/model.pkl",
+      "hash": "3027220482473d3951e8cbf591943655"
+    }
+  },
+  "Reg_Model_Comparison": {
+    "equals": true,
+    "tracking_server_1": {
+      "path": "/tmp/scratch_download/reg_model/server_1/model/model.pkl",
+      "hash": "3027220482473d3951e8cbf591943655"
+    },
+    "tracking_server_2": {
+      "path": "/tmp/scratch_download/reg_model/server_2/model/model.pkl",
+      "hash": "3027220482473d3951e8cbf591943655"
+    }
+  },
+  "Comparison_Summary": {
+    "run_model": true,
+    "reg_model": true
+  }
+}

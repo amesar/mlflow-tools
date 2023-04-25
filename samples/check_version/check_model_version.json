@@ -1,0 +1,46 @@
+{
+  "System": {
+    "script": "check_model_version.py",
+    "utc_time": "2023-04-25 03:23:31",
+    "mlflow_version": "2.2.2",
+    "python_version": "3.8.15"
+  },
+  "Options": {
+    "model_name": "Sklearn_Wine",
+    "version_or_stage": "1",
+    "download_dir": "out",
+    "report_file": "check.json"
+  },
+  "Version": {
+    "_name": "Sklearn_Wine",
+    "_version": "1",
+    "_creation_time": 1681518899028,
+    "_last_updated_timestamp": 1682015831144,
+    "_description": "",
+    "_user_id": "k2@karakoram.com",
+    "_current_stage": "Archived",
+    "_source": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/3c0b2decc41c4dc0becd3d60bc814a4d/artifacts/model",
+    "_run_id": "3c0b2decc41c4dc0becd3d60bc814a4d",
+    "_run_link": "",
+    "_status": "READY",
+    "_status_message": "",
+    "_tags": {}
+  },
+  "Comparison": {
+    "equals": true,
+    "run_model": {
+      "download_uri": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/3c0b2decc41c4dc0becd3d60bc814a4d/artifacts/model",
+      "local_path": {
+        "path": "/tmp/scratch_download/run_model/model",
+        "hash": "3a8c2e4dd75843b0e4cdb2aeb3b8ceade8fe9b73"
+      }
+    },
+    "reg_model": {
+      "download_uri": "dbfs:/databricks/mlflow-registry/4c27e4f25ad54488afc84b8cff227457/models/model",
+      "local_path": {
+        "path": "/tmp/scratch_download/reg_model/model",
+        "hash": "3a8c2e4dd75843b0e4cdb2aeb3b8ceade8fe9b73"
+      }
+    }
+  }
+}

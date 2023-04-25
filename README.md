@@ -13,6 +13,13 @@ Some useful tools for MLflow.
 * Dump: run, experiment and registered model 
 * [JSON samples of MLflow object display dumps](samples/README.md)
 
+#### Model Version Validation 
+
+* See [README_check_version](README_check_version,md).
+* Tools to:
+  * Validate a version's MLflow model.
+  * Compare two versions' MLflow models.
+
 #### Helper Tools
 * [README](mlflow_tools/tools/README.md)
 * Find best run of an experiment.

@@ -1,4 +1,3 @@
-
 import click
 
 def opt_download_dir(function):
