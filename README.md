@@ -15,7 +15,7 @@ Some useful tools for MLflow.
 
 #### Model Version Validation 
 
-* See [README_check_version](README_check_version,md).
+* See [README_check_version](README_check_version.md).
 * Tools to:
   * Validate a version's MLflow model.
   * Compare two versions' MLflow models.
