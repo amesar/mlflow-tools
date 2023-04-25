@@ -1,5 +1,5 @@
 """
-Compare two model versions (from different workspaces).
+Compare two model versions: check that the cached registry models are the same and the run models are the same.
 """
 
 import os
@@ -65,6 +65,8 @@ def compare_versions(cfg, download_dir, compare_run_models=True, compare_reg_mod
     if report_file:
         io_utils.write_file(report_file, report)
 
+    return report
+
 
 def _download_artifact(client, download_uri, cfg, download_dir, model_type, idx):
     which = f"server_{idx}"
@@ -112,10 +114,7 @@ def _adjust_path(path, cfg):
 @opt_report_file
 def main(config_file, download_dir, compare_run_models, compare_reg_models, report_file):
     """ 
-    Compare the MLflow models backing a registered model version. Two options:
-    Args:
-        aaa
-        bbb
+    Compare two model versions: check that the cached registry models are the same and the run models are the same.
     """
     print("Options:")
     for k,v in locals().items():
