@@ -17,9 +17,10 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
-        "mlflow-skinny>=1.30.0",
+        "mlflow-skinny>=2.2.2",
         "pandas>=1.5.3",
-        "wheel"
+        "wheel",
+        "checksumdir"
     ],
     license = "Apache License 2.0",
     keywords = "mlflow ml ai",
@@ -40,6 +41,8 @@ setup(
             "dump-run = mlflow_tools.display.dump_run:main",
             "dump-experiment = mlflow_tools.display.dump_experiment:main",
             "dump-model = mlflow_tools.display.dump_model:main",
+            "compare-model-versions = mlflow_tools.check_version.compare_model_versions:main",
+            "check-model-version = mlflow_tools.check_version.check_model_version:main",
         ]
     }
 )
