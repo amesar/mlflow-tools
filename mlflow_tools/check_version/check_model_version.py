@@ -26,6 +26,8 @@ def check_version(model_name, version_or_stage, download_dir, report_file=None):
     }
     if report_file:
         io_utils.write_file(report_file, report)
+    print("Equals:",comparison["equals"])
+    return report
 
 
 def _check_version(vr, download_dir):
