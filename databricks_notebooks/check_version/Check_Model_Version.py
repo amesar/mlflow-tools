@@ -1,7 +1,7 @@
 # Databricks notebook source
 # MAGIC %md ## Check Model Version
 # MAGIC 
-# MAGIC Checks if model version run model artifact matches the cached model registry model.
+# MAGIC Checks that a model version's run model artifact (run_model) matches the cached model registry model (reg_model).
 
 # COMMAND ----------
 

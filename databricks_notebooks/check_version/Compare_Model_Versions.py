@@ -3,8 +3,8 @@
 # MAGIC 
 # MAGIC **Overview**
 # MAGIC * Compare two model versions. Check that:
-# MAGIC   * The cached registry models are the same pointed to by the `download_uri`.
-# MAGIC   * The run models are the same - model artifact pointer to by `version.source`.
+# MAGIC   * The cached registry models (pointed to by the `download_uri`) are the same.
+# MAGIC   * The run models are the same (pointed to by `version.source`).
 # MAGIC * The model versions can be in different workspaces.
 # MAGIC * If so, you need to create `~/.databrickscfg` with a profile for the exernal workspace.
 

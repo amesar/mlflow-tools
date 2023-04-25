@@ -9,7 +9,7 @@
 # MAGIC **Notebooks**
 # MAGIC * [Display notebooks]($display/_README) - view MLflow objects (dump and list), e.g. dump a registered model and its versions in JSON.
 # MAGIC * [Tools notebooks]($tools/_README) - manipulate MLflow objects, e.g. rename a registered model.
-# MAGIC * [Model version validation notebooks]($check_version/_README) 
+# MAGIC * [Model version validation notebooks]($check_version/_README).
 # MAGIC 
 # MAGIC **Console shell script notebook**
 # MAGIC * Shows how to call command line scripts from a notebook shell (%sh) cell.
