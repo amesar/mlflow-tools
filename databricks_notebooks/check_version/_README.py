@@ -5,6 +5,7 @@
 # MAGIC * [Compare_Model_Versions]($Compare_Model_Versions) - Compare two model versions. Check that the cached registry models match and the run models are the same.
 # MAGIC * [Check_Model_Version]($Check_Model_Version) - Checks that a model version's run model artifact matches the cached model registry model.
 # MAGIC * Full details: https://github.com/amesar/mlflow-tools/blob/master/README_check_version.md
+# MAGIC * [Databricks notebooks](https://github.com/amesar/mlflow-tools/tree/master/databricks_notebooks/check_version)
 # MAGIC 
 # MAGIC **Model Version MLflow Model Diagram**
 # MAGIC <br/><br/>
