@@ -43,6 +43,9 @@ setup(
             "dump-model = mlflow_tools.display.dump_model:main",
             "compare-model-versions = mlflow_tools.check_version.compare_model_versions:main",
             "check-model-version = mlflow_tools.check_version.check_model_version:main",
+            "delete-model = mlflow_tools.tools.delete_model:main",
+            "download-model = mlflow_tools.tools.download_model:main"
+            "rename-model = mlflow_tools.tools.rename_model:main",
         ]
     }
 )
