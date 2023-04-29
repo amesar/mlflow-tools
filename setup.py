@@ -44,8 +44,11 @@ setup(
             "compare-model-versions = mlflow_tools.check_version.compare_model_versions:main",
             "check-model-version = mlflow_tools.check_version.check_model_version:main",
             "delete-model = mlflow_tools.tools.delete_model:main",
-            "download-model = mlflow_tools.tools.download_model:main"
+            "delete-model-stages = mlflow_tools.tools.delete_model_stages:main",
+            "register-model = mlflow_tools.tools.register_model:main",
             "rename-model = mlflow_tools.tools.rename_model:main",
+            "download-model = mlflow_tools.tools.download_model:main"
+            "delete-experiment = mlflow_tools.tools.delete_experiment:main"
         ]
     }
 )

@@ -4,12 +4,14 @@
 
 Some useful tools for MLflow. 
 
+**Experiments**
+* [Delete experiment](#Delete-experiment)
+
 **Registered models**
 * [Register run model as a registered model version with optional stage](#Register-run-model-as-a-registered-model-version-with-optional-stage)
 * [Delete registered model](#Delete-registered-model)
 * [Delete model stages](#Delete-model-stages)
 * [Rename registered model](#Rename-registered-model)
-
 
 **Other tools**
 * [Find best run of experiment](#Find-best-run-of-experiment)
@@ -25,13 +27,40 @@ export MLFLOW_TRACKING_URI=http://localhost:5000
 ```
 
 
+## Experiments
+
+### Delete experiment
+
+Deletes an experiment or just its runs (and not the experiment).
+
+```
+delete-experiment \
+  --experiment-id-or-name sklearn_wine
+```
+
+```
+delete-experiment \
+  --experiment-id-or-name sklearn_wine \
+  --delete-only-runs True
+```
+
+**Usage**
+```
+delete-experiment --help
+
+Options:
+  --experiment-id-or-name TEXT  Experiment ID or name  [required]
+  --delete-only-runs BOOLEAN    Delete only runs and not the experiment
+                                [default: False]
+```
+
 ## Registered models 
 
 
 ### Register run model as a registered model version with optional stage
 
 ```
-python -m mlflow_tools.tools.register_model \
+register-model \
   --registered-model my-registered-model \
   --run-id 123 \
   --model-artifact my-model \
@@ -40,7 +69,7 @@ python -m mlflow_tools.tools.register_model \
 
 **Usage**
 ```
-python -m mlflow_tools.tools.register_model --help
+register-model --help
 
 Options:
   --registered-model TEXT  New registered model name.  [required]
@@ -51,7 +80,7 @@ Options:
 
 ### Delete registered model 
 ```
-python -m mlflow_tools.tools.delete_model --model sklearn_wine
+delete-model --model sklearn_wine
 ```
 
 ```
@@ -64,7 +93,7 @@ Deleting model 'Iris-Sklearn'
 
 **Usage**
 ```
-python -m mlflow_tools.tools.delete_model --help
+delete-model --help
 
 Options:
   --model TEXT                    Registered model name  [required]
@@ -77,7 +106,7 @@ Options:
 Delete specified model stages.
 
 ```
-python -m mlflow_tools.tools.delete_model_stages \
+delete-model-stages \
   --model sklearn_wine \
   --stages None,Archived
 ```
@@ -93,7 +122,7 @@ Options:
 ### Rename registered model 
 
 ```
-python -m mlflow_tools.tools.rename_model \
+rename-model \
   --model Sklearn_Wine \
   --new-model new_Sklearn_Wine
 ```
@@ -111,7 +140,7 @@ Transitioning versions for model 'new_Sklearn_Wine' back to original stage
 **Usage**
 
 ```
-python -m mlflow_tools.tools.rename_model --help
+rename-model --help
 
 Options:
   --model TEXT                   Model name to rename  [required]
