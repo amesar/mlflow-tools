@@ -4,6 +4,7 @@ Dump a run in JSON or YAML
 
 import json
 import click
+import mlflow
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
@@ -28,6 +29,7 @@ def adjust_times(info):
     end = info.get("end_time",None)
     _adjust_time(info, "start_time")
     _adjust_time(info, "end_time")
+    info["_tracking_uri"] = mlflow.get_tracking_uri()
     if start is not None and end is not None:
         dur = float(int(end) - int(start))/1000
         info["_duration"] = dur
@@ -64,6 +66,7 @@ def build_run(
 
     artifacts, num_bytes, num_artifacts, num_levels = build_artifacts(run_id, "", 0, artifact_max_level)
     summary = {
+        "_tracking_uri": mlflow.get_tracking_uri(),
         "artifacts": {
             "num_artifacts": num_artifacts,
             "num_bytes": num_bytes,

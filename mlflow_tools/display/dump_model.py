@@ -3,6 +3,7 @@ Dump a registered model in JSON or YAML.
 """
 
 import click
+import mlflow
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
@@ -75,6 +76,7 @@ def dump(
         model = client.get(f"registered-models/get", {"name": model_name} )
         model = model["registered_model"]
     _adjust_model_timestamps(model)
+    model["_tracking_uri"] = mlflow.get_tracking_uri()
     if dump_all_versions:
         versions = client.get(f"model-versions/search", {"name": model_name})
         versions = versions["model_versions"]

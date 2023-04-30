@@ -38,6 +38,7 @@ def dump(
     exp = http_client.get("experiments/get", {"experiment_id": experiment_id}) ["experiment"]
     exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None), show_local_time)
     exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None), show_local_time)
+    exp["_tracking_uri"] = mlflow.get_tracking_uri()
     tags = exp.pop("tags", None)
     if tags:
         if show_tags_as_dict:
