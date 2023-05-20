@@ -1,5 +1,5 @@
-import os
 from mlflow_tools.client import databricks_cli_utils
+from mlflow_tools.common import MlflowToolsException
 
 
 def get_mlflow_host():
@@ -8,17 +8,34 @@ def get_mlflow_host():
 
 
 def get_mlflow_host_token():
-    """ Returns the MLflow tracking URI (host) and Databricks personal access token (PAT)"""
+    """ 
+    Returns the MLflow tracking URI (host) and Databricks personal access token (PAT).
+    For Databricks, expects the MLflow tracking URI in the form of 'databricks' or 'databricks://MY_PROFILE'.
+    """
 
-    uri = os.environ.get("MLFLOW_TRACKING_URI", None)
-    if uri is not None and not uri.startswith("databricks"):
-        return (uri, None)
+    import mlflow
+    uri = mlflow.tracking.get_tracking_uri()
+    if uri:
+        if not uri.startswith("databricks"):
+            if not uri.startswith("http"):
+                _raise_exception(uri)
+            else:
+                return (uri, None)
+    else:
+        _raise_exception(uri)
+
     try:
         toks = uri.split("//")
         profile = uri.split("//")[1] if len(toks) > 1 else None
-        return databricks_cli_utils.get_host_token(profile)
+        return databricks_cli_utils.get_host_token_for_profile(profile)
     # databricks_cli.utils.InvalidConfigurationError 
     # requests.exceptions.InvalidSchema(f"No connection adapters were found for {url!r}")
     except Exception as e: 
-        print("WARNING:", e)
+        _logger.warning(e)
         return (None, None)
+
+
+def _raise_exception(uri):
+    raise MlflowToolsException(
+      f"MLflow tracking URI (MLFLOW_TRACKING_URI environment variable) must be an HTTP URI: '{uri}'.",
+      http_status_code=401)
