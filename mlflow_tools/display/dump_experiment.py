@@ -1,5 +1,5 @@
 """
-Dump an experiment in JSON, YAML or text.
+Dump an experiment and its runs (optionally) in JSON or YAML.
 """
 
 import click
@@ -9,12 +9,17 @@ from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
-from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict, opt_experiment_id_or_name, opt_show_local_time
+from mlflow_tools.common.http_iterators import SearchRunsIterator
+from mlflow_tools.common.click_options import (
+    opt_show_permissions,
+    opt_show_tags_as_dict,
+    opt_experiment_id_or_name,
+    opt_show_local_time
+)
 from mlflow_tools.display import dump_dct, show_mlflow_info, write_dct
 from mlflow_tools.display import dump_run
 
 http_client = MlflowHttpClient()
-mlflow_client = mlflow.client.MlflowClient()
 max_results = 10000
 
 
@@ -30,12 +35,12 @@ def dump(
         show_tags_as_dict = False,
         show_local_time = False
     ):
-    exp = mlflow_utils.get_experiment(mlflow_client, experiment_id_or_name)
+    exp = mlflow_utils.get_experiment(http_client, experiment_id_or_name)
     if exp is None:
         raise MlflowToolsException(f"Cannot find experiment '{experiment_id_or_name}'")
-    experiment_id = exp.experiment_id
     dct = {}
-    exp = http_client.get("experiments/get", {"experiment_id": experiment_id}) ["experiment"]
+    exp = exp["experiment"]
+    experiment_id = exp["experiment_id"]
     exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time",None), show_local_time)
     exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time",None), show_local_time)
     exp["_tracking_uri"] = mlflow.get_tracking_uri()
@@ -46,14 +51,13 @@ def dump(
         else:
             exp["tags"] = tags 
     if show_runs:
-        data = { "experiment_ids" : [experiment_id] , "max_results": max_results}
-        runs = http_client.post("runs/search", data)["runs"]
+        runs = SearchRunsIterator(http_client, [experiment_id], max_results=max_results)
         runs = [ dump_run.build_run(
-                run = run, 
-		artifact_max_level = artifact_max_level, 
-                explode_json_string = explode_json_string, 
-                show_tags_as_dict = show_tags_as_dict) 
-            for run in runs ]
+                   run = run, 
+		   artifact_max_level = artifact_max_level, 
+                   explode_json_string = explode_json_string, 
+                   show_tags_as_dict = show_tags_as_dict) 
+            for run in list(runs) ]
         num_artifacts, artifact_bytes = (0, 0)
         last_run = 0
         for run in runs:
@@ -63,7 +67,7 @@ def dump(
             num_artifacts += run["summary"]["artifacts"]["num_artifacts"]
             last_run = max(last_run,int(run["run"]["info"]["end_time"]))
         runs_summary = { 
-            "runs": len(runs), 
+            "num_runs": len(runs), 
             "artifacts": num_artifacts,
              "artifact_bytes": artifact_bytes, 
             "last_run": last_run,
