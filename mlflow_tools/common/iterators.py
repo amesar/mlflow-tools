@@ -3,7 +3,7 @@ import mlflow
 
 class BaseIterator():
     """
-    Base class to iterate for list methods that return PageList.
+    Base class to iterate for 'search' methods that return PageList.
     """
     def __init__(self, search_method, max_results=None, filter=None):
         self.search_method = search_method
@@ -15,7 +15,7 @@ class BaseIterator():
 
     def _call_iter(self):
         if mlflow.__version__ < "2.2.1":
-            return self.search_method(self.filter)  #7623 - https://mlflow.org/docs/2.1.1/python_api/mlflow.client.html
+            return self.search_method(filter_string=self.filter)  #7623 - https://mlflow.org/docs/2.1.1/python_api/mlflow.client.html
         else:
             return self.search_method(filter_string=self.filter, **self.kwargs) # https://mlflow.org/docs/latest/python_api/mlflow.client.html
 
@@ -78,13 +78,7 @@ class SearchModelVersionsIterator(BaseIterator):
 
 class SearchRunsIterator(BaseIterator):
     def __init__(self, client, experiment_ids, max_results=None, filter=None, view_type=None):
-        super().__init__(None, max_results=max_results, filter=filter)
-        self.experiment_ids = experiment_ids
-        self.client = client
-        self._kwargs = { "run_view_type": view_type } if view_type else {}
-
-    def _call_iter(self):
-        return self.client.search_runs(self.experiment_ids, **self._kwargs, filter_string=self.filter, max_results=self.max_results)
-
-    def _call_next(self):
-        return self.client.search_runs(self.experiment_ids, **self._kwargs, filter_string=self.filter, max_results=self.max_results, page_token=self.paged_list.token)
+        super().__init__(client.search_runs, max_results=max_results, filter=filter)
+        self.kwargs["experiment_ids"] = experiment_ids
+        if view_type:
+            self.kwargs["run_view_type"] = view_type
