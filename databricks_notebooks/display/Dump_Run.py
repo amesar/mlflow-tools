@@ -1,11 +1,11 @@
 # Databricks notebook source
 # MAGIC %md ## Dump a run
-# MAGIC 
+# MAGIC
 # MAGIC **Overview**
 # MAGIC * Shows run info, params, metrics and tags
 # MAGIC * Recursively shows all artifacts up to the specified level
-# MAGIC 
-# MAGIC 
+# MAGIC
+# MAGIC
 # MAGIC **Widgets**
 # MAGIC * `Run ID`
 # MAGIC * `Show tags as dictionary` - show  MLflow tags as a dictionary instead of a list of key/value pairs                  
@@ -20,11 +20,6 @@
 # COMMAND ----------
 
 # MAGIC %md ### Widgets
-
-# COMMAND ----------
-
-#dbutils.widgets.removeAll()
-
 
 # COMMAND ----------
 

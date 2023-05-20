@@ -1,11 +1,11 @@
 # Databricks notebook source
 # MAGIC %md ## Dump experiment with all its runs
-# MAGIC 
+# MAGIC
 # MAGIC **Overview**
 # MAGIC * Shows run info, params, metrics and tags
 # MAGIC * Recursively shows all artifacts up to the specified level
 # MAGIC * Note: Makes lots of calls to API to show artifacts info so be aware
-# MAGIC 
+# MAGIC
 # MAGIC **Widgets**
 # MAGIC * `Experiment ID or name` - either the experiment name or the ID
 # MAGIC * `Artifact max level` - number of artifact levels to show
@@ -15,10 +15,12 @@
 # MAGIC * `Show permissions` - show run data if showing runs
 # MAGIC * `Format` - JSON or YAML
 # MAGIC * `Output file` - if set, write output to file
-# MAGIC 
-# MAGIC **MLflow Spark Data Source documentation**
-# MAGIC * [MLflow experiment - Load Data](https://docs.databricks.com/external-data/mlflow-experiment.html)
-# MAGIC * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html)
+# MAGIC
+# MAGIC **MLflow Spark Data Source**
+# MAGIC * Also demonstrates usage of MLflow Spark Data Source `mlflow-experiment`.
+# MAGIC * Databricks documentation
+# MAGIC   * [MLflow experiment - Load Data](https://docs.databricks.com/external-data/mlflow-experiment.html)
+# MAGIC   * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html)
 
 # COMMAND ----------
 
@@ -84,14 +86,14 @@ dct = dump_experiment.dump(
 # COMMAND ----------
 
 # MAGIC %md ### MLflow Spark Datasource
-# MAGIC 
+# MAGIC
 # MAGIC * See [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html) documentation.
 
 # COMMAND ----------
 
 if experiment_id_or_name.startswith("/"):
     import mlflow
-    client = mlflow.client.MlflowClient()
+    client = mlflow.MlflowClient()
     exp = client.get_experiment_by_name(experiment_id_or_name)
     experiment_id = exp.experiment_id
 else:
