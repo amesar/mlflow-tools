@@ -4,7 +4,6 @@ Dump a run in JSON or YAML
 
 import json
 import click
-import mlflow
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
@@ -29,7 +28,6 @@ def adjust_times(info):
     end = info.get("end_time",None)
     _adjust_time(info, "start_time")
     _adjust_time(info, "end_time")
-    info["_tracking_uri"] = mlflow.get_tracking_uri()
     if start is not None and end is not None:
         dur = float(int(end) - int(start))/1000
         info["_duration"] = dur
@@ -66,7 +64,6 @@ def build_run(
 
     artifacts, num_bytes, num_artifacts, num_levels = build_artifacts(run_id, "", 0, artifact_max_level)
     summary = {
-        "_tracking_uri": mlflow.get_tracking_uri(),
         "artifacts": {
             "num_artifacts": num_artifacts,
             "num_bytes": num_bytes,
@@ -102,7 +99,7 @@ def build_artifacts(run_id, path, level, artifact_max_level):
     return artifacts, num_bytes, num_artifacts, level
 
 
-def dump_run_id(
+def dump(
         run_id, 
         artifact_max_level=1, 
         format="json", 
@@ -153,7 +150,7 @@ def main(run_id, artifact_max_level, format, explode_json_string, show_tags_as_d
         print("Options:")
         for k,v in locals().items(): 
             print(f"  {k}: {v}")
-    dump_run_id(run_id, artifact_max_level, format, explode_json_string, show_tags_as_dict)
+    dump(run_id, artifact_max_level, format, explode_json_string, show_tags_as_dict)
 
 
 if __name__ == "__main__":

@@ -58,7 +58,7 @@ assert_widget(run_id, "1. Run ID")
 
 from mlflow_tools.display import dump_run
 
-dct = dump_run.dump_run_id(
+dct = dump_run.dump(
     run_id = run_id, 
     show_tags_as_dict = show_tags_as_dict,
     artifact_max_level = artifact_max_level, 
