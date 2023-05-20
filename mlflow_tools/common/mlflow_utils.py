@@ -1,7 +1,9 @@
 import os
 import mlflow
+from  mlflow.exceptions import RestException
 from mlflow_tools.client import mlflow_auth_utils
 from mlflow_tools.common import MlflowToolsException
+from mlflow_tools.client.http_client import MlflowHttpClient
 
 
 def dump_mlflow_info():
@@ -19,16 +21,46 @@ def dump_mlflow_info():
 def get_experiment(client, exp_id_or_name):
     """
     Gets an experiment either by ID or name.
-    :param: client - MLflowClient.
+    :param: client - Union: MLflowClient or MlflowHttpClient.
+    :param: exp_id_or_name - Experiment ID or name..
+    :return: Experiment object or dict.
+    """
+    if isinstance(client, MlflowHttpClient):
+        return get_experiment_http_client(client, exp_id_or_name)
+    else:
+        return get_experiment_mlflow_client(client, exp_id_or_name)
+
+
+def get_experiment_mlflow_client(mlflow_client, exp_id_or_name):
+    """
+    Gets an experiment either by ID or name.
+    :param: mlflow_client - MLflowClient.
     :param: exp_id_or_name - Experiment ID or name..
     :return: Experiment object.
     """
-    exp = client.get_experiment_by_name(exp_id_or_name)
+    exp = mlflow_client.get_experiment_by_name(exp_id_or_name)
     if exp is None:
         try:
-            exp = client.get_experiment(exp_id_or_name)
-        except Exception as e:
-            raise MlflowToolsException(f"Cannot find experiment ID or name '{exp_id_or_name}'. Client: {client}'. Ex: {e}")
+            exp = mlflow_client.get_experiment(exp_id_or_name)
+        except RestException as e:
+            raise MlflowToolsException(f"Cannot find experiment ID or name '{exp_id_or_name}'. Client: {mlflow_client}'. Ex: {e}")
+    return exp
+
+
+def get_experiment_http_client(http_client, exp_id_or_name):
+    """
+    Gets an experiment either by ID or name.
+    :param: http_client - MLflowClient.
+    :param: exp_id_or_name - Experiment ID or name..
+    :return: Experiment object.
+    """
+    try:
+        exp = http_client.get("experiments/get-by-name", {"experiment_name": exp_id_or_name})
+    except MlflowToolsException as e:
+        try:
+            exp = http_client.get("experiments/get", {"experiment_id": exp_id_or_name})
+        except RestException as e:
+            raise MlflowToolsException(f"Cannot find experiment ID or name '{exp_id_or_name}'. Client: {http_client}'. Ex: {e}")
     return exp
 
 
