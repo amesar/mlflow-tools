@@ -47,7 +47,7 @@ def _explode_json_string(run):
 
 def build_run(
         run,
-        artifact_max_level,
+        artifact_max_level = 1,
         explode_json_string = False,
         show_tags_as_dict = False
     ):
@@ -87,8 +87,10 @@ def _get_size(dct):
 
 
 def build_artifacts(run_id, path, level, artifact_max_level):
+    if level == artifact_max_level:
+        return {}, 0, 0, level
     artifacts = http_client.get(f"artifacts/list", { "run_id": run_id, "path": path })
-    if level+1 > artifact_max_level:
+    if level > artifact_max_level:
         return artifacts, 0, 0, level
     num_bytes, num_artifacts = (0,0)
     files = artifacts.get("files",None)
@@ -96,7 +98,8 @@ def build_artifacts(run_id, path, level, artifact_max_level):
         for _,artifact in enumerate(files):
             num_bytes += int(artifact.get("file_size",0)) or 0
             if artifact["is_dir"]:
-                arts,b,a,level = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
+                #arts,b,a,level = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
+                arts,b,a,_ = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
                 num_bytes += b
                 num_artifacts += a
                 artifact["artifacts"] = arts
