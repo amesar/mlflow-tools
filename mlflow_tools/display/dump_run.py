@@ -14,6 +14,7 @@ from mlflow_tools.common.click_options import (
     opt_explode_json_string,
     opt_verbose,
 )
+from mlflow_tools.display.display_utils import build_artifacts
 from . import dump_dct, show_mlflow_info
 
 # Tags to explode from JSON string
@@ -54,6 +55,9 @@ def build_run(
     """
     Returns dict representation of run.
     """
+    def _get_size(dct):
+        return len(dct) if dct else 0
+
     info = run["info"]
     data = run["data"]
     run_id = info["run_id"]
@@ -68,53 +72,31 @@ def build_run(
     if show_tags_as_dict:
         run["data"]["tags"] = mlflow_utils.mk_tags_dict(run["data"]["tags"])
 
-    artifacts, num_bytes, num_artifacts, num_levels = build_artifacts(run_id, "", 0, artifact_max_level)
+    res = build_artifacts(run_id, "", artifact_max_level)
     summary = {
-        "artifacts": {
-            "num_artifacts": num_artifacts,
-            "num_bytes": num_bytes,
-            "num_levels": num_levels
-        },
         "params": _get_size(data.get("params",None)),
         "metrics": _get_size(data.get("metrics",None)),
         "tags": _get_size(data.get("tags",None)),
+        "artifacts": {
+            "num_artifacts": res.num_artifacts,
+            "num_bytes": res.num_bytes,
+            "num_levels": res.num_levels
+        }
     }
-    return { "summary": summary, "run": run, "artifacts": artifacts }
-
-
-def _get_size(dct):
-    return len(dct) if dct else 0
-
-
-def build_artifacts(run_id, path, level, artifact_max_level):
-    if level == artifact_max_level:
-        return {}, 0, 0, level
-    artifacts = http_client.get(f"artifacts/list", { "run_id": run_id, "path": path })
-    if level > artifact_max_level:
-        return artifacts, 0, 0, level
-    num_bytes, num_artifacts = (0,0)
-    files = artifacts.get("files",None)
-    if files:
-        for _,artifact in enumerate(files):
-            num_bytes += int(artifact.get("file_size",0)) or 0
-            if artifact["is_dir"]:
-                #arts,b,a,level = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
-                arts,b,a,_ = build_artifacts(run_id, artifact["path"], level+1, artifact_max_level)
-                num_bytes += b
-                num_artifacts += a
-                artifact["artifacts"] = arts
-            else:
-                num_artifacts += 1
-    return artifacts, num_bytes, num_artifacts, level
+    return { "summary": summary, "run": run, "artifacts": res.artifacts }
 
 
 def dump(
         run_id,
-        artifact_max_level=1,
-        format="json",
+        artifact_max_level = 1,
+        format = "json",
         explode_json_string = False,
         show_tags_as_dict = False,
     ):
+    """
+    :param run_id: Run ID.
+    :return: Dictionary of run details 
+    """
     run = http_client.get(f"runs/get", { "run_id": run_id })["run"]
     dct = build_run(run, artifact_max_level, explode_json_string, show_tags_as_dict)
     dump_dct(dct, format)
