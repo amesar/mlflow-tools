@@ -8,7 +8,13 @@ from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
-from mlflow_tools.common.click_options import opt_show_permissions, opt_show_tags_as_dict
+from mlflow_tools.common.click_options import (
+    opt_artifact_max_level,
+    opt_show_permissions,
+    opt_show_tags_as_dict,
+    opt_format,
+    opt_explode_json_string
+)
 from mlflow_tools.client.http_client import MlflowHttpClient
 from . import dump_dct, dump_run, write_dct
 
@@ -43,8 +49,8 @@ def _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_di
         try:
             run = client.get(f"runs/get", { "run_id": vr['run_id'] })["run"]
             run = dump_run.build_run(
-                run = run, 
-                artifact_max_level = artifact_max_level, 
+                run = run,
+                artifact_max_level = artifact_max_level,
                 explode_json_string = explode_json_string,
                 show_tags_as_dict = show_tags_as_dict
             )
@@ -58,10 +64,10 @@ def _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_di
 
 
 def dump(
-        model_name, 
-        format = "json", 
+        model_name,
+        format = "json",
         dump_all_versions = False,
-        dump_runs = False, 
+        dump_runs = False,
         explode_json_string  =  False,
         artifact_max_level = 0,
         output_file = None,
@@ -117,47 +123,33 @@ def dump(
 @click.option("--dump-runs",
     help="Dump a version's run details.",
     type=bool,
-    default=False, 
-    show_default=True
-)
-@click.option("--artifact-max-level",
-    help="Number of artifact levels to recurse.",
-    type=int,
-    default=0,
-    show_default=True
-)
-@opt_show_permissions
-@opt_show_tags_as_dict
-@click.option("--explode-json-string",
-    help="Explode JSON string.",
-    type=bool,
     default=False,
     show_default=True
 )
-@click.option("--format", 
-    help="Output format: json|yaml.",
-    type=str,
-    default="json"
-)
-@click.option("--output-file", 
-    help="Output file", 
+@opt_artifact_max_level
+@opt_show_permissions
+@opt_show_tags_as_dict
+@opt_explode_json_string
+@opt_format
+@click.option("--output-file",
+    help="Output file",
     type=str,
     required=False,
     show_default=True
 )
 
-def main(model, dump_all_versions, dump_runs, explode_json_string, artifact_max_level, output_file, 
+def main(model, dump_all_versions, dump_runs, explode_json_string, artifact_max_level, output_file,
        format, show_tags_as_dict, show_permissions):
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
     dump(
-        model_name = model, 
-        format = format, 
-        dump_all_versions = dump_all_versions, 
-        dump_runs = dump_runs, 
-        explode_json_string = explode_json_string, 
-        artifact_max_level = artifact_max_level, 
-        output_file = output_file, 
+        model_name = model,
+        format = format,
+        dump_all_versions = dump_all_versions,
+        dump_runs = dump_runs,
+        explode_json_string = explode_json_string,
+        artifact_max_level = artifact_max_level,
+        output_file = output_file,
         show_tags_as_dict = show_tags_as_dict,
         show_permissions = show_permissions
     )

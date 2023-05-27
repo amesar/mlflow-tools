@@ -3,12 +3,13 @@
 import click
 import mlflow
 from tabulate import tabulate
+from mlflow_tools.common.click_options import (
+    opt_experiment_id_or_name,
+    opt_output_csv_file
+)
 from ..common import mlflow_utils
 
-client = mlflow.client.MlflowClient()
-print("MLflow Version:", mlflow.version.VERSION)
-print("MLflow Tracking URI:", mlflow.get_tracking_uri())
-
+client = mlflow.MlflowClient()
 
 def dump_experiment(experiment_id_or_name, csv_file):
     exp = mlflow_utils.get_experiment(client, experiment_id_or_name)
@@ -21,16 +22,8 @@ def dump_experiment(experiment_id_or_name, csv_file):
 
 
 @click.command()
-@click.option("--experiment-id-or-name", 
-    help="Experiment ID or name", 
-    type=str,
-    required=True
-)
-@click.option("--csv-file", 
-    help="Output CSV file", 
-    type=str,
-    default=None
-)
+@opt_experiment_id_or_name
+@opt_output_csv_file
 
 def main(experiment_id_or_name, csv_file):
     print("Options:")

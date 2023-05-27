@@ -28,6 +28,15 @@ def opt_show_permissions(function):
     )(function)
     return function
 
+def opt_artifact_max_level(function):
+    function = click.option("--artifact-max-level",
+        help="Number of artifact levels to recurse.",
+        type=int,
+        default=1,
+        show_default=True
+    )(function)
+    return function
+
 def opt_view_type(function):
     function = click.option("--view-type",
         help=f"View type. One of: {VIEW_TYPE_KEYS}.",
@@ -77,6 +86,22 @@ def opt_show_local_time(function):
         type=bool,
         default=False,
         show_default=True
+    )(function)
+    return function
+
+def opt_format(function):
+    function = click.option("--format",
+        help="Output format. One of: json|yaml.",
+        type=str,
+        default="json"
+    )(function)
+    return function
+
+def opt_explode_json_string(function):
+    function = click.option("--explode-json-string",
+        help="Explode JSON string fields as JSON map.",
+        type=bool,
+        default=False,
     )(function)
     return function
 
