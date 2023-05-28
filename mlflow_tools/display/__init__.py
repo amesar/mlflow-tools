@@ -1,6 +1,7 @@
 import json
 import yaml
 import mlflow
+from mlflow_tools.common import io_utils
 
 
 def from_dbfs(path):
@@ -10,11 +11,7 @@ def from_dbfs(path):
 def write_dct(dct, base_path, format="json"):
     path = base_path if base_path.endswith(format) else f"{base_path}.{format}"
     path = from_dbfs(path)
-    with open(path, "w", encoding="utf-8") as f:
-        if format == "yaml":
-            yaml.dump(dct, f)
-        else:
-            f.write(json.dumps(dct, indent=2)+"\n")
+    io_utils.write_file(path, dct, format)
 
 
 def dump_dct(dct, format="json"):
