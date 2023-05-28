@@ -5,11 +5,13 @@ import mlflow.sklearn
 print("Mlflow path:", mlflow.__file__)
 print("MLflow version:", mlflow.__version__)
 
-client = mlflow.client.MlflowClient()
+client = mlflow.MlflowClient()
 exp_count = 0
+
 
 def now():
     return round(time.time())
+
 
 def create_experiment():
     global exp_count
@@ -21,6 +23,7 @@ def create_experiment():
         client.delete_run(run.info.run_id)
     return exp
 
+
 def create_runs():
     create_experiment()
     with mlflow.start_run() as run:
@@ -29,8 +32,10 @@ def create_runs():
         mlflow.set_tag("t1", "hi")
     return client.search_runs(run.info.experiment_id, "")
 
+
 def delete_experiment(exp):
     client.delete_experiment(exp.experiment_id)
+
 
 def compare_dirs(d1, d2):
     from filecmp import dircmp
@@ -42,6 +47,7 @@ def compare_dirs(d1, d2):
                 return False
         return True
     return _compare_dirs(dircmp(d1,d2))
+
 
 def dump_tags(tags, msg=""):
     print(f"==== {len(tags)} Tags:",msg)

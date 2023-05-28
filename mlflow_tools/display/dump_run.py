@@ -77,13 +77,9 @@ def build_run(
         "params": _get_size(data.get("params",None)),
         "metrics": _get_size(data.get("metrics",None)),
         "tags": _get_size(data.get("tags",None)),
-        "artifacts": {
-            "num_artifacts": res.num_artifacts,
-            "num_bytes": res.num_bytes,
-            "num_levels": res.num_levels
-        }
+        "artifacts": res["summary"]
     }
-    return { "summary": summary, "run": run, "artifacts": res.artifacts }
+    return { "summary": summary, "run": run, "artifacts": res}
 
 
 def dump(
