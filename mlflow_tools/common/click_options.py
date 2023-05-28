@@ -101,7 +101,7 @@ def opt_explode_json_string(function):
     function = click.option("--explode-json-string",
         help="Explode JSON string fields as JSON map.",
         type=bool,
-        default=False,
+        default=True,
     )(function)
     return function
 
