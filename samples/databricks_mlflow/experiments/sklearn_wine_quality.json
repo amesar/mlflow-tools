@@ -1,200 +1,288 @@
 {
-  "experiment_info": {
-    "experiment_id": "3532228",
-    "name": "/Users/me@databricks.com/mlflow/Sklearn_Wine_Quality",
-    "artifact_location": "dbfs:/databricks/mlflow/3532228",
-    "lifecycle_stage": "active",
-    "last_update_time": 1630941144722,
-    "creation_time": 1562785713601,
-    "tags": [
-      {
-        "key": "mlflow.experimentType",
-        "value": "NOTEBOOK"
-      },
-      {
-        "key": "mlflow.ownerId",
-        "value": "100327"
-      },
-      {
-        "key": "mlflow.ownerEmail",
-        "value": "me@databricks.com"
-      }
-    ]
+  "system": {
+    "script": "dump_experiment.py",
+    "export_time": 1685276165,
+    "_export_time": "2023-05-28 12:16:05",
+    "mlflow_version": "2.3.2",
+    "mlflow_tracking_uri": "databricks://e2_demo",
+    "platform": {
+      "python_version": "3.8.16",
+      "system": "Darwin",
+      "processor": "i386"
+    },
+    "user": "andre"
   },
-  "summary": {
-    "runs": 3,
+  "experiment_info": {
+    "experiment_id": "e090757fcb8f49cb9822f65f2fe7ed91",
+    "name": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine",
+    "artifact_location": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91",
+    "lifecycle_stage": "active",
+    "last_update_time": 1685275461893,
+    "creation_time": 1681489696888,
+    "_last_update_time": "2023-05-28 12:04:22",
+    "_creation_time": "2023-04-14 16:28:17",
+    "_tracking_uri": "databricks://e2_demo",
+    "tags": {
+      "mlflow.experiment.sourceType": "REPO_NOTEBOOK",
+      "mlflow.ownerId": "4566812440727830",
+      "mlflow.experiment.sourceName": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine",
+      "mlflow.ownerEmail": "andre@piolet-knot.com",
+      "mlflow.experiment.sourceId": "1765187885495747"
+    }
+  },
+  "runs_summary": {
+    "num_runs": 2,
     "artifacts": 10,
-    "artifact_bytes": 10035,
-    "last_run": 1630941153033,
-    "_last_run": "2021-09-06 15:12:33"
+    "artifact_bytes": 5343,
+    "last_run": 1685275472065,
+    "_last_run": "2023-05-28 12:04:32"
   },
   "runs": [
     {
+      "system": {
+        "script": "dump_run.py",
+        "export_time": 1685276165,
+        "_export_time": "2023-05-28 12:16:05",
+        "mlflow_version": "2.3.2",
+        "mlflow_tracking_uri": "databricks://e2_demo",
+        "platform": {
+          "python_version": "3.8.16",
+          "system": "Darwin",
+          "processor": "i386"
+        },
+        "user": "andre"
+      },
       "summary": {
-        "artifacts": 3,
-        "artifact_bytes": 3319,
         "params": 2,
         "metrics": 2,
-        "tags": 14
+        "tags": 28,
+        "artifacts": {
+          "artifact_max_level": 100,
+          "num_artifacts": 5,
+          "num_bytes": 2976,
+          "num_levels": 2
+        }
       },
       "run": {
         "info": {
-          "run_uuid": "16c36560c57a43fdb46e98f88a8d8819",
-          "experiment_id": "3532228",
+          "run_id": "c7b3d18fcef2441c9ed6aa4e395d3c2e",
+          "run_uuid": "c7b3d18fcef2441c9ed6aa4e395d3c2e",
+          "experiment_id": "e090757fcb8f49cb9822f65f2fe7ed91",
+          "run_name": "c7b3d18fcef2441c9ed6aa4e395d3c2e",
           "status": "FINISHED",
-          "start_time": 1630941144722,
-          "end_time": 1630941153033,
-          "artifact_uri": "dbfs:/databricks/mlflow/3532228/16c36560c57a43fdb46e98f88a8d8819/artifacts",
+          "start_time": 1685275461893,
+          "end_time": 1685275472065,
+          "artifact_uri": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/c7b3d18fcef2441c9ed6aa4e395d3c2e/artifacts",
           "lifecycle_stage": "active",
-          "run_id": "16c36560c57a43fdb46e98f88a8d8819",
-          "_start_time": "2021-09-06 15:12:24",
-          "_end_time": "2021-09-06 15:12:33",
-          "_duration": 8.311
+          "_start_time": "2023-05-28 08:04:22",
+          "_end_time": "2023-05-28 08:04:32",
+          "_duration": 10.172,
+          "_experiment_name": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine"
         },
         "data": {
           "metrics": [
             {
               "key": "r2",
-              "value": 0.28100217442439346,
-              "timestamp": 1630941152923,
+              "value": 0.15085514445188164,
+              "timestamp": 1685275472003,
               "step": 0
             },
             {
               "key": "rmse",
-              "value": 0.7367947360663162,
-              "timestamp": 1630941152809,
+              "value": 0.7871277088699796,
+              "timestamp": 1685275471926,
               "step": 0
             }
           ],
           "params": [
             {
               "key": "max_depth",
-              "value": "4"
+              "value": "1"
             },
             {
               "key": "max_leaf_nodes",
-              "value": "32"
+              "value": "None"
             }
           ],
-          "tags": [
-            {
-              "key": "mlflow.databricks.cluster.id",
-              "value": "0804-220509-stead130"
-            },
-            {
-              "key": "mlflow.databricks.cluster.info",
-              "value": {
-                "cluster_name": "Shared Autoscaling EMEA",
-                "spark_version": "8.3.x-cpu-ml-scala2.12",
-                "node_type_id": "i3.2xlarge",
-                "driver_node_type_id": "i3.4xlarge",
-                "autotermination_minutes": 120,
-                "disk_spec": {
-                  "disk_count": 0
+          "tags": {
+            "mlflow.databricks.cluster.id": "0730-172948-runts698",
+            "mlflow.databricks.cluster.info": {
+              "cluster_name": "Shared Autoscaling Americas",
+              "spark_version": "13.1.x-cpu-ml-scala2.12",
+              "node_type_id": "i3.4xlarge",
+              "driver_node_type_id": "m5.4xlarge",
+              "autotermination_minutes": 120,
+              "disk_spec": {
+                "disk_type": {
+                  "ebs_volume_type": "GENERAL_PURPOSE_SSD"
                 },
-                "autoscale": {
-                  "min_workers": 1,
-                  "max_workers": 14,
-                  "target_workers": 1
-                }
+                "disk_count": 1,
+                "disk_size": 100
+              },
+              "autoscale": {
+                "min_workers": 0,
+                "max_workers": 6,
+                "target_workers": 6
               }
             },
-            {
-              "key": "mlflow.databricks.cluster.libraries",
-              "value": {
-                "installable": [],
-                "redacted": []
-              }
+            "mlflow.databricks.cluster.libraries": {
+              "installable": [],
+              "redacted": []
             },
-            {
-              "key": "mlflow.databricks.notebookID",
-              "value": "3532228"
-            },
-            {
-              "key": "mlflow.databricks.notebookPath",
-              "value": "/Users/me@databricks.com/mlflow/Sklearn_Wine_Quality"
-            },
-            {
-              "key": "mlflow.databricks.notebookRevisionID",
-              "value": "1630941153145"
-            },
-            {
-              "key": "mlflow.databricks.webappURL",
-              "value": "https://demo.cloud.databricks.com"
-            },
-            {
-              "key": "mlflow.log-model.history",
-              "value": [
-                {
-                  "run_id": "16c36560c57a43fdb46e98f88a8d8819",
-                  "artifact_path": "sklearn-model",
-                  "utc_time_created": "2021-09-06 15:12:25.425909",
-                  "flavors": {
-                    "python_function": {
-                      "model_path": "model.pkl",
-                      "loader_module": "mlflow.sklearn",
-                      "python_version": "3.8.8",
-                      "env": "conda.yaml"
+            "mlflow.databricks.gitRepoCommit": "00297b764fd3c9f3d02a3423252b188b9308f25f",
+            "mlflow.databricks.gitRepoProvider": "gitHub",
+            "mlflow.databricks.gitRepoReference": "master",
+            "mlflow.databricks.gitRepoReferenceType": "branch",
+            "mlflow.databricks.gitRepoRelativePath": "databricks/notebooks/basic/Sklearn_Wine",
+            "mlflow.databricks.gitRepoStatus": "unknown",
+            "mlflow.databricks.gitRepoUrl": "https://github.com/amesar/mlflow-examples",
+            "mlflow.databricks.notebook.commandID": "7075649725150040643_7991696349309672033_474efd254e1f4c31b71329ca562606e9",
+            "mlflow.databricks.notebookID": "1765187885495747",
+            "mlflow.databricks.notebookPath": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine",
+            "mlflow.databricks.webappURL": "https://erie.mist.piolet-knot.com",
+            "mlflow.databricks.workspaceID": "2556758628403379",
+            "mlflow.databricks.workspaceURL": "e2-demo-west.cloud.databricks.com",
+            "mlflow.log-model.history": [
+              {
+                "artifact_path": "model",
+                "signature": {
+                  "inputs": [
+                    {
+                      "name": "fixed_acidity",
+                      "type": "double"
                     },
-                    "sklearn": {
-                      "pickled_model": "model.pkl",
-                      "sklearn_version": "0.23.2",
-                      "serialization_format": "cloudpickle"
+                    {
+                      "name": "volatile_acidity",
+                      "type": "double"
+                    },
+                    {
+                      "name": "citric_acid",
+                      "type": "double"
+                    },
+                    {
+                      "name": "residual_sugar",
+                      "type": "double"
+                    },
+                    {
+                      "name": "chlorides",
+                      "type": "double"
+                    },
+                    {
+                      "name": "free_sulfur_dioxide",
+                      "type": "double"
+                    },
+                    {
+                      "name": "total_sulfur_dioxide",
+                      "type": "double"
+                    },
+                    {
+                      "name": "density",
+                      "type": "double"
+                    },
+                    {
+                      "name": "pH",
+                      "type": "double"
+                    },
+                    {
+                      "name": "sulphates",
+                      "type": "double"
+                    },
+                    {
+                      "name": "alcohol",
+                      "type": "double"
                     }
+                  ],
+                  "outputs": [
+                    {
+                      "type": "tensor",
+                      "tensor-spec": {
+                        "dtype": "float64",
+                        "shape": [
+                          -1
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "flavors": {
+                  "python_function": {
+                    "predict_fn": "predict",
+                    "model_path": "model.pkl",
+                    "loader_module": "mlflow.sklearn",
+                    "env": {
+                      "conda": "conda.yaml",
+                      "virtualenv": "python_env.yaml"
+                    },
+                    "python_version": "3.10.6"
+                  },
+                  "sklearn": {
+                    "pickled_model": "model.pkl",
+                    "sklearn_version": "1.1.1",
+                    "serialization_format": "cloudpickle",
+                    "code": null
                   }
-                }
-              ]
-            },
-            {
-              "key": "mlflow.runName",
-              "value": "sklearn"
-            },
-            {
-              "key": "mlflow.source.name",
-              "value": "/Users/me@databricks.com/mlflow/Sklearn_Wine_Quality"
-            },
-            {
-              "key": "mlflow.source.type",
-              "value": "NOTEBOOK"
-            },
-            {
-              "key": "mlflow.user",
-              "value": "me@databricks.com"
-            },
-            {
-              "key": "save_signature",
-              "value": "False"
-            },
-            {
-              "key": "version.mlflow",
-              "value": "1.17.0"
-            }
-          ]
-        }
+                },
+                "run_id": "c7b3d18fcef2441c9ed6aa4e395d3c2e",
+                "model_uuid": "5e7a95f1bde84000b344bd335f22eeba",
+                "utc_time_created": "2023-05-28 12:04:23.040277",
+                "mlflow_version": "2.3.1",
+                "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
+              }
+            ],
+            "mlflow.runName": "c7b3d18fcef2441c9ed6aa4e395d3c2e",
+            "mlflow.source.name": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine",
+            "mlflow.source.type": "NOTEBOOK",
+            "mlflow.user": "andre@piolet-knot.com",
+            "save_signature": "True",
+            "sparkDatasourceInfo": "path=dbfs:/user/hive/warehouse/andre.db/wine_quality,version=0,format=delta",
+            "timestamp": "2023-05-28 11:59:44",
+            "version.DATABRICKS_RUNTIME_VERSION": "13.1",
+            "version.mlflow": "2.3.1",
+            "version.python": "3.10.6",
+            "version.sklearn": "1.1.1"
+          }
+        },
+        "inputs": {}
       },
       "artifacts": {
-        "root_uri": "dbfs:/databricks/mlflow/3532228/16c36560c57a43fdb46e98f88a8d8819/artifacts",
+        "summary": {
+          "artifact_max_level": 100,
+          "num_artifacts": 5,
+          "num_bytes": 2976,
+          "num_levels": 2
+        },
+        "root_uri": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/c7b3d18fcef2441c9ed6aa4e395d3c2e/artifacts",
         "files": [
           {
-            "path": "sklearn-model",
+            "path": "model",
             "is_dir": true,
             "artifacts": {
-              "root_uri": "dbfs:/databricks/mlflow/3532228/16c36560c57a43fdb46e98f88a8d8819/artifacts",
+              "root_uri": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/c7b3d18fcef2441c9ed6aa4e395d3c2e/artifacts",
               "files": [
                 {
-                  "path": "sklearn-model/MLmodel",
+                  "path": "model/MLmodel",
                   "is_dir": false,
-                  "file_size": 357
+                  "file_size": 1155
                 },
                 {
-                  "path": "sklearn-model/conda.yaml",
+                  "path": "model/conda.yaml",
                   "is_dir": false,
-                  "file_size": 153
+                  "file_size": 205
                 },
                 {
-                  "path": "sklearn-model/model.pkl",
+                  "path": "model/model.pkl",
                   "is_dir": false,
-                  "file_size": 2809
+                  "file_size": 1402
+                },
+                {
+                  "path": "model/python_env.yaml",
+                  "is_dir": false,
+                  "file_size": 122
+                },
+                {
+                  "path": "model/requirements.txt",
+                  "is_dir": false,
+                  "file_size": 92
                 }
               ]
             }
@@ -203,395 +291,186 @@
       }
     },
     {
+      "system": {
+        "script": "dump_run.py",
+        "export_time": 1685276165,
+        "_export_time": "2023-05-28 12:16:05",
+        "mlflow_version": "2.3.2",
+        "mlflow_tracking_uri": "databricks://e2_demo",
+        "platform": {
+          "python_version": "3.8.16",
+          "system": "Darwin",
+          "processor": "i386"
+        },
+        "user": "andre"
+      },
       "summary": {
-        "artifacts": 3,
-        "artifact_bytes": 3319,
         "params": 2,
         "metrics": 2,
-        "tags": 15
+        "tags": 27,
+        "artifacts": {
+          "artifact_max_level": 100,
+          "num_artifacts": 5,
+          "num_bytes": 2367,
+          "num_levels": 2
+        }
       },
       "run": {
         "info": {
-          "run_uuid": "2079b9ee113b4b6c8ae631790d4c1009",
-          "experiment_id": "3532228",
+          "run_id": "32b047c40df04be992e37d3fde6bd7c6",
+          "run_uuid": "32b047c40df04be992e37d3fde6bd7c6",
+          "experiment_id": "e090757fcb8f49cb9822f65f2fe7ed91",
+          "run_name": "32b047c40df04be992e37d3fde6bd7c6",
           "status": "FINISHED",
-          "start_time": 1628623248252,
-          "end_time": 1628623256728,
-          "artifact_uri": "dbfs:/databricks/mlflow/3532228/2079b9ee113b4b6c8ae631790d4c1009/artifacts",
+          "start_time": 1684652799419,
+          "end_time": 1684652811816,
+          "artifact_uri": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/32b047c40df04be992e37d3fde6bd7c6/artifacts",
           "lifecycle_stage": "active",
-          "run_id": "2079b9ee113b4b6c8ae631790d4c1009",
-          "_start_time": "2021-08-10 19:20:48",
-          "_end_time": "2021-08-10 19:20:56",
-          "_duration": 8.476
+          "_start_time": "2023-05-21 03:06:39",
+          "_end_time": "2023-05-21 03:06:52",
+          "_duration": 12.397,
+          "_experiment_name": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine"
         },
         "data": {
           "metrics": [
             {
               "key": "r2",
-              "value": 0.28100217442439346,
-              "timestamp": 1628623256624,
+              "value": 0.1553172302194683,
+              "timestamp": 1684652811745,
               "step": 0
             },
             {
               "key": "rmse",
-              "value": 0.7367947360663162,
-              "timestamp": 1628623256494,
+              "value": 0.7986004372118107,
+              "timestamp": 1684652811675,
               "step": 0
             }
           ],
           "params": [
             {
               "key": "max_depth",
-              "value": "4"
+              "value": "1"
             },
             {
               "key": "max_leaf_nodes",
-              "value": "32"
+              "value": "None"
             }
           ],
-          "tags": [
-            {
-              "key": "autolog",
-              "value": "False"
+          "tags": {
+            "mlflow.databricks.cluster.id": "0414-154233-qm0df4rx",
+            "mlflow.databricks.cluster.info": {
+              "cluster_name": "andre_ML_13.1",
+              "spark_version": "13.1.x-cpu-ml-scala2.12",
+              "node_type_id": "i3.xlarge",
+              "driver_node_type_id": "i3.xlarge",
+              "autotermination_minutes": 120,
+              "disk_spec": {
+                "disk_count": 0
+              },
+              "num_workers": 1
             },
-            {
-              "key": "mlflow.databricks.cluster.id",
-              "value": "0318-151752-abed99"
-            },
-            {
-              "key": "mlflow.databricks.cluster.info",
-              "value": {
-                "cluster_name": "Shared Autoscaling Americas",
-                "spark_version": "8.3.x-cpu-ml-scala2.12",
-                "node_type_id": "i3.2xlarge",
-                "driver_node_type_id": "i3.4xlarge",
-                "autotermination_minutes": 120,
-                "disk_spec": {
-                  "disk_count": 0
-                },
-                "autoscale": {
-                  "min_workers": 1,
-                  "max_workers": 14,
-                  "target_workers": 14
-                }
-              }
-            },
-            {
-              "key": "mlflow.databricks.cluster.libraries",
-              "value": {
-                "installable": [],
-                "redacted": []
-              }
-            },
-            {
-              "key": "mlflow.databricks.notebookID",
-              "value": "3532228"
-            },
-            {
-              "key": "mlflow.databricks.notebookPath",
-              "value": "/Users/me@databricks.com/mlflow/Sklearn_Wine_Quality"
-            },
-            {
-              "key": "mlflow.databricks.notebookRevisionID",
-              "value": "1628623256849"
-            },
-            {
-              "key": "mlflow.databricks.webappURL",
-              "value": "https://demo.cloud.databricks.com"
-            },
-            {
-              "key": "mlflow.log-model.history",
-              "value": [
+            "mlflow.databricks.cluster.libraries": {
+              "installable": [
                 {
-                  "run_id": "2079b9ee113b4b6c8ae631790d4c1009",
-                  "artifact_path": "sklearn-model",
-                  "utc_time_created": "2021-08-10 19:20:49.038705",
-                  "flavors": {
-                    "python_function": {
-                      "model_path": "model.pkl",
-                      "loader_module": "mlflow.sklearn",
-                      "python_version": "3.8.8",
-                      "env": "conda.yaml"
+                  "jar": "dbfs:/home/andre@piolet-knot.com/lib/jars/PrintArgs.jar"
+                }
+              ],
+              "redacted": []
+            },
+            "mlflow.databricks.gitRepoCommit": "dde2e2ca09f74fa0b1d05f71e63778600ee9806c",
+            "mlflow.databricks.gitRepoProvider": "gitHub",
+            "mlflow.databricks.gitRepoReference": "master",
+            "mlflow.databricks.gitRepoReferenceType": "branch",
+            "mlflow.databricks.gitRepoRelativePath": "databricks/notebooks/basic/Sklearn_Wine",
+            "mlflow.databricks.gitRepoStatus": "unknown",
+            "mlflow.databricks.gitRepoUrl": "https://github.com/amesar/mlflow-examples",
+            "mlflow.databricks.notebook.commandID": "6869882371320790476_7437067056566413483_3f2d361de2454907a79e2ea86f2c3c97",
+            "mlflow.databricks.notebookID": "1765187885495747",
+            "mlflow.databricks.notebookPath": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine",
+            "mlflow.databricks.webappURL": "https://erie.mist.piolet-knot.com",
+            "mlflow.databricks.workspaceID": "2556758628403379",
+            "mlflow.databricks.workspaceURL": "e2-demo-west.cloud.databricks.com",
+            "mlflow.log-model.history": [
+              {
+                "artifact_path": "model",
+                "flavors": {
+                  "python_function": {
+                    "predict_fn": "predict",
+                    "model_path": "model.pkl",
+                    "loader_module": "mlflow.sklearn",
+                    "env": {
+                      "conda": "conda.yaml",
+                      "virtualenv": "python_env.yaml"
                     },
-                    "sklearn": {
-                      "pickled_model": "model.pkl",
-                      "sklearn_version": "0.23.2",
-                      "serialization_format": "cloudpickle"
-                    }
+                    "python_version": "3.10.6"
+                  },
+                  "sklearn": {
+                    "pickled_model": "model.pkl",
+                    "sklearn_version": "1.1.1",
+                    "serialization_format": "cloudpickle",
+                    "code": null
                   }
-                }
-              ]
-            },
-            {
-              "key": "mlflow.runName",
-              "value": "sklearn"
-            },
-            {
-              "key": "mlflow.source.name",
-              "value": "/Users/me@databricks.com/mlflow/Sklearn_Wine_Quality"
-            },
-            {
-              "key": "mlflow.source.type",
-              "value": "NOTEBOOK"
-            },
-            {
-              "key": "mlflow.user",
-              "value": "me@databricks.com"
-            },
-            {
-              "key": "save_signature",
-              "value": "False"
-            },
-            {
-              "key": "version.mlflow",
-              "value": "1.17.0"
-            }
-          ]
-        }
-      },
-      "artifacts": {
-        "root_uri": "dbfs:/databricks/mlflow/3532228/2079b9ee113b4b6c8ae631790d4c1009/artifacts",
-        "files": [
-          {
-            "path": "sklearn-model",
-            "is_dir": true,
-            "artifacts": {
-              "root_uri": "dbfs:/databricks/mlflow/3532228/2079b9ee113b4b6c8ae631790d4c1009/artifacts",
-              "files": [
-                {
-                  "path": "sklearn-model/MLmodel",
-                  "is_dir": false,
-                  "file_size": 357
                 },
-                {
-                  "path": "sklearn-model/conda.yaml",
-                  "is_dir": false,
-                  "file_size": 153
-                },
-                {
-                  "path": "sklearn-model/model.pkl",
-                  "is_dir": false,
-                  "file_size": 2809
-                }
-              ]
-            }
+                "run_id": "32b047c40df04be992e37d3fde6bd7c6",
+                "model_uuid": "d42406db4b3f46109a47678d1fa0e990",
+                "utc_time_created": "2023-05-21 07:06:40.530383",
+                "mlflow_version": "2.3.1",
+                "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
+              }
+            ],
+            "mlflow.runName": "32b047c40df04be992e37d3fde6bd7c6",
+            "mlflow.source.name": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine",
+            "mlflow.source.type": "NOTEBOOK",
+            "mlflow.user": "andre@piolet-knot.com",
+            "save_signature": "False",
+            "timestamp": "2023-05-21 07:06:37",
+            "version.DATABRICKS_RUNTIME_VERSION": "13.1",
+            "version.mlflow": "2.3.1",
+            "version.python": "3.10.6",
+            "version.sklearn": "1.1.1"
           }
-        ]
-      }
-    },
-    {
-      "summary": {
-        "artifacts": 4,
-        "artifact_bytes": 3397,
-        "params": 2,
-        "metrics": 2,
-        "tags": 16
-      },
-      "run": {
-        "info": {
-          "run_uuid": "447d767451de4350811529c7483e8b81",
-          "experiment_id": "3532228",
-          "status": "FINISHED",
-          "start_time": 1627371887011,
-          "end_time": 1627371895855,
-          "artifact_uri": "dbfs:/databricks/mlflow/3532228/447d767451de4350811529c7483e8b81/artifacts",
-          "lifecycle_stage": "active",
-          "run_id": "447d767451de4350811529c7483e8b81",
-          "_start_time": "2021-07-27 07:44:47",
-          "_end_time": "2021-07-27 07:44:55",
-          "_duration": 8.844
         },
-        "data": {
-          "metrics": [
-            {
-              "key": "r2",
-              "value": 0.28100217442439346,
-              "timestamp": 1627371895734,
-              "step": 0
-            },
-            {
-              "key": "rmse",
-              "value": 0.7367947360663162,
-              "timestamp": 1627371895602,
-              "step": 0
-            }
-          ],
-          "params": [
-            {
-              "key": "max_depth",
-              "value": "4"
-            },
-            {
-              "key": "max_leaf_nodes",
-              "value": "32"
-            }
-          ],
-          "tags": [
-            {
-              "key": "autolog",
-              "value": "False"
-            },
-            {
-              "key": "mlflow.databricks.cluster.id",
-              "value": "0726-191311-winds677"
-            },
-            {
-              "key": "mlflow.databricks.cluster.info",
-              "value": {
-                "cluster_name": "andre_8.4_ML",
-                "spark_version": "8.4.x-cpu-ml-scala2.12",
-                "node_type_id": "i3.xlarge",
-                "driver_node_type_id": "i3.xlarge",
-                "autotermination_minutes": 120,
-                "disk_spec": {},
-                "num_workers": 1
-              }
-            },
-            {
-              "key": "mlflow.databricks.cluster.libraries",
-              "value": {
-                "installable": [
-                  {
-                    "pypi": {
-                      "package": "pytest"
-                    }
-                  },
-                  {
-                    "pypi": {
-                      "package": "nutter"
-                    }
-                  },
-                  {
-                    "whl": "dbfs:/home/me@databricks.com/lib/wheels/mlflow_export_import-1.0.0-py3-none-any.whl"
-                  },
-                  {
-                    "pypi": {
-                      "package": "onnx==1.9.0"
-                    }
-                  },
-                  {
-                    "pypi": {
-                      "package": "onnxmltools==1.7.0"
-                    }
-                  },
-                  {
-                    "pypi": {
-                      "package": "onnxruntime==1.8.0"
-                    }
-                  },
-                  {
-                    "pypi": {
-                      "package": "mlflow==1.19.0"
-                    }
-                  },
-                  {
-                    "maven": {
-                      "coordinates": "org.mlflow:mlflow-client:1.19.0"
-                    }
-                  }
-                ],
-                "redacted": []
-              }
-            },
-            {
-              "key": "mlflow.databricks.notebook.commandID",
-              "value": "8405648956865593522_4994247658417881952_b693f506a5044256a81cc727beaad260"
-            },
-            {
-              "key": "mlflow.databricks.notebookID",
-              "value": "3532228"
-            },
-            {
-              "key": "mlflow.databricks.notebookPath",
-              "value": "/Users/me@databricks.com/mlflow/Sklearn_Wine_Quality"
-            },
-            {
-              "key": "mlflow.databricks.notebookRevisionID",
-              "value": "1627371895976"
-            },
-            {
-              "key": "mlflow.databricks.webappURL",
-              "value": "https://demo.cloud.databricks.com"
-            },
-            {
-              "key": "mlflow.log-model.history",
-              "value": [
-                {
-                  "artifact_path": "sklearn-model",
-                  "flavors": {
-                    "python_function": {
-                      "model_path": "model.pkl",
-                      "loader_module": "mlflow.sklearn",
-                      "python_version": "3.8.8",
-                      "env": "conda.yaml"
-                    },
-                    "sklearn": {
-                      "pickled_model": "model.pkl",
-                      "sklearn_version": "0.23.2",
-                      "serialization_format": "cloudpickle"
-                    }
-                  },
-                  "run_id": "447d767451de4350811529c7483e8b81",
-                  "utc_time_created": "2021-07-27 07:44:47.936759",
-                  "databricks_runtime": "8.4.x-cpu-ml-scala2.12"
-                }
-              ]
-            },
-            {
-              "key": "mlflow.runName",
-              "value": "sklearn"
-            },
-            {
-              "key": "mlflow.source.name",
-              "value": "/Users/me@databricks.com/mlflow/Sklearn_Wine_Quality"
-            },
-            {
-              "key": "mlflow.source.type",
-              "value": "NOTEBOOK"
-            },
-            {
-              "key": "mlflow.user",
-              "value": "me@databricks.com"
-            },
-            {
-              "key": "save_signature",
-              "value": "False"
-            },
-            {
-              "key": "version.mlflow",
-              "value": "1.19.0"
-            }
-          ]
-        }
+        "inputs": {}
       },
       "artifacts": {
-        "root_uri": "dbfs:/databricks/mlflow/3532228/447d767451de4350811529c7483e8b81/artifacts",
+        "summary": {
+          "artifact_max_level": 100,
+          "num_artifacts": 5,
+          "num_bytes": 2367,
+          "num_levels": 2
+        },
+        "root_uri": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/32b047c40df04be992e37d3fde6bd7c6/artifacts",
         "files": [
           {
-            "path": "sklearn-model",
+            "path": "model",
             "is_dir": true,
             "artifacts": {
-              "root_uri": "dbfs:/databricks/mlflow/3532228/447d767451de4350811529c7483e8b81/artifacts",
+              "root_uri": "dbfs:/databricks/mlflow-tracking/e090757fcb8f49cb9822f65f2fe7ed91/32b047c40df04be992e37d3fde6bd7c6/artifacts",
               "files": [
                 {
-                  "path": "sklearn-model/MLmodel",
+                  "path": "model/MLmodel",
                   "is_dir": false,
-                  "file_size": 400
+                  "file_size": 546
                 },
                 {
-                  "path": "sklearn-model/conda.yaml",
+                  "path": "model/conda.yaml",
                   "is_dir": false,
-                  "file_size": 142
+                  "file_size": 205
                 },
                 {
-                  "path": "sklearn-model/model.pkl",
+                  "path": "model/model.pkl",
                   "is_dir": false,
-                  "file_size": 2809
+                  "file_size": 1402
                 },
                 {
-                  "path": "sklearn-model/requirements.txt",
+                  "path": "model/python_env.yaml",
                   "is_dir": false,
-                  "file_size": 46
+                  "file_size": 122
+                },
+                {
+                  "path": "model/requirements.txt",
+                  "is_dir": false,
+                  "file_size": 92
                 }
               ]
             }
