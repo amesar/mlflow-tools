@@ -53,9 +53,9 @@ assert_widget(model, "Missing '1. Model' widget")
 
 # COMMAND ----------
 
-from mlflow_tools.display import dump_model
+from mlflow_tools.display import dump_registered_model
 
-dct = dump_model.dump(
+dct = dump_registered_model.dump(
     model_name = model, 
     dump_all_versions = dump_all_versions,
     dump_runs = dump_runs, 
@@ -70,7 +70,7 @@ dct = dump_model.dump(
 # MAGIC %md ### Show all model versions
 # MAGIC
 # MAGIC * Show all model versions from the [MlflowClient.search_model_versions](https://mlflow.org/docs/latest/python_api/mlflow.client.html#mlflow.client.MlflowClient.search_model_versions) method.
-# MAGIC * Note these are all versions, not just the "latest" stage versions.
+# MAGIC * Note these are "all" versions, not just the "latest" stage versions.
 
 # COMMAND ----------
 
