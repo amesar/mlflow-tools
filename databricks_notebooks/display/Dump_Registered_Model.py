@@ -9,8 +9,8 @@
 # MAGIC * `2. Dump all versions instead of latest versions`
 # MAGIC * `3. Dump version runs` - dump details of the version runs
 # MAGIC * `4. Dump permissions` - dump run data if showing runs
-# MAGIC * `5. Display format` - JSON or YAML
-# MAGIC * `6. Output JSON file`
+# MAGIC * `5. Format` - JSON or YAML
+# MAGIC * `6. Output file`
 
 # COMMAND ----------
 
@@ -49,7 +49,7 @@ print("output_file:", output_file)
 
 # COMMAND ----------
 
-assert_widget(model, "Missing '1. Model' widget")
+assert_widget(model, "Missing '1. Model'")
 
 # COMMAND ----------
 
