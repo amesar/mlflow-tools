@@ -1,0 +1,317 @@
+system:
+  script: dump_model_version.py
+  display_time: '2023-05-30 13:38:35'
+  mlflow:
+    version: 2.3.2
+    tracking_uri: databricks://e2_demo
+  platform:
+    python_version: 3.8.16
+    system: Darwin
+  user: andre
+model_version:
+  name: Sklearn_Wine_ONNX_ws
+  version: '1'
+  creation_timestamp: 1685335854331
+  last_updated_timestamp: 1685335855771
+  user_id: andre@piolet-knot.com
+  current_stage: None
+  source: dbfs:/databricks/mlflow-tracking/1565792132797454/391be3a1d88940d194958b718e898dfc/artifacts/onnx-model
+  run_id: 391be3a1d88940d194958b718e898dfc
+  status: READY
+  _download_uri:
+    artifact_uri: dbfs:/databricks/mlflow-registry/875b835c41c445e5859fa14eb9cda9e4/models/onnx-model
+  _creation_timestamp: '2023-05-29 04:50:54'
+  _last_updated_timestamp: '2023-05-29 04:50:56'
+registered_model:
+  name: Sklearn_Wine_ONNX_ws
+  creation_timestamp: 1685335854094
+  last_updated_timestamp: 1685337203639
+  user_id: andre@piolet-knot.com
+  id: eb782e332b254e42baf946592807fc62
+  permission_level: CAN_MANAGE
+  _creation_timestamp: '2023-05-29 04:50:54'
+  _last_updated_timestamp: '2023-05-29 05:13:24'
+  latest_versions: 2
+  _tracking_uri: databricks://e2_demo
+  permissions:
+    permission_levels:
+    - permission_level: CAN_READ
+      description: Can view the details of the registered model and its model versions,
+        and use the model versions.
+    - permission_level: CAN_EDIT
+      description: Can view and edit the details of a registered model and its model
+        versions (except stage changes), and add new model versions.
+    - permission_level: CAN_MANAGE_STAGING_VERSIONS
+      description: Can view and edit the details of a registered model and its model
+        versions, add new model versions, and manage stage transitions between non-Production
+        stages.
+    - permission_level: CAN_MANAGE_PRODUCTION_VERSIONS
+      description: Can view and edit the details of a registered model and its model
+        versions, add new model versions, and manage stage transitions between any
+        stages.
+    - permission_level: CAN_MANAGE
+      description: Can manage permissions on, view all details of, and perform all
+        actions on the registered model and its model versions.
+    permissions:
+      object_id: /registered-models/eb782e332b254e42baf946592807fc62
+      object_type: registered-model
+      access_control_list:
+      - user_name: andre@piolet-knot.com
+        display_name: andre
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: false
+      - group_name: admins
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: true
+          inherited_from_object:
+          - /registered-models/
+      - group_name: users
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: true
+          inherited_from_object:
+          - /registered-models/
+      - service_principal_name: 038455d4-e5ec-4544-b6cf-64d55b91fee1
+        display_name: feifei-service-principal-e2-demo-west-ws-do-not-delete
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: true
+          inherited_from_object:
+          - /registered-models/
+mlflow_model_artifacts:
+  summary:
+    artifact_max_level: 1
+    num_artifacts: 5
+    num_bytes: 2170
+    num_levels: 1
+  artifacts:
+  - path: onnx-model/MLmodel
+    is_dir: false
+    file_size: 1147
+  - path: onnx-model/conda.yaml
+    is_dir: false
+    file_size: 167
+  - path: onnx-model/model.onnx
+    is_dir: false
+    file_size: 676
+  - path: onnx-model/python_env.yaml
+    is_dir: false
+    file_size: 122
+  - path: onnx-model/requirements.txt
+    is_dir: false
+    file_size: 58
+run:
+  summary:
+    params: 2
+    metrics: 1
+    tags: 25
+    artifacts:
+      artifact_max_level: 1
+      num_artifacts: 0
+      num_bytes: 0
+      num_levels: 1
+  run:
+    info:
+      run_id: 391be3a1d88940d194958b718e898dfc
+      run_uuid: 391be3a1d88940d194958b718e898dfc
+      experiment_id: '1565792132797454'
+      run_name: sklearn
+      status: FINISHED
+      start_time: 1685335847427
+      end_time: 1685335860589
+      artifact_uri: dbfs:/databricks/mlflow-tracking/1565792132797454/391be3a1d88940d194958b718e898dfc/artifacts
+      lifecycle_stage: active
+      _start_time: '2023-05-29 04:50:47'
+      _end_time: '2023-05-29 04:51:01'
+      _duration: 13.162
+      _experiment_name: /Users/andre@piolet-knot.com/Trash/Wine_Quality_ONNX_ws
+    data:
+      metrics:
+      - key: rmse
+        value: 0.7986004372118107
+        timestamp: 1685335860523
+        step: 0
+      params:
+      - key: max_depth
+        value: '1'
+      - key: max_leaf_nodes
+        value: None
+      tags:
+        mlflow.databricks.cluster.id: 0414-154233-qm0df4rx
+        mlflow.databricks.cluster.info:
+          cluster_name: andre_ML_13.1
+          spark_version: 13.1.x-cpu-ml-scala2.12
+          node_type_id: i3.xlarge
+          driver_node_type_id: i3.xlarge
+          autotermination_minutes: 120
+          disk_spec:
+            disk_count: 0
+          num_workers: 1
+        mlflow.databricks.cluster.libraries:
+          installable:
+          - jar: dbfs:/home/andre@piolet-knot.com/lib/jars/PrintArgs.jar
+          - whl: dbfs:/home/andre@piolet-knot.com/work/jobs/sklearn_wine/mlflow_sklearn_wine-0.0.1-py3-none-any.whl
+          redacted: []
+        mlflow.databricks.gitRepoCommit: 00297b764fd3c9f3d02a3423252b188b9308f25f
+        mlflow.databricks.gitRepoProvider: gitHub
+        mlflow.databricks.gitRepoReference: master
+        mlflow.databricks.gitRepoReferenceType: branch
+        mlflow.databricks.gitRepoRelativePath: databricks/notebooks/basic/Sklearn_Wine_ONNX
+        mlflow.databricks.gitRepoStatus: unknown
+        mlflow.databricks.gitRepoUrl: https://github.com/amesar/mlflow-examples
+        mlflow.databricks.notebook.commandID: 2729497053261519868_6173749015239766044_ecbbc035af504c88a47f5025fda14739
+        mlflow.databricks.notebookID: '1765187885495750'
+        mlflow.databricks.notebookPath: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine_ONNX
+        mlflow.databricks.notebookRevisionID: '1685335860834'
+        mlflow.databricks.webappURL: https://erie.mist.piolet-knot.com
+        mlflow.databricks.workspaceID: '2556758628403379'
+        mlflow.databricks.workspaceURL: e2-demo-west.cloud.databricks.com
+        mlflow.log-model.history:
+        - artifact_path: sklearn-model
+          signature:
+            inputs:
+            - name: fixed_acidity
+              type: double
+            - name: volatile_acidity
+              type: double
+            - name: citric_acid
+              type: double
+            - name: residual_sugar
+              type: double
+            - name: chlorides
+              type: double
+            - name: free_sulfur_dioxide
+              type: double
+            - name: total_sulfur_dioxide
+              type: double
+            - name: density
+              type: double
+            - name: pH
+              type: double
+            - name: sulphates
+              type: double
+            - name: alcohol
+              type: double
+            outputs:
+            - type: tensor
+              tensor-spec:
+                dtype: float64
+                shape:
+                - -1
+          flavors:
+            python_function:
+              predict_fn: predict
+              model_path: model.pkl
+              loader_module: mlflow.sklearn
+              env:
+                conda: conda.yaml
+                virtualenv: python_env.yaml
+              python_version: 3.10.6
+            sklearn:
+              pickled_model: model.pkl
+              sklearn_version: 1.2.2
+              serialization_format: cloudpickle
+              code: null
+          run_id: 391be3a1d88940d194958b718e898dfc
+          model_uuid: 4cc04aef7b25409680317dfc6616bf9d
+          utc_time_created: '2023-05-29 04:50:47.920330'
+          mlflow_version: 2.3.2
+          databricks_runtime: 13.1.x-cpu-ml-scala2.12
+        - artifact_path: onnx-model
+          signature:
+            inputs:
+            - name: fixed_acidity
+              type: double
+            - name: volatile_acidity
+              type: double
+            - name: citric_acid
+              type: double
+            - name: residual_sugar
+              type: double
+            - name: chlorides
+              type: double
+            - name: free_sulfur_dioxide
+              type: double
+            - name: total_sulfur_dioxide
+              type: double
+            - name: density
+              type: double
+            - name: pH
+              type: double
+            - name: sulphates
+              type: double
+            - name: alcohol
+              type: double
+            outputs:
+            - type: tensor
+              tensor-spec:
+                dtype: float64
+                shape:
+                - -1
+          flavors:
+            python_function:
+              loader_module: mlflow.onnx
+              python_version: 3.10.6
+              data: model.onnx
+              env:
+                conda: conda.yaml
+                virtualenv: python_env.yaml
+            onnx:
+              onnx_version: 1.12.0
+              data: model.onnx
+              providers:
+              - CUDAExecutionProvider
+              - CPUExecutionProvider
+              code: null
+          run_id: 391be3a1d88940d194958b718e898dfc
+          model_uuid: 8059a3c6b7fe4e28b383c8a08553cb0e
+          utc_time_created: '2023-05-29 04:50:51.767765'
+          mlflow_version: 2.3.2
+          databricks_runtime: 13.1.x-cpu-ml-scala2.12
+        mlflow.runName: sklearn
+        mlflow.source.name: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine_ONNX
+        mlflow.source.type: NOTEBOOK
+        mlflow.user: andre@piolet-knot.com
+        sparkDatasourceInfo:
+        - path: dbfs:/databricks-datasets/wine-quality/winequality-white.csv
+          format: text
+        - path: dbfs:/databricks-datasets/wine-quality/winequality-red.csv
+          format: text
+        - path: dbfs:/user/hive/warehouse/andre.db/wine_quality
+          version: '0'
+          format: delta
+        version.mlflow: 2.3.2
+        version.onnx: 1.12.0
+    inputs: {}
+  artifacts:
+    summary:
+      artifact_max_level: 1
+      num_artifacts: 0
+      num_bytes: 0
+      num_levels: 1
+    root_uri: dbfs:/databricks/mlflow-tracking/1565792132797454/391be3a1d88940d194958b718e898dfc/artifacts
+    files:
+    - path: onnx-model
+      is_dir: true
+      artifacts: {}
+    - path: sklearn-model
+      is_dir: true
+      artifacts: {}
+experiment:
+  experiment_id: '1565792132797454'
+  name: /Users/andre@piolet-knot.com/Trash/Wine_Quality_ONNX_ws
+  artifact_location: dbfs:/databricks/mlflow-tracking/1565792132797454
+  lifecycle_stage: deleted
+  last_update_time: 1685335847427
+  creation_time: 1685335846306
+  _last_update_time: '2023-05-29 04:50:47'
+  _creation_time: '2023-05-29 04:50:46'
+  _tracking_uri: databricks://e2_demo
+  tags:
+    mlflow.note.content: Sklearn and ONNX models in one run
+    mlflow.ownerId: '4566812440727830'
+    mlflow.experiment.sourceName: /Users/andre@piolet-knot.com/Trash/Wine_Quality_ONNX_ws
+    mlflow.ownerEmail: andre@piolet-knot.com
+    mlflow.experimentType: MLFLOW_EXPERIMENT
