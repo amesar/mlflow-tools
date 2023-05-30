@@ -7,7 +7,6 @@ import mlflow
 
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common import MlflowToolsException
-from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
 from mlflow_tools.common.click_options import (
@@ -21,30 +20,24 @@ from mlflow_tools.common.click_options import (
 )
 from mlflow_tools.display.display_utils import dump_finish
 from mlflow_tools.display import dump_run
+from mlflow_tools.display.display_utils import adjust_model_version
+from mlflow_tools.display.display_utils import format_ts
+
 
 http_client = MlflowHttpClient()
-
-
-def _format_ts(dct, key):
-    v = dct.get(key, None)
-    if v: 
-        dct[f"_{key}"] = fmt_ts_millis(int(v))
 
 
 def _adjust_model_timestamps(model):
     model.pop("tags", None)
     latest_versions = model.pop("latest_versions", None)
-    _format_ts(model, "creation_timestamp")
-    _format_ts(model, "last_updated_timestamp")
+    format_ts(model, "creation_timestamp")
+    format_ts(model, "last_updated_timestamp")
     model["latest_versions"] = latest_versions
 
 
-def _adjust_version_timestamps(versions):
+def _adjust_version_timestamps(versions, show_tags_as_dict):
     for vr in versions:
-        uri = http_client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
-        vr["_download_uri"] = uri
-        _format_ts(vr, "creation_timestamp")
-        _format_ts(vr, "last_updated_timestamp")
+        adjust_model_version(http_client, vr, show_tags_as_dict)
 
 
 def _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_dict):
@@ -87,12 +80,12 @@ def dump(
     if dump_all_versions:
         versions = http_client.get(f"model-versions/search", {"name": model_name})
         versions = versions["model_versions"]
-        _adjust_version_timestamps(versions)
+        _adjust_version_timestamps(versions, show_tags_as_dict)
         del model["latest_versions"] 
         model["all_versions"] = versions
     else:
         versions =  model.get("latest_versions", None)
-        _adjust_version_timestamps(versions)
+        _adjust_version_timestamps(versions, show_tags_as_dict)
 
     if dump_permissions and "id" in model: # if calling Databricks tracking server
         permissions_utils.add_model_permissions(model)

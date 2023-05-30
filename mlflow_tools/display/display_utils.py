@@ -102,3 +102,32 @@ def dump_finish(dct, output_file, format, show_system_info, script_name, silent=
     if output_file and len(output_file) > 0:
         write_dct(dct, output_file, format)
     return dct
+
+
+def adjust_model_version(http_client, vr, show_tags_as_dict=False):
+
+    # Get 'cached model' registry link
+    from mlflow_tools.common import mlflow_utils
+    uri = http_client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
+    vr["_download_uri"] = uri
+
+    # Add formatted timestamps
+    adjust_model_version_timestamp(vr)
+
+    # Show tags as key/value dictionary
+    if show_tags_as_dict:
+        v = vr.get("tags")
+        if v:
+            vr["tags"] = mlflow_utils.mk_tags_dict(v)
+
+
+def adjust_model_version_timestamp(vr):
+    format_ts(vr, "creation_timestamp")
+    format_ts(vr, "last_updated_timestamp")
+
+
+def format_ts(dct, key):
+    from mlflow_tools.common.timestamp_utils import fmt_ts_millis
+    ts = dct.get(key)
+    if ts:
+        dct[f"_{key}"] = fmt_ts_millis(int(ts))
