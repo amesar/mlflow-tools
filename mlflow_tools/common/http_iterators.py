@@ -34,7 +34,7 @@ class BaseIterator():
         res = rsp
         resource = self.resource.replace("-","_")
         objects = res.get(resource,[])
-        next_page_token = res.get("next_page_token", None)
+        next_page_token = res.get("next_page_token")
         return PagedList(objects, next_page_token)
 
 

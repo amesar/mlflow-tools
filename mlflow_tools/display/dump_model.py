@@ -4,21 +4,25 @@ Dump a registered model in JSON or YAML.
 
 import click
 import mlflow
+
+from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
 from mlflow_tools.common import permissions_utils
 from mlflow_tools.common.click_options import (
     opt_artifact_max_level,
-    opt_show_permissions,
+    opt_dump_permissions,
     opt_show_tags_as_dict,
+    opt_explode_json_string,
+    opt_show_system_info,
     opt_format,
-    opt_explode_json_string
+    opt_output_file
 )
-from mlflow_tools.client.http_client import MlflowHttpClient
-from . import dump_dct, dump_run, write_dct
+from mlflow_tools.display.display_utils import dump_finish
+from mlflow_tools.display import dump_run
 
-client = MlflowHttpClient()
+http_client = MlflowHttpClient()
 
 
 def _format_ts(dct, key):
@@ -37,7 +41,7 @@ def _adjust_model_timestamps(model):
 
 def _adjust_version_timestamps(versions):
     for vr in versions:
-        uri = client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
+        uri = http_client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
         vr["_download_uri"] = uri
         _format_ts(vr, "creation_timestamp")
         _format_ts(vr, "last_updated_timestamp")
@@ -47,8 +51,8 @@ def _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_di
     runs = []
     for vr in versions:
         try:
-            run = client.get(f"runs/get", { "run_id": vr['run_id'] })["run"]
-            run = dump_run.build_run(
+            run = http_client.get(f"runs/get", { "run_id": vr['run_id'] })["run"]
+            run = dump_run.build_run_extended(
                 run = run,
                 artifact_max_level = artifact_max_level,
                 explode_json_string = explode_json_string,
@@ -65,26 +69,23 @@ def _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_di
 
 def dump(
         model_name,
-        format = "json",
         dump_all_versions = False,
         dump_runs = False,
-        explode_json_string  =  False,
         artifact_max_level = 0,
+        explode_json_string  =  True,
+        show_tags_as_dict = True,
+        dump_permissions = False,
+        show_system_info = False,
+        format = "json",
         output_file = None,
-        show_tags_as_dict = False,
-        show_permissions = False
+        silent = False,
     ):
 
-    if show_permissions and mlflow_utils.calling_databricks():
-        model = client.get(f"databricks/registered-models/get", {"name": model_name} )
-        model = model["registered_model_databricks"]
-    else:
-        model = client.get(f"registered-models/get", {"name": model_name} )
-        model = model["registered_model"]
+    model = mlflow_utils.get_registered_model(http_client, model_name, dump_permissions)
     _adjust_model_timestamps(model)
     model["_tracking_uri"] = mlflow.get_tracking_uri()
     if dump_all_versions:
-        versions = client.get(f"model-versions/search", {"name": model_name})
+        versions = http_client.get(f"model-versions/search", {"name": model_name})
         versions = versions["model_versions"]
         _adjust_version_timestamps(versions)
         del model["latest_versions"] 
@@ -93,17 +94,15 @@ def dump(
         versions =  model.get("latest_versions", None)
         _adjust_version_timestamps(versions)
 
-    if show_permissions and mlflow_utils.calling_databricks():
+    if dump_permissions and "id" in model: # if calling Databricks tracking server
         permissions_utils.add_model_permissions(model)
 
+    dct = { "registered_model": model }
     if dump_runs:
         version_runs = _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_dict)
-        model["_version_runs"] = version_runs
+        dct["version_runs"] = version_runs
 
-    dump_dct(model, format)
-
-    if output_file and len(output_file) > 0:
-        write_dct(model, output_file, format)
+    dump_finish(dct, output_file, format, show_system_info, __file__, silent)
 
     return model
 
@@ -127,31 +126,38 @@ def dump(
     show_default=True
 )
 @opt_artifact_max_level
-@opt_show_permissions
+@opt_dump_permissions
 @opt_show_tags_as_dict
 @opt_explode_json_string
+@opt_show_system_info
 @opt_format
-@click.option("--output-file",
-    help="Output file",
-    type=str,
-    required=False,
-    show_default=True
-)
+@opt_output_file
 
-def main(model, dump_all_versions, dump_runs, explode_json_string, artifact_max_level, output_file,
-       format, show_tags_as_dict, show_permissions):
+def main(model, 
+       dump_all_versions, 
+       dump_runs, 
+       explode_json_string, 
+       artifact_max_level, 
+       show_tags_as_dict, 
+       dump_permissions,
+       show_system_info,
+       format, 
+       output_file,
+    ):
     print("Options:")
-    for k,v in locals().items(): print(f"  {k}: {v}")
+    for k,v in locals().items(): 
+        print(f"  {k}: {v}")
     dump(
         model_name = model,
-        format = format,
         dump_all_versions = dump_all_versions,
         dump_runs = dump_runs,
         explode_json_string = explode_json_string,
         artifact_max_level = artifact_max_level,
-        output_file = output_file,
         show_tags_as_dict = show_tags_as_dict,
-        show_permissions = show_permissions
+        dump_permissions = dump_permissions,
+        show_system_info = show_system_info,
+        format = format,
+        output_file = output_file,
     )
 
 

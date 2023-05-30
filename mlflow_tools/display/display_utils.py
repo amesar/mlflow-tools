@@ -1,11 +1,32 @@
 """
-Display utilities
+Display utilities.
 """
 
-from mlflow_tools.client.http_client import MlflowHttpClient
+import os
 from dataclasses import dataclass
+import getpass
+from mlflow_tools.client.http_client import MlflowHttpClient
+from mlflow_tools.common.timestamp_utils import ts_now_fmt_utc
 
 http_client = MlflowHttpClient()
+
+
+def build_system_info(script):
+    import mlflow
+    import platform
+    return {
+        "script": os.path.basename(script),
+        "display_time": ts_now_fmt_utc,
+        "mlflow": {
+            "version": mlflow.__version__,
+            "tracking_uri": mlflow.get_tracking_uri(),
+        },
+        "platform": {
+            "python_version": platform.python_version(),
+            "system": platform.system()
+        },
+        "user": getpass.getuser(),
+    }
 
 
 def process_df(df, columns=None, sort_attr="name", sort_order="asc", csv_file=None):
@@ -70,3 +91,14 @@ def _build_artifacts(run_id, path, artifact_max_level, level=0):
             else:
                 num_artifacts += 1
     return Result(artifacts, num_bytes, num_artifacts, new_level)
+
+
+def dump_finish(dct, output_file, format, show_system_info, script_name, silent=False):
+    from mlflow_tools.display import dump_dct, write_dct
+    if show_system_info:
+        dct = { **{ "system": build_system_info(script_name)}, **dct }
+    if not silent:
+        dump_dct(dct, format)
+    if output_file and len(output_file) > 0:
+        write_dct(dct, output_file, format)
+    return dct

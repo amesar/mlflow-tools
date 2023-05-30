@@ -19,9 +19,9 @@ def opt_sort_order(function):
     )(function)
     return function
 
-def opt_show_permissions(function):
-    function = click.option("--show-permissions",
-        help="Show Databricks permissions.",
+def opt_dump_permissions(function):
+    function = click.option("--dump-permissions",
+        help="Dump Databricks permissions.",
         type=bool,
         default=False,
         show_default=True
@@ -30,7 +30,7 @@ def opt_show_permissions(function):
 
 def opt_artifact_max_level(function):
     function = click.option("--artifact-max-level",
-        help="Number of artifact levels to recurse.",
+        help="Number of artifact levels to recurse for run artifacts.",
         type=int,
         default=1,
         show_default=True
@@ -49,6 +49,15 @@ def opt_view_type(function):
 def opt_output_csv_file(function):
     function = click.option("--csv-file",
         help="Output CSV file.",
+        type=str,
+        required=False,
+        show_default=True
+    )(function)
+    return function
+
+def opt_output_file(function):
+    function = click.option("--output-file",
+        help="Output file.",
         type=str,
         required=False,
         show_default=True
@@ -75,7 +84,7 @@ def opt_show_tags_as_dict(function):
     function = click.option("--show-tags-as-dict",
         help="Show MLflow tags as a dictionary instead of a list of key/value pairs.",
         type=bool,
-        default=False,
+        default=True,
         show_default=True
     )(function)
     return function
@@ -102,6 +111,15 @@ def opt_explode_json_string(function):
         help="Explode JSON string fields as JSON map.",
         type=bool,
         default=True,
+    )(function)
+    return function
+
+def opt_show_system_info(function):
+    function = click.option("--show-system-info",
+        help="Show system info.",
+        type=bool,
+        default=False,
+        show_default=True
     )(function)
     return function
 

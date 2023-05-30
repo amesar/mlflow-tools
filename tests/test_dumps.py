@@ -1,5 +1,5 @@
 import mlflow
-from mlflow_tools.display.dump_run import dump_run_id
+from mlflow_tools.display import dump_run
 from mlflow_tools.display import list_experiments
 from . utils_test import create_experiment
 
@@ -12,15 +12,15 @@ artifact_max_level = 4
 
 
 def test_dump_run_as_json():
-    dump_run_id(run_id, artifact_max_level, "json", True)
+    dump_run.dump(run_id, artifact_max_level, "json", True)
 
 
 def test_dump_run_as_yaml():
-    dump_run_id(run_id, artifact_max_level, "yaml", True)
+    dump_run.dump(run_id, artifact_max_level, "yaml", True)
 
 
 def test_dump_run_as_txt():
-    dump_run_id(run_id, artifact_max_level, "txt", True)
+    dump_run.dump(run_id, artifact_max_level, "txt", True)
 
 
 def test_list_experiments():

@@ -1,9 +1,10 @@
 import os
 import mlflow
-from  mlflow.exceptions import RestException
+from mlflow.exceptions import RestException
+
+from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.client import mlflow_auth_utils
 from mlflow_tools.common import MlflowToolsException
-from mlflow_tools.client.http_client import MlflowHttpClient
 
 
 def dump_mlflow_info():
@@ -114,3 +115,31 @@ def calling_databricks():
 
 def mk_tags_dict(tags_array):
     return { x["key"]:x["value"] for x in tags_array }
+
+
+def parse_sparkDatasourceInfo_tag(spec):
+    def parse_datasource(spec):
+        toks = spec.split(",")
+        dct = {}
+        for tok in toks:
+            tup = tok.split("=")
+            dct[tup[0]] = tup[1]
+        return dct
+    toks = spec.split("\n")
+    lst = [ parse_datasource(x) for x in toks ]
+    return lst
+
+
+def get_registered_model(client, model_name, get_permissions):
+    if get_permissions:
+        resource = "databricks/registered-models/get"
+        try:
+            model = client.get(resource, {"name": model_name} )
+            return model["registered_model_databricks"]
+        except MlflowToolsException:
+            print(f"WARNING: Databricks call failed: '{client}/{resource}'")
+            model = client.get(f"registered-models/get", {"name": model_name} )
+            return model["registered_model"]
+    else:
+        model = client.get(f"registered-models/get", {"name": model_name} )
+        return model["registered_model"]

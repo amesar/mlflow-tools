@@ -13,6 +13,9 @@ def _is_yaml(path, file_type=None):
 def write_file(path, content, file_type=None):
     """
     Write to JSON, YAML or text file.
+    :param path: Output path.
+    :param content: Dictionary to write.
+    :param file_type: write in json, yaml format or if else write in binary.
     """
     path = mk_local_path(path)
     if path.endswith(".json"):
@@ -20,7 +23,7 @@ def write_file(path, content, file_type=None):
             f.write(json.dumps(content, indent=2)+"\n")
     elif _is_yaml(path, file_type):
         with open(path, "w", encoding="utf-8") as f:
-            yaml.dump(content, f)
+            yaml.dump(content, f, sort_keys=False)
     else:
         with open(path, "wb" ) as f:
             f.write(content)
