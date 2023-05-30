@@ -17,6 +17,7 @@
 # MAGIC
 # MAGIC **Dump tools**
 # MAGIC * [Dump_Registered_Model]($Dump_Registered_Model)
+# MAGIC * [Dump_Model_Version]($Dump_Model_Version)
 # MAGIC * [Dump_Experiment]($Dump_Experiment)
 # MAGIC   * Also demonstrates usage of [Databricks mlflow-experiment Spark Data Source](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html).
 # MAGIC * [Dump_Run]($Dump_Run)
