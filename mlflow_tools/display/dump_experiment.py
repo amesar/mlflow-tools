@@ -30,7 +30,7 @@ http_client = MlflowHttpClient()
 
 def dump(
         experiment_id_or_name,
-        artifact_max_level,
+        artifact_max_level = 1,
         dump_runs = True,
         dump_run_data = False,
         explode_json_string = True,
