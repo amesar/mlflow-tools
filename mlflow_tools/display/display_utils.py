@@ -83,8 +83,7 @@ def _build_artifacts(run_id, path, artifact_max_level, level=0):
             num_bytes += int(artifact.get("file_size",0)) or 0
             if artifact["is_dir"]:
                 res = _build_artifacts(run_id, artifact["path"], artifact_max_level, level)
-                if res.num_levels > new_level:
-                    new_level = res.num_levels
+                new_level = max(new_level, res.num_levels)
                 num_bytes += res.num_bytes
                 num_artifacts += res.num_artifacts
                 artifact["artifacts"] = res.artifacts
