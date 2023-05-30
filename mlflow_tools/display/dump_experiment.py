@@ -16,7 +16,6 @@ from mlflow_tools.common.click_options import (
     opt_dump_permissions,
     opt_show_tags_as_dict,
     opt_experiment_id_or_name,
-    opt_show_local_time,
     opt_explode_json_string,
     opt_show_system_info,
     opt_format,
@@ -35,7 +34,6 @@ def dump(
         dump_run_data = False,
         explode_json_string = True,
         show_tags_as_dict = True,
-        show_local_time = False,
         dump_permissions = False,
         show_system_info = False,
         format = "json",
@@ -47,16 +45,7 @@ def dump(
 
     exp = exp["experiment"]
     experiment_id = exp["experiment_id"]
-    exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time"), show_local_time)
-    exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time"), show_local_time)
-    exp["_tracking_uri"] = mlflow.get_tracking_uri()
-
-    tags = exp.pop("tags", None)
-    if tags:
-        if show_tags_as_dict:
-            exp["tags"] = mlflow_utils.mk_tags_dict(tags)
-        else:
-            exp["tags"] = tags
+    adjust_experiment(exp)
 
     if dump_runs:
         runs = SearchRunsIterator(http_client, [experiment_id])
@@ -79,7 +68,7 @@ def dump(
             "artifacts": num_artifacts,
              "artifact_bytes": artifact_bytes,
             "last_run": last_run,
-             "_last_run": fmt_ts_millis(last_run, show_local_time)
+             "_last_run": fmt_ts_millis(last_run)
         }
         dct = { "experiment": exp, "runs_summary": runs_summary, "runs": runs }
     else:
@@ -90,6 +79,18 @@ def dump(
 
     dct = dump_finish(dct, output_file, format, show_system_info, __file__)
     return dct
+
+
+def adjust_experiment(exp, show_tags_as_dict=True):
+    exp["_last_update_time"] = fmt_ts_millis(exp.get("last_update_time"))
+    exp["_creation_time"] = fmt_ts_millis(exp.get("creation_time"))
+    exp["_tracking_uri"] = mlflow.get_tracking_uri()
+    tags = exp.pop("tags", None)
+    if tags:
+        if show_tags_as_dict:
+            exp["tags"] = mlflow_utils.mk_tags_dict(tags)
+        else:
+            exp["tags"] = tags
 
 
 @click.command()
@@ -109,7 +110,6 @@ def dump(
 @opt_artifact_max_level
 @opt_dump_permissions
 @opt_explode_json_string
-@opt_show_local_time
 @opt_show_tags_as_dict
 @opt_show_system_info
 @opt_format
@@ -123,7 +123,6 @@ def main(
         explode_json_string,
         dump_permissions,
         show_tags_as_dict,
-        show_local_time,
         show_system_info,
         format,
         output_file
@@ -137,7 +136,6 @@ def main(
        dump_run_data, 
        explode_json_string, 
        show_tags_as_dict,
-       show_local_time,
        dump_permissions, 
        show_system_info,
        format, 

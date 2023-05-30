@@ -4,7 +4,7 @@ Dump a registered model version in JSON or YAML.
 
 import click
 from mlflow_tools.client.http_client import MlflowHttpClient
-from mlflow_tools.common import mlflow_utils, model_download_utils
+from mlflow_tools.common import model_download_utils
 from mlflow_tools.common.click_options import (
     opt_artifact_max_level,
     opt_show_tags_as_dict,
@@ -16,6 +16,7 @@ from mlflow_tools.common.click_options import (
 )
 from mlflow_tools.display import dump_run as _dump_run
 from mlflow_tools.display import dump_registered_model as _dump_registered_model
+from mlflow_tools.display.dump_experiment import adjust_experiment
 from mlflow_tools.display.display_utils import build_artifacts
 from mlflow_tools.display.display_utils import dump_finish
 from mlflow_tools.display.display_utils import adjust_model_version
@@ -87,8 +88,7 @@ def dump(
             run = run["run"]
             rsp = http_client.get("experiments/get", { "experiment_id": run["info"]["experiment_id"] })
             exp = rsp["experiment"]
-            if show_tags_as_dict: 
-                exp["tags"] = mlflow_utils.mk_tags_dict(exp["tags"])
+            adjust_experiment(exp, show_tags_as_dict)
             dct["experiment"] = exp
 
     dct = dump_finish(dct, output_file, format, show_system_info, __file__)
