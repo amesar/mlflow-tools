@@ -2,7 +2,8 @@
 # MAGIC %md ## mlflow-tools - Display Notebooks
 # MAGIC
 # MAGIC **Overview**
-# MAGIC * Notebooks to display individual or lists of MLflow objects plus some analytics about models and versions.
+# MAGIC * Notebooks to display individual or lists of MLflow objects.
+# MAGIC * Plus some analytics about models and versions.
 # MAGIC * Github: https://github.com/amesar/mlflow-tools/tree/master/databricks_notebooks/display. 
 # MAGIC
 # MAGIC **List tools**
@@ -13,7 +14,6 @@
 # MAGIC * [List_Model_Versions]($List_Model_Versions)
 # MAGIC   * [List_Model_Versions_With_Runs]($List_Model_Versions_With_Runs) - display information on model versions and their runs.
 # MAGIC   * [MLflow_Model_Analytics]($MLflow_Model_Analytics) - queries on joining models and versions.
-# MAGIC * [List_Runs]($List_Runs) - TODO
 # MAGIC
 # MAGIC **Dump tools**
 # MAGIC * [Dump_Registered_Model]($Dump_Registered_Model)
@@ -21,11 +21,11 @@
 # MAGIC   * Also demonstrates usage of [Databricks mlflow-experiment Spark Data Source](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html).
 # MAGIC * [Dump_Run]($Dump_Run)
 # MAGIC
-# MAGIC **Documentation**
-# MAGIC * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html) - Databricks documentation notebook example.
+# MAGIC **Databricks MLflow Spark Datasource**
+# MAGIC * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html) - Databricks notebook example.
 # MAGIC
 # MAGIC **NOTE**
 # MAGIC
-# MAGIC * Requires Databricks Runtime 13 or 12.2. Errors out on 11. :(
+# MAGIC * Requires Databricks Runtime 13 or 12.2. Errors on 11. :(
 # MAGIC
-# MAGIC Last updated: 2023-05-20
+# MAGIC Last updated: 2023-05-30

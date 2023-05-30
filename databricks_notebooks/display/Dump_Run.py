@@ -25,23 +25,23 @@
 # COMMAND ----------
 
 dbutils.widgets.text("1. Run ID", "")
-dbutils.widgets.dropdown("2. Show tags as dictionary","no",["yes","no"])
-dbutils.widgets.dropdown("3. Explode JSON string","yes",["yes","no"])
-dbutils.widgets.text("4. Artifact max level", "1")
-dbutils.widgets.dropdown("5. Format","json",["json","yaml"])
+dbutils.widgets.text("2. Artifact max level", "1")
+dbutils.widgets.dropdown("3. Show tags as dictionary", "yes", ["yes","no"])
+dbutils.widgets.dropdown("4. Explode JSON string", "yes", ["yes","no"])
+dbutils.widgets.dropdown("5. Format", "json", ["json","yaml"])
 dbutils.widgets.text("6. Output file", "")
 
 run_id = dbutils.widgets.get("1. Run ID")
-show_tags_as_dict = dbutils.widgets.get("2. Show tags as dictionary") == "yes"
-explode_json_string = dbutils.widgets.get("3. Explode JSON string") == "yes"
-artifact_max_level = int(dbutils.widgets.get("4. Artifact max level"))
+artifact_max_level = int(dbutils.widgets.get("2. Artifact max level"))
+show_tags_as_dict = dbutils.widgets.get("3. Show tags as dictionary") == "yes"
+explode_json_string = dbutils.widgets.get("4. Explode JSON string") == "yes"
 format = dbutils.widgets.get("5. Format")
 output_file = dbutils.widgets.get("6. Output file")
 
 print("run_id:", run_id)
+print("artifact_max_level:", artifact_max_level)
 print("show_tags_as_dict:", show_tags_as_dict)
 print("explode_json_string:", explode_json_string)
-print("artifact_max_level:", artifact_max_level)
 print("format:", format)
 print("output_file:", output_file)
 
@@ -59,9 +59,9 @@ from mlflow_tools.display import dump_run
 
 dct = dump_run.dump(
     run_id = run_id, 
+    artifact_max_level = artifact_max_level, 
     show_tags_as_dict = show_tags_as_dict,
     explode_json_string = explode_json_string,
-    artifact_max_level = artifact_max_level, 
     format = format
 )
 
