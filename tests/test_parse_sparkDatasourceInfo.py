@@ -1,3 +1,11 @@
+"""
+Test parsing the 'sparkDatasourceInfo" run tag.
+
+Undocumented format:
+  List delimited by newlines
+  Each element is a list delimited by '="
+
+"""
 
 from mlflow_tools.common.mlflow_utils import parse_sparkDatasourceInfo_tag
 
@@ -24,6 +32,7 @@ path=dbfs:/databricks-datasets/wine-quality/winequality-red.csv,format=text"""
     for src in lst:
         print("  datasource:",src)
         assert src.keys() == expected2
+
 
 def test_mixed():
     v = """path=dbfs:/databricks-datasets/wine-quality/winequality-white.csv,format=text
