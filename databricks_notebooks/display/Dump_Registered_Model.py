@@ -6,10 +6,11 @@
 # MAGIC
 # MAGIC Widgets
 # MAGIC * `1. Model` - registered model name
-# MAGIC * `2. Dump version runs` - dump details of the version runs
-# MAGIC * `3. Dump permissions` - dump run data if showing runs
-# MAGIC * `4. Display format` - JSON or YAML
-# MAGIC * `5. Output JSON file`
+# MAGIC * `2. Dump all versions instead of latest versions`
+# MAGIC * `3. Dump version runs` - dump details of the version runs
+# MAGIC * `4. Dump permissions` - dump run data if showing runs
+# MAGIC * `5. Display format` - JSON or YAML
+# MAGIC * `6. Output JSON file`
 
 # COMMAND ----------
 
@@ -20,21 +21,29 @@
 dbutils.widgets.text("1. Model", "")
 model = dbutils.widgets.get("1. Model")
 
-dbutils.widgets.dropdown("2. Dump version runs", "yes", ["yes","no"])
-dump_runs = dbutils.widgets.get("2. Dump version runs") == "yes"
+dbutils.widgets.dropdown("2. Dump all versions", "no", ["yes","no"])
+dump_all_versions = dbutils.widgets.get("2. Dump all versions") == "yes"
 
-dbutils.widgets.dropdown("3. Dump permissions","no",["yes","no"])
-dump_permissions = dbutils.widgets.get("3. Dump permissions") == "yes"
+dbutils.widgets.dropdown("3. Dump version runs", "yes", ["yes","no"])
+dump_runs = dbutils.widgets.get("3. Dump version runs") == "yes"
 
-dbutils.widgets.dropdown("4. Format","json", ["json", "yaml"])
-format = dbutils.widgets.get("4. Format")
+dbutils.widgets.dropdown("4. Dump permissions", "no", ["yes","no"])
+dump_permissions = dbutils.widgets.get("4. Dump permissions") == "yes"
 
-dbutils.widgets.text("5. Output JSON file", "")
-output_file = dbutils.widgets.get("5. Output JSON file")
- 
+dbutils.widgets.dropdown("5. Show system info", "no", ["yes","no"])
+show_system_info = dbutils.widgets.get("5. Show system info") == "yes"
+
+dbutils.widgets.dropdown("6. Format","json", ["json", "yaml"])
+format = dbutils.widgets.get("6. Format")
+
+dbutils.widgets.text("7. Output JSON file", "")
+output_file = dbutils.widgets.get("7. Output JSON file")
+
 print("model:", model)
+print("dump_all_versions:", dump_all_versions)
 print("dump_runs:", dump_runs)
 print("dump_permissions:", dump_permissions)
+print("show_system_info:", show_system_info)
 print("format:", format)
 print("output_file:", output_file)
 
@@ -48,10 +57,12 @@ from mlflow_tools.display import dump_model
 
 dct = dump_model.dump(
     model_name = model, 
+    dump_all_versions = dump_all_versions,
     dump_runs = dump_runs, 
     dump_permissions = dump_permissions,
     output_file = output_file,
-    format = format
+    format = format,
+    show_system_info = show_system_info
 )
 
 # COMMAND ----------
