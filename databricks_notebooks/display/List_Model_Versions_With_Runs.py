@@ -1,13 +1,13 @@
 # Databricks notebook source
 # MAGIC %md ## List Model Versions with Runs
-# MAGIC 
+# MAGIC
 # MAGIC Analytics about model versions and their runs - have the runs been soft or hard deleted?
-# MAGIC 
+# MAGIC
 # MAGIC Widget values:
-# MAGIC * `1a. Model (or Filter)` - Model name or "*" for all. Mututally exclusive with `Filter`. Example: `andre_02a_Sklearn_Train_Predict`.
-# MAGIC * `1b. Filter (or Model)` - Search filter. Mututally exclusive with `Model`. Example: `name like 'andre%'`
+# MAGIC * `1a. Model (or Filter)` - Model name or "*" for all. Mututally exclusive with `1b. Filter`. Example: `andre_02a_Sklearn_Train_Predict`.
+# MAGIC * `1b. Filter (or Model)` - Search filter. Mututally exclusive with `1a. Model`. Example: `name like 'andre%'`
 # MAGIC * `2. Get versions` - Retrieve "all" or just the "latest" versions.
-# MAGIC 
+# MAGIC
 # MAGIC For more details: [github.com/amesar/mlflow-tools/display/README#List-model-versions-with-runs](https://github.com/amesar/mlflow-tools/blob/master/mlflow_tools/display/README.md#List-model-versions-with-runs)
 
 # COMMAND ----------
