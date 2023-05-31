@@ -41,8 +41,7 @@ def opt_view_type(function):
     function = click.option("--view-type",
         help=f"View type. One of: {VIEW_TYPE_KEYS}.",
         type=str,
-        required=False,
-        show_default=True
+        required=False
     )(function)
     return function
 
@@ -50,8 +49,7 @@ def opt_output_csv_file(function):
     function = click.option("--csv-file",
         help="Output CSV file.",
         type=str,
-        required=False,
-        show_default=True
+        required=False
     )(function)
     return function
 
@@ -59,8 +57,7 @@ def opt_output_file(function):
     function = click.option("--output-file",
         help="Output file.",
         type=str,
-        required=False,
-        show_default=True
+        required=False
     )(function)
     return function
 
@@ -93,7 +90,8 @@ def opt_format(function):
     function = click.option("--format",
         help="Output format. One of: json|yaml.",
         type=str,
-        default="json"
+        default="json",
+        show_default=True
     )(function)
     return function
 
@@ -102,6 +100,7 @@ def opt_explode_json_string(function):
         help="Explode JSON string fields as JSON map.",
         type=bool,
         default=True,
+        show_default=True
     )(function)
     return function
 
