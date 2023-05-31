@@ -11,8 +11,8 @@
 # MAGIC * `4. Dump experiment` - run'experiment
 # MAGIC * `5. Dump registered model` - version's registered model 
 # MAGIC * `6. Dump permissions` - dump run data if showing runs
-# MAGIC * `5. Format` - JSON or YAML
-# MAGIC * `6. Output file`
+# MAGIC * `7. Format` - JSON or YAML
+# MAGIC * `8. Output file`
 
 # COMMAND ----------
 
@@ -41,8 +41,8 @@ dump_permissions = dbutils.widgets.get("06. Dump permissions") == "yes"
 dbutils.widgets.dropdown("07. Format","json", ["json", "yaml"])
 format = dbutils.widgets.get("07. Format")
 
-dbutils.widgets.text("08. Output JSON file", "")
-output_file = dbutils.widgets.get("08. Output JSON file")
+dbutils.widgets.text("08. Output file", "")
+output_file = dbutils.widgets.get("08. Output file")
 
 print("model_name:", model_name)
 print("version:", version)
