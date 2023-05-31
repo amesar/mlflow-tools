@@ -76,6 +76,6 @@ dct = dump_model_version.dump(
 # COMMAND ----------
 
 from mlflow_tools.display.list_model_versions import to_pandas_dataframe 
-pdf = to_pandas_dataframe(model)
+pdf = to_pandas_dataframe(model_name)
 df = spark.createDataFrame(pdf)
 display(df)
