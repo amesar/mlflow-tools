@@ -11,24 +11,6 @@ from mlflow_tools.common.timestamp_utils import ts_now_fmt_utc
 http_client = MlflowHttpClient()
 
 
-def build_system_info(script):
-    import mlflow
-    import platform
-    return {
-        "script": os.path.basename(script),
-        "display_time": ts_now_fmt_utc,
-        "mlflow": {
-            "version": mlflow.__version__,
-            "tracking_uri": mlflow.get_tracking_uri(),
-        },
-        "platform": {
-            "python_version": platform.python_version(),
-            "system": platform.system()
-        },
-        "user": getpass.getuser(),
-    }
-
-
 def process_df(df, columns=None, sort_attr="name", sort_order="asc", csv_file=None):
     if columns:
         df = df[columns]
@@ -54,7 +36,7 @@ def build_artifacts(run_id, path, artifact_max_level, level=0):
         "num_artifacts": res.num_artifacts,
         "num_bytes": res.num_bytes,
         "num_levels": res.num_levels
-    } 
+    }
     return { **{ "summary": summary }, **res.artifacts }
 
 def _build_artifacts(run_id, path, artifact_max_level, level=0):
@@ -92,17 +74,6 @@ def _build_artifacts(run_id, path, artifact_max_level, level=0):
     return Result(artifacts, num_bytes, num_artifacts, new_level)
 
 
-def dump_finish(dct, output_file, format, show_system_info, script_name, silent=False):
-    from mlflow_tools.display import dump_dct, write_dct
-    if show_system_info:
-        dct = { **{ "system": build_system_info(script_name)}, **dct }
-    if not silent:
-        dump_dct(dct, format)
-    if output_file and len(output_file) > 0:
-        write_dct(dct, output_file, format)
-    return dct
-
-
 def adjust_model_version(http_client, vr, show_tags_as_dict=False):
 
     # Get 'cached model' registry link
@@ -130,3 +101,39 @@ def format_ts(dct, key):
     ts = dct.get(key)
     if ts:
         dct[f"_{key}"] = fmt_ts_millis(int(ts))
+
+def build_system_info(script):
+    import mlflow
+    import platform
+    return {
+        "script": os.path.basename(script),
+        "display_time": ts_now_fmt_utc,
+        "mlflow": {
+            "version": mlflow.__version__,
+            "tracking_uri": mlflow.get_tracking_uri(),
+        },
+        "platform": {
+            "python_version": platform.python_version(),
+            "system": platform.system()
+        },
+        "user": getpass.getuser(),
+    }
+
+
+def dump_finish(dct, output_file, format, show_system_info, script_name,
+       silent = False,
+       key = "system",
+       build_system_info_func = build_system_info):
+    """
+    Finish logic for dump scripts.
+      1. Show dict to stdout (silent == True)
+      2. Write to output file
+    """
+    from mlflow_tools.display import dump_dct, write_dct
+    if show_system_info:
+        dct = { **{ key: build_system_info_func(script_name)}, **dct }
+    if not silent:
+        dump_dct(dct, format)
+    if output_file and len(output_file) > 0:
+        write_dct(dct, output_file, format)
+    return dct

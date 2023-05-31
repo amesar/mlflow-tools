@@ -95,7 +95,7 @@ def dump(
         version_runs = _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_dict)
         dct["version_runs"] = version_runs
 
-    dump_finish(dct, output_file, format, show_system_info, __file__, silent)
+    dump_finish(dct, output_file, format, show_system_info, __file__, silent=silent)
 
     return model
 

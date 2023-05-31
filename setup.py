@@ -5,7 +5,7 @@ setup(
     version="1.0.0",
     author="Andre Mesarovic",
     description="MLflow Tools",
-    long_description=open("README.md").read(),
+    long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type='text/markdown',
     url="https://github.com/amesar/mlflow-tools",
     project_urls={
@@ -50,7 +50,8 @@ setup(
             "register-model = mlflow_tools.tools.register_model:main",
             "rename-model = mlflow_tools.tools.rename_model:main",
             "download-model = mlflow_tools.tools.download_model:main",
-            "delete-experiment = mlflow_tools.tools.delete_experiment:main"
+            "delete-experiment = mlflow_tools.tools.delete_experiment:main",
+            "report-model-version = mlflow_tools.reports.report_model_version:main"
         ]
     }
 )
