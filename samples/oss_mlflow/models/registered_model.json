@@ -1,117 +1,153 @@
 {
-  "name": "sklearn_iris",
-  "creation_timestamp": 1679379786167,
-  "last_updated_timestamp": 1679981203360,
-  "_creation_timestamp": "2023-03-21 02:23:06",
-  "_last_updated_timestamp": "2023-03-28 01:26:43",
-  "latest_versions": [
-    {
-      "name": "sklearn_iris",
-      "version": "1",
-      "creation_timestamp": 1679379786186,
-      "last_updated_timestamp": 1679981203360,
-      "current_stage": "Staging",
-      "description": "v1 Production - wine",
-      "source": "/opt/mlflow/mlruns/2/60aea96d89f54ada9106e9fb8b034ce4/artifacts/sklearn-model",
-      "run_id": "60aea96d89f54ada9106e9fb8b034ce4",
-      "status": "READY",
-      "tags": [
-        {
-          "key": "registered_version_info",
-          "value": "v1 Production - wine"
-        }
-      ],
-      "run_link": "",
-      "_creation_timestamp": "2023-03-21 02:23:06",
-      "_last_updated_timestamp": "2023-03-28 01:26:43"
+  "system": {
+    "script": "dump_registered_model.py",
+    "display_time": "2023-05-31 12:49:42",
+    "mlflow": {
+      "version": "2.3.2",
+      "tracking_uri": "http://localhost:5020"
     },
+    "platform": {
+      "python_version": "3.8.16",
+      "system": "Darwin"
+    },
+    "user": "andre"
+  },
+  "registered_model": {
+    "name": "sklearn_wine_onnx",
+    "creation_timestamp": 1684983781596,
+    "last_updated_timestamp": 1685537065924,
+    "description": "Skearn Wine Quality model",
+    "aliases": [
+      {
+        "alias": "about-ready_onnx",
+        "version": "2"
+      },
+      {
+        "alias": "good-to-go_onnx",
+        "version": "1"
+      },
+      {
+        "alias": "just-in-case_onnx",
+        "version": "3"
+      },
+      {
+        "alias": "my_alias_03_onnx",
+        "version": "5"
+      }
+    ],
+    "_creation_timestamp": "2023-05-25 03:03:02",
+    "_last_updated_timestamp": "2023-05-31 12:44:26",
+    "latest_versions": [
+      {
+        "name": "sklearn_wine_onnx",
+        "version": "5",
+        "creation_timestamp": 1685274127510,
+        "last_updated_timestamp": 1685274127544,
+        "current_stage": "Production",
+        "description": "v5 Production - wine",
+        "source": "/opt/mlflow/server/mlruns/1/6891e9c93f5b4c18a54c534e01c19378/artifacts/onnx-model",
+        "run_id": "6891e9c93f5b4c18a54c534e01c19378",
+        "status": "READY",
+        "tags": {
+          "registered_version_info": "v5 Production - wine"
+        },
+        "run_link": "",
+        "_download_uri": {
+          "artifact_uri": "/opt/mlflow/server/mlruns/1/6891e9c93f5b4c18a54c534e01c19378/artifacts/onnx-model"
+        },
+        "_creation_timestamp": "2023-05-28 11:42:08",
+        "_last_updated_timestamp": "2023-05-28 11:42:08"
+      }
+    ],
+    "_tracking_uri": "http://localhost:5020"
+  },
+  "version_runs": [
     {
-      "name": "sklearn_iris",
-      "version": "2",
-      "creation_timestamp": 1679787940281,
-      "last_updated_timestamp": 1679787940357,
-      "current_stage": "Production",
-      "description": "v2 Production - wine",
-      "source": "/opt/mlflow/mlruns/2/068b0ceec8f34db69a221d5931290a85/artifacts/sklearn-model",
-      "run_id": "068b0ceec8f34db69a221d5931290a85",
-      "status": "READY",
-      "tags": [
-        {
-          "key": "registered_version_info",
-          "value": "v2 Production - wine"
-        }
-      ],
-      "run_link": "",
-      "_creation_timestamp": "2023-03-25 19:45:40",
-      "_last_updated_timestamp": "2023-03-25 19:45:40"
-    }
-  ],
-  "_version_runs": [
-    {
-      "version": "1",
+      "version": "5",
       "run": {
         "summary": {
+          "params": 2,
+          "metrics": 3,
+          "tags": 25,
           "artifacts": {
-            "num_artifacts": 5,
-            "num_bytes": 3178,
-            "num_levels": 1
-          },
-          "params": 1,
-          "metrics": 2,
-          "tags": 9
+            "artifact_max_level": 100,
+            "num_artifacts": 11,
+            "num_bytes": 34777,
+            "num_levels": 2
+          }
         },
         "run": {
           "info": {
-            "run_uuid": "60aea96d89f54ada9106e9fb8b034ce4",
-            "experiment_id": "2",
-            "run_name": "sklearn-model",
+            "run_uuid": "6891e9c93f5b4c18a54c534e01c19378",
+            "experiment_id": "1",
+            "run_name": "6891e9c93f5b4c18a54c534e01c19378",
             "user_id": "andre",
             "status": "FINISHED",
-            "start_time": 1679379784528,
-            "end_time": 1679379787490,
-            "artifact_uri": "/opt/mlflow/mlruns/2/60aea96d89f54ada9106e9fb8b034ce4/artifacts",
+            "start_time": 1685274123505,
+            "end_time": 1685274127806,
+            "artifact_uri": "/opt/mlflow/server/mlruns/1/6891e9c93f5b4c18a54c534e01c19378/artifacts",
             "lifecycle_stage": "active",
-            "run_id": "60aea96d89f54ada9106e9fb8b034ce4",
-            "_start_time": "2023-03-21 02:23:05",
-            "_end_time": "2023-03-21 02:23:07",
-            "_duration": 2.962,
-            "_experiment_name": "sklearn_iris"
+            "run_id": "6891e9c93f5b4c18a54c534e01c19378",
+            "_start_time": "2023-05-28 11:42:04",
+            "_end_time": "2023-05-28 11:42:08",
+            "_duration": 4.301,
+            "_experiment_name": "sklearn_wine"
           },
           "data": {
             "metrics": [
               {
-                "key": "accuracy_score",
-                "value": 0.9555555555555556,
-                "timestamp": 1679379784575,
+                "key": "rmse",
+                "value": 0.7367947360663162,
+                "timestamp": 1685274123680,
                 "step": 0
               },
               {
-                "key": "zero_one_loss",
-                "value": 0.0444444444444444,
-                "timestamp": 1679379784584,
+                "key": "r2",
+                "value": 0.28100217442439346,
+                "timestamp": 1685274123690,
+                "step": 0
+              },
+              {
+                "key": "mae",
+                "value": 0.5877424565761121,
+                "timestamp": 1685274123707,
                 "step": 0
               }
             ],
             "params": [
               {
                 "key": "max_depth",
-                "value": "5"
+                "value": "4"
+              },
+              {
+                "key": "max_leaf_nodes",
+                "value": "32"
               }
             ],
             "tags": {
               "mlflow.user": "andre",
-              "mlflow.source.name": "train.py",
+              "mlflow.source.name": "/Users/andre/git/andre/mlflow-examples/python/sklearn/wine_quality/main_train.py",
               "mlflow.source.type": "LOCAL",
-              "mlflow.source.git.commit": "3bf1b4185051f0a258facb8f9d1c44df2fa5d27d",
-              "mlflow.runName": "sklearn-model",
-              "mlflow_version": "2.2.2",
-              "dataset": "sklearn-iris",
-              "int": "123",
+              "mlflow.source.git.commit": "00297b764fd3c9f3d02a3423252b188b9308f25f",
+              "mlflow.runName": "6891e9c93f5b4c18a54c534e01c19378",
+              "run_id": "6891e9c93f5b4c18a54c534e01c19378",
+              "save_signature": "True",
+              "data_path": "https://raw.githubusercontent.com/mlflow/mlflow/master/examples/sklearn_elasticnet_wine/wine-quality.csv",
+              "registered_model_name": "sklearn_wine",
+              "registered_model_version_stage": "Production",
+              "uuid": "Xq39pbsfamHHEFKR4W4bsj",
+              "dataset": "wine-quality",
+              "run_origin": "train.sh",
+              "timestamp": "2023-05-28 07:42:03",
+              "version.mlflow": "2.3.2",
+              "version.sklearn": "1.2.2",
+              "version.platform": "macOS-10.16-x86_64-i386-64bit",
+              "version.python": "3.8.16",
               "mlflow.log-model.history": [
                 {
-                  "run_id": "60aea96d89f54ada9106e9fb8b034ce4",
-                  "artifact_path": "sklearn-model",
-                  "utc_time_created": "2023-03-21 06:23:04.594947",
+                  "run_id": "6891e9c93f5b4c18a54c534e01c19378",
+                  "artifact_path": "model",
+                  "utc_time_created": "2023-05-28 11:42:03.717828",
                   "flavors": {
                     "python_function": {
                       "model_path": "model.pkl",
@@ -130,180 +166,186 @@
                       "code": null
                     }
                   },
-                  "model_uuid": "417c13d3dfaa45108bb0b796d7527e01",
-                  "mlflow_version": "2.2.2"
-                }
-              ]
-            }
-          }
-        },
-        "artifacts": {
-          "root_uri": "/opt/mlflow/mlruns/2/60aea96d89f54ada9106e9fb8b034ce4/artifacts",
-          "files": [
-            {
-              "path": "sklearn-model",
-              "is_dir": true,
-              "artifacts": {
-                "root_uri": "/opt/mlflow/mlruns/2/60aea96d89f54ada9106e9fb8b034ce4/artifacts",
-                "files": [
-                  {
-                    "path": "sklearn-model/MLmodel",
-                    "is_dir": false,
-                    "file_size": 510
-                  },
-                  {
-                    "path": "sklearn-model/conda.yaml",
-                    "is_dir": false,
-                    "file_size": 194
-                  },
-                  {
-                    "path": "sklearn-model/model.pkl",
-                    "is_dir": false,
-                    "file_size": 2271
-                  },
-                  {
-                    "path": "sklearn-model/python_env.yaml",
-                    "is_dir": false,
-                    "file_size": 122
-                  },
-                  {
-                    "path": "sklearn-model/requirements.txt",
-                    "is_dir": false,
-                    "file_size": 81
+                  "model_uuid": "0dd27abdd49c4125ad15da8ddf62a40a",
+                  "mlflow_version": "2.3.2",
+                  "signature": {
+                    "inputs": [
+                      {
+                        "name": "fixed acidity",
+                        "type": "double"
+                      },
+                      {
+                        "name": "volatile acidity",
+                        "type": "double"
+                      },
+                      {
+                        "name": "citric acid",
+                        "type": "double"
+                      },
+                      {
+                        "name": "residual sugar",
+                        "type": "double"
+                      },
+                      {
+                        "name": "chlorides",
+                        "type": "double"
+                      },
+                      {
+                        "name": "free sulfur dioxide",
+                        "type": "double"
+                      },
+                      {
+                        "name": "total sulfur dioxide",
+                        "type": "double"
+                      },
+                      {
+                        "name": "density",
+                        "type": "double"
+                      },
+                      {
+                        "name": "pH",
+                        "type": "double"
+                      },
+                      {
+                        "name": "sulphates",
+                        "type": "double"
+                      },
+                      {
+                        "name": "alcohol",
+                        "type": "double"
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "type": "tensor",
+                        "tensor-spec": {
+                          "dtype": "float64",
+                          "shape": [
+                            -1
+                          ]
+                        }
+                      }
+                    ]
                   }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "version": "2",
-      "run": {
-        "summary": {
-          "artifacts": {
-            "num_artifacts": 5,
-            "num_bytes": 3269,
-            "num_levels": 1
-          },
-          "params": 1,
-          "metrics": 2,
-          "tags": 9
-        },
-        "run": {
-          "info": {
-            "run_uuid": "068b0ceec8f34db69a221d5931290a85",
-            "experiment_id": "2",
-            "run_name": "sklearn-model",
-            "user_id": "andre",
-            "status": "FINISHED",
-            "start_time": 1679787938174,
-            "end_time": 1679787941821,
-            "artifact_uri": "/opt/mlflow/mlruns/2/068b0ceec8f34db69a221d5931290a85/artifacts",
-            "lifecycle_stage": "active",
-            "run_id": "068b0ceec8f34db69a221d5931290a85",
-            "_start_time": "2023-03-25 19:45:38",
-            "_end_time": "2023-03-25 19:45:42",
-            "_duration": 3.647,
-            "_experiment_name": "sklearn_iris"
-          },
-          "data": {
-            "metrics": [
-              {
-                "key": "accuracy_score",
-                "value": 0.9555555555555556,
-                "timestamp": 1679787938274,
-                "step": 0
-              },
-              {
-                "key": "zero_one_loss",
-                "value": 0.0444444444444444,
-                "timestamp": 1679787938299,
-                "step": 0
-              }
-            ],
-            "params": [
-              {
-                "key": "max_depth",
-                "value": "5"
-              }
-            ],
-            "tags": {
-              "mlflow.user": "andre",
-              "mlflow.source.name": "train.py",
-              "mlflow.source.type": "LOCAL",
-              "mlflow.source.git.commit": "3bf1b4185051f0a258facb8f9d1c44df2fa5d27d",
-              "mlflow.runName": "sklearn-model",
-              "mlflow_version": "2.2.1",
-              "dataset": "sklearn-iris",
-              "int": "123",
-              "mlflow.log-model.history": [
+                },
                 {
-                  "run_id": "068b0ceec8f34db69a221d5931290a85",
-                  "artifact_path": "sklearn-model",
-                  "utc_time_created": "2023-03-25 23:45:38.307517",
+                  "run_id": "6891e9c93f5b4c18a54c534e01c19378",
+                  "artifact_path": "onnx-model",
+                  "utc_time_created": "2023-05-28 11:42:06.411792",
                   "flavors": {
                     "python_function": {
-                      "model_path": "model.pkl",
-                      "predict_fn": "predict",
-                      "loader_module": "mlflow.sklearn",
-                      "python_version": "3.8.0",
+                      "loader_module": "mlflow.onnx",
+                      "python_version": "3.8.16",
+                      "data": "model.onnx",
                       "env": {
                         "conda": "conda.yaml",
                         "virtualenv": "python_env.yaml"
                       }
                     },
-                    "sklearn": {
-                      "pickled_model": "model.pkl",
-                      "sklearn_version": "0.24.2",
-                      "serialization_format": "cloudpickle",
+                    "onnx": {
+                      "onnx_version": "1.13.0",
+                      "data": "model.onnx",
+                      "providers": [
+                        "CUDAExecutionProvider",
+                        "CPUExecutionProvider"
+                      ],
                       "code": null
                     }
                   },
-                  "model_uuid": "1c2989fc1d1d469489c64e125c252857",
-                  "mlflow_version": "2.2.1"
+                  "model_uuid": "4a948f4e08264c888f00499db4db3a84",
+                  "mlflow_version": "2.3.2"
                 }
-              ]
+              ],
+              "version.onnx": "1.13.0",
+              "output_path": "None",
+              "run.info.start_time": "1685274123505",
+              "run.info.end_time": "1685274127806",
+              "run.info._start_time": "2023-05-28 07:42:04",
+              "run.info._end_time": "2023-05-28 07:42:08"
             }
           }
         },
         "artifacts": {
-          "root_uri": "/opt/mlflow/mlruns/2/068b0ceec8f34db69a221d5931290a85/artifacts",
+          "summary": {
+            "artifact_max_level": 100,
+            "num_artifacts": 11,
+            "num_bytes": 34777,
+            "num_levels": 2
+          },
+          "root_uri": "/opt/mlflow/server/mlruns/1/6891e9c93f5b4c18a54c534e01c19378/artifacts",
           "files": [
             {
-              "path": "sklearn-model",
+              "path": "model",
               "is_dir": true,
               "artifacts": {
-                "root_uri": "/opt/mlflow/mlruns/2/068b0ceec8f34db69a221d5931290a85/artifacts",
+                "root_uri": "/opt/mlflow/server/mlruns/1/6891e9c93f5b4c18a54c534e01c19378/artifacts",
                 "files": [
                   {
-                    "path": "sklearn-model/MLmodel",
+                    "path": "model/MLmodel",
                     "is_dir": false,
-                    "file_size": 510
+                    "file_size": 1111
                   },
                   {
-                    "path": "sklearn-model/conda.yaml",
+                    "path": "model/conda.yaml",
                     "is_dir": false,
-                    "file_size": 222
+                    "file_size": 191
                   },
                   {
-                    "path": "sklearn-model/model.pkl",
+                    "path": "model/model.pkl",
                     "is_dir": false,
-                    "file_size": 2310
+                    "file_size": 3070
                   },
                   {
-                    "path": "sklearn-model/python_env.yaml",
+                    "path": "model/python_env.yaml",
                     "is_dir": false,
-                    "file_size": 121
+                    "file_size": 122
                   },
                   {
-                    "path": "sklearn-model/requirements.txt",
+                    "path": "model/requirements.txt",
                     "is_dir": false,
-                    "file_size": 106
+                    "file_size": 78
                   }
                 ]
               }
+            },
+            {
+              "path": "onnx-model",
+              "is_dir": true,
+              "artifacts": {
+                "root_uri": "/opt/mlflow/server/mlruns/1/6891e9c93f5b4c18a54c534e01c19378/artifacts",
+                "files": [
+                  {
+                    "path": "onnx-model/MLmodel",
+                    "is_dir": false,
+                    "file_size": 494
+                  },
+                  {
+                    "path": "onnx-model/conda.yaml",
+                    "is_dir": false,
+                    "file_size": 149
+                  },
+                  {
+                    "path": "onnx-model/model.onnx",
+                    "is_dir": false,
+                    "file_size": 1628
+                  },
+                  {
+                    "path": "onnx-model/python_env.yaml",
+                    "is_dir": false,
+                    "file_size": 122
+                  },
+                  {
+                    "path": "onnx-model/requirements.txt",
+                    "is_dir": false,
+                    "file_size": 44
+                  }
+                ]
+              }
+            },
+            {
+              "path": "plot.png",
+              "is_dir": false,
+              "file_size": 27768
             }
           ]
         }
