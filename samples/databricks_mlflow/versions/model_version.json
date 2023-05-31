@@ -18,7 +18,7 @@
     "creation_timestamp": 1685335854331,
     "last_updated_timestamp": 1685335855771,
     "user_id": "andre@piolet-knot.com",
-    "current_stage": "None",
+    "current_stage": "Production",
     "source": "dbfs:/databricks/mlflow-tracking/1565792132797454/391be3a1d88940d194958b718e898dfc/artifacts/onnx-model",
     "run_id": "391be3a1d88940d194958b718e898dfc",
     "status": "READY",
@@ -102,7 +102,7 @@
           },
           {
             "service_principal_name": "038455d4-e5ec-4544-b6cf-64d55b91fee1",
-            "display_name": "feifei-service-principal-e2-demo-west-ws-do-not-delete",
+            "display_name": "tenzing-service-principal-8k",
             "all_permissions": [
               {
                 "permission_level": "CAN_MANAGE",
