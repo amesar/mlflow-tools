@@ -1,0 +1,108 @@
+{
+  "system": {
+    "script": "dump_mlflow_model.py",
+    "display_time": "2023-06-01 17:17:03",
+    "mlflow": {
+      "version": "2.3.2",
+      "tracking_uri": "databricks://e2_demo"
+    },
+    "platform": {
+      "python_version": "3.8.16",
+      "system": "Darwin"
+    },
+    "user": "andre"
+  },
+  "model_info": {
+    "_artifact_path": "onnx-model",
+    "_flavors": {
+      "onnx": {
+        "code": null,
+        "data": "model.onnx",
+        "onnx_version": "1.12.0",
+        "providers": [
+          "CUDAExecutionProvider",
+          "CPUExecutionProvider"
+        ]
+      },
+      "python_function": {
+        "data": "model.onnx",
+        "env": {
+          "conda": "conda.yaml",
+          "virtualenv": "python_env.yaml"
+        },
+        "loader_module": "mlflow.onnx",
+        "python_version": "3.10.6"
+      }
+    },
+    "_model_uri": "models:/Sklearn_Wine_ONNX_ws/3",
+    "_model_uuid": "0b94c191034d457f96b8f3b82ebe5f1a",
+    "_run_id": "a2718d7b2a354da2ae9be9fc971b654c",
+    "_saved_input_example_info": {
+      "artifact_path": "input_example.json",
+      "pandas_orient": "split",
+      "type": "dataframe"
+    },
+    "_signature": {
+      "inputs": [
+        {
+          "name": "fixed_acidity",
+          "type": "double"
+        },
+        {
+          "name": "volatile_acidity",
+          "type": "double"
+        },
+        {
+          "name": "citric_acid",
+          "type": "double"
+        },
+        {
+          "name": "residual_sugar",
+          "type": "double"
+        },
+        {
+          "name": "chlorides",
+          "type": "double"
+        },
+        {
+          "name": "free_sulfur_dioxide",
+          "type": "double"
+        },
+        {
+          "name": "total_sulfur_dioxide",
+          "type": "double"
+        },
+        {
+          "name": "density",
+          "type": "double"
+        },
+        {
+          "name": "pH",
+          "type": "double"
+        },
+        {
+          "name": "sulphates",
+          "type": "double"
+        },
+        {
+          "name": "alcohol",
+          "type": "double"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "tensor",
+          "tensor-spec": {
+            "dtype": "float64",
+            "shape": [
+              -1
+            ]
+          }
+        }
+      ]
+    },
+    "_utc_time_created": "2023-06-01 17:05:29.246755",
+    "_mlflow_version": "2.3.2",
+    "_metadata": null
+  }
+}

@@ -1,7 +1,7 @@
 {
   "system": {
     "script": "dump_model_version.py",
-    "display_time": "2023-05-30 13:38:35",
+    "display_time": "2023-06-01 17:22:44",
     "mlflow": {
       "version": "2.3.2",
       "tracking_uri": "databricks://e2_demo"
@@ -14,126 +14,137 @@
   },
   "model_version": {
     "name": "Sklearn_Wine_ONNX_ws",
-    "version": "1",
-    "creation_timestamp": 1685335854331,
-    "last_updated_timestamp": 1685335855771,
+    "version": "3",
+    "creation_timestamp": 1685639131556,
+    "last_updated_timestamp": 1685639133155,
     "user_id": "andre@piolet-knot.com",
-    "current_stage": "Production",
-    "source": "dbfs:/databricks/mlflow-tracking/1565792132797454/391be3a1d88940d194958b718e898dfc/artifacts/onnx-model",
-    "run_id": "391be3a1d88940d194958b718e898dfc",
+    "current_stage": "None",
+    "source": "dbfs:/databricks/mlflow-tracking/1565792132797455/a2718d7b2a354da2ae9be9fc971b654c/artifacts/onnx-model",
+    "run_id": "a2718d7b2a354da2ae9be9fc971b654c",
     "status": "READY",
     "_download_uri": {
-      "artifact_uri": "dbfs:/databricks/mlflow-registry/875b835c41c445e5859fa14eb9cda9e4/models/onnx-model"
+      "artifact_uri": "dbfs:/databricks/mlflow-registry/eff6bd22193148c68e402b090c75c313/models/onnx-model"
     },
-    "_creation_timestamp": "2023-05-29 04:50:54",
-    "_last_updated_timestamp": "2023-05-29 04:50:56"
+    "_creation_timestamp": "2023-06-01 17:05:32",
+    "_last_updated_timestamp": "2023-06-01 17:05:33"
   },
-  "registered_model": {
-    "name": "Sklearn_Wine_ONNX_ws",
-    "creation_timestamp": 1685335854094,
-    "last_updated_timestamp": 1685337203639,
-    "user_id": "andre@piolet-knot.com",
-    "id": "eb782e332b254e42baf946592807fc62",
-    "permission_level": "CAN_MANAGE",
-    "_creation_timestamp": "2023-05-29 04:50:54",
-    "_last_updated_timestamp": "2023-05-29 05:13:24",
-    "latest_versions": 2,
-    "_tracking_uri": "databricks://e2_demo",
-    "permissions": {
-      "permission_levels": [
-        {
-          "permission_level": "CAN_READ",
-          "description": "Can view the details of the registered model and its model versions, and use the model versions."
+  "mlflow_model_info": {
+    "model_info": {
+      "_artifact_path": "onnx-model",
+      "_flavors": {
+        "onnx": {
+          "code": null,
+          "data": "model.onnx",
+          "onnx_version": "1.12.0",
+          "providers": [
+            "CUDAExecutionProvider",
+            "CPUExecutionProvider"
+          ]
         },
-        {
-          "permission_level": "CAN_EDIT",
-          "description": "Can view and edit the details of a registered model and its model versions (except stage changes), and add new model versions."
-        },
-        {
-          "permission_level": "CAN_MANAGE_STAGING_VERSIONS",
-          "description": "Can view and edit the details of a registered model and its model versions, add new model versions, and manage stage transitions between non-Production stages."
-        },
-        {
-          "permission_level": "CAN_MANAGE_PRODUCTION_VERSIONS",
-          "description": "Can view and edit the details of a registered model and its model versions, add new model versions, and manage stage transitions between any stages."
-        },
-        {
-          "permission_level": "CAN_MANAGE",
-          "description": "Can manage permissions on, view all details of, and perform all actions on the registered model and its model versions."
+        "python_function": {
+          "data": "model.onnx",
+          "env": {
+            "conda": "conda.yaml",
+            "virtualenv": "python_env.yaml"
+          },
+          "loader_module": "mlflow.onnx",
+          "python_version": "3.10.6"
         }
-      ],
-      "permissions": {
-        "object_id": "/registered-models/eb782e332b254e42baf946592807fc62",
-        "object_type": "registered-model",
-        "access_control_list": [
+      },
+      "_model_uri": "models:/Sklearn_Wine_ONNX_ws/3",
+      "_model_uuid": "0b94c191034d457f96b8f3b82ebe5f1a",
+      "_run_id": "a2718d7b2a354da2ae9be9fc971b654c",
+      "_saved_input_example_info": {
+        "artifact_path": "input_example.json",
+        "pandas_orient": "split",
+        "type": "dataframe"
+      },
+      "_signature": {
+        "inputs": [
           {
-            "user_name": "andre@piolet-knot.com",
-            "display_name": "andre",
-            "all_permissions": [
-              {
-                "permission_level": "CAN_MANAGE",
-                "inherited": false
-              }
-            ]
+            "name": "fixed_acidity",
+            "type": "double"
           },
           {
-            "group_name": "admins",
-            "all_permissions": [
-              {
-                "permission_level": "CAN_MANAGE",
-                "inherited": true,
-                "inherited_from_object": [
-                  "/registered-models/"
-                ]
-              }
-            ]
+            "name": "volatile_acidity",
+            "type": "double"
           },
           {
-            "group_name": "users",
-            "all_permissions": [
-              {
-                "permission_level": "CAN_MANAGE",
-                "inherited": true,
-                "inherited_from_object": [
-                  "/registered-models/"
-                ]
-              }
-            ]
+            "name": "citric_acid",
+            "type": "double"
           },
           {
-            "service_principal_name": "038455d4-e5ec-4544-b6cf-64d55b91fee1",
-            "display_name": "tenzing-service-principal-8k",
-            "all_permissions": [
-              {
-                "permission_level": "CAN_MANAGE",
-                "inherited": true,
-                "inherited_from_object": [
-                  "/registered-models/"
-                ]
-              }
-            ]
+            "name": "residual_sugar",
+            "type": "double"
+          },
+          {
+            "name": "chlorides",
+            "type": "double"
+          },
+          {
+            "name": "free_sulfur_dioxide",
+            "type": "double"
+          },
+          {
+            "name": "total_sulfur_dioxide",
+            "type": "double"
+          },
+          {
+            "name": "density",
+            "type": "double"
+          },
+          {
+            "name": "pH",
+            "type": "double"
+          },
+          {
+            "name": "sulphates",
+            "type": "double"
+          },
+          {
+            "name": "alcohol",
+            "type": "double"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "tensor",
+            "tensor-spec": {
+              "dtype": "float64",
+              "shape": [
+                -1
+              ]
+            }
           }
         ]
-      }
+      },
+      "_utc_time_created": "2023-06-01 17:05:29.246755",
+      "_mlflow_version": "2.3.2",
+      "_metadata": null
     }
   },
   "mlflow_model_artifacts": {
     "summary": {
       "artifact_max_level": 1,
-      "num_artifacts": 5,
-      "num_bytes": 2170,
+      "num_artifacts": 6,
+      "num_bytes": 104861,
       "num_levels": 1
     },
     "artifacts": [
       {
         "path": "onnx-model/MLmodel",
         "is_dir": false,
-        "file_size": 1147
+        "file_size": 1250
       },
       {
         "path": "onnx-model/conda.yaml",
         "is_dir": false,
-        "file_size": 167
+        "file_size": 185
+      },
+      {
+        "path": "onnx-model/input_example.json",
+        "is_dir": false,
+        "file_size": 102556
       },
       {
         "path": "onnx-model/model.onnx",
@@ -148,7 +159,7 @@
       {
         "path": "onnx-model/requirements.txt",
         "is_dir": false,
-        "file_size": 58
+        "file_size": 72
       }
     ]
   },
@@ -156,7 +167,7 @@
     "summary": {
       "params": 2,
       "metrics": 1,
-      "tags": 25,
+      "tags": 24,
       "artifacts": {
         "artifact_max_level": 1,
         "num_artifacts": 0,
@@ -166,26 +177,26 @@
     },
     "run": {
       "info": {
-        "run_id": "391be3a1d88940d194958b718e898dfc",
-        "run_uuid": "391be3a1d88940d194958b718e898dfc",
-        "experiment_id": "1565792132797454",
-        "run_name": "sklearn",
+        "run_id": "a2718d7b2a354da2ae9be9fc971b654c",
+        "run_uuid": "a2718d7b2a354da2ae9be9fc971b654c",
+        "experiment_id": "1565792132797455",
+        "run_name": "sklearn_onnx",
         "status": "FINISHED",
-        "start_time": 1685335847427,
-        "end_time": 1685335860589,
-        "artifact_uri": "dbfs:/databricks/mlflow-tracking/1565792132797454/391be3a1d88940d194958b718e898dfc/artifacts",
+        "start_time": 1685639124257,
+        "end_time": 1685639137815,
+        "artifact_uri": "dbfs:/databricks/mlflow-tracking/1565792132797455/a2718d7b2a354da2ae9be9fc971b654c/artifacts",
         "lifecycle_stage": "active",
-        "_start_time": "2023-05-29 04:50:47",
-        "_end_time": "2023-05-29 04:51:01",
-        "_duration": 13.162,
-        "_experiment_name": "/Users/andre@piolet-knot.com/Trash/Wine_Quality_ONNX_ws"
+        "_start_time": "2023-06-01 17:05:24",
+        "_end_time": "2023-06-01 17:05:38",
+        "_duration": 13.558,
+        "_experiment_name": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws"
       },
       "data": {
         "metrics": [
           {
             "key": "rmse",
             "value": 0.7986004372118107,
-            "timestamp": 1685335860523,
+            "timestamp": 1685639137744,
             "step": 0
           }
         ],
@@ -223,23 +234,28 @@
             ],
             "redacted": []
           },
-          "mlflow.databricks.gitRepoCommit": "00297b764fd3c9f3d02a3423252b188b9308f25f",
+          "mlflow.databricks.gitRepoCommit": "bd83465f717541ae2355f7846f7feb78e25a069a",
           "mlflow.databricks.gitRepoProvider": "gitHub",
           "mlflow.databricks.gitRepoReference": "master",
           "mlflow.databricks.gitRepoReferenceType": "branch",
           "mlflow.databricks.gitRepoRelativePath": "databricks/notebooks/basic/Sklearn_Wine_ONNX",
           "mlflow.databricks.gitRepoStatus": "unknown",
           "mlflow.databricks.gitRepoUrl": "https://github.com/amesar/mlflow-examples",
-          "mlflow.databricks.notebook.commandID": "2729497053261519868_6173749015239766044_ecbbc035af504c88a47f5025fda14739",
+          "mlflow.databricks.notebook.commandID": "8112085755715657309_7940707899562739674_87ca8f00ceee480396aebe196adb313e",
           "mlflow.databricks.notebookID": "1765187885495750",
           "mlflow.databricks.notebookPath": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine_ONNX",
-          "mlflow.databricks.notebookRevisionID": "1685335860834",
+          "mlflow.databricks.notebookRevisionID": "1685639137989",
           "mlflow.databricks.webappURL": "https://erie.mist.piolet-knot.com",
           "mlflow.databricks.workspaceID": "2556758628403379",
           "mlflow.databricks.workspaceURL": "e2-demo-west.cloud.databricks.com",
           "mlflow.log-model.history": [
             {
               "artifact_path": "sklearn-model",
+              "saved_input_example_info": {
+                "artifact_path": "input_example.json",
+                "type": "dataframe",
+                "pandas_orient": "split"
+              },
               "signature": {
                 "inputs": [
                   {
@@ -317,14 +333,19 @@
                   "code": null
                 }
               },
-              "run_id": "391be3a1d88940d194958b718e898dfc",
-              "model_uuid": "4cc04aef7b25409680317dfc6616bf9d",
-              "utc_time_created": "2023-05-29 04:50:47.920330",
+              "run_id": "a2718d7b2a354da2ae9be9fc971b654c",
+              "model_uuid": "b136b27f66dd4f79b7fb6562e5950d5c",
+              "utc_time_created": "2023-06-01 17:05:24.912487",
               "mlflow_version": "2.3.2",
               "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
             },
             {
               "artifact_path": "onnx-model",
+              "saved_input_example_info": {
+                "artifact_path": "input_example.json",
+                "type": "dataframe",
+                "pandas_orient": "split"
+              },
               "signature": {
                 "inputs": [
                   {
@@ -404,32 +425,17 @@
                   "code": null
                 }
               },
-              "run_id": "391be3a1d88940d194958b718e898dfc",
-              "model_uuid": "8059a3c6b7fe4e28b383c8a08553cb0e",
-              "utc_time_created": "2023-05-29 04:50:51.767765",
+              "run_id": "a2718d7b2a354da2ae9be9fc971b654c",
+              "model_uuid": "0b94c191034d457f96b8f3b82ebe5f1a",
+              "utc_time_created": "2023-06-01 17:05:29.246755",
               "mlflow_version": "2.3.2",
               "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
             }
           ],
-          "mlflow.runName": "sklearn",
+          "mlflow.runName": "sklearn_onnx",
           "mlflow.source.name": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine_ONNX",
           "mlflow.source.type": "NOTEBOOK",
           "mlflow.user": "andre@piolet-knot.com",
-          "sparkDatasourceInfo": [
-            {
-              "path": "dbfs:/databricks-datasets/wine-quality/winequality-white.csv",
-              "format": "text"
-            },
-            {
-              "path": "dbfs:/databricks-datasets/wine-quality/winequality-red.csv",
-              "format": "text"
-            },
-            {
-              "path": "dbfs:/user/hive/warehouse/andre.db/wine_quality",
-              "version": "0",
-              "format": "delta"
-            }
-          ],
           "version.mlflow": "2.3.2",
           "version.onnx": "1.12.0"
         }
@@ -443,7 +449,7 @@
         "num_bytes": 0,
         "num_levels": 1
       },
-      "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797454/391be3a1d88940d194958b718e898dfc/artifacts",
+      "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797455/a2718d7b2a354da2ae9be9fc971b654c/artifacts",
       "files": [
         {
           "path": "onnx-model",
@@ -459,19 +465,18 @@
     }
   },
   "experiment": {
-    "experiment_id": "1565792132797454",
-    "name": "/Users/andre@piolet-knot.com/Trash/Wine_Quality_ONNX_ws",
-    "artifact_location": "dbfs:/databricks/mlflow-tracking/1565792132797454",
-    "lifecycle_stage": "deleted",
-    "last_update_time": 1685335847427,
-    "creation_time": 1685335846306,
-    "_last_update_time": "2023-05-29 04:50:47",
-    "_creation_time": "2023-05-29 04:50:46",
+    "experiment_id": "1565792132797455",
+    "name": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws",
+    "artifact_location": "dbfs:/databricks/mlflow-tracking/1565792132797455",
+    "lifecycle_stage": "active",
+    "last_update_time": 1685639124257,
+    "creation_time": 1685336134778,
+    "_last_update_time": "2023-06-01 17:05:24",
+    "_creation_time": "2023-05-29 04:55:35",
     "_tracking_uri": "databricks://e2_demo",
     "tags": {
-      "mlflow.note.content": "Sklearn and ONNX models in one run",
       "mlflow.ownerId": "4566812440727830",
-      "mlflow.experiment.sourceName": "/Users/andre@piolet-knot.com/Trash/Wine_Quality_ONNX_ws",
+      "mlflow.experiment.sourceName": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws",
       "mlflow.ownerEmail": "andre@piolet-knot.com",
       "mlflow.experimentType": "MLFLOW_EXPERIMENT"
     }

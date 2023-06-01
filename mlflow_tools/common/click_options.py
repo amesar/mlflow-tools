@@ -19,6 +19,24 @@ def opt_sort_order(function):
     )(function)
     return function
 
+def opt_dump_run(function):
+    function = click.option("--dump-run",
+        help="Dump run.",
+        type=bool,
+        default=False,
+        show_default=True
+    )(function)
+    return function
+
+def opt_dump_experiment(function):
+    function = click.option("--dump-experiment",
+        help="Dump the run's experiment.",
+        type=bool,
+        default=False,
+        show_default=True
+    )(function)
+    return function
+
 def opt_dump_permissions(function):
     function = click.option("--dump-permissions",
         help="Dump Databricks permissions.",

@@ -9,6 +9,8 @@ from mlflow_tools.common.click_options import (
     opt_artifact_max_level,
     opt_show_tags_as_dict,
     opt_explode_json_string,
+    opt_dump_run,
+    opt_dump_experiment,
     opt_dump_permissions,
     opt_show_system_info,
     opt_format,
@@ -16,6 +18,7 @@ from mlflow_tools.common.click_options import (
 )
 from mlflow_tools.display import dump_run as _dump_run
 from mlflow_tools.display import dump_registered_model as _dump_registered_model
+from mlflow_tools.display import dump_mlflow_model as _dump_mlflow_model
 from mlflow_tools.display.dump_experiment import adjust_experiment
 from mlflow_tools.display.display_utils import build_artifacts
 from mlflow_tools.display.display_utils import dump_finish
@@ -28,9 +31,10 @@ def dump(
         model_name,
         version,
         dump_run = False,
-        dump_run_model = False,
-        dump_experiment = False,
+        dump_model_info = False,
+        dump_model_artifacts = False,
         dump_registered_model = False,
+        dump_experiment = False,
         artifact_max_level = 1,
         show_tags_as_dict = True,
         explode_json_string = True,
@@ -40,7 +44,6 @@ def dump(
         output_file = None
     ):
     rsp = http_client.get("model-versions/get", { "name": model_name, "version": version })
-
     vr = rsp["model_version"]
     adjust_model_version(http_client, vr, show_tags_as_dict)
 
@@ -50,7 +53,7 @@ def dump(
 
     if dump_registered_model:
         reg_model = _dump_registered_model.dump(
-            vr["name"],
+            model_name,
             artifact_max_level = 0,
             explode_json_string  =  explode_json_string,
             show_tags_as_dict = show_tags_as_dict,
@@ -60,8 +63,12 @@ def dump(
         reg_model["latest_versions"] = len(reg_model["latest_versions"])
         dct["registered_model"] = reg_model
 
+    if dump_model_info:
+        model_uri = f"models:/{model_name}/{version}"
+        dct["mlflow_model_info"] = _dump_mlflow_model.build(model_uri)
+
     run = None
-    if dump_run_model:
+    if dump_model_artifacts:
         rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
         run = rsp["run"]
         info = run["info"]
@@ -104,31 +111,27 @@ def dump(
      type=str,
      required=True
 )
-@click.option("--dump-run-model",
-    help="Dump the run model backing the version.",
+@click.option("--dump-model-info",
+    help="Dump the model info.",
     type=bool,
     default=False,
     show_default=True
 )
-@click.option("--dump-run",
-    help="Dump a version's run details.",
+@click.option("--dump-model-artifacts",
+    help="Dump the run model artifacts.",
     type=bool,
     default=False,
     show_default=True
 )
-@opt_artifact_max_level
-@click.option("--dump-experiment",
-    help="Dump the run's experiment.",
-    type=bool,
-    default=False,
-    show_default=True
-)
+@opt_dump_run
 @click.option("--dump-registered-model",
     help="Dump a version's registered model (without version list details).",
     type=bool,
     default=False,
     show_default=True
 )
+@opt_artifact_max_level
+@opt_dump_experiment
 @opt_dump_permissions
 @opt_show_tags_as_dict
 @opt_explode_json_string
@@ -138,7 +141,8 @@ def dump(
 
 def main(model, version, 
         dump_run, 
-        dump_run_model, 
+        dump_model_info,
+        dump_model_artifacts, 
         dump_experiment,
         dump_registered_model,
         artifact_max_level, show_tags_as_dict, explode_json_string,
@@ -151,12 +155,11 @@ def main(model, version,
     for k,v in locals().items(): print(f"  {k}: {v}")
     dump(model, version, 
         dump_run, 
-        dump_run_model, 
+        dump_model_info,
+        dump_model_artifacts, 
         dump_experiment,
         dump_registered_model,
-        artifact_max_level,
-        show_tags_as_dict,
-        explode_json_string,
+        artifact_max_level, show_tags_as_dict, explode_json_string,
         dump_permissions,
         show_system_info,
         format,
