@@ -83,7 +83,6 @@ def dump(
                    show_tags_as_dict = show_tags_as_dict
         )
         dct["run"] = run
-        dump_experiment = True
         if dump_experiment:
             run = run["run"]
             rsp = http_client.get("experiments/get", { "experiment_id": run["info"]["experiment_id"] })
