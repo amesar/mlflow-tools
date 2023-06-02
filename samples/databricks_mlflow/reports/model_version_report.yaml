@@ -1,57 +1,90 @@
 report_info:
   script: report_model_version.py
-  timestamp: '2023-06-02 02:20:04'
+  timestamp: '2023-06-02 14:46:00'
   user: andre
   mlflow_version: 2.3.2
 model_summary:
   general:
     user: andre@piolet-knot.com
-    time_created: '2023-05-17 15:57:44.908636'
+    time_created: '2023-06-02 14:37:30.859332'
     tracking_server: https://stage-south.mist.piolet-knot.net/api/2.0/mlflow
   registered_model:
-    name: Keras_Mnist
-    version: '2'
+    name: Sklearn_Wine_ONNX_ws
+    version: '4'
   mlflow_model:
-    model_name: model
-    run_id: a17f0abf5d46464d899f0ffcebbdb7a8
+    model_name: onnx-model
+    run_id: dfec96c410ef4d3d956bc2afcce8f1a9
     experiment:
-      name: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Keras_Mnist
-      experiment_id: 9195e233f19e49379b16c5f2d2b0c05f
+      name: /Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws
+      experiment_id: '1565792132797455'
   native_model:
-    time_created: '2023-05-17 15:57:44.908636'
+    time_created: '2023-06-02 14:37:30.859332'
     native_flavor:
-      data: data
-      keras_version: 2.11.0
+      data: model.onnx
+      onnx_version: 1.12.0
 mlflow_model:
-  model_name: model
-  model_artifacts_size: 3332427
+  model_name: onnx-model
+  model_artifacts_size: 104835
   model_source_uris:
-    run_model_uri: dbfs:/databricks/mlflow-tracking/9195e233f19e49379b16c5f2d2b0c05f/a17f0abf5d46464d899f0ffcebbdb7a8/artifacts/model
+    run_model_uri: dbfs:/databricks/mlflow-tracking/1565792132797455/dfec96c410ef4d3d956bc2afcce8f1a9/artifacts/onnx-model
     registry_model_uri:
-      artifact_uri: dbfs:/databricks/mlflow-registry/12f0cd5eb23043e19d07f250e7e677df/models/model
+      artifact_uri: dbfs:/databricks/mlflow-registry/7ece9fd981554ef38ba13c0ff58f99b8/models/onnx-model
   model_info:
     model_info:
-      _artifact_path: model
+      _artifact_path: onnx-model
       _flavors:
+        onnx:
+          code: null
+          data: model.onnx
+          onnx_version: 1.12.0
+          providers:
+          - CUDAExecutionProvider
+          - CPUExecutionProvider
         python_function:
-          data: data
+          data: model.onnx
           env:
             conda: conda.yaml
             virtualenv: python_env.yaml
-          loader_module: mlflow.tensorflow
+          loader_module: mlflow.onnx
           python_version: 3.10.6
-        tensorflow:
-          code: null
-          data: data
-          keras_version: 2.11.0
-          model_type: keras
-          save_format: tf
-      _model_uri: models:/Keras_Mnist/2
-      _model_uuid: caf7832f6abf43c5905c42a9d32c943a
-      _run_id: a17f0abf5d46464d899f0ffcebbdb7a8
-      _saved_input_example_info: null
-      _signature: null
-      _utc_time_created: '2023-05-17 15:57:44.908636'
+      _model_uri: models:/Sklearn_Wine_ONNX_ws/4
+      _model_uuid: 39f9661f755e42278ddcb5583d3e03d4
+      _run_id: dfec96c410ef4d3d956bc2afcce8f1a9
+      _saved_input_example_info:
+        artifact_path: input_example.json
+        pandas_orient: split
+        type: dataframe
+      _signature:
+        inputs:
+        - name: fixed_acidity
+          type: double
+        - name: volatile_acidity
+          type: double
+        - name: citric_acid
+          type: double
+        - name: residual_sugar
+          type: double
+        - name: chlorides
+          type: double
+        - name: free_sulfur_dioxide
+          type: double
+        - name: total_sulfur_dioxide
+          type: double
+        - name: density
+          type: double
+        - name: pH
+          type: double
+        - name: sulphates
+          type: double
+        - name: alcohol
+          type: double
+        outputs:
+        - type: tensor
+          tensor-spec:
+            dtype: float64
+            shape:
+            - -1
+      _utc_time_created: '2023-06-02 14:37:30.859332'
       _mlflow_version: 2.3.1
       _metadata: null
   model_run_context:
@@ -61,91 +94,86 @@ mlflow_model:
       mlflow.databricks.workspaceURL: stage-south.mist.piolet-knot.net
     source_code:
       mlflow.source:
-        mlflow.source.name: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Keras_Mnist
+        mlflow.source.name: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine_ONNX
         mlflow.source.type: NOTEBOOK
       mlflow.databricks.gitRepo:
-        mlflow.databricks.gitRepoCommit: dde2e2ca09f74fa0b1d05f71e63778600ee9806c
+        mlflow.databricks.gitRepoCommit: bd83465f717541ae2355f7846f7feb78e25a069a
         mlflow.databricks.gitRepoProvider: gitHub
         mlflow.databricks.gitRepoReference: master
         mlflow.databricks.gitRepoReferenceType: branch
-        mlflow.databricks.gitRepoRelativePath: databricks/notebooks/basic/Keras_Mnist
+        mlflow.databricks.gitRepoRelativePath: databricks/notebooks/basic/Sklearn_Wine_ONNX
         mlflow.databricks.gitRepoStatus: unknown
         mlflow.databricks.gitRepoUrl: https://github.com/amesar/mlflow-examples
       mlflow.databricks.notebook:
-        mlflow.databricks.notebook.commandID: 7167713489519079369_6884355830173426785_ac15b3ecceef4196bc25c8413764eb2b
-        mlflow.databricks.notebookID: '1765187885495869'
-        mlflow.databricks.notebookPath: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Keras_Mnist
+        mlflow.databricks.notebook.commandID: 1408575790310823044_7563470563084312964_f7c5b8c9c9f04d1b88cabcb319783cbd
+        mlflow.databricks.notebookID: '1765187885495750'
+        mlflow.databricks.notebookPath: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine_ONNX
+        mlflow.databricks.notebookRevisionID: '1685716659577'
     cluster:
-      mlflow.databricks.cluster.id: 0414-154233-qm0df4rx
+      mlflow.databricks.cluster.id: 0730-172948-runts698
       mlflow.databricks.cluster.info:
-        cluster_name: andre_ML_13.1
+        cluster_name: Shared Autoscaling Americas
         spark_version: 13.1.x-cpu-ml-scala2.12
-        node_type_id: i3.xlarge
-        driver_node_type_id: i3.xlarge
+        node_type_id: i3.4xlarge
+        driver_node_type_id: m5.4xlarge
         autotermination_minutes: 120
         disk_spec:
-          disk_count: 0
-        num_workers: 1
+          disk_type:
+            ebs_volume_type: GENERAL_PURPOSE_SSD
+          disk_count: 1
+          disk_size: 100
+        autoscale:
+          min_workers: 0
+          max_workers: 6
+          target_workers: 3
       mlflow.databricks.cluster.libraries:
         installable: []
         redacted: []
-    spark_datasource: []
+    spark_datasource:
+    - - path: dbfs:/databricks-datasets/wine-quality/winequality-white.csv
+        format: text
+      - path: dbfs:/databricks-datasets/wine-quality/winequality-red.csv
+        format: text
+      - path: dbfs:/user/hive/warehouse/andre.db/wine_quality
+        version: '0'
+        format: delta
   model_artifacts:
     summary:
-      relative_artifact_path: model
-      size: 3332427
-      num_artifacts: 11
+      relative_artifact_path: onnx-model
+      size: 104835
+      num_artifacts: 6
     files:
     - path: MLmodel
-      file_size: 506
+      file_size: 1250
     - path: conda.yaml
-      file_size: 365
+      file_size: 170
+    - path: input_example.json
+      file_size: 102556
+    - path: model.onnx
+      file_size: 676
     - path: python_env.yaml
       file_size: 122
     - path: requirements.txt
-      file_size: 220
-    - path: data
-      artifacts:
-        files:
-        - path: keras_module.txt
-          file_size: 16
-        - path: save_format.txt
-          file_size: 2
-        - path: model
-          artifacts:
-            files:
-            - path: fingerprint.pb
-              file_size: 54
-            - path: keras_metadata.pb
-              file_size: 6829
-            - path: saved_model.pb
-              file_size: 63119
-            - path: variables
-              artifacts:
-                files:
-                - path: variables.data-00000-of-00001
-                  file_size: 3260211
-                - path: variables.index
-                  file_size: 983
+      file_size: 61
 registered_model_version:
-  name: Keras_Mnist
-  version: '2'
-  current_stage: Production
+  name: Sklearn_Wine_ONNX_ws
+  version: '4'
+  current_stage: None
   status: READY
   aliases: null
   description: null
   tags: {}
-  creation_timestamp: '2023-05-17 15:57:55'
-  last_updated_timestamp: '2023-05-30 10:13:54'
+  creation_timestamp: '2023-06-02 14:37:33'
+  last_updated_timestamp: '2023-06-02 14:37:35'
   mlflow_tracking_server_uri: https://stage-south.mist.piolet-knot.net/api/2.0/mlflow
 registered_model:
-  name: Keras_Mnist
-  creation_timestamp: '2023-04-24 07:29:11'
-  last_updated_timestamp: '2023-05-30 10:13:54'
+  name: Sklearn_Wine_ONNX_ws
+  creation_timestamp: '2023-05-29 04:50:54'
+  last_updated_timestamp: '2023-06-02 14:37:33'
   user_id: andre@piolet-knot.com
-  id: 1ff0e29bfd2d425494bb2da87445f56a
+  id: eb782e332b254e42baf946592807fc62
   permission_level: CAN_MANAGE
-  latest_versions: 2
+  latest_versions: 3
   permissions:
     permission_levels:
     - permission_level: CAN_READ
@@ -166,7 +194,7 @@ registered_model:
       description: Can manage permissions on, view all details of, and perform all
         actions on the registered model and its model versions.
     permissions:
-      object_id: /registered-models/1ff0e29bfd2d425494bb2da87445f56a
+      object_id: /registered-models/eb782e332b254e42baf946592807fc62
       object_type: registered-model
       access_control_list:
       - user_name: andre@piolet-knot.com
@@ -195,43 +223,37 @@ registered_model:
           - /registered-models/
 run:
   info:
-    experiment_name: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Keras_Mnist
-    run_id: a17f0abf5d46464d899f0ffcebbdb7a8
-    experiment_id: 9195e233f19e49379b16c5f2d2b0c05f
-    run_name: 2023-05-17 15:50:19 - 2.3.1
+    experiment_name: /Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws
+    run_id: dfec96c410ef4d3d956bc2afcce8f1a9
+    experiment_id: '1565792132797455'
+    run_name: sklearn_onnx
     status: FINISHED
-    start_time: '2023-05-17 15:57:33'
-    end_time: '2023-05-17 15:58:01'
-    artifact_uri: dbfs:/databricks/mlflow-tracking/9195e233f19e49379b16c5f2d2b0c05f/a17f0abf5d46464d899f0ffcebbdb7a8/artifacts
+    start_time: '2023-06-02 14:37:26'
+    end_time: '2023-06-02 14:37:39'
+    artifact_uri: dbfs:/databricks/mlflow-tracking/1565792132797455/dfec96c410ef4d3d956bc2afcce8f1a9/artifacts
     lifecycle_stage: active
-    duration_seconds: 27.66
+    duration_seconds: 12.931
   inputs: {}
   parameters:
-    my_batch_size: '128'
-    my_epochs: '2'
+    max_depth: '1'
+    max_leaf_nodes: None
   metrics:
-  - key: my_acc
-    value: 0.9729999899864197
-    timestamp: 1684339064781
-    step: 0
-  - key: my_loss
-    value: 0.08887006342411041
-    timestamp: 1684339064845
+  - key: rmse
+    value: 0.7986004372118107
+    timestamp: 1685716659341
     step: 0
   user_tags:
-    version.keras: 2.11.0
     version.mlflow: 2.3.1
-    version.tensorflow: 2.11.0
+    version.onnx: 1.12.0
 experiment:
-  experiment_id: 9195e233f19e49379b16c5f2d2b0c05f
-  name: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Keras_Mnist
-  artifact_location: dbfs:/databricks/mlflow-tracking/9195e233f19e49379b16c5f2d2b0c05f
+  experiment_id: '1565792132797455'
+  name: /Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws
+  artifact_location: dbfs:/databricks/mlflow-tracking/1565792132797455
   lifecycle_stage: active
-  last_update_time: '2023-05-17 15:57:33'
-  creation_time: '2023-04-14 16:37:09'
+  last_update_time: '2023-06-02 14:37:26'
+  creation_time: '2023-05-29 04:55:35'
   tags:
-    mlflow.experiment.sourceType: REPO_NOTEBOOK
     mlflow.ownerId: '4566812440727830'
-    mlflow.experiment.sourceName: /Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Keras_Mnist
+    mlflow.experiment.sourceName: /Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws
     mlflow.ownerEmail: andre@piolet-knot.com
-    mlflow.experiment.sourceId: '1765187885495869'
+    mlflow.experimentType: MLFLOW_EXPERIMENT
