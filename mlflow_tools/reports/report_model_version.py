@@ -10,6 +10,7 @@ from mlflow_tools.common.click_options import (
 )        
 from mlflow_tools.display import dump_run
 from mlflow_tools.display import dump_registered_model as _dump_registered_model
+from mlflow_tools.display import dump_mlflow_model as _dump_mlflow_model
 from mlflow_tools.display.display_utils import dump_finish
 from mlflow_tools.reports import utils
 
@@ -25,13 +26,13 @@ def build_report(model_name, version):
     vr = rsp["model_version"]
     run = _mk_run(vr["run_id"])
 
+    model_uri = f"models:/{model_name}/{version}"
+    model_info = _dump_mlflow_model.build(model_uri)
     model_artifact_path = model_download_utils.get_relative_model_path(vr["source"], vr["run_id"])
-    history = _mk_history(run["data"]["tags"], model_artifact_path)
-    native_flavor = _get_native_flavor(history)
 
     return {
-        "model_summary": _mk_model_summary(vr, run, model_artifact_path, native_flavor),
-        "mlflow_model": _mk_mlflow_model(vr, run, history),
+        "model_summary": _mk_model_summary(vr, run, model_artifact_path, model_info["model_info"]),
+        "mlflow_model": _mk_mlflow_model(vr, run, model_info),
         "registered_model_version": _mk_version_summary(vr),
         "registered_model": _mk_registered_model(model_name),
         "run": _mk_run_summary(run),
@@ -39,55 +40,39 @@ def build_report(model_name, version):
     }
 
 
-def _get_native_flavor(history):
-    """
-    Parses the value of the run tag 'mlflow.log-model.history'
-    """
-    if len(history) > 1:
-        raise RuntimeError("WARNING: 'mlflow.log-model.history' list has more than one element")
-    elt = history[0]
-    dct = { k:v for k,v in elt["flavors"].items() if k != "python_function" }
-    #flavor_name = next(iter(dct)) 
-    flavor_name = list(dct.keys())[0]
-    native_model = {
-        "flavor": flavor_name,
-        "metadata": dct[flavor_name]
-    }
-    if len(dct) > 1:
-        raise RuntimeError(f"WARNING: more than one native flavor: {dct.keys()}")
-
-    dct = {
-        "mlflow_version": elt.get("mlflow_version"),
-        "time_created": elt.get("utc_time_created"),
-        "native_model": native_model
-    }
-    return dct 
-
-
-def mk_native_flavor_summary(native_flavor):
+def mk_native_flavor_summary(model_info):
     """ 
-    Remove metadata keys that are not 'data' and do not contain 'version'
+    Make native flavor summary
     """
-    dct = native_flavor.copy()
-    md = dct["native_model"]["metadata"]
-    md2 = md.copy()
-    for k in md.keys():
-        if k != "data" and not "version" in k:
-            md2.pop(k,None)
-    dct["native_model"]["metadata"] = md2
-    return dct
+    def _prune(flavor):
+        """ Remove metadata keys that are not 'data' and do not contain 'version'. """
+        flavor2 = flavor.copy()
+        for k in flavor.keys():
+            if k != "data" and not "version" in k:
+                flavor2.pop(k,None)
+        return flavor2
+
+    flavors = model_info.get("_flavors")
+    flavor_names = { k:v for k,v in flavors.items() if k != "python_function" }
+    flavor_name = list(flavor_names.keys())[0] # assume there is just one
+    flavor = flavors.get(flavor_name)
+    flavor = _prune(flavor)
+    return {
+        "time_created": model_info.get("_utc_time_created"),
+        "native_flavor": flavor
+    }
 
 
-def _mk_model_summary(vr, run, model_artifact_path, native_flavor):
+def _mk_model_summary(vr, run, model_artifact_path, model_info):
     """
     Make top-level model summary
     """
-    native_flavor = mk_native_flavor_summary(native_flavor)
+    native_flavor = mk_native_flavor_summary(model_info)
     info = run["info"]
     return {
         "general": {
             "user": utils.get_user(run),
-            "time_created": native_flavor.get("time_created"),
+            "time_created": model_info.get("_utc_time_created"),
             "tracking_server": str(http_client)
         },
         "registered_model": {
@@ -104,7 +89,6 @@ def _mk_model_summary(vr, run, model_artifact_path, native_flavor):
         }, 
         "native_model": native_flavor
     }
-
 
 def _mk_version_summary(vr):
     """
@@ -171,9 +155,9 @@ def _mk_mlflow_model_sources(vr):
     }
 
 
-def _mk_mlflow_model(vr, run, history):
+def _mk_mlflow_model(vr, run, model_info):
     """
-    MLflow model details
+    MLflow model details 
     """
     run_id = run["info"]["run_id"]
     model_artifact_path = model_download_utils.get_relative_model_path(vr["source"], run_id)
@@ -182,7 +166,7 @@ def _mk_mlflow_model(vr, run, history):
         "model_name": model_artifact_path,
         "model_artifacts_size": model_artifacts["summary"]["size"],
         "model_source_uris": _mk_mlflow_model_sources(vr),
-        "MLmodel": history,
+        "model_info": model_info,
         "model_run_context": _model_run_context(run["data"]["tags"]),
         "model_artifacts": model_artifacts
     }
@@ -205,14 +189,6 @@ def _mk_sparkDatasourceInfo(tags):
     Return a list of data sources from undocumented 'sparkDatasourceInfo' tag field.
     """
     return [ v for k,v in tags.items() if k == "sparkDatasourceInfo" ]
-
-
-def _mk_history(tags, model_artifact_path):
-    """
-    Get the 'mlflow.log-model.history' run tag entry for this MLflow model
-    """
-    history = [ x for x in tags["mlflow.log-model.history"] if x["artifact_path"] == model_artifact_path ]
-    return [ "Internal Error" ] if len(history)==0 else history 
 
 
 def _mk_source_code(tags):

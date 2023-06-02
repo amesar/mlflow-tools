@@ -48,11 +48,12 @@ def _adjust_mlflow_model(dct, details=True):
         display_utils.scrub_dict(dct, bad_key="__objclass__")
     else:
         import json
-        sig = dct.pop("_signature_dict")
-        dct["_signature"] = { 
-            "inputs": json.loads(sig.get("inputs")),
-            "outputs": json.loads(sig.get("outputs"))
-        }
+        sig = dct.pop("_signature_dict", None)
+        if dct.get("_signature"):
+            dct["_signature"] = { 
+                "inputs": json.loads(sig.get("inputs")),
+                "outputs": json.loads(sig.get("outputs"))
+            }
 
 
 def _mk_run(run_id):
