@@ -79,8 +79,8 @@ def adjust_model_version(http_client, vr, show_tags_as_dict=False):
 
     # Get 'cached model' registry link
     from mlflow_tools.common import mlflow_utils
-    uri = http_client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
-    vr["_download_uri"] = uri
+    download_uri = http_client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
+    vr["_download_uri"] = download_uri.get("artifact_uri")
 
     # Add formatted timestamps
     adjust_model_version_timestamp(vr)
