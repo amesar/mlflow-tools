@@ -64,41 +64,58 @@ def dump(
         dct["registered_model"] = reg_model
 
     if dump_model_info:
-        model_uri = f"models:/{model_name}/{version}"
-        dct["mlflow_model_info"] = _dump_mlflow_model.build(model_uri)
+        dct["mlflow_model_infos"] = _mk_model_infos(vr)
 
-    run = None
     if dump_model_artifacts:
-        rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
-        run = rsp["run"]
-        info = run["info"]
-        path = model_download_utils.get_relative_model_path(vr["source"], info["run_id"])
-        artifacts = build_artifacts(info["run_id"], path, artifact_max_level)
-        dct["mlflow_model_artifacts"] = {
-            "summary": artifacts.get("summary"),
-            "artifacts": artifacts.get("files")
-        }
+        dct["mlflow_model_artifacts"] = _mk_model_artifacts(vr, artifact_max_level)
 
-    if dump_run:
-        if not run:
-            rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
-            run = rsp["run"]
-        run = _dump_run.build_run_extended(
-                   run = run,
-                   artifact_max_level = artifact_max_level,
-                   explode_json_string = explode_json_string,
-                   show_tags_as_dict = show_tags_as_dict
-        )
-        dct["run"] = run
-        if dump_experiment:
-            run = run["run"]
-            rsp = http_client.get("experiments/get", { "experiment_id": run["info"]["experiment_id"] })
-            exp = rsp["experiment"]
-            adjust_experiment(exp, show_tags_as_dict)
-            dct["experiment"] = exp
+    if dump_run or dump_experiment:
+        _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_string, show_tags_as_dict, artifact_max_level)
 
     dct = dump_finish(dct, output_file, format, show_system_info, __file__)
 
+
+def _mk_model_infos(vr):
+    def _adjust(dct):
+        """ move the '_model_uri' key to the beginning of dct for readability/clarity. """
+        from collections import OrderedDict
+        dct = OrderedDict(dct["model_info"])
+        dct.move_to_end("_model_uri", last=False)
+        return dct
+    model_uri = f'models:/{vr["name"]}/{vr["version"]}'
+    return {
+        "model_info_run": _adjust(_dump_mlflow_model.build(model_uri)),
+        "model_info_registry": _adjust(_dump_mlflow_model.build(vr["_download_uri"]))
+    }
+
+
+def _mk_model_artifacts(vr, artifact_max_level):
+    rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
+    run = rsp["run"]
+    info = run["info"]
+    path = model_download_utils.get_relative_model_path(vr["source"], info["run_id"])
+    artifacts = build_artifacts(info["run_id"], path, artifact_max_level)
+    return {
+        "summary": artifacts.get("summary"),
+        "artifacts": artifacts.get("files")
+    }
+
+def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_string, show_tags_as_dict, artifact_max_level):
+    if dump_run or dump_experiment:
+        rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
+        run = rsp["run"]
+        dct["run"] = _dump_run.build_run_extended(
+                run = run,
+                artifact_max_level = artifact_max_level,
+                explode_json_string = explode_json_string,
+                show_tags_as_dict = show_tags_as_dict)
+
+    print(">> _mk_run.2: run:",run.keys())
+    if dump_experiment:
+        rsp = http_client.get("experiments/get", { "experiment_id": run["info"]["experiment_id"] })
+        exp = rsp["experiment"]
+        adjust_experiment(exp, show_tags_as_dict)
+        dct["experiment"] = exp
 
 @click.command()
 @click.option("--model",
@@ -112,7 +129,7 @@ def dump(
      required=True
 )
 @click.option("--dump-model-info",
-    help="Dump the model info.",
+    help="Dump the ModelInfo for both the run and registry MLflow model.",
     type=bool,
     default=False,
     show_default=True
@@ -157,8 +174,8 @@ def main(model, version,
         dump_run, 
         dump_model_info,
         dump_model_artifacts, 
-        dump_experiment,
         dump_registered_model,
+        dump_experiment,
         artifact_max_level, show_tags_as_dict, explode_json_string,
         dump_permissions,
         show_system_info,
