@@ -21,6 +21,7 @@
 # MAGIC * [Dump_Experiment]($Dump_Experiment)
 # MAGIC   * Also demonstrates usage of [Databricks mlflow-experiment Spark Data Source](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html).
 # MAGIC * [Dump_Run]($Dump_Run)
+# MAGIC * [Dump_MLflow_Model]($Dump_MLflow_Model) - Dump MLflow ModelInfo for a model URI
 # MAGIC
 # MAGIC **Report tools**
 # MAGIC * [Report_Model_Version]($Report_Model_Version) - Model governance report for model version
