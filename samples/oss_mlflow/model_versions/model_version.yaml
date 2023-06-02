@@ -1,0 +1,373 @@
+system:
+  script: dump_model_version.py
+  display_time: '2023-06-02 12:39:53'
+  mlflow:
+    version: 2.3.2
+    tracking_uri: http://localhost:5020
+  platform:
+    python_version: 3.8.16
+    system: Darwin
+  user: andre
+model_version:
+  name: sklearn_wine
+  version: '6'
+  creation_timestamp: 1685606394129
+  last_updated_timestamp: 1685635534747
+  current_stage: Archived
+  description: v6 Production - wine
+  source: /opt/mlflow/server/mlruns/1/134b5388d5084a7290a84f23c1d6b651/artifacts/model
+  run_id: 134b5388d5084a7290a84f23c1d6b651
+  status: READY
+  tags:
+    registered_version_info: v6 Production - wine
+  run_link: ''
+  _download_uri: /opt/mlflow/server/mlruns/1/134b5388d5084a7290a84f23c1d6b651/artifacts/model
+  _creation_timestamp: '2023-06-01 07:59:54'
+  _last_updated_timestamp: '2023-06-01 16:05:35'
+registered_model:
+  name: sklearn_wine
+  creation_timestamp: 1684983779951
+  last_updated_timestamp: 1685635534747
+  description: Skearn Wine Quality model
+  aliases:
+  - alias: about-ready
+    version: '2'
+  - alias: good-to-go
+    version: '1'
+  - alias: just-in-case
+    version: '3'
+  - alias: my_alias_03
+    version: '7'
+  _creation_timestamp: '2023-05-25 03:03:00'
+  _last_updated_timestamp: '2023-06-01 16:05:35'
+  latest_versions: 4
+  _tracking_uri: http://localhost:5020
+mlflow_model_infos:
+  model_info_run:
+    _model_uri: models:/sklearn_wine/6
+    _artifact_path: model
+    _flavors:
+      python_function:
+        env:
+          conda: conda.yaml
+          virtualenv: python_env.yaml
+        loader_module: mlflow.sklearn
+        model_path: model.pkl
+        predict_fn: predict
+        python_version: 3.8.16
+      sklearn:
+        code: null
+        pickled_model: model.pkl
+        serialization_format: cloudpickle
+        sklearn_version: 1.2.2
+    _model_uuid: 49fc5a8ee2bc4a628486c4490c25ecd6
+    _run_id: 134b5388d5084a7290a84f23c1d6b651
+    _saved_input_example_info: null
+    _signature:
+      inputs:
+      - name: fixed acidity
+        type: double
+      - name: volatile acidity
+        type: double
+      - name: citric acid
+        type: double
+      - name: residual sugar
+        type: double
+      - name: chlorides
+        type: double
+      - name: free sulfur dioxide
+        type: double
+      - name: total sulfur dioxide
+        type: double
+      - name: density
+        type: double
+      - name: pH
+        type: double
+      - name: sulphates
+        type: double
+      - name: alcohol
+        type: double
+      outputs:
+      - type: tensor
+        tensor-spec:
+          dtype: float64
+          shape:
+          - -1
+    _utc_time_created: '2023-06-01 07:59:51.942325'
+    _mlflow_version: 2.3.2
+    _metadata: null
+  model_info_registry:
+    _model_uri: /opt/mlflow/server/mlruns/1/134b5388d5084a7290a84f23c1d6b651/artifacts/model
+    _artifact_path: model
+    _flavors:
+      python_function:
+        env:
+          conda: conda.yaml
+          virtualenv: python_env.yaml
+        loader_module: mlflow.sklearn
+        model_path: model.pkl
+        predict_fn: predict
+        python_version: 3.8.16
+      sklearn:
+        code: null
+        pickled_model: model.pkl
+        serialization_format: cloudpickle
+        sklearn_version: 1.2.2
+    _model_uuid: 49fc5a8ee2bc4a628486c4490c25ecd6
+    _run_id: 134b5388d5084a7290a84f23c1d6b651
+    _saved_input_example_info: null
+    _signature:
+      inputs:
+      - name: fixed acidity
+        type: double
+      - name: volatile acidity
+        type: double
+      - name: citric acid
+        type: double
+      - name: residual sugar
+        type: double
+      - name: chlorides
+        type: double
+      - name: free sulfur dioxide
+        type: double
+      - name: total sulfur dioxide
+        type: double
+      - name: density
+        type: double
+      - name: pH
+        type: double
+      - name: sulphates
+        type: double
+      - name: alcohol
+        type: double
+      outputs:
+      - type: tensor
+        tensor-spec:
+          dtype: float64
+          shape:
+          - -1
+    _utc_time_created: '2023-06-01 07:59:51.942325'
+    _mlflow_version: 2.3.2
+    _metadata: null
+mlflow_model_artifacts:
+  summary:
+    artifact_max_level: 1
+    num_artifacts: 5
+    num_bytes: 4604
+    num_levels: 1
+  artifacts:
+  - path: model/MLmodel
+    is_dir: false
+    file_size: 1111
+  - path: model/conda.yaml
+    is_dir: false
+    file_size: 209
+  - path: model/model.pkl
+    is_dir: false
+    file_size: 3070
+  - path: model/python_env.yaml
+    is_dir: false
+    file_size: 122
+  - path: model/requirements.txt
+    is_dir: false
+    file_size: 92
+run:
+  summary:
+    params: 2
+    metrics: 3
+    tags: 25
+    artifacts:
+      artifact_max_level: 1
+      num_artifacts: 1
+      num_bytes: 27768
+      num_levels: 1
+  run:
+    info:
+      run_uuid: 134b5388d5084a7290a84f23c1d6b651
+      experiment_id: '1'
+      run_name: 134b5388d5084a7290a84f23c1d6b651
+      user_id: andre
+      status: FINISHED
+      start_time: 1685606391723
+      end_time: 1685606396672
+      artifact_uri: /opt/mlflow/server/mlruns/1/134b5388d5084a7290a84f23c1d6b651/artifacts
+      lifecycle_stage: active
+      run_id: 134b5388d5084a7290a84f23c1d6b651
+      _start_time: '2023-06-01 07:59:52'
+      _end_time: '2023-06-01 07:59:57'
+      _duration: 4.949
+      _experiment_name: sklearn_wine
+    data:
+      metrics:
+      - key: rmse
+        value: 0.7367947360663162
+        timestamp: 1685606391913
+        step: 0
+      - key: r2
+        value: 0.28100217442439346
+        timestamp: 1685606391923
+        step: 0
+      - key: mae
+        value: 0.5877424565761121
+        timestamp: 1685606391930
+        step: 0
+      params:
+      - key: max_depth
+        value: '4'
+      - key: max_leaf_nodes
+        value: '32'
+      tags:
+        mlflow.user: andre
+        mlflow.source.name: /Users/andre/git/andre/mlflow-examples/python/sklearn/wine_quality/main_train.py
+        mlflow.source.type: LOCAL
+        mlflow.source.git.commit: 931960a27c12055417abffa04200ed9fb4afaa6f
+        mlflow.runName: 134b5388d5084a7290a84f23c1d6b651
+        run_id: 134b5388d5084a7290a84f23c1d6b651
+        save_signature: 'True'
+        data_path: https://raw.githubusercontent.com/mlflow/mlflow/master/examples/sklearn_elasticnet_wine/wine-quality.csv
+        registered_model_name: sklearn_wine
+        registered_model_version_stage: Production
+        uuid: MEHJgZjvkqKR582dRoEiZd
+        dataset: wine-quality
+        run_origin: train.sh
+        timestamp: '2023-06-01 03:59:51'
+        version.mlflow: 2.3.2
+        version.sklearn: 1.2.2
+        version.platform: macOS-10.16-x86_64-i386-64bit
+        version.python: 3.8.16
+        mlflow.log-model.history:
+        - run_id: 134b5388d5084a7290a84f23c1d6b651
+          artifact_path: model
+          utc_time_created: '2023-06-01 07:59:51.942325'
+          flavors:
+            python_function:
+              model_path: model.pkl
+              predict_fn: predict
+              loader_module: mlflow.sklearn
+              python_version: 3.8.16
+              env:
+                conda: conda.yaml
+                virtualenv: python_env.yaml
+            sklearn:
+              pickled_model: model.pkl
+              sklearn_version: 1.2.2
+              serialization_format: cloudpickle
+              code: null
+          model_uuid: 49fc5a8ee2bc4a628486c4490c25ecd6
+          mlflow_version: 2.3.2
+          signature:
+            inputs:
+            - name: fixed acidity
+              type: double
+            - name: volatile acidity
+              type: double
+            - name: citric acid
+              type: double
+            - name: residual sugar
+              type: double
+            - name: chlorides
+              type: double
+            - name: free sulfur dioxide
+              type: double
+            - name: total sulfur dioxide
+              type: double
+            - name: density
+              type: double
+            - name: pH
+              type: double
+            - name: sulphates
+              type: double
+            - name: alcohol
+              type: double
+            outputs:
+            - type: tensor
+              tensor-spec:
+                dtype: float64
+                shape:
+                - -1
+        - run_id: 134b5388d5084a7290a84f23c1d6b651
+          artifact_path: onnx-model
+          utc_time_created: '2023-06-01 07:59:54.928250'
+          flavors:
+            python_function:
+              loader_module: mlflow.onnx
+              python_version: 3.8.16
+              data: model.onnx
+              env:
+                conda: conda.yaml
+                virtualenv: python_env.yaml
+            onnx:
+              onnx_version: 1.13.0
+              data: model.onnx
+              providers:
+              - CUDAExecutionProvider
+              - CPUExecutionProvider
+              code: null
+          model_uuid: e6ff8dab143c451db07d5454d625a499
+          mlflow_version: 2.3.2
+          signature:
+            inputs:
+            - name: fixed acidity
+              type: double
+            - name: volatile acidity
+              type: double
+            - name: citric acid
+              type: double
+            - name: residual sugar
+              type: double
+            - name: chlorides
+              type: double
+            - name: free sulfur dioxide
+              type: double
+            - name: total sulfur dioxide
+              type: double
+            - name: density
+              type: double
+            - name: pH
+              type: double
+            - name: sulphates
+              type: double
+            - name: alcohol
+              type: double
+            outputs:
+            - type: tensor
+              tensor-spec:
+                dtype: float64
+                shape:
+                - -1
+        version.onnx: 1.13.0
+        output_path: None
+        run.info.start_time: '1685606391723'
+        run.info.end_time: '1685606396672'
+        run.info._start_time: '2023-06-01 03:59:52'
+        run.info._end_time: '2023-06-01 03:59:57'
+  artifacts:
+    summary:
+      artifact_max_level: 1
+      num_artifacts: 1
+      num_bytes: 27768
+      num_levels: 1
+    root_uri: /opt/mlflow/server/mlruns/1/134b5388d5084a7290a84f23c1d6b651/artifacts
+    files:
+    - path: model
+      is_dir: true
+      artifacts: {}
+    - path: onnx-model
+      is_dir: true
+      artifacts: {}
+    - path: plot.png
+      is_dir: false
+      file_size: 27768
+experiment:
+  experiment_id: '1'
+  name: sklearn_wine
+  artifact_location: /opt/mlflow/server/mlruns/1
+  lifecycle_stage: active
+  last_update_time: 1684983776973
+  creation_time: 1684983776973
+  _last_update_time: '2023-05-25 03:02:57'
+  _creation_time: '2023-05-25 03:02:57'
+  _tracking_uri: http://localhost:5020
+  tags:
+    version_mlflow: 2.3.2
+    experiment_created: '2023-06-01 12:05:32'
