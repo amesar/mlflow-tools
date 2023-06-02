@@ -1,0 +1,486 @@
+{
+  "system": {
+    "script": "dump_experiment.py",
+    "display_time": "2023-06-02 20:52:48",
+    "mlflow": {
+      "version": "2.3.2",
+      "tracking_uri": "databricks://e2_demo"
+    },
+    "platform": {
+      "python_version": "3.8.16",
+      "system": "Darwin"
+    },
+    "user": "andre"
+  },
+  "experiment": {
+    "experiment_id": "1565792132797455",
+    "name": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws",
+    "artifact_location": "dbfs:/databricks/mlflow-tracking/1565792132797455",
+    "lifecycle_stage": "active",
+    "last_update_time": 1685716646498,
+    "creation_time": 1685336134778,
+    "_last_update_time": "2023-06-02 14:37:26",
+    "_creation_time": "2023-05-29 04:55:35",
+    "_tracking_uri": "databricks://e2_demo",
+    "tags": {
+      "mlflow.ownerId": "4566812440727830",
+      "mlflow.experiment.sourceName": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws",
+      "mlflow.ownerEmail": "andre@piolet-knot.com",
+      "mlflow.experimentType": "MLFLOW_EXPERIMENT"
+    }
+  },
+  "runs_summary": {
+    "num_runs": 1,
+    "artifacts": 12,
+    "artifact_bytes": 210478,
+    "last_run": 1685716659429,
+    "_last_run": "2023-06-02 14:37:39"
+  },
+  "runs": [
+    {
+      "summary": {
+        "params": 2,
+        "metrics": 1,
+        "tags": 25,
+        "artifacts": {
+          "artifact_max_level": 100,
+          "num_artifacts": 12,
+          "num_bytes": 210478,
+          "num_levels": 2
+        }
+      },
+      "run": {
+        "info": {
+          "run_id": "dfec96c410ef4d3d956bc2afcce8f1a9",
+          "run_uuid": "dfec96c410ef4d3d956bc2afcce8f1a9",
+          "experiment_id": "1565792132797455",
+          "run_name": "sklearn_onnx",
+          "status": "FINISHED",
+          "start_time": 1685716646498,
+          "end_time": 1685716659429,
+          "artifact_uri": "dbfs:/databricks/mlflow-tracking/1565792132797455/dfec96c410ef4d3d956bc2afcce8f1a9/artifacts",
+          "lifecycle_stage": "active",
+          "_start_time": "2023-06-02 14:37:26",
+          "_end_time": "2023-06-02 14:37:39",
+          "_duration": 12.931,
+          "_experiment_name": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws"
+        },
+        "data": {
+          "metrics": [
+            {
+              "key": "rmse",
+              "value": 0.7986004372118107,
+              "timestamp": 1685716659341,
+              "step": 0
+            }
+          ],
+          "params": [
+            {
+              "key": "max_depth",
+              "value": "1"
+            },
+            {
+              "key": "max_leaf_nodes",
+              "value": "None"
+            }
+          ],
+          "tags": {
+            "mlflow.databricks.cluster.id": "0730-172948-runts698",
+            "mlflow.databricks.cluster.info": {
+              "cluster_name": "Shared Autoscaling Americas",
+              "spark_version": "13.1.x-cpu-ml-scala2.12",
+              "node_type_id": "i3.4xlarge",
+              "driver_node_type_id": "m5.4xlarge",
+              "autotermination_minutes": 120,
+              "disk_spec": {
+                "disk_type": {
+                  "ebs_volume_type": "GENERAL_PURPOSE_SSD"
+                },
+                "disk_count": 1,
+                "disk_size": 100
+              },
+              "autoscale": {
+                "min_workers": 0,
+                "max_workers": 6,
+                "target_workers": 3
+              }
+            },
+            "mlflow.databricks.cluster.libraries": {
+              "installable": [],
+              "redacted": []
+            },
+            "mlflow.databricks.gitRepoCommit": "bd83465f717541ae2355f7846f7feb78e25a069a",
+            "mlflow.databricks.gitRepoProvider": "gitHub",
+            "mlflow.databricks.gitRepoReference": "master",
+            "mlflow.databricks.gitRepoReferenceType": "branch",
+            "mlflow.databricks.gitRepoRelativePath": "databricks/notebooks/basic/Sklearn_Wine_ONNX",
+            "mlflow.databricks.gitRepoStatus": "unknown",
+            "mlflow.databricks.gitRepoUrl": "https://github.com/amesar/mlflow-examples",
+            "mlflow.databricks.notebook.commandID": "1408575790310823044_7563470563084312964_f7c5b8c9c9f04d1b88cabcb319783cbd",
+            "mlflow.databricks.notebookID": "1765187885495750",
+            "mlflow.databricks.notebookPath": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine_ONNX",
+            "mlflow.databricks.notebookRevisionID": "1685716659577",
+            "mlflow.databricks.webappURL": "https://erie.mist.piolet-knot.com",
+            "mlflow.databricks.workspaceID": "2556758628403379",
+            "mlflow.databricks.workspaceURL": "stage-south.mist.piolet-knot.net",
+            "mlflow.log-model.history": [
+              {
+                "artifact_path": "sklearn-model",
+                "saved_input_example_info": {
+                  "artifact_path": "input_example.json",
+                  "type": "dataframe",
+                  "pandas_orient": "split"
+                },
+                "signature": {
+                  "inputs": [
+                    {
+                      "name": "fixed_acidity",
+                      "type": "double"
+                    },
+                    {
+                      "name": "volatile_acidity",
+                      "type": "double"
+                    },
+                    {
+                      "name": "citric_acid",
+                      "type": "double"
+                    },
+                    {
+                      "name": "residual_sugar",
+                      "type": "double"
+                    },
+                    {
+                      "name": "chlorides",
+                      "type": "double"
+                    },
+                    {
+                      "name": "free_sulfur_dioxide",
+                      "type": "double"
+                    },
+                    {
+                      "name": "total_sulfur_dioxide",
+                      "type": "double"
+                    },
+                    {
+                      "name": "density",
+                      "type": "double"
+                    },
+                    {
+                      "name": "pH",
+                      "type": "double"
+                    },
+                    {
+                      "name": "sulphates",
+                      "type": "double"
+                    },
+                    {
+                      "name": "alcohol",
+                      "type": "double"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "type": "tensor",
+                      "tensor-spec": {
+                        "dtype": "float64",
+                        "shape": [
+                          -1
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "flavors": {
+                  "python_function": {
+                    "predict_fn": "predict",
+                    "model_path": "model.pkl",
+                    "loader_module": "mlflow.sklearn",
+                    "env": {
+                      "conda": "conda.yaml",
+                      "virtualenv": "python_env.yaml"
+                    },
+                    "python_version": "3.10.6"
+                  },
+                  "sklearn": {
+                    "pickled_model": "model.pkl",
+                    "sklearn_version": "1.1.1",
+                    "serialization_format": "cloudpickle",
+                    "code": null
+                  }
+                },
+                "run_id": "dfec96c410ef4d3d956bc2afcce8f1a9",
+                "model_uuid": "3eac68370804447285e6924869bfa520",
+                "utc_time_created": "2023-06-02 14:37:27.088603",
+                "mlflow_version": "2.3.1",
+                "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
+              },
+              {
+                "artifact_path": "onnx-model",
+                "saved_input_example_info": {
+                  "artifact_path": "input_example.json",
+                  "type": "dataframe",
+                  "pandas_orient": "split"
+                },
+                "signature": {
+                  "inputs": [
+                    {
+                      "name": "fixed_acidity",
+                      "type": "double"
+                    },
+                    {
+                      "name": "volatile_acidity",
+                      "type": "double"
+                    },
+                    {
+                      "name": "citric_acid",
+                      "type": "double"
+                    },
+                    {
+                      "name": "residual_sugar",
+                      "type": "double"
+                    },
+                    {
+                      "name": "chlorides",
+                      "type": "double"
+                    },
+                    {
+                      "name": "free_sulfur_dioxide",
+                      "type": "double"
+                    },
+                    {
+                      "name": "total_sulfur_dioxide",
+                      "type": "double"
+                    },
+                    {
+                      "name": "density",
+                      "type": "double"
+                    },
+                    {
+                      "name": "pH",
+                      "type": "double"
+                    },
+                    {
+                      "name": "sulphates",
+                      "type": "double"
+                    },
+                    {
+                      "name": "alcohol",
+                      "type": "double"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "type": "tensor",
+                      "tensor-spec": {
+                        "dtype": "float64",
+                        "shape": [
+                          -1
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "flavors": {
+                  "python_function": {
+                    "loader_module": "mlflow.onnx",
+                    "python_version": "3.10.6",
+                    "data": "model.onnx",
+                    "env": {
+                      "conda": "conda.yaml",
+                      "virtualenv": "python_env.yaml"
+                    }
+                  },
+                  "onnx": {
+                    "onnx_version": "1.12.0",
+                    "data": "model.onnx",
+                    "providers": [
+                      "CUDAExecutionProvider",
+                      "CPUExecutionProvider"
+                    ],
+                    "code": null
+                  }
+                },
+                "run_id": "dfec96c410ef4d3d956bc2afcce8f1a9",
+                "model_uuid": "39f9661f755e42278ddcb5583d3e03d4",
+                "utc_time_created": "2023-06-02 14:37:30.859332",
+                "mlflow_version": "2.3.1",
+                "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
+              }
+            ],
+            "mlflow.runName": "sklearn_onnx",
+            "mlflow.source.name": "/Repos/andre@piolet-knot.com/mlflow-examples/databricks/notebooks/basic/Sklearn_Wine_ONNX",
+            "mlflow.source.type": "NOTEBOOK",
+            "mlflow.user": "andre@piolet-knot.com",
+            "sparkDatasourceInfo": [
+              {
+                "path": "dbfs:/databricks-datasets/wine-quality/winequality-white.csv",
+                "format": "text"
+              },
+              {
+                "path": "dbfs:/databricks-datasets/wine-quality/winequality-red.csv",
+                "format": "text"
+              },
+              {
+                "path": "dbfs:/user/hive/warehouse/andre.db/wine_quality",
+                "version": "0",
+                "format": "delta"
+              }
+            ],
+            "version.mlflow": "2.3.1",
+            "version.onnx": "1.12.0"
+          }
+        },
+        "inputs": {}
+      },
+      "artifacts": {
+        "summary": {
+          "artifact_max_level": 100,
+          "num_artifacts": 12,
+          "num_bytes": 210478,
+          "num_levels": 2
+        },
+        "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797455/dfec96c410ef4d3d956bc2afcce8f1a9/artifacts",
+        "files": [
+          {
+            "path": "onnx-model",
+            "is_dir": true,
+            "artifacts": {
+              "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797455/dfec96c410ef4d3d956bc2afcce8f1a9/artifacts",
+              "files": [
+                {
+                  "path": "onnx-model/MLmodel",
+                  "is_dir": false,
+                  "file_size": 1250
+                },
+                {
+                  "path": "onnx-model/conda.yaml",
+                  "is_dir": false,
+                  "file_size": 170
+                },
+                {
+                  "path": "onnx-model/input_example.json",
+                  "is_dir": false,
+                  "file_size": 102556
+                },
+                {
+                  "path": "onnx-model/model.onnx",
+                  "is_dir": false,
+                  "file_size": 676
+                },
+                {
+                  "path": "onnx-model/python_env.yaml",
+                  "is_dir": false,
+                  "file_size": 122
+                },
+                {
+                  "path": "onnx-model/requirements.txt",
+                  "is_dir": false,
+                  "file_size": 61
+                }
+              ]
+            }
+          },
+          {
+            "path": "sklearn-model",
+            "is_dir": true,
+            "artifacts": {
+              "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797455/dfec96c410ef4d3d956bc2afcce8f1a9/artifacts",
+              "files": [
+                {
+                  "path": "sklearn-model/MLmodel",
+                  "is_dir": false,
+                  "file_size": 1266
+                },
+                {
+                  "path": "sklearn-model/conda.yaml",
+                  "is_dir": false,
+                  "file_size": 205
+                },
+                {
+                  "path": "sklearn-model/input_example.json",
+                  "is_dir": false,
+                  "file_size": 102556
+                },
+                {
+                  "path": "sklearn-model/model.pkl",
+                  "is_dir": false,
+                  "file_size": 1402
+                },
+                {
+                  "path": "sklearn-model/python_env.yaml",
+                  "is_dir": false,
+                  "file_size": 122
+                },
+                {
+                  "path": "sklearn-model/requirements.txt",
+                  "is_dir": false,
+                  "file_size": 92
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "permissions": {
+    "permission_levels": [
+      {
+        "permission_level": "CAN_READ",
+        "description": "Can view the experiment"
+      },
+      {
+        "permission_level": "CAN_EDIT",
+        "description": "Can view, log runs, and edit the experiment"
+      },
+      {
+        "permission_level": "CAN_MANAGE",
+        "description": "Can view, log runs, edit, delete, and change permissions of the experiment"
+      }
+    ],
+    "permissions": {
+      "object_id": "/experiments/1565792132797455",
+      "object_type": "mlflowExperiment",
+      "access_control_list": [
+        {
+          "user_name": "andre@piolet-knot.com",
+          "display_name": "andre",
+          "all_permissions": [
+            {
+              "permission_level": "CAN_MANAGE",
+              "inherited": true,
+              "inherited_from_object": [
+                "/directories/767933989557963"
+              ]
+            }
+          ]
+        },
+        {
+          "service_principal_name": "038455d4-e5ec-4544-b6cf-64d55b91fee1",
+          "display_name": "system-service-principal-south-mist",
+          "all_permissions": [
+            {
+              "permission_level": "CAN_MANAGE",
+              "inherited": true,
+              "inherited_from_object": [
+                "/directories/"
+              ]
+            }
+          ]
+        },
+        {
+          "group_name": "admins",
+          "all_permissions": [
+            {
+              "permission_level": "CAN_MANAGE",
+              "inherited": true,
+              "inherited_from_object": [
+                "/directories/"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
