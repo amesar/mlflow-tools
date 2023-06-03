@@ -1,7 +1,7 @@
 {
   "system": {
     "script": "dump_experiment.py",
-    "display_time": "2023-06-02 20:57:36",
+    "display_time": "2023-06-03 14:58:36",
     "mlflow": {
       "version": "2.3.2",
       "tracking_uri": "databricks://e2_demo"
@@ -13,60 +13,188 @@
     "user": "andre"
   },
   "experiment": {
-    "experiment_id": "1565792132797144",
-    "name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work/Wine_Quality_Feature_Store",
-    "artifact_location": "dbfs:/databricks/mlflow-tracking/1565792132797144",
+    "experiment_id": "3022585156450267",
+    "name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS",
+    "artifact_location": "dbfs:/databricks/mlflow-tracking/3022585156450267",
     "lifecycle_stage": "active",
-    "last_update_time": 1685328727653,
-    "creation_time": 1685327562221,
-    "_last_update_time": "2023-05-29 02:52:08",
-    "_creation_time": "2023-05-29 02:32:42",
+    "last_update_time": 1685803932118,
+    "creation_time": 1685803543657,
+    "_last_update_time": "2023-06-03 14:52:12",
+    "_creation_time": "2023-06-03 14:45:44",
     "_tracking_uri": "databricks://e2_demo",
     "tags": {
       "mlflow.ownerId": "4566812440727830",
-      "mlflow.experiment.sourceName": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work/Wine_Quality_Feature_Store",
+      "mlflow.experiment.sourceName": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS",
       "mlflow.ownerEmail": "andre@piolet-knot.com",
       "mlflow.experimentType": "NOTEBOOK"
     }
   },
   "runs_summary": {
     "num_runs": 1,
-    "artifacts": 10,
-    "artifact_bytes": 7202124,
-    "last_run": 0,
-    "_last_run": null
+    "artifacts": 12,
+    "artifact_bytes": 34263,
+    "last_run": 1685803937998,
+    "_last_run": "2023-06-03 14:52:18"
   },
   "runs": [
     {
       "summary": {
-        "params": 0,
-        "metrics": 0,
-        "tags": 15,
+        "params": 17,
+        "metrics": 9,
+        "tags": 18,
         "artifacts": {
           "artifact_max_level": 100,
-          "num_artifacts": 10,
-          "num_bytes": 7202124,
+          "num_artifacts": 12,
+          "num_bytes": 34263,
           "num_levels": 5
         }
       },
       "run": {
         "info": {
-          "run_id": "330acf4a7f854c9f9ef606beba7e6f87",
-          "run_uuid": "330acf4a7f854c9f9ef606beba7e6f87",
-          "experiment_id": "1565792132797144",
-          "run_name": "clean-newt-375",
-          "status": "RUNNING",
-          "start_time": 1685328727653,
-          "end_time": 0,
-          "artifact_uri": "dbfs:/databricks/mlflow-tracking/1565792132797144/330acf4a7f854c9f9ef606beba7e6f87/artifacts",
+          "run_id": "7bbb50deab234c2ca7a726561633c480",
+          "run_uuid": "7bbb50deab234c2ca7a726561633c480",
+          "experiment_id": "3022585156450267",
+          "run_name": "ambitious-ape-28",
+          "status": "FINISHED",
+          "start_time": 1685803932118,
+          "end_time": 1685803937998,
+          "artifact_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
           "lifecycle_stage": "active",
-          "_start_time": "2023-05-29 02:52:08",
-          "_end_time": null,
-          "_duration": -1685328727.653,
-          "_experiment_name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work/Wine_Quality_Feature_Store"
+          "_start_time": "2023-06-03 14:52:12",
+          "_end_time": "2023-06-03 14:52:18",
+          "_duration": 5.88,
+          "_experiment_name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS"
         },
         "data": {
+          "metrics": [
+            {
+              "key": "mean_squared_error_X_test",
+              "value": 0.5503835246159617,
+              "timestamp": 1685803933257,
+              "step": 0
+            },
+            {
+              "key": "r2_score_X_test",
+              "value": 0.289344589379501,
+              "timestamp": 1685803933520,
+              "step": 0
+            },
+            {
+              "key": "test_mse",
+              "value": 0.5503835246159617,
+              "timestamp": 1685803933438,
+              "step": 0
+            },
+            {
+              "key": "test_r2_score",
+              "value": 0.289344589379501,
+              "timestamp": 1685803933684,
+              "step": 0
+            },
+            {
+              "key": "training_mean_absolute_error",
+              "value": 0.5811756733612624,
+              "timestamp": 1685803932698,
+              "step": 0
+            },
+            {
+              "key": "training_mean_squared_error",
+              "value": 0.544009401235841,
+              "timestamp": 1685803932698,
+              "step": 0
+            },
+            {
+              "key": "training_r2_score",
+              "value": 0.30823973901147106,
+              "timestamp": 1685803932698,
+              "step": 0
+            },
+            {
+              "key": "training_root_mean_squared_error",
+              "value": 0.737569929725881,
+              "timestamp": 1685803932698,
+              "step": 0
+            },
+            {
+              "key": "training_score",
+              "value": 0.30823973901147106,
+              "timestamp": 1685803932714,
+              "step": 0
+            }
+          ],
+          "params": [
+            {
+              "key": "bootstrap",
+              "value": "True"
+            },
+            {
+              "key": "ccp_alpha",
+              "value": "0.0"
+            },
+            {
+              "key": "criterion",
+              "value": "squared_error"
+            },
+            {
+              "key": "max_depth",
+              "value": "3"
+            },
+            {
+              "key": "max_features",
+              "value": "1.0"
+            },
+            {
+              "key": "max_leaf_nodes",
+              "value": "None"
+            },
+            {
+              "key": "max_samples",
+              "value": "None"
+            },
+            {
+              "key": "min_impurity_decrease",
+              "value": "0.0"
+            },
+            {
+              "key": "min_samples_leaf",
+              "value": "1"
+            },
+            {
+              "key": "min_samples_split",
+              "value": "2"
+            },
+            {
+              "key": "min_weight_fraction_leaf",
+              "value": "0.0"
+            },
+            {
+              "key": "n_estimators",
+              "value": "20"
+            },
+            {
+              "key": "n_jobs",
+              "value": "None"
+            },
+            {
+              "key": "oob_score",
+              "value": "False"
+            },
+            {
+              "key": "random_state",
+              "value": "42"
+            },
+            {
+              "key": "verbose",
+              "value": "0"
+            },
+            {
+              "key": "warm_start",
+              "value": "False"
+            }
+          ],
           "tags": {
+            "estimator_class": "sklearn.ensemble._forest.RandomForestRegressor",
+            "estimator_name": "RandomForestRegressor",
             "mlflow.databricks.cluster.id": "0414-154233-qm0df4rx",
             "mlflow.databricks.cluster.info": {
               "cluster_name": "andre_ML_13.1",
@@ -90,15 +218,16 @@
               ],
               "redacted": []
             },
-            "mlflow.databricks.notebook.commandID": "3868196433452915864_7154662085710578373_3477579db7474a18a2381ef791bbd140",
-            "mlflow.databricks.notebookID": "1565792132797144",
-            "mlflow.databricks.notebookPath": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work/Feature_Store_Wine_Quality",
+            "mlflow.databricks.notebook.commandID": "7302805753292100894_6485532702584083491_9440c188b026442dbfb539c2badb5001",
+            "mlflow.databricks.notebookID": "3022585156450267",
+            "mlflow.databricks.notebookPath": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS",
+            "mlflow.databricks.notebookRevisionID": "1685803938147",
             "mlflow.databricks.webappURL": "https://erie.mist.piolet-knot.com",
             "mlflow.databricks.workspaceID": "2556758628403379",
             "mlflow.databricks.workspaceURL": "stage-south.mist.piolet-knot.net",
             "mlflow.log-model.history": [
               {
-                "artifact_path": "model",
+                "artifact_path": "fs-model",
                 "flavors": {
                   "python_function": {
                     "loader_module": "databricks.feature_store.mlflow_model",
@@ -110,63 +239,30 @@
                     }
                   }
                 },
-                "run_id": "330acf4a7f854c9f9ef606beba7e6f87",
-                "model_uuid": "5a45e45aef5f4a7ba384b88b2ed01b05",
-                "utc_time_created": "2023-05-29 02:52:07.803096",
-                "mlflow_version": "2.3.2",
-                "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
-              },
-              {
-                "artifact_path": "model",
-                "flavors": {
-                  "python_function": {
-                    "loader_module": "databricks.feature_store.mlflow_model",
-                    "python_version": "3.10.6",
-                    "data": "data/feature_store",
-                    "env": {
-                      "conda": "conda.yaml",
-                      "virtualenv": "python_env.yaml"
-                    }
-                  }
-                },
-                "run_id": "330acf4a7f854c9f9ef606beba7e6f87",
-                "model_uuid": "5756dc277ee940028d4052a780c9860d",
-                "utc_time_created": "2023-05-29 03:09:08.739199",
-                "mlflow_version": "2.3.2",
-                "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
-              },
-              {
-                "artifact_path": "model",
-                "flavors": {
-                  "python_function": {
-                    "loader_module": "databricks.feature_store.mlflow_model",
-                    "python_version": "3.10.6",
-                    "data": "data/feature_store",
-                    "env": {
-                      "conda": "conda.yaml",
-                      "virtualenv": "python_env.yaml"
-                    }
-                  }
-                },
-                "run_id": "330acf4a7f854c9f9ef606beba7e6f87",
-                "model_uuid": "795aff39326348b18b4f3fdc943e4efe",
-                "utc_time_created": "2023-05-29 03:09:38.656812",
+                "run_id": "7bbb50deab234c2ca7a726561633c480",
+                "model_uuid": "cb62c6f04696428db671d49028fd70c2",
+                "utc_time_created": "2023-06-03 14:52:16.135265",
                 "mlflow_version": "2.3.2",
                 "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
               }
             ],
-            "mlflow.runName": "clean-newt-375",
-            "mlflow.source.name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work/Feature_Store_Wine_Quality",
+            "mlflow.runName": "ambitious-ape-28",
+            "mlflow.source.name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS",
             "mlflow.source.type": "NOTEBOOK",
             "mlflow.user": "andre@piolet-knot.com",
             "sparkDatasourceInfo": [
               {
-                "path": "dbfs:/databricks-datasets/wine-quality/winequality-red.csv",
+                "path": "dbfs:/databricks-datasets/wine-quality/winequality-white.csv",
                 "format": "text"
               },
               {
-                "path": "dbfs:/databricks-datasets/wine-quality/winequality-red.csv",
+                "path": "dbfs:/databricks-datasets/wine-quality/winequality-white.csv",
                 "format": "csv"
+              },
+              {
+                "path": "dbfs:/user/hive/warehouse/andre_fs_wine.db/wine_features",
+                "version": "1",
+                "format": "delta"
               }
             ]
           }
@@ -176,83 +272,93 @@
       "artifacts": {
         "summary": {
           "artifact_max_level": 100,
-          "num_artifacts": 10,
-          "num_bytes": 7202124,
+          "num_artifacts": 12,
+          "num_bytes": 34263,
           "num_levels": 5
         },
-        "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797144/330acf4a7f854c9f9ef606beba7e6f87/artifacts",
+        "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
         "files": [
           {
-            "path": "model",
+            "path": "estimator.html",
+            "is_dir": false,
+            "file_size": 4992
+          },
+          {
+            "path": "metric_info.json",
+            "is_dir": false,
+            "file_size": 148
+          },
+          {
+            "path": "fs-model",
             "is_dir": true,
             "artifacts": {
-              "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797144/330acf4a7f854c9f9ef606beba7e6f87/artifacts",
+              "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
               "files": [
                 {
-                  "path": "model/MLmodel",
+                  "path": "fs-model/MLmodel",
                   "is_dir": false,
-                  "file_size": 428
+                  "file_size": 431
                 },
                 {
-                  "path": "model/conda.yaml",
+                  "path": "fs-model/conda.yaml",
                   "is_dir": false,
                   "file_size": 244
                 },
                 {
-                  "path": "model/python_env.yaml",
+                  "path": "fs-model/python_env.yaml",
                   "is_dir": false,
                   "file_size": 122
                 },
                 {
-                  "path": "model/requirements.txt",
+                  "path": "fs-model/requirements.txt",
                   "is_dir": false,
                   "file_size": 123
                 },
                 {
-                  "path": "model/data",
+                  "path": "fs-model/data",
                   "is_dir": true,
                   "artifacts": {
-                    "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797144/330acf4a7f854c9f9ef606beba7e6f87/artifacts",
+                    "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
                     "files": [
                       {
-                        "path": "model/data/feature_store",
+                        "path": "fs-model/data/feature_store",
                         "is_dir": true,
                         "artifacts": {
-                          "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797144/330acf4a7f854c9f9ef606beba7e6f87/artifacts",
+                          "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
                           "files": [
                             {
-                              "path": "model/data/feature_store/feature_spec.yaml",
+                              "path": "fs-model/data/feature_store/feature_spec.yaml",
                               "is_dir": false,
-                              "file_size": 1786
+                              "file_size": 1860
                             },
                             {
-                              "path": "model/data/feature_store/raw_model",
+                              "path": "fs-model/data/feature_store/raw_model",
                               "is_dir": true,
                               "artifacts": {
-                                "root_uri": "dbfs:/databricks/mlflow-tracking/1565792132797144/330acf4a7f854c9f9ef606beba7e6f87/artifacts",
+                                "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
                                 "files": [
                                   {
-                                    "path": "model/data/feature_store/raw_model/MLmodel",
+                                    "path": "fs-model/data/feature_store/raw_model/MLmodel",
                                     "is_dir": false,
                                     "file_size": 484
                                   },
                                   {
-                                    "path": "model/data/feature_store/raw_model/conda.yaml",
+                                    "path": "fs-model/data/feature_store/raw_model/conda.yaml",
                                     "is_dir": false,
                                     "file_size": 209
                                   },
                                   {
-                                    "path": "model/data/feature_store/raw_model/model.pkl",
+                                    "path": "fs-model/data/feature_store/raw_model/model.pkl",
                                     "is_dir": false,
-                                    "file_size": 7198514
+                                    "file_size": 25436
                                   },
                                   {
-                                    "path": "model/data/feature_store/raw_model/python_env.yaml",
+                                    "path": "fs-model/data/feature_store/raw_model/python_env.yaml",
                                     "is_dir": false,
                                     "file_size": 122
                                   },
                                   {
-                                    "path": "model/data/feature_store/raw_model/requirements.txt",
+                                    "path": "fs-model/data/feature_store/raw_model/requirements.txt",
                                     "is_dir": false,
                                     "file_size": 92
                                   }
@@ -288,7 +394,7 @@
       }
     ],
     "permissions": {
-      "error": "HTTP status code: 400. Reason: Bad Request URL: https://stage-south.mist.piolet-knot.net/api/2.0/permissions/experiments/1565792132797144. Params: None. Text: {\"error_code\":\"INVALID_PARAMETER_VALUE\",\"message\":\"Object 1565792132797144 not a experiment.\"}"
+      "error": "HTTP status code: 400. Reason: Bad Request URL: https://stage-south.mist.piolet-knot.net/api/2.0/permissions/experiments/3022585156450267. Params: None. Text: {\"error_code\":\"INVALID_PARAMETER_VALUE\",\"message\":\"Object 3022585156450267 not a experiment.\"}"
     }
   }
 }
