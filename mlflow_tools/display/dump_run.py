@@ -25,7 +25,8 @@ from mlflow_tools.display.display_utils import dump_finish
 explode_tags = [ 
     "mlflow.databricks.cluster.info", 
     "mlflow.databricks.cluster.libraries", 
-    "mlflow.log-model.history" 
+    "mlflow.log-model.history",
+    "mlflow.datasets"
 ]
 
 http_client = MlflowHttpClient()
