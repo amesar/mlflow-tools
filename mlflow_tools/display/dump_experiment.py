@@ -29,12 +29,13 @@ http_client = MlflowHttpClient()
 
 def dump(
         experiment_id_or_name,
-        artifact_max_level = 1,
         dump_runs = True,
         dump_run_data = False,
+        num_runs = None,
+        artifact_max_level = 1,
+        dump_permissions = False,
         explode_json_string = True,
         show_tags_as_dict = True,
-        dump_permissions = False,
         show_system_info = False,
         format = "json",
         output_file = None,
@@ -49,12 +50,15 @@ def dump(
 
     if dump_runs:
         runs = SearchRunsIterator(http_client, [experiment_id])
+        runs = list(runs)
+        if num_runs:
+            runs = runs[:num_runs]
         runs = [ dump_run.build_run_extended(
                    run = run,
 		   artifact_max_level = artifact_max_level,
                    explode_json_string = explode_json_string,
                    show_tags_as_dict = show_tags_as_dict)
-            for run in list(runs) ]
+            for run in runs ]
         num_artifacts, artifact_bytes = (0, 0)
         last_run = 0
         for run in runs:
@@ -107,6 +111,11 @@ def adjust_experiment(exp, show_tags_as_dict=True):
   default=False,
   show_default=True
 )
+@click.option("--num-runs",
+  help="Number of runs to dump",
+  type=int,
+  required=False
+)
 @opt_artifact_max_level
 @opt_dump_permissions
 @opt_explode_json_string
@@ -120,6 +129,7 @@ def main(
         artifact_max_level,
         dump_runs,
         dump_run_data,
+        num_runs,
         explode_json_string,
         dump_permissions,
         show_tags_as_dict,
@@ -131,12 +141,13 @@ def main(
     for k,v in locals().items():
         print(f"  {k}: {v}")
     dump(experiment_id_or_name, 
-       artifact_max_level,
        dump_runs, 
        dump_run_data, 
+       num_runs,
+       artifact_max_level,
+       dump_permissions, 
        explode_json_string, 
        show_tags_as_dict,
-       dump_permissions, 
        show_system_info,
        format, 
        output_file,
