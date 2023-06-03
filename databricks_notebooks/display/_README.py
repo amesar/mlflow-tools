@@ -33,4 +33,4 @@
 # MAGIC
 # MAGIC * Requires Databricks Runtime 13 or 12.2. Errors on 11. :(
 # MAGIC
-# MAGIC Last updated: _2023-06-01_
+# MAGIC Last updated: _2023-06-03_

@@ -5,22 +5,16 @@
 # MAGIC * Dump MLflow model
 # MAGIC
 # MAGIC Widgets
-# MAGIC * `1. Model name` - registered model name
-# MAGIC * `2. Version` - model version
+# MAGIC * `1. Model URI` 
+# MAGIC * `2. Show signature details` - TODO
 # MAGIC * `3. Dump run` - version's run
 # MAGIC * `4. Dump experiment` - run'experiment
-# MAGIC * `5. Dump registered model` - version's registered model 
-# MAGIC * `6. Dump permissions` - dump run data if showing runs
-# MAGIC * `7. Format` - JSON or YAML
-# MAGIC * `8. Output file`
+# MAGIC * `5. Format` - JSON or YAML
+# MAGIC * `6. Output file`
 
 # COMMAND ----------
 
 # MAGIC %run ../Common
-
-# COMMAND ----------
-
-dbutils.widgets.removeAll()
 
 # COMMAND ----------
 
