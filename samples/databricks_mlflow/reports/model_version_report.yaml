@@ -1,6 +1,6 @@
 report_info:
   script: report_model_version.py
-  timestamp: '2023-06-02 14:46:00'
+  timestamp: '2023-06-03 04:37:08'
   user: andre
   mlflow_version: 2.3.2
 model_summary:
@@ -158,18 +158,18 @@ mlflow_model:
 registered_model_version:
   name: Sklearn_Wine_ONNX_ws
   version: '4'
-  current_stage: None
+  current_stage: Production
   status: READY
   aliases: null
   description: null
   tags: {}
   creation_timestamp: '2023-06-02 14:37:33'
-  last_updated_timestamp: '2023-06-02 14:37:35'
+  last_updated_timestamp: '2023-06-03 04:20:14'
   mlflow_tracking_server_uri: https://stage-south.mist.piolet-knot.net/api/2.0/mlflow
 registered_model:
   name: Sklearn_Wine_ONNX_ws
   creation_timestamp: '2023-05-29 04:50:54'
-  last_updated_timestamp: '2023-06-02 14:37:33'
+  last_updated_timestamp: '2023-06-03 04:20:14'
   user_id: andre@piolet-knot.com
   id: eb782e332b254e42baf946592807fc62
   permission_level: CAN_MANAGE
@@ -197,17 +197,17 @@ registered_model:
       object_id: /registered-models/eb782e332b254e42baf946592807fc62
       object_type: registered-model
       access_control_list:
-      - user_name: andre@piolet-knot.com
-        display_name: andre
-        all_permissions:
-        - permission_level: CAN_MANAGE
-          inherited: false
       - group_name: admins
         all_permissions:
         - permission_level: CAN_MANAGE
           inherited: true
           inherited_from_object:
           - /registered-models/
+      - user_name: andre@piolet-knot.com
+        display_name: andre
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: false
       - group_name: users
         all_permissions:
         - permission_level: CAN_MANAGE

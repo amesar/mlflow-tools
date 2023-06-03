@@ -1,6 +1,6 @@
 system:
   script: dump_model_version.py
-  display_time: '2023-06-02 14:38:15'
+  display_time: '2023-06-03 04:22:02'
   mlflow:
     version: 2.3.2
     tracking_uri: databricks://e2_demo
@@ -12,24 +12,24 @@ model_version:
   name: Sklearn_Wine_ONNX_ws
   version: '4'
   creation_timestamp: 1685716653143
-  last_updated_timestamp: 1685716654764
+  last_updated_timestamp: 1685766014343
   user_id: andre@piolet-knot.com
-  current_stage: None
+  current_stage: Production
   source: dbfs:/databricks/mlflow-tracking/1565792132797455/dfec96c410ef4d3d956bc2afcce8f1a9/artifacts/onnx-model
   run_id: dfec96c410ef4d3d956bc2afcce8f1a9
   status: READY
   _download_uri: dbfs:/databricks/mlflow-registry/7ece9fd981554ef38ba13c0ff58f99b8/models/onnx-model
   _creation_timestamp: '2023-06-02 14:37:33'
-  _last_updated_timestamp: '2023-06-02 14:37:35'
+  _last_updated_timestamp: '2023-06-03 04:20:14'
 registered_model:
   name: Sklearn_Wine_ONNX_ws
   creation_timestamp: 1685335854094
-  last_updated_timestamp: 1685716653143
+  last_updated_timestamp: 1685766014343
   user_id: andre@piolet-knot.com
   id: eb782e332b254e42baf946592807fc62
   permission_level: CAN_MANAGE
   _creation_timestamp: '2023-05-29 04:50:54'
-  _last_updated_timestamp: '2023-06-02 14:37:33'
+  _last_updated_timestamp: '2023-06-03 04:20:14'
   latest_versions: 3
   _tracking_uri: databricks://e2_demo
   permissions:
@@ -55,17 +55,17 @@ registered_model:
       object_id: /registered-models/eb782e332b254e42baf946592807fc62
       object_type: registered-model
       access_control_list:
-      - user_name: andre@piolet-knot.com
-        display_name: andre
-        all_permissions:
-        - permission_level: CAN_MANAGE
-          inherited: false
       - group_name: admins
         all_permissions:
         - permission_level: CAN_MANAGE
           inherited: true
           inherited_from_object:
           - /registered-models/
+      - user_name: andre@piolet-knot.com
+        display_name: andre
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: false
       - group_name: users
         all_permissions:
         - permission_level: CAN_MANAGE
