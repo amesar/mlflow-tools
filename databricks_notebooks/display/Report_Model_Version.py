@@ -16,14 +16,6 @@
 
 # COMMAND ----------
 
-#dbutils.widgets.removeAll()
-
-# COMMAND ----------
-
-# Sklearn_Wine_ONNX_ws
-
-# COMMAND ----------
-
 dbutils.widgets.text("1. Registered model", "")
 model_name = dbutils.widgets.get("1. Registered model")
 
@@ -47,6 +39,8 @@ assert_widget(model_name, "Missing '01. Registered model'")
 assert_widget(version, "Missing '02. Version'")
 
 # COMMAND ----------
+
+from mlflow_tools.reports import report_model_version
 
 report_model_version.report(
     model_name = model_name, 
