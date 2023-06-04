@@ -110,7 +110,6 @@ def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_stri
                 explode_json_string = explode_json_string,
                 show_tags_as_dict = show_tags_as_dict)
 
-    print(">> _mk_run.2: run:",run.keys())
     if dump_experiment:
         rsp = http_client.get("experiments/get", { "experiment_id": run["info"]["experiment_id"] })
         exp = rsp["experiment"]
