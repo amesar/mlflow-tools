@@ -29,14 +29,18 @@ def write_file(path, content, file_type=None):
             f.write(content)
 
 
-def read_file(path, file_type=None):
+def read_file(path, file_type=None, is_binary=False):
     """
     Read a JSON, YAML or text file.
     """
-    with open(path, "r", encoding="utf-8") as f:
-        if path.endswith(".json"):
-            return json.loads(f.read())
-        elif _is_yaml(path, file_type):
-            return yaml.safe_load(f)
-        else:
+    if is_binary:
+        with open(path, "rb") as f:
             return f.read()
+    else:
+        with open(path, "r", encoding="utf-8") as f:
+            if path.endswith(".json"):
+                return json.loads(f.read())
+            elif _is_yaml(path, file_type):
+                return yaml.safe_load(f)
+            else:
+                return f.read()
