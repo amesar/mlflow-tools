@@ -29,9 +29,10 @@ def build_report(model_name, version):
     model_uri = f"models:/{model_name}/{version}"
     model_info = _dump_mlflow_model.build(model_uri)
     model_artifact_path = model_download_utils.get_relative_model_path(vr["source"], vr["run_id"])
+    model_summary = _mk_model_summary(vr, run, model_artifact_path, model_info["model_info"])
 
     return {
-        "model_summary": _mk_model_summary(vr, run, model_artifact_path, model_info["model_info"]),
+        "model_summary": model_summary,
         "mlflow_model": _mk_mlflow_model(vr, run, model_info),
         "registered_model_version": _mk_version_summary(vr),
         "registered_model": _mk_registered_model(model_name),
@@ -53,13 +54,24 @@ def mk_native_flavor_summary(model_info):
         return flavor2
 
     flavors = model_info.get("_flavors")
-    flavor_names = { k:v for k,v in flavors.items() if k != "python_function" }
-    flavor_name = list(flavor_names.keys())[0] # assume there is just one
-    flavor = flavors.get(flavor_name)
-    flavor = _prune(flavor)
+    if len(flavors) == 1: # not native flavor, only pyfunc - for feature store flavor
+        flavor_name = list(flavors.keys())[0] 
+        flavor = flavors.get(flavor_name)
+        flavor_summary = { 
+            "flavor": flavor_name,
+            "loader_module": flavor.get("loader_module")
+        }
+    elif len(flavors) == 2:
+        flavor_names = { k:v for k,v in flavors.items() if k != "python_function" }
+        flavor_name = list(flavor_names.keys())[0] # assume there is just one
+        flavor = flavors.get(flavor_name)
+        flavor_summary = _prune(flavor)
+    else:
+        flavor_summary = "Internal error"
+
     return {
         "time_created": model_info.get("_utc_time_created"),
-        "native_flavor": flavor
+        "native_flavor": flavor_summary
     }
 
 
@@ -121,7 +133,6 @@ def _mk_run_summary(run):
     """ 
     Tweak run fields for summary purposes 
     """
-
     run = run.copy()
 
     info = run["info"]
@@ -135,12 +146,11 @@ def _mk_run_summary(run):
     run["info"] = info
 
     data = run.pop("data",None)
-    run["parameters"] = data["params"] = mlflow_utils.mk_tags_dict(data["params"])
-    run["metrics"] = data["metrics"]
-    run["user_tags"] = { k:v for k,v in data["tags"].items() 
+    run["params"] = mlflow_utils.mk_tags_dict(data.get("params",{}))
+    run["metrics"] = data.get("metrics",{})
+    run["user_tags"] = { k:v for k,v in data.get("tags",{}).items() 
         if not k.startswith("mlflow") and not k == "sparkDatasourceInfo"
     } 
-
     return run
 
 
