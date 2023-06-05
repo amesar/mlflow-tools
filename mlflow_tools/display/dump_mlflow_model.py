@@ -7,7 +7,7 @@ Dump MLflow model.
 import click
 import mlflow
 from mlflow_tools.client.http_client import MlflowHttpClient
-from mlflow_tools.display import display_utils
+from mlflow_tools.common import object_utils
 from mlflow_tools.common.click_options import (
     opt_dump_run,
     opt_dump_experiment,
@@ -22,7 +22,7 @@ http_client = MlflowHttpClient()
 
 def build(model_uri, dump_run=False, dump_experiment=False, signature_details=False):
     model_info = mlflow.models.get_model_info(model_uri)
-    dct = display_utils.obj_to_dict(model_info)
+    dct = object_utils.obj_to_dict(model_info)
     _adjust_mlflow_model(dct, signature_details)
     dct = {
         "model_info": dct
@@ -45,7 +45,7 @@ def dump(model_uri, dump_run=False, dump_experiment=False, signature_details=Fal
 def _adjust_mlflow_model(dct, details=True):
     if details:
         dct.pop("_signature_dict", None)
-        display_utils.scrub_dict(dct, bad_key="__objclass__")
+        object_utils.scrub_dict(dct, bad_key="__objclass__")
     else:
         import json
         sig = dct.pop("_signature_dict", None)
