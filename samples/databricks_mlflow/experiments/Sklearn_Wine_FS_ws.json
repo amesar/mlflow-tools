@@ -1,7 +1,7 @@
 {
   "system": {
     "script": "dump_experiment.py",
-    "display_time": "2023-06-03 14:58:36",
+    "display_time": "2023-06-07 04:22:46",
     "mlflow": {
       "version": "2.3.2",
       "tracking_uri": "databricks://e2_demo"
@@ -13,112 +13,113 @@
     "user": "andre"
   },
   "experiment": {
-    "experiment_id": "3022585156450267",
-    "name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS",
-    "artifact_location": "dbfs:/databricks/mlflow-tracking/3022585156450267",
+    "experiment_id": "3022585156485563",
+    "name": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_FS_ws",
+    "artifact_location": "dbfs:/databricks/mlflow-tracking/3022585156485563",
     "lifecycle_stage": "active",
-    "last_update_time": 1685803932118,
-    "creation_time": 1685803543657,
-    "_last_update_time": "2023-06-03 14:52:12",
-    "_creation_time": "2023-06-03 14:45:44",
+    "last_update_time": 1686110741216,
+    "creation_time": 1686110707590,
+    "_last_update_time": "2023-06-07 04:05:41",
+    "_creation_time": "2023-06-07 04:05:08",
     "_tracking_uri": "databricks://e2_demo",
     "tags": {
+      "mlflow.note.content": "my FS workspace experiment",
       "mlflow.ownerId": "4566812440727830",
-      "mlflow.experiment.sourceName": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS",
+      "mlflow.experiment.sourceName": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_FS_ws",
       "mlflow.ownerEmail": "andre@piolet-knot.com",
-      "mlflow.experimentType": "NOTEBOOK"
+      "mlflow.experimentType": "MLFLOW_EXPERIMENT"
     }
   },
   "runs_summary": {
     "num_runs": 1,
     "artifacts": 12,
-    "artifact_bytes": 34263,
-    "last_run": 1685803937998,
-    "_last_run": "2023-06-03 14:52:18"
+    "artifact_bytes": 34351,
+    "last_run": 1686110747957,
+    "_last_run": "2023-06-07 04:05:48"
   },
   "runs": [
     {
       "summary": {
         "params": 17,
         "metrics": 9,
-        "tags": 18,
+        "tags": 19,
         "artifacts": {
           "artifact_max_level": 100,
           "num_artifacts": 12,
-          "num_bytes": 34263,
+          "num_bytes": 34351,
           "num_levels": 5
         }
       },
       "run": {
         "info": {
-          "run_id": "7bbb50deab234c2ca7a726561633c480",
-          "run_uuid": "7bbb50deab234c2ca7a726561633c480",
-          "experiment_id": "3022585156450267",
-          "run_name": "ambitious-ape-28",
+          "run_id": "464405b7866b44f49ef191fb85fbb9c0",
+          "run_uuid": "464405b7866b44f49ef191fb85fbb9c0",
+          "experiment_id": "3022585156485563",
+          "run_name": "crawling-goat-570",
           "status": "FINISHED",
-          "start_time": 1685803932118,
-          "end_time": 1685803937998,
-          "artifact_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
+          "start_time": 1686110741216,
+          "end_time": 1686110747957,
+          "artifact_uri": "dbfs:/databricks/mlflow-tracking/3022585156485563/464405b7866b44f49ef191fb85fbb9c0/artifacts",
           "lifecycle_stage": "active",
-          "_start_time": "2023-06-03 14:52:12",
-          "_end_time": "2023-06-03 14:52:18",
-          "_duration": 5.88,
-          "_experiment_name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS"
+          "_start_time": "2023-06-07 04:05:41",
+          "_end_time": "2023-06-07 04:05:48",
+          "_duration": 6.741,
+          "_experiment_name": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_FS_ws"
         },
         "data": {
           "metrics": [
             {
               "key": "mean_squared_error_X_test",
               "value": 0.5503835246159617,
-              "timestamp": 1685803933257,
+              "timestamp": 1686110742535,
               "step": 0
             },
             {
               "key": "r2_score_X_test",
               "value": 0.289344589379501,
-              "timestamp": 1685803933520,
+              "timestamp": 1686110742769,
               "step": 0
             },
             {
               "key": "test_mse",
               "value": 0.5503835246159617,
-              "timestamp": 1685803933438,
+              "timestamp": 1686110742695,
               "step": 0
             },
             {
               "key": "test_r2_score",
               "value": 0.289344589379501,
-              "timestamp": 1685803933684,
+              "timestamp": 1686110742913,
               "step": 0
             },
             {
               "key": "training_mean_absolute_error",
               "value": 0.5811756733612624,
-              "timestamp": 1685803932698,
+              "timestamp": 1686110741684,
               "step": 0
             },
             {
               "key": "training_mean_squared_error",
               "value": 0.544009401235841,
-              "timestamp": 1685803932698,
+              "timestamp": 1686110741684,
               "step": 0
             },
             {
               "key": "training_r2_score",
               "value": 0.30823973901147106,
-              "timestamp": 1685803932698,
+              "timestamp": 1686110741684,
               "step": 0
             },
             {
               "key": "training_root_mean_squared_error",
               "value": 0.737569929725881,
-              "timestamp": 1685803932698,
+              "timestamp": 1686110741684,
               "step": 0
             },
             {
               "key": "training_score",
               "value": 0.30823973901147106,
-              "timestamp": 1685803932714,
+              "timestamp": 1686110741700,
               "step": 0
             }
           ],
@@ -195,6 +196,7 @@
           "tags": {
             "estimator_class": "sklearn.ensemble._forest.RandomForestRegressor",
             "estimator_name": "RandomForestRegressor",
+            "info": "my FS workspace experiment run",
             "mlflow.databricks.cluster.id": "0414-154233-qm0df4rx",
             "mlflow.databricks.cluster.info": {
               "cluster_name": "andre_ML_13.1",
@@ -218,10 +220,10 @@
               ],
               "redacted": []
             },
-            "mlflow.databricks.notebook.commandID": "7302805753292100894_6485532702584083491_9440c188b026442dbfb539c2badb5001",
+            "mlflow.databricks.notebook.commandID": "7862010846746489700_8576419968538388899_32ce3d20937f433e95ed6ccc27dc86ee",
             "mlflow.databricks.notebookID": "3022585156450267",
             "mlflow.databricks.notebookPath": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS",
-            "mlflow.databricks.notebookRevisionID": "1685803938147",
+            "mlflow.databricks.notebookRevisionID": "1686110748091",
             "mlflow.databricks.webappURL": "https://erie.mist.piolet-knot.com",
             "mlflow.databricks.workspaceID": "2556758628403379",
             "mlflow.databricks.workspaceURL": "stage-south.mist.piolet-knot.net",
@@ -239,14 +241,14 @@
                     }
                   }
                 },
-                "run_id": "7bbb50deab234c2ca7a726561633c480",
-                "model_uuid": "cb62c6f04696428db671d49028fd70c2",
-                "utc_time_created": "2023-06-03 14:52:16.135265",
-                "mlflow_version": "2.3.2",
+                "run_id": "464405b7866b44f49ef191fb85fbb9c0",
+                "model_uuid": "156c2abf5ad9451e8385a7df9312416d",
+                "utc_time_created": "2023-06-07 04:05:46.020494",
+                "mlflow_version": "2.4.0",
                 "databricks_runtime": "13.1.x-cpu-ml-scala2.12"
               }
             ],
-            "mlflow.runName": "ambitious-ape-28",
+            "mlflow.runName": "crawling-goat-570",
             "mlflow.source.name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS",
             "mlflow.source.type": "NOTEBOOK",
             "mlflow.user": "andre@piolet-knot.com",
@@ -267,16 +269,51 @@
             ]
           }
         },
-        "inputs": {}
+        "inputs": {
+          "dataset_inputs": [
+            {
+              "tags": [
+                {
+                  "key": "mlflow.data.context",
+                  "value": "eval"
+                }
+              ],
+              "dataset": {
+                "name": "dataset",
+                "digest": "d86abfa3",
+                "source_type": "code",
+                "source": "{\"tags\": {\"mlflow.user\": \"root\", \"mlflow.source.name\": \"/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS\", \"mlflow.source.type\": \"NOTEBOOK\", \"mlflow.databricks.notebookID\": \"3022585156450267\", \"mlflow.databricks.notebookPath\": \"/Users/andre@databricks.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS\", \"mlflow.databricks.webappURL\": \"https://erie.mist.piolet-knot.com\", \"mlflow.databricks.workspaceURL\": \"stage-south.mist.piolet-knot.net\", \"mlflow.databricks.workspaceID\": \"2556758628403379\", \"mlflow.databricks.cluster.id\": \"0414-154233-qm0df4rx\", \"mlflow.databricks.notebook.commandID\": \"7862010846746489700_8576419968538388899_32ce3d20937f433e95ed6ccc27dc86ee\", \"sparkDatasourceInfo\": \"path=dbfs:/databricks-datasets/wine-quality/winequality-white.csv,format=text\\npath=dbfs:/databricks-datasets/wine-quality/winequality-white.csv,format=csv\\npath=dbfs:/user/hive/warehouse/andre_fs_wine.db/wine_features,version=1,format=delta\"}}",
+                "schema": "{\"mlflow_colspec\": [{\"type\": \"double\", \"name\": \"real_time_measurement\"}, {\"type\": \"double\", \"name\": \"alcohol\"}, {\"type\": \"double\", \"name\": \"chlorides\"}, {\"type\": \"double\", \"name\": \"citric_acid\"}, {\"type\": \"double\", \"name\": \"density\"}, {\"type\": \"double\", \"name\": \"fixed_acidity\"}, {\"type\": \"double\", \"name\": \"free_sulfur_dioxide\"}, {\"type\": \"double\", \"name\": \"pH\"}, {\"type\": \"double\", \"name\": \"residual_sugar\"}, {\"type\": \"double\", \"name\": \"sulphates\"}, {\"type\": \"double\", \"name\": \"total_sulfur_dioxide\"}, {\"type\": \"double\", \"name\": \"volatile_acidity\"}]}",
+                "profile": "{\"num_rows\": 980, \"num_elements\": 11760}"
+              }
+            },
+            {
+              "tags": [
+                {
+                  "key": "mlflow.data.context",
+                  "value": "train"
+                }
+              ],
+              "dataset": {
+                "name": "dataset",
+                "digest": "26cb8566",
+                "source_type": "code",
+                "source": "{\"tags\": {\"mlflow.user\": \"root\", \"mlflow.source.name\": \"/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS\", \"mlflow.source.type\": \"NOTEBOOK\", \"mlflow.databricks.notebookID\": \"3022585156450267\", \"mlflow.databricks.notebookPath\": \"/Users/andre@databricks.com/mlflow/Feature_Store/work_02/Sklearn_Wine_FS\", \"mlflow.databricks.webappURL\": \"https://erie.mist.piolet-knot.com\", \"mlflow.databricks.workspaceURL\": \"stage-south.mist.piolet-knot.net\", \"mlflow.databricks.workspaceID\": \"2556758628403379\", \"mlflow.databricks.cluster.id\": \"0414-154233-qm0df4rx\", \"mlflow.databricks.notebook.commandID\": \"7862010846746489700_8576419968538388899_32ce3d20937f433e95ed6ccc27dc86ee\", \"sparkDatasourceInfo\": \"path=dbfs:/databricks-datasets/wine-quality/winequality-white.csv,format=text\\npath=dbfs:/databricks-datasets/wine-quality/winequality-white.csv,format=csv\\npath=dbfs:/user/hive/warehouse/andre_fs_wine.db/wine_features,version=1,format=delta\"}}",
+                "schema": "{\"mlflow_colspec\": [{\"type\": \"double\", \"name\": \"real_time_measurement\"}, {\"type\": \"double\", \"name\": \"alcohol\"}, {\"type\": \"double\", \"name\": \"chlorides\"}, {\"type\": \"double\", \"name\": \"citric_acid\"}, {\"type\": \"double\", \"name\": \"density\"}, {\"type\": \"double\", \"name\": \"fixed_acidity\"}, {\"type\": \"double\", \"name\": \"free_sulfur_dioxide\"}, {\"type\": \"double\", \"name\": \"pH\"}, {\"type\": \"double\", \"name\": \"residual_sugar\"}, {\"type\": \"double\", \"name\": \"sulphates\"}, {\"type\": \"double\", \"name\": \"total_sulfur_dioxide\"}, {\"type\": \"double\", \"name\": \"volatile_acidity\"}]}",
+                "profile": "{\"num_rows\": 3918, \"num_elements\": 47016}"
+              }
+            }
+          ]
+        }
       },
       "artifacts": {
         "summary": {
           "artifact_max_level": 100,
           "num_artifacts": 12,
-          "num_bytes": 34263,
+          "num_bytes": 34351,
           "num_levels": 5
         },
-        "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
+        "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156485563/464405b7866b44f49ef191fb85fbb9c0/artifacts",
         "files": [
           {
             "path": "estimator.html",
@@ -292,7 +329,7 @@
             "path": "fs-model",
             "is_dir": true,
             "artifacts": {
-              "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
+              "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156485563/464405b7866b44f49ef191fb85fbb9c0/artifacts",
               "files": [
                 {
                   "path": "fs-model/MLmodel",
@@ -302,7 +339,7 @@
                 {
                   "path": "fs-model/conda.yaml",
                   "is_dir": false,
-                  "file_size": 244
+                  "file_size": 268
                 },
                 {
                   "path": "fs-model/python_env.yaml",
@@ -312,19 +349,19 @@
                 {
                   "path": "fs-model/requirements.txt",
                   "is_dir": false,
-                  "file_size": 123
+                  "file_size": 143
                 },
                 {
                   "path": "fs-model/data",
                   "is_dir": true,
                   "artifacts": {
-                    "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
+                    "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156485563/464405b7866b44f49ef191fb85fbb9c0/artifacts",
                     "files": [
                       {
                         "path": "fs-model/data/feature_store",
                         "is_dir": true,
                         "artifacts": {
-                          "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
+                          "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156485563/464405b7866b44f49ef191fb85fbb9c0/artifacts",
                           "files": [
                             {
                               "path": "fs-model/data/feature_store/feature_spec.yaml",
@@ -335,7 +372,7 @@
                               "path": "fs-model/data/feature_store/raw_model",
                               "is_dir": true,
                               "artifacts": {
-                                "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156450267/7bbb50deab234c2ca7a726561633c480/artifacts",
+                                "root_uri": "dbfs:/databricks/mlflow-tracking/3022585156485563/464405b7866b44f49ef191fb85fbb9c0/artifacts",
                                 "files": [
                                   {
                                     "path": "fs-model/data/feature_store/raw_model/MLmodel",
@@ -345,7 +382,7 @@
                                   {
                                     "path": "fs-model/data/feature_store/raw_model/conda.yaml",
                                     "is_dir": false,
-                                    "file_size": 209
+                                    "file_size": 233
                                   },
                                   {
                                     "path": "fs-model/data/feature_store/raw_model/model.pkl",
@@ -360,7 +397,7 @@
                                   {
                                     "path": "fs-model/data/feature_store/raw_model/requirements.txt",
                                     "is_dir": false,
-                                    "file_size": 92
+                                    "file_size": 112
                                   }
                                 ]
                               }
@@ -394,7 +431,48 @@
       }
     ],
     "permissions": {
-      "error": "HTTP status code: 400. Reason: Bad Request URL: https://stage-south.mist.piolet-knot.net/api/2.0/permissions/experiments/3022585156450267. Params: None. Text: {\"error_code\":\"INVALID_PARAMETER_VALUE\",\"message\":\"Object 3022585156450267 not a experiment.\"}"
+      "object_id": "/experiments/3022585156485563",
+      "object_type": "mlflowExperiment",
+      "access_control_list": [
+        {
+          "user_name": "andre@piolet-knot.com",
+          "display_name": "andre",
+          "all_permissions": [
+            {
+              "permission_level": "CAN_MANAGE",
+              "inherited": true,
+              "inherited_from_object": [
+                "/directories/767933989557963"
+              ]
+            }
+          ]
+        },
+        {
+          "service_principal_name": "038455d4-e5ec-4544-b6cf-64d55b91fee1",
+          "display_name": "system-service-principal-south-mist",
+          "all_permissions": [
+            {
+              "permission_level": "CAN_MANAGE",
+              "inherited": true,
+              "inherited_from_object": [
+                "/directories/"
+              ]
+            }
+          ]
+        },
+        {
+          "group_name": "admins",
+          "all_permissions": [
+            {
+              "permission_level": "CAN_MANAGE",
+              "inherited": true,
+              "inherited_from_object": [
+                "/directories/"
+              ]
+            }
+          ]
+        }
+      ]
     }
   }
 }

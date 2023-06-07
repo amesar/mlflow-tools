@@ -352,7 +352,7 @@
       "duration_seconds": 12.931
     },
     "inputs": {},
-    "parameters": {
+    "params": {
       "max_depth": "1",
       "max_leaf_nodes": "None"
     },
