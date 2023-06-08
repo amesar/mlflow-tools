@@ -1,0 +1,216 @@
+report_info:
+  script: report_model_version.py
+  timestamp: '2023-06-08 06:30:51'
+  user: andre
+  mlflow_version: 2.3.2
+model_summary:
+  general:
+    user: andre@piolet-knot.com
+    time_created: '2023-04-16 07:36:14.761583'
+    tracking_server: https://stage-south.mist.piolet-knot.net/api/2.0/mlflow
+  registered_model:
+    name: Sklearn_Wine_ws
+    version: '1'
+  mlflow_model:
+    model_name: model
+    run_id: 851de1f466304650a77c949f5d386d9f
+    experiment:
+      name: /Users/andre@piolet-knot.com/experiments/sklearn_wine/Sklearn_Wine_ws
+      experiment_id: '1280664374380606'
+  native_model:
+    time_created: '2023-04-16 07:36:14.761583'
+    native_flavor:
+      sklearn_version: 1.1.1
+mlflow_model:
+  model_name: model
+  model_artifacts_size: 2367
+  model_source_uris:
+    run_model_uri: dbfs:/databricks/mlflow-tracking/1280664374380606/851de1f466304650a77c949f5d386d9f/artifacts/model
+    registry_model_uri:
+      artifact_uri: dbfs:/databricks/mlflow-registry/7a266e07eafb4101881488203b40ed64/models/model
+  model_info:
+    model_info:
+      _artifact_path: model
+      _flavors:
+        python_function:
+          env:
+            conda: conda.yaml
+            virtualenv: python_env.yaml
+          loader_module: mlflow.sklearn
+          model_path: model.pkl
+          predict_fn: predict
+          python_version: 3.10.6
+        sklearn:
+          code: null
+          pickled_model: model.pkl
+          serialization_format: cloudpickle
+          sklearn_version: 1.1.1
+      _model_uri: models:/Sklearn_Wine_ws/1
+      _model_uuid: b0d37c2b564c4e7bbc9ac6acde61ff22
+      _run_id: 851de1f466304650a77c949f5d386d9f
+      _saved_input_example_info: null
+      _signature: null
+      _utc_time_created: '2023-04-16 07:36:14.761583'
+      _mlflow_version: 2.2.1
+      _metadata: null
+  model_run_context:
+    workspace:
+      mlflow.databricks.webappURL: https://erie.mist.piolet-knot.com
+      mlflow.databricks.workspaceID: '2556758628403379'
+      mlflow.databricks.workspaceURL: stage-south.mist.piolet-knot.net
+    source_code:
+      mlflow.source:
+        mlflow.source.name: /Users/andre@piolet-knot.com/mlflow/mlflow-examples-basic/Sklearn_Wine
+        mlflow.source.type: NOTEBOOK
+      mlflow.databricks.gitRepo: {}
+      mlflow.databricks.notebook:
+        mlflow.databricks.notebook.commandID: 3527702579137640954_8374924253965797983_041de288996c42ef97161546f39184f0
+        mlflow.databricks.notebookID: '1280664374380381'
+        mlflow.databricks.notebookPath: /Users/andre@piolet-knot.com/mlflow/mlflow-examples-basic/Sklearn_Wine
+        mlflow.databricks.notebookRevisionID: '1681630579984'
+    cluster:
+      mlflow.databricks.cluster.id: 0414-154233-qm0df4rx
+      mlflow.databricks.cluster.info:
+        cluster_name: Andre_ML_13.0
+        spark_version: 13.0.x-cpu-ml-scala2.12
+        node_type_id: i3.xlarge
+        driver_node_type_id: i3.xlarge
+        autotermination_minutes: 120
+        disk_spec:
+          disk_count: 0
+        num_workers: 1
+      mlflow.databricks.cluster.libraries:
+        installable: []
+        redacted: []
+    spark_datasource: []
+  model_artifacts:
+    summary:
+      relative_artifact_path: model
+      size: 2367
+      num_artifacts: 5
+    files:
+    - path: MLmodel
+      file_size: 546
+    - path: conda.yaml
+      file_size: 205
+    - path: model.pkl
+      file_size: 1402
+    - path: python_env.yaml
+      file_size: 122
+    - path: requirements.txt
+      file_size: 92
+registered_model_version:
+  name: Sklearn_Wine_ws
+  version: '1'
+  current_stage: Production
+  status: READY
+  aliases: null
+  description: null
+  tags: {}
+  creation_timestamp: '2023-05-02 14:15:39'
+  last_updated_timestamp: '2023-05-02 14:16:16'
+  mlflow_tracking_server_uri: https://stage-south.mist.piolet-knot.net/api/2.0/mlflow
+registered_model:
+  name: Sklearn_Wine_ws
+  creation_timestamp: '2023-05-02 14:15:38'
+  last_updated_timestamp: '2023-05-02 14:16:16'
+  user_id: andre@piolet-knot.com
+  id: 51c5e9c42e244e2aa2a65476b934f5a4
+  permission_level: CAN_MANAGE
+  latest_versions: 1
+  permissions:
+    permission_levels:
+    - permission_level: CAN_READ
+      description: Can view the details of the registered model and its model versions,
+        and use the model versions.
+    - permission_level: CAN_EDIT
+      description: Can view and edit the details of a registered model and its model
+        versions (except stage changes), and add new model versions.
+    - permission_level: CAN_MANAGE_STAGING_VERSIONS
+      description: Can view and edit the details of a registered model and its model
+        versions, add new model versions, and manage stage transitions between non-Production
+        stages.
+    - permission_level: CAN_MANAGE_PRODUCTION_VERSIONS
+      description: Can view and edit the details of a registered model and its model
+        versions, add new model versions, and manage stage transitions between any
+        stages.
+    - permission_level: CAN_MANAGE
+      description: Can manage permissions on, view all details of, and perform all
+        actions on the registered model and its model versions.
+    permissions:
+      object_id: /registered-models/51c5e9c42e244e2aa2a65476b934f5a4
+      object_type: registered-model
+      access_control_list:
+      - group_name: admins
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: true
+          inherited_from_object:
+          - /registered-models/
+      - group_name: users
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: true
+          inherited_from_object:
+          - /registered-models/
+      - service_principal_name: 038455d4-e5ec-4544-b6cf-64d55b91fee1
+        display_name: system-service-principal-south-mist
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: true
+          inherited_from_object:
+          - /registered-models/
+      - user_name: andre@piolet-knot.com
+        display_name: andre
+        all_permissions:
+        - permission_level: CAN_MANAGE
+          inherited: false
+run:
+  info:
+    experiment_name: /Users/andre@piolet-knot.com/experiments/sklearn_wine/Sklearn_Wine_ws
+    run_id: 851de1f466304650a77c949f5d386d9f
+    experiment_id: '1280664374380606'
+    run_name: 851de1f466304650a77c949f5d386d9f
+    status: FINISHED
+    start_time: '2023-04-16 07:36:13'
+    end_time: '2023-04-16 07:36:20'
+    artifact_uri: dbfs:/databricks/mlflow-tracking/1280664374380606/851de1f466304650a77c949f5d386d9f/artifacts
+    lifecycle_stage: deleted
+    duration_seconds: 6.266
+  inputs: {}
+  params:
+    max_depth: '1'
+    max_leaf_nodes: None
+  metrics:
+  - key: r2
+    value: 0.1553172302194683
+    timestamp: 1681630579458
+    step: 0
+  - key: rmse
+    value: 0.7986004372118107
+    timestamp: 1681630579236
+    step: 0
+  user_tags:
+    save_signature: 'False'
+    timestamp: '2023-04-16 07:36:09'
+    version.DATABRICKS_RUNTIME_VERSION: '13.0'
+    version.mlflow: 2.2.1
+    version.python: 3.10.6
+    version.sklearn: 1.1.1
+experiment:
+  experiment_id: '1280664374380606'
+  name: /Users/andre@piolet-knot.com/experiments/sklearn_wine/Sklearn_Wine_ws
+  artifact_location: dbfs:/databricks/mlflow-tracking/1280664374380606
+  lifecycle_stage: active
+  last_update_time: '2023-05-13 02:44:37'
+  creation_time: '2023-04-16 07:36:10'
+  tags:
+    mlflow.note.content: 'WS notebook - WS experiment
+
+      /Users/andre@piolet-knot.com/experiments/sklearn_wine/Sklearn_Wine_ws'
+    mlflow.ownerId: '4566812440727830'
+    timestamp: '2023-04-16 07:36:09'
+    version_mlflow: 2.2.1
+    mlflow.experiment.sourceName: /Users/andre@piolet-knot.com/experiments/sklearn_wine/Sklearn_Wine_ws
+    mlflow.ownerEmail: andre@piolet-knot.com
+    mlflow.experimentType: MLFLOW_EXPERIMENT

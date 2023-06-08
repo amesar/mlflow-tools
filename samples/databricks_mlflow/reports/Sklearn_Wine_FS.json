@@ -1,0 +1,323 @@
+{
+  "report_info": {
+    "script": "report_model_version.py",
+    "timestamp": "2023-06-04 22:21:37",
+    "user": "andre",
+    "mlflow_version": "2.3.2"
+  },
+  "model_summary": {
+    "general": {
+      "user": "andre@piolet-knot.com",
+      "time_created": "2023-05-29 03:09:38.656812",
+      "tracking_server": "https://stage-south.mist.piolet-knot.net/api/2.0/mlflow"
+    },
+    "registered_model": {
+      "name": "Sklearn_Wine_FS",
+      "version": "3"
+    },
+    "mlflow_model": {
+      "model_name": "model",
+      "run_id": "330acf4a7f854c9f9ef606beba7e6f87",
+      "experiment": {
+        "name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_01/Sklearn_Wine_FS",
+        "experiment_id": "1565792132797144"
+      }
+    },
+    "native_model": {
+      "time_created": "2023-05-29 03:09:38.656812",
+      "native_flavor": {
+        "flavor": "python_function"
+      }
+    }
+  },
+  "mlflow_model": {
+    "model_name": "model",
+    "model_artifacts_size": 7202124,
+    "model_source_uris": {
+      "run_model_uri": "dbfs:/databricks/mlflow-tracking/1565792132797144/330acf4a7f854c9f9ef606beba7e6f87/artifacts/model",
+      "registry_model_uri": {
+        "artifact_uri": "dbfs:/databricks/mlflow-registry/e78ac0a189f2476c9db0b641c5fe2cc0/models/model"
+      }
+    },
+    "model_info": {
+      "model_info": {
+        "_artifact_path": "model",
+        "_flavors": {
+          "python_function": {
+            "data": "data/feature_store",
+            "env": {
+              "conda": "conda.yaml",
+              "virtualenv": "python_env.yaml"
+            },
+            "loader_module": "databricks.feature_store.mlflow_model",
+            "python_version": "3.10.6"
+          }
+        },
+        "_model_uri": "models:/Sklearn_Wine_FS/3",
+        "_model_uuid": "795aff39326348b18b4f3fdc943e4efe",
+        "_run_id": "330acf4a7f854c9f9ef606beba7e6f87",
+        "_saved_input_example_info": null,
+        "_signature": null,
+        "_utc_time_created": "2023-05-29 03:09:38.656812",
+        "_mlflow_version": "2.3.2",
+        "_metadata": null
+      }
+    },
+    "model_run_context": {
+      "workspace": {
+        "mlflow.databricks.webappURL": "https://erie.mist.piolet-knot.com",
+        "mlflow.databricks.workspaceID": "2556758628403379",
+        "mlflow.databricks.workspaceURL": "stage-south.mist.piolet-knot.net"
+      },
+      "source_code": {
+        "mlflow.source": {
+          "mlflow.source.name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work/Feature_Store_Wine_Quality",
+          "mlflow.source.type": "NOTEBOOK"
+        },
+        "mlflow.databricks.gitRepo": {},
+        "mlflow.databricks.notebook": {
+          "mlflow.databricks.notebook.commandID": "3868196433452915864_7154662085710578373_3477579db7474a18a2381ef791bbd140",
+          "mlflow.databricks.notebookID": "1565792132797144",
+          "mlflow.databricks.notebookPath": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work/Feature_Store_Wine_Quality"
+        }
+      },
+      "cluster": {
+        "mlflow.databricks.cluster.id": "0414-154233-qm0df4rx",
+        "mlflow.databricks.cluster.info": {
+          "cluster_name": "andre_ML_13.1",
+          "spark_version": "13.1.x-cpu-ml-scala2.12",
+          "node_type_id": "i3.xlarge",
+          "driver_node_type_id": "i3.xlarge",
+          "autotermination_minutes": 120,
+          "disk_spec": {
+            "disk_count": 0
+          },
+          "num_workers": 1
+        },
+        "mlflow.databricks.cluster.libraries": {
+          "installable": [
+            {
+              "jar": "dbfs:/home/andre@piolet-knot.com/lib/jars/PrintArgs.jar"
+            },
+            {
+              "whl": "dbfs:/home/andre@piolet-knot.com/work/jobs/sklearn_wine/mlflow_sklearn_wine-0.0.1-py3-none-any.whl"
+            }
+          ],
+          "redacted": []
+        }
+      },
+      "spark_datasource": [
+        [
+          {
+            "path": "dbfs:/databricks-datasets/wine-quality/winequality-red.csv",
+            "format": "text"
+          },
+          {
+            "path": "dbfs:/databricks-datasets/wine-quality/winequality-red.csv",
+            "format": "csv"
+          }
+        ]
+      ]
+    },
+    "model_artifacts": {
+      "summary": {
+        "relative_artifact_path": "model",
+        "size": 7202124,
+        "num_artifacts": 10
+      },
+      "files": [
+        {
+          "path": "MLmodel",
+          "file_size": 428
+        },
+        {
+          "path": "conda.yaml",
+          "file_size": 244
+        },
+        {
+          "path": "python_env.yaml",
+          "file_size": 122
+        },
+        {
+          "path": "requirements.txt",
+          "file_size": 123
+        },
+        {
+          "path": "data",
+          "artifacts": {
+            "files": [
+              {
+                "path": "feature_store",
+                "artifacts": {
+                  "files": [
+                    {
+                      "path": "feature_spec.yaml",
+                      "file_size": 1786
+                    },
+                    {
+                      "path": "raw_model",
+                      "artifacts": {
+                        "files": [
+                          {
+                            "path": "MLmodel",
+                            "file_size": 484
+                          },
+                          {
+                            "path": "conda.yaml",
+                            "file_size": 209
+                          },
+                          {
+                            "path": "model.pkl",
+                            "file_size": 7198514
+                          },
+                          {
+                            "path": "python_env.yaml",
+                            "file_size": 122
+                          },
+                          {
+                            "path": "requirements.txt",
+                            "file_size": 92
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "registered_model_version": {
+    "name": "Sklearn_Wine_FS",
+    "version": "3",
+    "current_stage": "Production",
+    "status": "READY",
+    "aliases": null,
+    "description": null,
+    "tags": {},
+    "creation_timestamp": "2023-05-29 03:09:41",
+    "last_updated_timestamp": "2023-06-03 04:58:55",
+    "mlflow_tracking_server_uri": "https://stage-south.mist.piolet-knot.net/api/2.0/mlflow"
+  },
+  "registered_model": {
+    "name": "Sklearn_Wine_FS",
+    "creation_timestamp": "2023-05-29 02:52:10",
+    "last_updated_timestamp": "2023-06-03 04:58:55",
+    "user_id": "andre@piolet-knot.com",
+    "id": "894e9a5222174908858fd5abd3ed5d25",
+    "permission_level": "CAN_MANAGE",
+    "latest_versions": 3,
+    "permissions": {
+      "permission_levels": [
+        {
+          "permission_level": "CAN_READ",
+          "description": "Can view the details of the registered model and its model versions, and use the model versions."
+        },
+        {
+          "permission_level": "CAN_EDIT",
+          "description": "Can view and edit the details of a registered model and its model versions (except stage changes), and add new model versions."
+        },
+        {
+          "permission_level": "CAN_MANAGE_STAGING_VERSIONS",
+          "description": "Can view and edit the details of a registered model and its model versions, add new model versions, and manage stage transitions between non-Production stages."
+        },
+        {
+          "permission_level": "CAN_MANAGE_PRODUCTION_VERSIONS",
+          "description": "Can view and edit the details of a registered model and its model versions, add new model versions, and manage stage transitions between any stages."
+        },
+        {
+          "permission_level": "CAN_MANAGE",
+          "description": "Can manage permissions on, view all details of, and perform all actions on the registered model and its model versions."
+        }
+      ],
+      "permissions": {
+        "object_id": "/registered-models/894e9a5222174908858fd5abd3ed5d25",
+        "object_type": "registered-model",
+        "access_control_list": [
+          {
+            "user_name": "andre@piolet-knot.com",
+            "display_name": "andre",
+            "all_permissions": [
+              {
+                "permission_level": "CAN_MANAGE",
+                "inherited": false
+              }
+            ]
+          },
+          {
+            "group_name": "admins",
+            "all_permissions": [
+              {
+                "permission_level": "CAN_MANAGE",
+                "inherited": true,
+                "inherited_from_object": [
+                  "/registered-models/"
+                ]
+              }
+            ]
+          },
+          {
+            "group_name": "users",
+            "all_permissions": [
+              {
+                "permission_level": "CAN_MANAGE",
+                "inherited": true,
+                "inherited_from_object": [
+                  "/registered-models/"
+                ]
+              }
+            ]
+          },
+          {
+            "service_principal_name": "038455d4-e5ec-4544-b6cf-64d55b91fee1",
+            "display_name": "system-service-principal-south-mist",
+            "all_permissions": [
+              {
+                "permission_level": "CAN_MANAGE",
+                "inherited": true,
+                "inherited_from_object": [
+                  "/registered-models/"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "run": {
+    "info": {
+      "experiment_name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_01/Sklearn_Wine_FS",
+      "run_id": "330acf4a7f854c9f9ef606beba7e6f87",
+      "experiment_id": "1565792132797144",
+      "run_name": "clean-newt-375",
+      "status": "RUNNING",
+      "start_time": "2023-05-29 02:52:08",
+      "end_time": null,
+      "artifact_uri": "dbfs:/databricks/mlflow-tracking/1565792132797144/330acf4a7f854c9f9ef606beba7e6f87/artifacts",
+      "lifecycle_stage": "active",
+      "duration_seconds": -1685328727.653
+    },
+    "inputs": {},
+    "params": null,
+    "metrics": null,
+    "user_tags": {}
+  },
+  "experiment": {
+    "experiment_id": "1565792132797144",
+    "name": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_01/Sklearn_Wine_FS",
+    "artifact_location": "dbfs:/databricks/mlflow-tracking/1565792132797144",
+    "lifecycle_stage": "active",
+    "last_update_time": "2023-05-29 02:52:08",
+    "creation_time": "2023-05-29 02:32:42",
+    "tags": {
+      "mlflow.ownerId": "4566812440727830",
+      "mlflow.experiment.sourceName": "/Users/andre@piolet-knot.com/mlflow/Feature_Store/work_01/Sklearn_Wine_FS",
+      "mlflow.ownerEmail": "andre@piolet-knot.com",
+      "mlflow.experimentType": "NOTEBOOK"
+    }
+  }
+}
