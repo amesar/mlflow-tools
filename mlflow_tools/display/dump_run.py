@@ -70,6 +70,28 @@ def _explode_history(tag):
             _explode_string_tag(v, "inputs")
             _explode_string_tag(v, "outputs")
 
+def _adjust_inputs(run, explode_json_string, show_tags_as_dict):
+    """ Adjust new MLflow 2.4.0 run attribute 'inputs' """
+    if not explode_json_string and not show_tags_as_dict:
+        return
+    inputs = run.get("inputs")
+    if inputs is None:
+        return
+    dataset_inputs = inputs.get("dataset_inputs")
+    if dataset_inputs is None:
+        return
+    for di in dataset_inputs:
+        if explode_json_string:
+            ds = di.get("dataset")
+            if ds:
+                _explode_string_tag(ds, "source")
+                _explode_string_tag(ds, "schema")
+                _explode_string_tag(ds, "profile")
+        if show_tags_as_dict:
+            tags = di.get("tags")
+            if tags:
+                di["tags"] = mlflow_utils.mk_tags_dict(tags)
+
 
 def build_run(run, explode_json_string=True, show_tags_as_dict=True):
     """
@@ -85,6 +107,7 @@ def build_run(run, explode_json_string=True, show_tags_as_dict=True):
         _explode_json_string_tags(run)
     if show_tags_as_dict:
         run["data"]["tags"] = mlflow_utils.mk_tags_dict(run["data"]["tags"])
+    _adjust_inputs(run, explode_json_string, show_tags_as_dict)
     return run
 
 
