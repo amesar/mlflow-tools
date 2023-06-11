@@ -8,10 +8,10 @@ import mlflow
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
-from mlflow_tools.common import mlflow_utils
-from mlflow_tools.common import permissions_utils
+from mlflow_tools.common import mlflow_utils, io_utils, object_utils, permissions_utils
 from mlflow_tools.common.http_iterators import SearchRunsIterator
 from mlflow_tools.common.click_options import (
+    opt_dump_raw,
     opt_artifact_max_level,
     opt_dump_permissions,
     opt_show_tags_as_dict,
@@ -29,6 +29,7 @@ http_client = MlflowHttpClient()
 
 def dump(
         experiment_id_or_name,
+        dump_raw = False,
         dump_runs = True,
         dump_run_data = False,
         num_runs = None,
@@ -43,6 +44,11 @@ def dump(
     exp = mlflow_utils.get_experiment(http_client, experiment_id_or_name)
     if exp is None:
         raise MlflowToolsException(f"Cannot find experiment '{experiment_id_or_name}'")
+    if dump_raw:
+        if output_file:
+            io_utils.write_file(output_file, exp)
+        object_utils.dump_dict_as_json(exp)
+        return exp
 
     exp = exp["experiment"]
     experiment_id = exp["experiment_id"]
@@ -99,6 +105,7 @@ def adjust_experiment(exp, show_tags_as_dict=True):
 
 @click.command()
 @opt_experiment_id_or_name
+@opt_dump_raw
 @click.option("--dump-runs",
   help="Show runs",
   type=bool,
@@ -126,6 +133,7 @@ def adjust_experiment(exp, show_tags_as_dict=True):
 
 def main(
         experiment_id_or_name,
+        dump_raw,
         artifact_max_level,
         dump_runs,
         dump_run_data,
@@ -141,6 +149,7 @@ def main(
     for k,v in locals().items():
         print(f"  {k}: {v}")
     dump(experiment_id_or_name, 
+       dump_raw,
        dump_runs, 
        dump_run_data, 
        num_runs,

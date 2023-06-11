@@ -6,8 +6,9 @@ import click
 
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
-from mlflow_tools.common import mlflow_utils
+from mlflow_tools.common import mlflow_utils, io_utils, object_utils
 from mlflow_tools.common.click_options import (
+    opt_dump_raw,
     opt_artifact_max_level,
     opt_show_tags_as_dict,
     opt_explode_json_string,
@@ -88,6 +89,7 @@ def build_run_extended(
 
 def dump(
         run_id,
+        dump_raw,
         artifact_max_level = 1,
         explode_json_string = False,
         show_tags_as_dict = False,
@@ -100,10 +102,15 @@ def dump(
     :return: Dictionary of run details 
     """
     run = http_client.get(f"runs/get", { "run_id": run_id })
-    dct = build_run_extended(run["run"], artifact_max_level, explode_json_string, show_tags_as_dict)
-
-    dct = dump_finish(dct, output_file, format, show_system_info, __file__)
-    return dct
+    if dump_raw:
+        if output_file:
+            io_utils.write_file(output_file, run)
+        object_utils.dump_dict_as_json(run)
+        return run
+    else:
+        dct = build_run_extended(run["run"], artifact_max_level, explode_json_string, show_tags_as_dict)
+        dct = dump_finish(dct, output_file, format, show_system_info, __file__)
+        return dct
 
 
 @click.command()
@@ -112,6 +119,7 @@ def dump(
     type=str,
     required=True
 )
+@opt_dump_raw
 @opt_artifact_max_level
 @opt_explode_json_string
 @opt_show_tags_as_dict
@@ -119,11 +127,11 @@ def dump(
 @opt_format
 @opt_output_file
 
-def main(run_id, artifact_max_level, explode_json_string, show_tags_as_dict, show_system_info, format, output_file):
+def main(run_id, dump_raw, artifact_max_level, explode_json_string, show_tags_as_dict, show_system_info, format, output_file):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
-    dump(run_id, artifact_max_level, explode_json_string, show_tags_as_dict, show_system_info, format, output_file)
+    dump(run_id, dump_raw, artifact_max_level, explode_json_string, show_tags_as_dict, show_system_info, format, output_file)
 
 
 if __name__ == "__main__":

@@ -46,6 +46,15 @@ def opt_dump_permissions(function):
     )(function)
     return function
 
+def opt_dump_raw(function):
+    function = click.option("--dump-raw",
+        help="Dump raw JSON as received from API call. Ignore all other options.",
+        type=bool,
+        default=False,
+        show_default=True
+    )(function)
+    return function
+
 def opt_artifact_max_level(function):
     function = click.option("--artifact-max-level",
         help="Number of artifact levels to recurse for run artifacts.",

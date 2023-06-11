@@ -7,9 +7,10 @@ import mlflow
 
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common import MlflowToolsException
-from mlflow_tools.common import mlflow_utils
+from mlflow_tools.common import mlflow_utils, io_utils, object_utils
 from mlflow_tools.common import permissions_utils
 from mlflow_tools.common.click_options import (
+    opt_dump_raw,
     opt_artifact_max_level,
     opt_dump_permissions,
     opt_show_tags_as_dict,
@@ -62,6 +63,7 @@ def _add_runs(versions, artifact_max_level, explode_json_string, show_tags_as_di
 
 def dump(
         model_name,
+        dump_raw = False,
         dump_all_versions = False,
         dump_runs = False,
         artifact_max_level = 0,
@@ -73,8 +75,15 @@ def dump(
         output_file = None,
         silent = False,
     ):
+    if dump_raw:
+        model = http_client.get(f"registered-models/get", {"name": model_name} )
+        if output_file:
+            io_utils.write_file(output_file, model)
+        object_utils.dump_dict_as_json(model)
+        return model
 
     model = mlflow_utils.get_registered_model(http_client, model_name, dump_permissions)
+
     _adjust_model_timestamps(model)
     model["_tracking_uri"] = mlflow.get_tracking_uri()
     if dump_all_versions:
@@ -106,6 +115,7 @@ def dump(
      type=str,
      required=True
 )
+@opt_dump_raw
 @click.option("--dump-all-versions",
     help="Dump all versions instead of latest versions.",
     type=bool,
@@ -127,6 +137,7 @@ def dump(
 @opt_output_file
 
 def main(model, 
+       dump_raw,
        dump_all_versions, 
        dump_runs, 
        explode_json_string, 
@@ -142,6 +153,7 @@ def main(model,
         print(f"  {k}: {v}")
     dump(
         model_name = model,
+        dump_raw = dump_raw,
         dump_all_versions = dump_all_versions,
         dump_runs = dump_runs,
         explode_json_string = explode_json_string,
