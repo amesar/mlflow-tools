@@ -115,7 +115,7 @@ def opt_format(function):
 
 def opt_explode_json_string(function):
     function = click.option("--explode-json-string",
-        help="Explode JSON string fields as JSON map.",
+        help="Explode JSON (or 'sparkDatasourceInfo') string fields as a Python dict or list.",
         type=bool,
         default=True,
         show_default=True

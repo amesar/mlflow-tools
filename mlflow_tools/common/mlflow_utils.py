@@ -119,19 +119,6 @@ def mk_tags_dict(tags_array):
     return { x["key"]:x["value"] for x in tags_array }
 
 
-def parse_sparkDatasourceInfo_tag(spec):
-    def parse_datasource(spec):
-        toks = spec.split(",")
-        dct = {}
-        for tok in toks:
-            tup = tok.split("=")
-            dct[tup[0]] = tup[1]
-        return dct
-    toks = spec.split("\n")
-    lst = [ parse_datasource(x) for x in toks ]
-    return lst
-
-
 def get_registered_model(client, model_name, get_permissions):
     if get_permissions:
         resource = "databricks/registered-models/get"

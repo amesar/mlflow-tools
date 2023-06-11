@@ -2,13 +2,11 @@
 Dump a run in JSON or YAML.
 """
 
-import json
 import click
 
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils
-from mlflow_tools.common.mlflow_utils import parse_sparkDatasourceInfo_tag
 from mlflow_tools.common.click_options import (
     opt_artifact_max_level,
     opt_show_tags_as_dict,
@@ -19,15 +17,7 @@ from mlflow_tools.common.click_options import (
 )
 from mlflow_tools.display.display_utils import build_artifacts
 from mlflow_tools.display.display_utils import dump_finish
-
-
-# Tags to explode from JSON string
-explode_tags = [ 
-    "mlflow.databricks.cluster.info", 
-    "mlflow.databricks.cluster.libraries", 
-    "mlflow.log-model.history",
-    "mlflow.datasets"
-]
+from mlflow_tools.display.explode_utils import explode_json
 
 http_client = MlflowHttpClient()
 
@@ -49,65 +39,22 @@ def adjust_times(info):
         info["_duration"] = dur
 
 
-def _explode_json_string_tags(run):
-    for tag in run["data"]["tags"]:
-        if tag["key"] in explode_tags:
-            tag["value"] = json.loads(tag["value"])
-            if tag["key"] == "mlflow.log-model.history":
-                _explode_history(tag)
-        elif tag["key"] == "sparkDatasourceInfo":
-            tag["value"] = parse_sparkDatasourceInfo_tag(tag["value"])
-
-def _explode_string_tag(dct, key):
-    v = dct.get(key)
-    if v:
-        dct[key] = json.loads(v)
-
-def _explode_history(tag):
-    for tv in tag["value"]:
-        v = tv.get("signature")
-        if v:
-            _explode_string_tag(v, "inputs")
-            _explode_string_tag(v, "outputs")
-
-def _adjust_inputs(run, explode_json_string, show_tags_as_dict):
-    """ Adjust new MLflow 2.4.0 run attribute 'inputs' """
-    if not explode_json_string and not show_tags_as_dict:
-        return
-    inputs = run.get("inputs")
-    if inputs is None:
-        return
-    dataset_inputs = inputs.get("dataset_inputs")
-    if dataset_inputs is None:
-        return
-    for di in dataset_inputs:
-        if explode_json_string:
-            ds = di.get("dataset")
-            if ds:
-                _explode_string_tag(ds, "source")
-                _explode_string_tag(ds, "schema")
-                _explode_string_tag(ds, "profile")
-        if show_tags_as_dict:
-            tags = di.get("tags")
-            if tags:
-                di["tags"] = mlflow_utils.mk_tags_dict(tags)
-
-
 def build_run(run, explode_json_string=True, show_tags_as_dict=True):
     """
     Returns adjusted dict representation of run.
     """
+    if explode_json_string:
+        explode_json(run)
+
     info = run["info"]
     adjust_times(info)
 
     exp = http_client.get("experiments/get", {"experiment_id": info["experiment_id"]}) ["experiment"]
     run["info"]["_experiment_name"] = exp["name"]
 
-    if explode_json_string:
-        _explode_json_string_tags(run)
     if show_tags_as_dict:
         run["data"]["tags"] = mlflow_utils.mk_tags_dict(run["data"]["tags"])
-    _adjust_inputs(run, explode_json_string, show_tags_as_dict)
+    
     return run
 
 
@@ -121,6 +68,7 @@ def build_run_extended(
         return len(dct) if dct else 0
 
     run  = build_run(run, explode_json_string, show_tags_as_dict)
+
     data = run["data"]
     run_id = run["info"]["run_id"]
 
