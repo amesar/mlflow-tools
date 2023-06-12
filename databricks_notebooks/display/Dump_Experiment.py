@@ -16,6 +16,7 @@
 # MAGIC * `Explode JSON string` - explode JSON attributes which contain a JSON string
 # MAGIC * `Format` - JSON or YAML
 # MAGIC * `Output file` - if set, write output to file
+# MAGIC * `Dump raw JSON` - dump JSON as received from API request
 # MAGIC
 # MAGIC **MLflow Spark Data Source**
 # MAGIC * Also demonstrates usage of MLflow Spark Data Source `mlflow-experiment`.
@@ -33,29 +34,27 @@
 
 # COMMAND ----------
 
-dbutils.widgets.remove("5. Show permissions")
+dbutils.widgets.text("01. Experiment ID or name", "")
+dbutils.widgets.text("02. Artifact max level", "1")
+dbutils.widgets.dropdown("03. Dump runs", "no", ["yes","no"])
+dbutils.widgets.dropdown("04. Dump run data", "no", ["yes","no"])
+dbutils.widgets.dropdown("05. Dump permissions", "no", ["yes","no"])
+dbutils.widgets.dropdown("06. Show tags as dictionary", "yes", ["yes","no"])
+dbutils.widgets.dropdown("07. Explode JSON string", "yes", ["yes","no"])
+dbutils.widgets.dropdown("08. Format", "json", ["json","yaml"])
+dbutils.widgets.text("09. Output file", "")
+dbutils.widgets.dropdown("10. Dump raw JSON", "no", ["yes","no"])
 
-# COMMAND ----------
-
-dbutils.widgets.text("1. Experiment ID or name", "")
-dbutils.widgets.text("2. Artifact max level", "1")
-dbutils.widgets.dropdown("3. Dump runs", "no", ["yes","no"])
-dbutils.widgets.dropdown("4. Dump run data", "no", ["yes","no"])
-dbutils.widgets.dropdown("5. Dump permissions", "no", ["yes","no"])
-dbutils.widgets.dropdown("6. Show tags as dictionary", "yes", ["yes","no"])
-dbutils.widgets.dropdown("7. Explode JSON string", "yes", ["yes","no"])
-dbutils.widgets.dropdown("8. Format", "json", ["json","yaml"])
-dbutils.widgets.text("9. Output file", "")
-
-experiment_id_or_name = dbutils.widgets.get("1. Experiment ID or name")
-artifact_max_level = int(dbutils.widgets.get("2. Artifact max level"))
-dump_runs = dbutils.widgets.get("3. Dump runs") == "yes"
-dump_run_data = dbutils.widgets.get("4. Dump run data") == "yes"
-dump_permissions = dbutils.widgets.get("5. Dump permissions") == "yes"
-show_tags_as_dict = dbutils.widgets.get("6. Show tags as dictionary") == "yes"
-explode_json_string = dbutils.widgets.get("7. Explode JSON string") == "yes"
-format = dbutils.widgets.get("8. Format")
-output_file = dbutils.widgets.get("9. Output file")
+experiment_id_or_name = dbutils.widgets.get("01. Experiment ID or name")
+artifact_max_level = int(dbutils.widgets.get("02. Artifact max level"))
+dump_runs = dbutils.widgets.get("03. Dump runs") == "yes"
+dump_run_data = dbutils.widgets.get("04. Dump run data") == "yes"
+dump_permissions = dbutils.widgets.get("05. Dump permissions") == "yes"
+show_tags_as_dict = dbutils.widgets.get("06. Show tags as dictionary") == "yes"
+explode_json_string = dbutils.widgets.get("07. Explode JSON string") == "yes"
+format = dbutils.widgets.get("08. Format")
+output_file = dbutils.widgets.get("09. Output file")
+dump_raw = dbutils.widgets.get("10. Dump raw JSON") == "yes"
 
 print("experiment_id_or_name:", experiment_id_or_name)
 print("artifact_max_level:", artifact_max_level)
@@ -66,6 +65,7 @@ print("show_tags_as_dict:", show_tags_as_dict)
 print("explode_json_string:", explode_json_string)
 print("format:", format)
 print("output_file:", output_file)
+print("dump_raw:", dump_raw)
 
 # COMMAND ----------
 
@@ -81,6 +81,7 @@ from mlflow_tools.display import dump_experiment
 
 dct = dump_experiment.dump(
     experiment_id_or_name = experiment_id_or_name, 
+    dump_raw = dump_raw,
     artifact_max_level = artifact_max_level, 
     dump_runs = dump_runs, 
     dump_run_data = dump_run_data, 

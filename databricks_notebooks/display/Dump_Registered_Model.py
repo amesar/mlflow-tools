@@ -11,6 +11,7 @@
 # MAGIC * `4. Dump permissions` - dump run data if showing runs
 # MAGIC * `5. Format` - JSON or YAML
 # MAGIC * `6. Output file`
+# MAGIC * `7. Dump raw JSON` - dump JSON as received from API request
 
 # COMMAND ----------
 
@@ -39,6 +40,9 @@ format = dbutils.widgets.get("6. Format")
 dbutils.widgets.text("7. Output JSON file", "")
 output_file = dbutils.widgets.get("7. Output JSON file")
 
+dbutils.widgets.dropdown("8. Dump raw JSON", "no", ["yes","no"])
+dump_raw = dbutils.widgets.get("8. Dump raw JSON") == "yes"
+
 print("model:", model)
 print("dump_all_versions:", dump_all_versions)
 print("dump_runs:", dump_runs)
@@ -46,6 +50,7 @@ print("dump_permissions:", dump_permissions)
 print("show_system_info:", show_system_info)
 print("format:", format)
 print("output_file:", output_file)
+print("dump_raw:", dump_raw)
 
 # COMMAND ----------
 
@@ -57,6 +62,7 @@ from mlflow_tools.display import dump_registered_model
 
 dct = dump_registered_model.dump(
     model_name = model, 
+    dump_raw = dump_raw,
     dump_all_versions = dump_all_versions,
     dump_runs = dump_runs, 
     dump_permissions = dump_permissions,
