@@ -23,14 +23,18 @@
 # MAGIC * [Dump_Run]($Dump_Run)
 # MAGIC * [Dump_MLflow_Model]($Dump_MLflow_Model) - Dump MLflow ModelInfo for a model URI
 # MAGIC
-# MAGIC **Report tools**
-# MAGIC * [Report_Model_Version]($Report_Model_Version) - Model governance report for model version
+# MAGIC **MLflow model tools**
+# MAGIC * [Report_Model_Version]($Report_Model_Version) - Model governance report for model version and its underlying MLflow model
+# MAGIC * [Download_MLflow_Model]($Download_MLflow_Model) - Download  MLflow model by model URI as in `models:/my-model/production`
 # MAGIC
 # MAGIC **Databricks MLflow Spark Datasource**
 # MAGIC * [MLflow Spark Datasource Example](https://docs.databricks.com/_static/notebooks/mlflow/mlflow-datasource.html) - Databricks notebook example.
 # MAGIC
+# MAGIC **Other**
+# MAGIC * [../Common]($../Common)
+# MAGIC
 # MAGIC **NOTE**
 # MAGIC
-# MAGIC * Requires Databricks Runtime 13 or 12.2. Errors on 11. :(
+# MAGIC * Requires Databricks Runtime 13 or 12.2.
 # MAGIC
-# MAGIC Last updated: _2023-06-03_
+# MAGIC Last updated: _2023-06-11_
