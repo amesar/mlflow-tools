@@ -158,10 +158,10 @@ def _mk_mlflow_model_sources(vr):
     """
     Represents a version's two URI sources for MLflow model: the run URI and the 'cached registry' model
     """
-    uri = http_client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
+    download_uri = http_client.get("model-versions/get-download-uri", {"name": vr["name"], "version": vr["version"] })
     return {
-        "run_model_uri": vr["source"],
-        "registry_model_uri": uri
+        "run_model_uri": vr.get("source"),
+        "registry_model_uri": download_uri.get("artifact_uri")
     }
 
 
