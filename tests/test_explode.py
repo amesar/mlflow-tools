@@ -4,7 +4,7 @@ Test explode_utils.py
 
 import copy
 import json
-from mlflow_tools.display.explode_utils import explode_json
+from mlflow_tools.common.explode_utils import explode_json
 #from mlflow_tools.common.object_utils import dump_dict_as_json
 
 # =====

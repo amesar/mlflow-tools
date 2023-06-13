@@ -7,6 +7,7 @@ import click
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common.timestamp_utils import fmt_ts_millis
 from mlflow_tools.common import mlflow_utils, io_utils, object_utils
+from mlflow_tools.common.explode_utils import explode_json
 from mlflow_tools.common.click_options import (
     opt_dump_raw,
     opt_artifact_max_level,
@@ -18,7 +19,6 @@ from mlflow_tools.common.click_options import (
 )
 from mlflow_tools.display.display_utils import build_artifacts
 from mlflow_tools.display.display_utils import dump_finish
-from mlflow_tools.display.explode_utils import explode_json
 
 http_client = MlflowHttpClient()
 
