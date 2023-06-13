@@ -1,7 +1,5 @@
 """
-Dump MLflow model.
-
-/Users/andre.mesarovic/git/mlflow/mlflow/mlflow/models/model.py
+Dump MLflow model with ModelInfo  mlflow.models.get_model_info().
 """
 
 import click

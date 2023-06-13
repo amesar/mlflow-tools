@@ -11,7 +11,7 @@ def dump_dict_as_json(dct, sort_keys=None):
     print(json.dumps(dct, sort_keys=sort_keys, indent=2))
 
 
-def write_dict_as_json(dct, path, sort_keys=None):
+def write_dict_as_json(dct, path, sort_keys=True):
     with open(path, "w", encoding="utf-8") as f:
         f.write(json.dumps(dct, sort_keys=sort_keys, indent=2)+"\n")
 
