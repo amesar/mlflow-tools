@@ -27,11 +27,10 @@ def build_report(model_name, version):
     run = _mk_run(vr["run_id"])
 
     model_uri = f"models:/{model_name}/{version}"
-    model_info = _dump_mlflow_model.build(model_uri)
     model_artifact_path = model_download_utils.get_relative_model_path(vr["source"], vr["run_id"])
-
-    mlflow_model = _mk_mlflow_model(vr, run, model_info)
-    model_summary = _mk_model_summary(vr, run, model_artifact_path, model_info["model_info"], mlflow_model)
+    mlflow_model = _dump_mlflow_model.build(model_uri)
+    mlflow_model = _mk_mlflow_model(vr, run, mlflow_model) 
+    model_summary = _mk_model_summary(vr, run, model_artifact_path, mlflow_model) 
 
     return {
         "model_summary": model_summary,
@@ -43,7 +42,7 @@ def build_report(model_name, version):
     }
 
 
-def mk_native_flavor_summary(model_info, mlflow_model):
+def _mk_native_flavor_summary(mlflow_model):
     """ 
     Make native flavor summary
     """
@@ -55,6 +54,7 @@ def mk_native_flavor_summary(model_info, mlflow_model):
                 flavor2.pop(k,None)
         return flavor2
 
+    model_info = mlflow_model.get("model_info")
     flavors = model_info.get("_flavors")
     if len(flavors) == 1: # not native flavor, only pyfunc - for feature store flavor
         flavor_name = list(flavors.keys())[0] 
@@ -78,16 +78,18 @@ def mk_native_flavor_summary(model_info, mlflow_model):
     }
 
 
-def _mk_model_summary(vr, run, model_artifact_path, model_info, mlflow_model):
+def _mk_model_summary(vr, run, model_artifact_path, mlflow_model):
     """
     Make top-level model summary
     """
-    native_flavor = mk_native_flavor_summary(model_info, mlflow_model)
+    model_info = mlflow_model["model_info"]
+    native_flavor = _mk_native_flavor_summary(mlflow_model)
     info = run["info"]
+    tags = run["data"]["tags"]
     return {
         "general": {
             "user": utils.get_user(run),
-            "report_time_created": ts_now_fmt_utc,
+            "report_time": ts_now_fmt_utc,
             "model_time_created": model_info.get("_utc_time_created"),
             "tracking_server": str(http_client)
         },
@@ -99,7 +101,8 @@ def _mk_model_summary(vr, run, model_artifact_path, model_info, mlflow_model):
         "mlflow_model": {
             "model_name": model_artifact_path,
             "run_id": vr["run_id"],
-            "run_name": _get_run_name(run["data"]["tags"]),
+            "run_name": _get_run_name(tags),
+            "run_description": _get_run_description(tags),
             "experiment": {
                 "name": info["_experiment_name"],
                 "experiment_id": info["experiment_id"]
@@ -142,7 +145,9 @@ def _mk_run_summary(run):
     run = run.copy()
 
     info = run["info"]
-    info["run_name"] = _get_run_name(run["data"]["tags"])
+    tags = run["data"]["tags"]
+    info["run_name"] = _get_run_name(tags)
+    info["run_description"] = _get_run_description(tags)
     info["start_time"] = info["_start_time"]
     info["end_time"] = info["_end_time"]
     info["duration_seconds"] = info["_duration"]
@@ -162,7 +167,10 @@ def _mk_run_summary(run):
 
 
 def _get_run_name(tags):
-    return tags.get("mlflow.runName")
+    return tags.get("mlflow.runName","")
+
+def _get_run_description(tags):
+    return tags.get("mlflow.note.content","")
 
 
 def _mk_mlflow_model_sources(vr):
@@ -187,7 +195,7 @@ def _mk_mlflow_model(vr, run, model_info):
         "model_name": model_artifact_path,
         "model_artifacts_size": model_artifacts["summary"]["size"],
         "model_source_uris": _mk_mlflow_model_sources(vr),
-        "model_info": model_info,
+        "model_info": model_info["model_info"],
         "model_run_context": _model_run_context(run["data"]["tags"]),
         "model_artifacts": model_artifacts
     }
@@ -235,6 +243,7 @@ def _mk_experiment(experiment_id):
     exp["creation_time"] =  fmt_ts_millis(exp.get("creation_time"))
     exp["last_update_time"] =  fmt_ts_millis(exp.get("last_update_time"))
     exp["tags"] = mlflow_utils.mk_tags_dict(exp.get("tags"))
+    exp["description"] =  _get_run_description(exp.get("tags"))
     return exp 
 
 
