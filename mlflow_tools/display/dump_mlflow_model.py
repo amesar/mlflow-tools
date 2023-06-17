@@ -7,6 +7,7 @@ import mlflow
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common import object_utils
 from mlflow_tools.common.click_options import (
+    opt_model_uri,
     opt_dump_run,
     opt_dump_experiment,
     opt_show_system_info,
@@ -73,11 +74,7 @@ def _mk_experiment(experiment_id):
 
 
 @click.command()
-@click.option("--model-uri",
-    help="Model URI such as 'models/my-model/production' or 'runs:/123/my-model'",
-    type=str,
-    required=True
-)
+@opt_model_uri
 @click.option("--signature-details", 
     help="Signature details.", 
     type=bool, 

@@ -3,9 +3,18 @@ import click
 from mlflow.entities import ViewType
 VIEW_TYPE_KEYS = "|".join(x for x in ViewType._STRING_TO_VIEW.keys())
 
+def opt_model_uri(function):
+    function = click.option("--model-uri",
+        help="Model URI such as 'models:/my-model/123' or 'runs:/123/my-model'.",
+        type=str,
+        required=True
+    )(function)
+    return function
+
 def opt_sort_attr(function):
     function = click.option("--sort-attr",
         help="Sort by this attr.",
+        type=str,
         default="name",
         show_default=True
     )(function)
@@ -14,6 +23,7 @@ def opt_sort_attr(function):
 def opt_sort_order(function):
     function = click.option("--sort-order",
         help="Sort order. One of: asc|desc.",
+        type=str,
         default="asc",
         show_default=True
     )(function)
