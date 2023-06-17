@@ -4,6 +4,7 @@ Dump a registered model version in JSON or YAML.
 
 import click
 from mlflow_tools.client.http_client import MlflowHttpClient
+from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common import model_download_utils
 from mlflow_tools.common.click_options import (
     opt_artifact_max_level,
@@ -90,31 +91,42 @@ def _mk_model_infos(vr):
 
 
 def _mk_model_artifacts(vr, artifact_max_level):
-    rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
-    run = rsp["run"]
-    info = run["info"]
-    path = model_download_utils.get_relative_model_path(vr["source"], info["run_id"])
-    artifacts = build_artifacts(info["run_id"], path, artifact_max_level)
-    return {
-        "summary": artifacts.get("summary"),
-        "artifacts": artifacts.get("files")
-    }
-
-def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_string, show_tags_as_dict, artifact_max_level):
-    if dump_run or dump_experiment:
+    try:
         rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
         run = rsp["run"]
-        dct["run"] = _dump_run.build_run_extended(
+        info = run["info"]
+        path = model_download_utils.get_relative_model_path(vr["source"], info["run_id"])
+        artifacts = build_artifacts(info["run_id"], path, artifact_max_level)
+        return {
+            "summary": artifacts.get("summary"),
+            "artifacts": artifacts.get("files")
+        }
+    except MlflowToolsException as e:
+        print(f"WARNING: {e}")
+        return {
+            "ERROR": str(e)
+        }
+
+
+def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_string, show_tags_as_dict, artifact_max_level):
+    try:
+        if dump_run or dump_experiment:
+            rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
+            run = rsp["run"]
+            dct["run"] = _dump_run.build_run_extended(
                 run = run,
                 artifact_max_level = artifact_max_level,
                 explode_json_string = explode_json_string,
-                show_tags_as_dict = show_tags_as_dict)
-
-    if dump_experiment:
-        rsp = http_client.get("experiments/get", { "experiment_id": run["info"]["experiment_id"] })
-        exp = rsp["experiment"]
-        adjust_experiment(exp, show_tags_as_dict)
-        dct["experiment"] = exp
+                show_tags_as_dict = show_tags_as_dict
+            )
+        if dump_experiment:
+            rsp = http_client.get("experiments/get", { "experiment_id": run["info"]["experiment_id"] })
+            exp = rsp["experiment"]
+            adjust_experiment(exp, show_tags_as_dict)
+            dct["experiment"] = exp
+    except MlflowToolsException as e:
+        print(f"WARNING: {e}")
+        dct["run"] = { "ERROR": str(e) }
 
 @click.command()
 @click.option("--model",
