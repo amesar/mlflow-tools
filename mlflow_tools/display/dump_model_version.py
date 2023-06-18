@@ -42,7 +42,8 @@ def dump(
         dump_permissions = False,
         show_system_info = False,
         format = "json",
-        output_file = None
+        output_file = None,
+        silent = False
     ):
     rsp = http_client.get("model-versions/get", { "name": model_name, "version": version })
     vr = rsp["model_version"]
@@ -73,7 +74,9 @@ def dump(
     if dump_run or dump_experiment:
         _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_string, show_tags_as_dict, artifact_max_level)
 
-    dct = dump_finish(dct, output_file, format, show_system_info, __file__)
+    dct = dump_finish(dct, output_file, format, show_system_info, __file__, silent=silent)
+
+    return dct
 
 
 def _mk_model_infos(vr):
