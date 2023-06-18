@@ -12,7 +12,7 @@ from mlflow_tools.display import dump_run
 from mlflow_tools.display import dump_registered_model as _dump_registered_model
 from mlflow_tools.display import dump_mlflow_model as _dump_mlflow_model
 from mlflow_tools.display.display_utils import dump_finish
-from mlflow_tools.reports import utils
+from mlflow_tools.reports import report_utils
 
 http_client = MlflowHttpClient()
 
@@ -88,7 +88,7 @@ def _mk_model_summary(vr, run, model_artifact_path, mlflow_model):
     tags = run["data"]["tags"]
     return {
         "general": {
-            "user": utils.get_user(run),
+            "user": report_utils.get_user(run),
             "report_time": ts_now_fmt_utc,
             "model_time_created": model_info.get("_utc_time_created"),
             "tracking_server": str(http_client)
@@ -190,7 +190,7 @@ def _mk_mlflow_model(vr, run, model_info):
     """
     run_id = run["info"]["run_id"]
     model_artifact_path = model_download_utils.get_relative_model_path(vr["source"], run_id)
-    model_artifacts = utils.build_artifacts(run_id, model_artifact_path)
+    model_artifacts = report_utils.build_artifacts(run_id, model_artifact_path)
     return {
         "model_name": model_artifact_path,
         "model_artifacts_size": model_artifacts["summary"]["size"],
@@ -283,7 +283,7 @@ def report(
     dct = build_report(model_name, version)
     dump_finish(dct, output_file, format, show_system_info, __file__, 
         key = "report_info",
-        build_system_info_func = utils.build_system_info
+        build_system_info_func = report_utils.build_system_info
     )
 
 
