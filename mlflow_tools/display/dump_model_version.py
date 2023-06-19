@@ -19,8 +19,8 @@ from mlflow_tools.common.click_options import (
 )
 from mlflow_tools.display import dump_run as _dump_run
 from mlflow_tools.display import dump_registered_model as _dump_registered_model
+from mlflow_tools.display import dump_experiment as _dump_experiment
 from mlflow_tools.display import dump_mlflow_model as _dump_mlflow_model
-from mlflow_tools.display.dump_experiment import adjust_experiment
 from mlflow_tools.display.display_utils import build_artifacts
 from mlflow_tools.display.display_utils import dump_finish
 from mlflow_tools.display.display_utils import adjust_model_version
@@ -72,7 +72,7 @@ def dump(
         dct["mlflow_model_artifacts"] = _mk_model_artifacts(vr, artifact_max_level)
 
     if dump_run or dump_experiment:
-        _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_string, show_tags_as_dict, artifact_max_level)
+        _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions, explode_json_string, show_tags_as_dict, artifact_max_level)
 
     dct = dump_finish(dct, output_file, format, show_system_info, __file__, silent=silent)
 
@@ -111,7 +111,7 @@ def _mk_model_artifacts(vr, artifact_max_level):
         }
 
 
-def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_string, show_tags_as_dict, artifact_max_level):
+def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions, explode_json_string, show_tags_as_dict, artifact_max_level):
     try:
         if dump_run or dump_experiment:
             rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
@@ -123,13 +123,17 @@ def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, explode_json_stri
                 show_tags_as_dict = show_tags_as_dict
             )
         if dump_experiment:
-            rsp = http_client.get("experiments/get", { "experiment_id": run["info"]["experiment_id"] })
-            exp = rsp["experiment"]
-            adjust_experiment(exp, show_tags_as_dict)
+            exp = _dump_experiment.dump(run["info"]["experiment_id"],
+                    dump_runs = False,
+                    dump_permissions = dump_permissions,
+                    explode_json_string = explode_json_string,
+                    show_tags_as_dict = show_tags_as_dict
+            )
             dct["experiment"] = exp
     except MlflowToolsException as e:
         print(f"WARNING: {e}")
         dct["run"] = { "ERROR": str(e) }
+
 
 @click.command()
 @click.option("--model",
