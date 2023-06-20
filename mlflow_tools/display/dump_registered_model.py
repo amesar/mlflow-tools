@@ -29,7 +29,7 @@ http_client = MlflowHttpClient()
 
 
 def _adjust_registered_model(model):
-    model["tags"] = mlflow_utils.mk_tags_dict(model["tags"])
+    model["tags"] = mlflow_utils.mk_tags_dict(model.get("tags"))
     latest_versions = model.pop("latest_versions", None)
     format_ts(model, "creation_timestamp")
     format_ts(model, "last_updated_timestamp")
