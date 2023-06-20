@@ -28,8 +28,8 @@ from mlflow_tools.display.display_utils import format_ts
 http_client = MlflowHttpClient()
 
 
-def _adjust_model_timestamps(model):
-    model.pop("tags", None)
+def _adjust_registered_model(model):
+    model["tags"] = mlflow_utils.mk_tags_dict(model["tags"])
     latest_versions = model.pop("latest_versions", None)
     format_ts(model, "creation_timestamp")
     format_ts(model, "last_updated_timestamp")
@@ -84,7 +84,7 @@ def dump(
 
     model = mlflow_utils.get_registered_model(http_client, model_name, dump_permissions)
 
-    _adjust_model_timestamps(model)
+    _adjust_registered_model(model)
     model["_tracking_uri"] = mlflow.get_tracking_uri()
     if dump_all_versions:
         versions = http_client.get(f"model-versions/search", {"name": model_name})
