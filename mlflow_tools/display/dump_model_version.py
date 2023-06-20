@@ -6,7 +6,9 @@ import click
 from mlflow_tools.client.http_client import MlflowHttpClient
 from mlflow_tools.common import MlflowToolsException
 from mlflow_tools.common import model_download_utils
+from mlflow_tools.common import io_utils, object_utils
 from mlflow_tools.common.click_options import (
+    opt_dump_raw,
     opt_artifact_max_level,
     opt_show_tags_as_dict,
     opt_explode_json_string,
@@ -31,6 +33,7 @@ http_client = MlflowHttpClient()
 def dump(
         model_name,
         version,
+        dump_raw = False,
         dump_run = False,
         dump_model_info = False,
         dump_model_artifacts = False,
@@ -47,6 +50,13 @@ def dump(
     ):
     rsp = http_client.get("model-versions/get", { "name": model_name, "version": version })
     vr = rsp["model_version"]
+    if dump_raw:
+        if output_file:
+            io_utils.write_file(output_file, vr)
+        object_utils.dump_dict_as_json(vr)
+        return vr
+# XX
+
     adjust_model_version(http_client, vr, show_tags_as_dict)
 
     dct = {
@@ -146,6 +156,7 @@ def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions,
      type=str,
      required=True
 )
+@opt_dump_raw
 @click.option("--dump-model-info",
     help="Dump the ModelInfo for both the run and registry MLflow model.",
     type=bool,
@@ -175,6 +186,7 @@ def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions,
 @opt_output_file
 
 def main(model, version, 
+        dump_raw, 
         dump_run, 
         dump_model_info,
         dump_model_artifacts, 
@@ -189,6 +201,7 @@ def main(model, version,
     print("Options:")
     for k,v in locals().items(): print(f"  {k}: {v}")
     dump(model, version, 
+        dump_raw, 
         dump_run, 
         dump_model_info,
         dump_model_artifacts, 
