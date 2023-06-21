@@ -40,6 +40,7 @@ def dump(
         show_system_info = False,
         format = "json",
         output_file = None,
+        silent = False
     ):
     exp = mlflow_utils.get_experiment(http_client, experiment_id_or_name)
     if exp is None:
@@ -87,7 +88,7 @@ def dump(
     if dump_permissions:
         permissions_utils.add_experiment_permissions(exp["experiment_id"], dct)
 
-    dct = dump_finish(dct, output_file, format, show_system_info, __file__)
+    dct = dump_finish(dct, output_file, format, show_system_info, __file__, silent=silent)
     return dct
 
 

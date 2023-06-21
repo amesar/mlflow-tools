@@ -55,7 +55,6 @@ def dump(
             io_utils.write_file(output_file, vr)
         object_utils.dump_dict_as_json(vr)
         return vr
-# XX
 
     adjust_model_version(http_client, vr, show_tags_as_dict)
 
