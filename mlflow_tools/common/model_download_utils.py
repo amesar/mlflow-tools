@@ -9,9 +9,10 @@ Nomenclature:
 """
 
 import mlflow
-client = mlflow.client.MlflowClient()
-print("MLflow Version:", mlflow.__version__)
-print("MLflow Tracking URI:", mlflow.get_tracking_uri())
+client = mlflow.MlflowClient()
+#print("MLflow Version:", mlflow.__version__)
+#print("MLflow Tracking URI:", mlflow.get_tracking_uri())
+
 
 def download_model(model_uri, output_dir):
     """
@@ -29,6 +30,7 @@ def download_model(model_uri, output_dir):
     else:
         artifact_path = model_uri
     return artifact_path
+
 
 def get_run_id_and_model_relative_path(model_uri):
     """
@@ -50,7 +52,7 @@ def get_run_id_and_model_relative_path(model_uri):
         else:
             versions = client.get_latest_versions(model_name, [version_or_stage])
             if len(versions) == 0:
-                raise Exception(f"No '{version_or_stage}' stage for model '{model_name}'")
+                raise RuntimeError(f"No '{version_or_stage}' stage for model '{model_name}'")
             v = versions[0]
         print("versions.source:           ",v.source)
         model_version_download_uri = client.get_model_version_download_uri(model_name, v.version)
@@ -59,7 +61,8 @@ def get_run_id_and_model_relative_path(model_uri):
         print("relative_path:",relative_path)
         return v.run_id, relative_path
     else:
-        raise Exception(f"Only accepts models and runs scheme. model_uri: {model_uri}")
+        raise RuntimeError(f"Only accepts 'models:/' and 'runs:/' scheme. model_uri: {model_uri}")
+
 
 def split_model_uri(model_uri):
     """
@@ -71,7 +74,7 @@ def split_model_uri(model_uri):
     """
     idx = model_uri.find("/")
     path = model_uri[idx+1:]
-    idx = path.find("/",idx+1)
+    idx = path.find("/")
     return path[:idx], path[idx+1:]
 
 
