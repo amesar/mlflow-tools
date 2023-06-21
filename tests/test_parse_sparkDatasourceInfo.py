@@ -7,7 +7,7 @@ Undocumented format:
 
 """
 
-from mlflow_tools.display.explode_utils import parse_sparkDatasourceInfo_tag
+from mlflow_tools.common.explode_utils import parse_sparkDatasourceInfo_tag
 
 expected2 = set([ "path", "format"])
 expected3 = set([ 'path', 'version', 'format'])
