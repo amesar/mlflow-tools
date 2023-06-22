@@ -81,7 +81,8 @@ def dump(
         dct["mlflow_model_artifacts"] = _mk_model_artifacts(vr, artifact_max_level)
 
     if dump_run or dump_experiment:
-        _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions, explode_json_string, show_tags_as_dict, artifact_max_level)
+        _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions, 
+            explode_json_string, show_tags_as_dict, artifact_max_level, silent)
 
     dct = dump_finish(dct, output_file, format, show_system_info, __file__, silent=silent)
 
@@ -120,7 +121,9 @@ def _mk_model_artifacts(vr, artifact_max_level):
         }
 
 
-def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions, explode_json_string, show_tags_as_dict, artifact_max_level):
+def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions, 
+        explode_json_string, show_tags_as_dict, artifact_max_level, silent
+    ):
     try:
         if dump_run or dump_experiment:
             rsp = http_client.get("runs/get", { "run_id": vr["run_id"] })
@@ -136,7 +139,8 @@ def _mk_run_and_experiment(dct, vr, dump_run, dump_experiment, dump_permissions,
                     dump_runs = False,
                     dump_permissions = dump_permissions,
                     explode_json_string = explode_json_string,
-                    show_tags_as_dict = show_tags_as_dict
+                    show_tags_as_dict = show_tags_as_dict,
+                    silent = silent
             )
             dct["experiment"] = exp
     except MlflowToolsException as e:
