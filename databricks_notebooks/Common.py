@@ -56,13 +56,7 @@ def create_databrick_config_file(secrets_scope, secrets_key, databricks_config_f
 
 def assert_widget(value, name):
     if len(value.rstrip())==0:
-        raise Exception(f"ERROR: '{name}' widget is required")
-
-# COMMAND ----------
-
-def assert_widget(value, name):
-    if len(value.rstrip())==0:
-        raise Exception(f"ERROR: '{name}' widget is required")
+        raise RuntimeError(f"ERROR: '{name}' widget is required")
 
 # COMMAND ----------
 

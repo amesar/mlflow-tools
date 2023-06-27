@@ -2,9 +2,9 @@
 # MAGIC %md ## Dump experiment with all its runs
 # MAGIC
 # MAGIC **Overview**
-# MAGIC * Shows run info, params, metrics and tags
-# MAGIC * Recursively shows all artifacts up to the specified level
-# MAGIC * Note: Makes lots of calls to API to show artifacts info so be aware
+# MAGIC * Shows experiment details and optionally its runs:
+# MAGIC   * Shows run info, params, metrics and tags
+# MAGIC   * Recursively shows all run artifacts up to the specified level
 # MAGIC
 # MAGIC **Widgets**
 # MAGIC * `Experiment ID or name` - either the experiment name or the ID
@@ -69,7 +69,7 @@ print("dump_raw:", dump_raw)
 
 # COMMAND ----------
 
-assert_widget(experiment_id_or_name, "1. Experiment ID or name")
+assert_widget(experiment_id_or_name, "01. Experiment ID or name")
 
 # COMMAND ----------
 
