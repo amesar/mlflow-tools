@@ -126,7 +126,7 @@ def get_registered_model(client, model_name, get_permissions):
             model = client.get(resource, {"name": model_name} )
             return model["registered_model_databricks"]
         except MlflowToolsException:
-            print(f"WARNING: Databricks call failed: '{client}/{resource}'")
+            print(f"WARNING: Databricks MLflow call failed: '{client}/{resource}'")
             model = client.get(f"registered-models/get", {"name": model_name} )
             return model["registered_model"]
     else:
