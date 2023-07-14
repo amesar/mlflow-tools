@@ -123,6 +123,22 @@ def opt_show_tags_as_dict(function):
     )(function)
     return function
 
+def opt_tag_key(function):
+    function = click.option("--tag-key",
+        help="Tag key",
+        type=str,
+        required=True
+    )(function)
+    return function
+
+def opt_tag_value(function):
+    function = click.option("--tag-value",
+        help="Tag value",
+        type=str,
+        required=True
+    )(function)
+    return function
+
 def opt_format(function):
     function = click.option("--format",
         help="Output format. One of: json|yaml.",
