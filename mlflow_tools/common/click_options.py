@@ -11,6 +11,41 @@ def opt_model_uri(function):
     )(function)
     return function
 
+
+def opt_registered_model(function):
+    function = click.option("--model",
+        help="Registered model",
+        type=str,
+        required=True
+    )(function)
+    return function
+
+def opt_model_version(function):
+    function = click.option("--version",
+        help="Registered model version",
+        type=str,
+        required=True
+    )(function)
+    return function
+
+
+def opt_tag_key(function):
+    function = click.option("--tag-key",
+        help="Tag key",
+        type=str,
+        required=True
+    )(function)
+    return function
+
+def opt_tag_value(function):
+    function = click.option("--tag-value",
+        help="Tag value",
+        type=str,
+        required=True
+    )(function)
+    return function
+
+
 def opt_sort_attr(function):
     function = click.option("--sort-attr",
         help="Sort by this attr.",
@@ -120,22 +155,6 @@ def opt_show_tags_as_dict(function):
         type=bool,
         default=True,
         show_default=True
-    )(function)
-    return function
-
-def opt_tag_key(function):
-    function = click.option("--tag-key",
-        help="Tag key",
-        type=str,
-        required=True
-    )(function)
-    return function
-
-def opt_tag_value(function):
-    function = click.option("--tag-value",
-        help="Tag value",
-        type=str,
-        required=True
     )(function)
     return function
 
