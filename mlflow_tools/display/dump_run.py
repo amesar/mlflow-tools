@@ -89,7 +89,7 @@ def build_run_extended(
 
 def dump(
         run_id,
-        dump_raw,
+        dump_raw = False,
         artifact_max_level = 1,
         explode_json_string = False,
         show_tags_as_dict = False,
