@@ -1,4 +1,9 @@
 # Databricks notebook source
+import mlflow
+client = mlflow.MlflowClient()
+
+# COMMAND ----------
+
 def _from_dbfs(path):
     return path.replace("dbfs:","/dbfs")
 
@@ -57,6 +62,15 @@ def create_databrick_config_file(secrets_scope, secrets_key, databricks_config_f
 def assert_widget(value, name):
     if len(value.rstrip())==0:
         raise RuntimeError(f"ERROR: '{name}' widget is required")
+
+# COMMAND ----------
+
+def dump_tags(dct):
+    if not dct:
+        return
+    dct = dict(sorted(dct.items()))
+    for k,v in dct.items():
+        print(f"  {k}: {v}")
 
 # COMMAND ----------
 

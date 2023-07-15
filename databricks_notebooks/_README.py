@@ -3,7 +3,8 @@
 # MAGIC
 # MAGIC **Overview**
 # MAGIC * Notebooks to view or manipulate MLflow objects.
-# MAGIC * pip install repo: https://github.com/amesar/mlflow-tools. See [Common]($Common) notebook.
+# MAGIC * Install. See [Common]($Common) notebook.
+# MAGIC   * `%pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools`
 # MAGIC * Github: https://github.com/amesar/mlflow-tools/tree/master/databricks_notebooks. 
 # MAGIC
 # MAGIC **Notebooks**
@@ -22,4 +23,4 @@
 # MAGIC
 # MAGIC * Requires Databricks Runtime 13 or 12.2. Errors out on 11. :(
 # MAGIC
-# MAGIC Last updated: _2023-06-01_
+# MAGIC Last updated: _2023-07-15_

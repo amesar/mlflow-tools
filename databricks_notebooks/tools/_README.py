@@ -8,5 +8,6 @@
 # MAGIC **Notebooks**
 # MAGIC * [Delete_Registered_Model]($Delete_Registered_Model) 
 # MAGIC * [Rename_Registered_Model]($Rename_Registered_Model) 
+# MAGIC * [Set_Tag]($Set_Tag)  
 # MAGIC
-# MAGIC Last updated: 2023-06-11
+# MAGIC Last updated: 2023-07-15
