@@ -11,10 +11,6 @@
 
 # COMMAND ----------
 
-#dbutils.widgets.removeAll()
-
-# COMMAND ----------
-
 dbutils.widgets.dropdown("1. MLflow object", "Registered Model", ["Registered Model", "Model Version", "Experiment", "Run"])
 object = dbutils.widgets.get("1. MLflow object")
 
@@ -36,6 +32,9 @@ tag_key = dbutils.widgets.get("6. Tag key")
 dbutils.widgets.text("7. Tag value", "")
 tag_value = dbutils.widgets.get("7. Tag value")
 
+dbutils.widgets.dropdown("8. Show all tags", "yes", ["yes", "no"])
+show_all_tags = dbutils.widgets.get("8. Show all tags") == "yes"
+
 print("object:", object)
 print("model_name:", model_name)
 print("model_version:", model_version)
@@ -43,6 +42,7 @@ print("experiment_id_or_name:", experiment_id_or_name)
 print("run_id:", run_id)
 print("tag_key:", tag_key)
 print("tag_value:", tag_value)
+print("show_all_tags:", show_all_tags)
 
 # COMMAND ----------
 
@@ -62,7 +62,6 @@ def assert_widgets():
         assert_widget(run_id, "Missing '5. Run ID")
 assert_widgets()
 assert_widget(tag_key, "Missing '6. Tag key")
-assert_widget(tag_value, "Missing '7. Tag key")
 
 # COMMAND ----------
 
@@ -89,7 +88,11 @@ def show_tags():
         tags = dct["run"]["data"].get("tags")
     else:
         tags = {}
-    dump_tags(tags)
+    if show_all_tags:
+        dump_tags(tags)
+    else:
+        v = tags.get(tag_key)
+        print(f"{tag_key}: {v}")
 
 # COMMAND ----------
 
