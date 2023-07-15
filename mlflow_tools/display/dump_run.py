@@ -91,8 +91,8 @@ def dump(
         run_id,
         dump_raw = False,
         artifact_max_level = 1,
-        explode_json_string = False,
-        show_tags_as_dict = False,
+        explode_json_string = True,
+        show_tags_as_dict = True,
         show_system_info = False,
         format = "json",
         output_file = None
