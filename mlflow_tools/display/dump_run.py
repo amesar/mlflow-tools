@@ -23,6 +23,34 @@ from mlflow_tools.display.display_utils import dump_finish
 http_client = MlflowHttpClient()
 
 
+def dump(
+        run_id,
+        dump_raw = False,
+        artifact_max_level = 1,
+        explode_json_string = True,
+        show_tags_as_dict = True,
+        show_system_info = False,
+        format = "json",
+        output_file = None,
+        silent = False
+    ):
+    """
+    :param run_id: Run ID.
+    :return: Dictionary of run details 
+    """
+    run = http_client.get(f"runs/get", { "run_id": run_id })
+    if dump_raw:
+        if output_file:
+            io_utils.write_file(output_file, run)
+        object_utils.dump_dict_as_json(run)
+        return run
+    else:
+        dct = build_run_extended(run["run"], artifact_max_level, explode_json_string, show_tags_as_dict)
+        dct = dump_finish(dct, output_file, format, show_system_info, __file__, silent=silent)
+        return dct
+
+
+
 def _adjust_time(info, k):
     v = info.get(k)
     if v is not None:
@@ -85,32 +113,6 @@ def build_run_extended(
         "run": run, 
         "artifacts": artifacts
     }
-
-
-def dump(
-        run_id,
-        dump_raw = False,
-        artifact_max_level = 1,
-        explode_json_string = True,
-        show_tags_as_dict = True,
-        show_system_info = False,
-        format = "json",
-        output_file = None
-    ):
-    """
-    :param run_id: Run ID.
-    :return: Dictionary of run details 
-    """
-    run = http_client.get(f"runs/get", { "run_id": run_id })
-    if dump_raw:
-        if output_file:
-            io_utils.write_file(output_file, run)
-        object_utils.dump_dict_as_json(run)
-        return run
-    else:
-        dct = build_run_extended(run["run"], artifact_max_level, explode_json_string, show_tags_as_dict)
-        dct = dump_finish(dct, output_file, format, show_system_info, __file__)
-        return dct
 
 
 @click.command()
