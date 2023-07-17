@@ -29,6 +29,15 @@ def opt_model_version(function):
     return function
 
 
+def opt_alias(function):
+    function = click.option("--alias",
+        help="Alias",
+        type=str,
+        required=True
+    )(function)
+    return function
+
+
 def opt_tag_key(function):
     function = click.option("--tag-key",
         help="Tag key",
