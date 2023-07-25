@@ -11,15 +11,21 @@ client = mlflow.client.MlflowClient()
 
 
 def delete_model(model_name, delete_only_versions=False):
-    """ Delete a model and all its versions. """
+    """ 
+    Delete a model and all its versions. 
+    """
     versions = SearchModelVersionsIterator(client, filter=f"name='{model_name}'")
     versions = list(versions)
     print(f"Deleting {len(versions)} versions for model '{model_name}'")
     for vr in versions:
-        print(f"  Deleting:", { "version": vr.version, "stage": vr.current_stage, "status": vr.status, "run_id": vr.run_id })
-        if vr.current_stage != "Archived": # NOTE: for Databricks though OSS works
-            client.transition_model_version_stage (model_name, vr.version, "Archived")
-        client.delete_model_version(model_name, vr.version)
+        msg = { "version": vr.version, "stage": vr.current_stage, "status": vr.status, "run_id": vr.run_id }
+        print(f"Deleting: {msg}")
+        try:
+            if vr.current_stage and vr.current_stage != "Archived" and vr.current_stage != "None": # NOTE: for Databricks though OSS works
+                client.transition_model_version_stage (model_name, vr.version, "Archived")
+            client.delete_model_version(model_name, vr.version)
+        except mlflow.MlflowException as e:
+            print(f"WARNING: {msg}. Exception: {e}")
     if delete_only_versions:
         print(f"Not deleting model '{model_name}'")
     else:
