@@ -10,6 +10,7 @@ Some useful tools for MLflow.
 **Registered models**
 * [Register run model as a registered model version with optional stage](#Register-run-model-as-a-registered-model-version-with-optional-stage)
 * [Delete registered model](#Delete-registered-model)
+* [Delete model versions](#Delete-model-versions)
 * [Delete model stages](#Delete-model-stages)
 * [Rename registered model](#Rename-registered-model)
 
@@ -101,6 +102,32 @@ Options:
                                   model
 ```
 
+### Delete model versions
+
+Delete model versions.
+
+```
+delete-model-versions --model sklearn_wine --versions 4,5,6,7
+```
+
+```
+Deleting 4 versions for model 'sklearn_wine'
+ERROR: RESOURCE_DOES_NOT_EXIST: Model Version (name=sklearn_iris, version=4) not found
+Deleting: {'version': '5', 'stage': 'Archived', 'status': 'READY', 'run_id': '9a586ae724924d95832189dd896d8c6e'}
+Deleting: {'version': '6', 'stage': 'Archived', 'status': 'READY', 'run_id': 'ecd888bdfefa4e4e90701bd83c35a042'}
+Deleting: {'version': '7', 'stage': 'Archived', 'status': 'READY', 'run_id': 'd2fa5302beb54ad48985d56d25c0e1ac'}
+```
+
+**Usage**
+```
+delete-model-versions --help
+
+Options:
+  --model TEXT     Registered model name  [required]
+  --versions TEXT  Model versions (comma-delimited)  [required]
+```
+
+
 ### Delete model stages
 
 Delete specified model stages.
@@ -114,6 +141,8 @@ delete-model-stages \
 **Usage**
 
 ```
+delete-model-stages --help
+
 Options:
   --model TEXT   Registered model name  [required]
   --stages TEXT  Stages to delete (comma delimited). Default is all stages.
