@@ -6,6 +6,7 @@ Register a run's model as a registered model version and optional stage.
 import click
 import mlflow
 from mlflow.exceptions import RestException
+from mlflow_tools.common.mlflow_utils import is_unity_catalog_model
 
 @click.command()
 @click.option("--registered-model", help="New registered model name.", required=True, type=str)
@@ -33,8 +34,9 @@ def main(registered_model, run_id, model_artifact, stage):
     version = client.create_model_version(registered_model, source, run_id)
     print("Version:",version)
 
-    if stage:
-        client.transition_model_version_stage(registered_model, version.version, stage)
+    if not is_unity_catalog_model(registered_model):
+        if stage:
+            client.transition_model_version_stage(registered_model, version.version, stage)
 
 if __name__ == "__main__":
     main()

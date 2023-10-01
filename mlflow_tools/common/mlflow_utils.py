@@ -7,6 +7,10 @@ from mlflow_tools.client import mlflow_auth_utils
 from mlflow_tools.common import MlflowToolsException
 
 
+def is_unity_catalog_model(model_name): 
+    return "." in model_name
+
+
 def dump_mlflow_info():
     """ Show basic MLflow information. """
     print("MLflow Info:")
