@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools
+
+# COMMAND ----------
+
 import mlflow
 client = mlflow.MlflowClient()
 
@@ -71,7 +75,3 @@ def dump_tags(dct):
     dct = dict(sorted(dct.items()))
     for k,v in dct.items():
         print(f"  {k}: {v}")
-
-# COMMAND ----------
-
-# MAGIC %pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools
