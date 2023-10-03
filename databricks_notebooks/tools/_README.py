@@ -2,12 +2,13 @@
 # MAGIC %md ## mlflow-tools - Tools Notebooks
 # MAGIC
 # MAGIC **Overview**
-# MAGIC * Notebooks to display individual or lists of MLflow objects plus some analytics about models and versions.
+# MAGIC * MLflow tool notebooks.
 # MAGIC * Github: https://github.com/amesar/mlflow-tools/tree/master/databricks_notebooks/tools. 
 # MAGIC
 # MAGIC **Notebooks**
-# MAGIC * [Delete_Registered_Model]($Delete_Registered_Model) 
+# MAGIC * [Set_Tag]($Set_Tag) - set tag of any MLflow object  
+# MAGIC * [Delete_Registered_Model]($Delete_Registered_Model) - delete a model and its versions (optional)
 # MAGIC * [Rename_Registered_Model]($Rename_Registered_Model) 
-# MAGIC * [Set_Tag]($Set_Tag)  
+# MAGIC * [Set_Model_Alias]($Set_Model_Alias)  
 # MAGIC
 # MAGIC Last updated: 2023-07-15
