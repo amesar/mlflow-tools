@@ -43,6 +43,10 @@ def main(model, versions):
     for k,v in locals().items(): 
         print(f"  {k}: {v}")
     versions = versions.split(",")
+    if len(versions) == 1:
+        toks = versions[0].split("-")
+        if len(toks) == 2:
+            versions = list(range(int(toks[0]), int(toks[1])+1))
     delete_model_versions(model, versions)
 
 
