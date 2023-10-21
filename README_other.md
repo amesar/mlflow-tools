@@ -15,7 +15,7 @@ Some other useful tools for MLflow.
 
 ## Failed Run Replayer
 
-[Failed Run Replayer](mlflow_tools/failed_run_replayer) - Save run details for MLflow rate limited exceptions and replay later.
+[Failed Run Replayer](mlflow_tools/failed_run_replayer/README.md) - Save run details for MLflow rate limited exceptions and replay later.
 
 ## Seldon MLflow MLServer
 

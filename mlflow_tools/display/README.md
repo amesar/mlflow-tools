@@ -3,198 +3,32 @@
 ## Overview
 
 Tools to list and dump MLflow objects.
-See also [Databricks notebooks versions](../../databricks_notebooks/README.md).
+See also:
+* [Databricks notebooks versions](../../databricks_notebooks/README.md).
+* [JSON sample dumps](../../samples/README.md).
 
 
 **List objects**
-* [Count of all MLflow objects](#Count-all-MLflow-objects)
+* [List runs](#List-runs)
 * [List experiments](#List-experiments)
 * [List registered models](#List-registered-models)
 * [List model versions](#List-model-versions)
   * [List model versions with runs](#List-model-versions-with-runs) - list versions and their run information
-* [List runs](#List-runs)
+* [List run or experiment tags] XX
+* [Count of all MLflow objects](#Count-all-MLflow-objects)
 
 **Dump objects**
-* [Samples of dumps](../../samples/README.md)
+* [Dump run](#Dump-run)
 * [Dump experiment](#Dump-experiment) 
   * [Dump experiment runs to CSV file](#Dump-experiment-runs-to-CSV-file)
 * [Dump registered model](#Dump-registered-model)
-* [Dump run](#Dump-run)
+* [Dump registered model version](#Dump-registered-model-version)
+* [Dump MLflow model](#Dump-MLflow-model) - Dump the ModelInfo of an MLflow model
 
+**Reports**
+* [Report model version](#Report-model-version) - High-level model governance report for a model version
 
-## Count all MLflow objects
-
-Source: [count_objects.py](count_objects.py).
-
-**Example**
-
-```
-count-objects --csv_file experiments.csv
-```
-
-```
-MLflow object counts
-+--------------------+---------+
-| Object             |   Count |
-|--------------------+---------|
-| experiments        |       3 |
-| models             |       3 |
-| versions           |       9 |
-| versions by models |       9 |
-+--------------------+---------+
-```
-
-**Usage**
-```
-count-objects --help
-
-Options:
-  --experiments         Experiments count
-  --models              Registered models count
-  --versions            Model versions count
-  --versions-by-models  Model versions (by models count)
-  --mlflow-api TEXT     MLflowApi implementation: iterator|search|both.
-                        'search' directly calls MlflowClient.search methods.
-                        'iterator' calls wrapper with page token. 'both'
-                        compares the two.  [default: iterator]
-```
-
-## Experiments 
-
-### List experiments
-
-Source: [list_experiments.py](list_experiments.py).
-
-**Example**
-
-```
-list-experiments \
-   --csv_file experiments.csv \
-   --view-type all
-```
-```
-+-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
-|   experiment_id | name          | creation_time       | last_update_time    | lifecycle_stage   | artifact_location           |
-+-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
-|               3 | hello_world   | 2023-02-12 03:26:23 | 2023-02-12 05:36:54 | deleted           | /opt/mlflow/server/mlruns/3 |
-|               4 | sparkml_scala | 2023-02-12 03:51:07 | 2023-02-12 03:51:07 | active            | /opt/mlflow/server/mlruns/4 |
-|               2 | sklearn_iris  | 2023-02-08 02:13:32 | 2023-02-08 02:13:32 | active            | /opt/mlflow/server/mlruns/2 |
-|               1 | sklearn_wine  | 2023-02-08 02:04:13 | 2023-02-08 02:04:13 | active            | /opt/mlflow/server/mlruns/1 |
-|               0 | Default       | 2023-02-08 02:04:09 | 2023-02-08 02:04:09 | active            | /opt/mlflow/server/mlruns/0 |
-+-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
-```
-
-**Usage**
-```
-list-experiments --help
-
-Options:
-  --sort-attr TEXT   Sort by this attr.  [default: name]
-  --sort-order TEXT  Sort order. One of: asc|desc.  [default: asc]
-  --view-type TEXT   View type. One of: active_only|deleted_only|all.
-  --filter TEXT      Filter
-  --columns TEXT     Columns to display (comma delimited).
-  --csv-file TEXT    Output CSV file.
-```
-
-### Dump experiment 
-
-Dumps all experiment details including its runs.
-* Source: [dump_experiment.py](dump_experiment.py)
-* Samples:
-  * Open source MLflow: 
-    [experiment.json](../../samples/oss_mlflow/experiments/experiment.json)
-  * Databricks MLflow: 
-    [sklearn_wine_quality.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality.json) \-
-    [sklearn_wine_quality_autolog.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality_autolog.json)
-  
-
-**Example**
-```
-dump-experiment \
-  --experiment-id-or-name 1812 \
-  --artifact-max-level 3 \
-  --show-runs True \
-  --show-run-data True \
-  --format json
-```
-
-```
-{
-  "experiment_info": {
-    "experiment_id": "2",
-    "name": "sklearn_wine",
-    "artifact_location": "/opt/mlflow/server/mlruns/2",
-    "lifecycle_stage": "active",
-    "last_update_time": 1673530308830,
-    "creation_time": 1673530308830,
-    "tags": [
-      {
-        "key": "version_mlflow",
-        "value": "2.1.1"
-      }
-    ]
-  },
-  "summary": {
-    "runs": 1,
-    "artifacts": 6,
-    "artifact_bytes": 31767,
-    "last_run": 1673530308926,
-    "_last_run": "2023-01-12 13:31:49"
-  },```
-  "runs": [
-    {
-      "summary": {
-        "artifacts": 6,
-        "artifact_bytes": 31767,
-        "params": 2,
-        "metrics": 3,
-        "tags": 18
-      },
-      "run": {
-        "info": {
-          "experiment_id": "2",
-          "artifact_uri": "/opt/mlflow/server/mlruns/2/e128c31217fe4e8d92d8256ca24dc28e/artifacts",
-          . . .
-          "lifecycle_stage": "active",
-          "run_id": "e128c31217fe4e8d92d8256ca24dc28e",
-        },
-. . .
-```
-
-**Usage**
-
-```
-dump-experiment --help
-
-Options:
-  --experiment-id-or-name TEXT   Experiment ID or name  [required]
-  --artifact-max-level INTEGER   Number of artifact levels to recurse
-                                 [default: 1]
-  --show-runs BOOLEAN            Show runs  [default: False]
-  --show-run-data BOOLEAN        Show run data run if showing runs  [default:
-                                 False]
-  --format TEXT                  Output format: json|yaml  [default: json]
-  --explode-json-string BOOLEAN  Explode attributes that are a JSON string
-                                 [default: False]
-  --output-file TEXT             Output file (extension will be the format)
-  --verbose BOOLEAN              Verbose
-  --show-permissions BOOLEAN     Show Databricks permissions.  [default:
-                                 False]
-  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
-                                 list of key/value pairs.  [default: False]
-```
-
-### Dump experiment runs to CSV file
-
-Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv_file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
-```
-python -m mlflow_tools.tools.dump_experiment_as_csv \
-  --experiment-id-or-name sklearn \
-  --csv-file sklearn.csv
-```
-
-## Runs 
+## List objects 
 
 ### List runs
 
@@ -240,123 +74,48 @@ Options:
   --csv-file TEXT               Output CSV file.
 ```
 
+### List experiments
 
-### Dump run
-
-Dumps run information.
-* Source: [dump_run.py](dump_run.py).
-* Shows info, params, metrics and tags.
-* Recursively shows all artifacts up to the specified level.
-* A large value for `artifact_max_level` will execute many API calls.
-* If `show-info` is true, then just the run infos will be dumped.
-* If `show-data` is true, then an API call for each run will be executed. Beware of experiments with many runs.
-
-Samples:
-* Open source MLflow
-[run.json](../../samples/oss_mlflow/run.json).
-* Databricks MLflow 
-  * Non-autolog: [run.json](../../samples/databricks_mlflow/runs/sparkml/run.json).
-  * Autolog: [run_autolog.json](../../samples/databricks_mlflow/runs/sklearn_wine/run_autolog.json).
+Source: [list_experiments.py](list_experiments.py).
 
 **Example**
 
 ```
-dump-run --run-id 4af184e8527a4f4a8fc563386807acb2 \
-  --artifact-max-level 5 \
-  --format yaml \
-  --explode-json-string True
+list-experiments \
+   --csv-file experiments.csv \
+   --view-type all
 ```
 ```
-summary:
-  artifacts: 9
-  artifact_bytes: 33319
-  params: 2
-  metrics: 3
-  tags: 18
-run:
-  info:
-    run_uuid: 4af184e8527a4f4a8fc563386807acb2
-    experiment_id: '1'
-    user_id: andre
-    status: FINISHED
-    start_time: '1629947182813'
-    end_time: '1629947184041'
-    artifact_uri: /opt/mlflow/server/mlruns/1/4af184e8527a4f4a8fc563386807acb2/artifacts
-    lifecycle_stage: active
-    run_id: 4af184e8527a4f4a8fc563386807acb2
-    _start_time: '2021-08-26 03:06:22'
-    _end_time: '2021-08-26 03:06:24'
-    _duration: 1.228
-  data:
-    metrics:
-    - key: rmse
-      value: 0.7367947360663162
-      timestamp: '1629947183157'
-      step: '0'
-. . .
-    params:
-    - key: max_depth
-      value: '4'
-. . .
-    tags:
-    - key: mlflow.user
-      value: andre
-    - key: mlflow.source.name
-      value: main.py
-. . .
-artifacts:
-  root_uri: /opt/mlflow/server/mlruns/1/4af184e8527a4f4a8fc563386807acb2/artifacts
-  files:
-  - path: onnx-model
-    is_dir: true
-    artifacts:
-      root_uri: /opt/mlflow/server/mlruns/1/4af184e8527a4f4a8fc563386807acb2/artifacts
-      files:
-      - path: onnx-model/MLmodel
-        is_dir: false
-        file_size: '293'
-      - path: onnx-model/conda.yaml
-        is_dir: false
-        file_size: '133'
-      - path: onnx-model/model.onnx
-        is_dir: false
-        file_size: '1621'
-      - path: onnx-model/requirements.txt
-        is_dir: false
-        file_size: '37'
-  - path: plot.png
-    is_dir: false
-    file_size: '27836'
-. . .
-
++-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
+|   experiment_id | name          | creation_time       | last_update_time    | lifecycle_stage   | artifact_location           |
++-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
+|               3 | hello_world   | 2023-02-12 03:26:23 | 2023-02-12 05:36:54 | deleted           | /opt/mlflow/server/mlruns/3 |
+|               4 | sparkml_scala | 2023-02-12 03:51:07 | 2023-02-12 03:51:07 | active            | /opt/mlflow/server/mlruns/4 |
+|               2 | sklearn_iris  | 2023-02-08 02:13:32 | 2023-02-08 02:13:32 | active            | /opt/mlflow/server/mlruns/2 |
+|               1 | sklearn_wine  | 2023-02-08 02:04:13 | 2023-02-08 02:04:13 | active            | /opt/mlflow/server/mlruns/1 |
+|               0 | Default       | 2023-02-08 02:04:09 | 2023-02-08 02:04:09 | active            | /opt/mlflow/server/mlruns/0 |
++-----------------+---------------+---------------------+---------------------+-------------------+-----------------------------+
 ```
 
 **Usage**
-
 ```
-dump-run --help
+list-experiments --help
 
 Options:
-  --run-id TEXT                  Run ID.  [required]
-  --artifact-max-level INTEGER   Number of artifact levels to recurse.
-                                 [default: 1]
-  --format TEXT                  Output Format: json|yaml.  [default:
-                                 json]
-  --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
-  --verbose BOOLEAN              Verbose.
-  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
-                                 list of key/value pairs.  [default: False]
+  --sort-attr TEXT   Sort by this attr.  [default: name]
+  --sort-order TEXT  Sort order. One of: asc|desc.  [default: asc]
+  --view-type TEXT   View type. One of: active_only|deleted_only|all.
+  --filter TEXT      Filter
+  --columns TEXT     Columns to display (comma delimited).
+  --csv-file TEXT    Output CSV file.
 ```
-
-## Registered models 
-
 ### List registered models
 Source: [list_registered_models.py](list_registered_models.py).
 
 
 **Example**
 ```
-list-models --csv_file models.csv
+list-registered-models --csv-file models.csv
 ```
 ```
 +--------------+------------+----------------------+--------------------------+---------------------------+
@@ -376,125 +135,6 @@ Options:
   --sort-order TEXT  Sort order. One of: asc|desc.  [default: asc]
   --columns TEXT     Columns to display (comma delimited).
   --csv-file TEXT    Output CSV file.
-```
-
-### Dump registered model
-
-Dumps a registered model (as JSON and YAML) and optionally the run details of each of its versions.
-* Source code: [dump_model.py](dump_model.py).
-* JSON examples: [Open source MLflow](../../samples/oss_mlflow/models/registered_model.json) - [Databricks MLflow](../../samples/databricks_mlflow/models/registered_model.json).
-
-#### Dump only registered model
-```
-dump-model --model sklearn_wine 
-```
-```
-{
-  "registered_model": {
-    "name": "sklearn_wine",
-    "creation_timestamp": "1584980474711",
-    "last_updated_timestamp": "1584980474738",
-    "latest_versions": [
-      {
-        "name": "e2e-ml-pipeline",
-        "version": "1",
-        "creation_timestamp": "1584980474738",
-        "last_updated_timestamp": "1584980474738",
-        "current_stage": "Production",
-        "source": "file:///opt/mlflow/server/mlruns/5/bd19af4c8b67420e8371bbe5b6982402/artifacts/sklearn-model",
-        "run_id": "bd19af4c8b67420e8371bbe5b6982402",
-        "status": "READY"
-      }
-    ]
-  }
-}
-```
-
-#### Dump registered model with version run details
-```
-dump-model --model sklearn_wine --show-runs
-```
-```
-{
-  "model": {
-    "registered_model": {
-      "name": "e2e-ml-pipeline",
-      "creation_timestamp": "1584980474711",
-      "last_updated_timestamp": "1584980474738",
-      "latest_versions": [
-        {
-          "name": "e2e-ml-pipeline",
-          "version": "1",
-          "creation_timestamp": "1584980474738",
-          "last_updated_timestamp": "1584980474738",
-          "current_stage": "Production",
-          "source": "file:///opt/mlflow/server/mlruns/1812/bd19af4c8b67420e8371bbe5b6982402/artifacts/sklearn-model",
-          "run_id": "bd19af4c8b67420e8371bbe5b6982402",
-          "status": "READY"
-        }
-      ]
-    }
-  },
-  "version_runs": {
-    "1": {
-      "info": {
-        "run_uuid": "bd19af4c8b67420e8371bbe5b6982402",
-        "experiment_id": "1812",
-        "user_id": "andre",
-        "status": "FINISHED",
-        "start_time": "1584980474016",
-        "end_time": "1584980479782",
-        "artifact_uri": "file:///opt/mlflow/server/mlruns/1812/bd19af4c8b67420e8371bbe5b6982402/artifacts",
-        "lifecycle_stage": "active",
-        "run_id": "bd19af4c8b67420e8371bbe5b6982402"
-      },
-      "data": {
-        "metrics": [
-          {
-            "key": "mae",
-            "value": 0.5866345750858584,
-            "timestamp": "1584980474565",
-            "step": "0"
-          }
-        ],
-        "params": [
-          {
-            "key": "max_depth",
-            "value": "4"
-          }
-        ],
-        "tags": [
-          {
-            "key": "mlflow.source.git.commit",
-            "value": "a82570aadbd19b8736a097ea23eded98b7c42a43"
-          },
-          . . .
-        ]
-      }
-    }
-  }
-}
-```
-
-**Usage**
-```
-dump-model --help
-
-Options:
-  --model TEXT                   Registered model name.  [required]
-  --dump-all-versions BOOLEAN    Dump all versions instead of latest versions.
-                                 [default: False]
-  --dump-runs BOOLEAN            Dump a version's run details.  [default:
-                                 False]
-  --artifact-max-level INTEGER   Number of artifact levels to recurse.
-                                 [default: 0]
-  --show-permissions BOOLEAN     Show Databricks permissions.  [default:
-                                 False]
-  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
-                                 list of key/value pairs.  [default: False]
-  --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
-  --format TEXT                  Output format: json|yaml.
-  --output-file TEXT             Output file
 ```
 
 ### List model versions 
@@ -632,4 +272,409 @@ Options:
                                  lifecycle_stage (active, deleted).
   --columns TEXT                 Columns to display (comma delimited).
   --csv-file TEXT                Output CSV file.
+```
+
+### Count all MLflow objects
+
+Source: [count_objects.py](count_objects.py).
+
+**Example**
+
+```
+count-objects --csv-file experiments.csv
+```
+
+```
+MLflow object counts
++--------------------+---------+
+| Object             |   Count |
+|--------------------+---------|
+| experiments        |       3 |
+| models             |       3 |
+| versions           |       9 |
+| versions by models |       9 |
++--------------------+---------+
+```
+
+**Usage**
+```
+count-objects --help
+
+Options:
+  --experiments         Experiments count
+  --models              Registered models count
+  --versions            Model versions count
+  --versions-by-models  Model versions (by models count)
+  --mlflow-api TEXT     MLflowApi implementation: iterator|search|both.
+                        'search' directly calls MlflowClient.search methods.
+                        'iterator' calls wrapper with page token. 'both'
+                        compares the two.  [default: iterator]
+```
+
+## Dump objects 
+
+### Dump run
+
+Dumps run details.
+* Source: [dump_run.py](dump_run.py).
+* Shows info, params, metrics and tags sub-objects of run.
+* Recursively lists run artifacts up to the specified level.
+  * Note: A large value for `artifact_max_level` may execute many API calls.
+
+Samples:
+* Open source MLflow
+[run.json](../../samples/oss_mlflow/regular_python/run.json).
+* Databricks MLflow 
+  * Non-autolog: [run.json](../../samples/databricks_mlflow/runs/sklearn_wine/run.json).
+  * Autolog: [run_autolog.json](../../samples/databricks_mlflow/runs/sklearn_wine/run_autolog.json).
+
+**Example**
+
+```
+dump-run 
+  --run-id 4af184e8527a4f4a8fc563386807acb2 \
+  --artifact-max-level 5 
+```
+```
+{
+  "summary": {
+    "params": 2,
+    "metrics": 1,
+    "tags": 25,
+    "artifacts": {
+      "artifact_max_level": 10,
+      "num_artifacts": 10,
+      "num_bytes": 5158,
+      "num_levels": 2
+    }
+  },
+  "run": {
+    "info": {
+      "run_id": "0490018caf8044538d66048225a904c2",
+      "run_uuid": "0490018caf8044538d66048225a904c2",
+      "experiment_id": "1565792132797455",
+      "run_name": "sklearn_onnx",
+      "status": "FINISHED",
+      "start_time": 1685336136094,
+      "end_time": 1685336149565,
+      "artifact_uri": "dbfs:/databricks/mlflow-tracking/1565792132797455/0490018caf8044538d66048225a904c2/artifacts",
+      "lifecycle_stage": "active",
+      "_start_time": "2023-05-29 00:55:36",
+      "_end_time": "2023-05-29 00:55:50",
+      "_duration": 13.471,
+      "_experiment_name": "/Users/andre@piolet-knot.com/experiments/Sklearn_Wine_ONNX_ws"
+    },
+    "data": {
+      "metrics": [
+        {
+          "key": "rmse",
+          "value": 0.7986004372118107,
+          "timestamp": 1685336149503,
+          "step": 0
+        }
+      ],
+. . .
+
+```
+
+**Usage**
+
+```
+dump-run --help
+
+Options:
+  --run-id TEXT                  Run ID.  [required]
+  --artifact-max-level INTEGER   Number of artifact levels to recurse for run
+                                 artifacts.  [default: 1]
+  --explode-json-string BOOLEAN  Explode JSON string fields as JSON map.
+  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
+                                 list of key/value pairs.  [default: True]
+  --show-system-info BOOLEAN     Show system info.  [default: False]
+  --format TEXT                  Output format. One of: json|yaml.
+  --output-file TEXT             Output file.
+```
+
+### Dump experiment 
+
+Dumps experiment details including its runs (optional how much of run data is shown).
+* Source: [dump_experiment.py](dump_experiment.py)
+* Samples:
+  * Open source MLflow: 
+    [experiment.json](../../samples/oss_mlflow/experiments/experiment.json)
+  * Databricks MLflow: 
+    [sklearn_wine_quality.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality.json) \-
+    [sklearn_wine_quality_autolog.json](../../samples/databricks_mlflow/experiments/sklearn_wine_quality_autolog.json)
+  
+**Example**
+```
+dump-experiment \
+  --experiment-id-or-name 1812 \
+  --artifact-max-level 3 \
+  --dump-runs True \
+  --dump-run-data True
+```
+
+```
+{
+  "experiment_info": {
+    "experiment_id": "2",
+    "name": "sklearn_wine",
+    "artifact_location": "/opt/mlflow/server/mlruns/2",
+    "lifecycle_stage": "active",
+    "last_update_time": 1673530308830,
+    "creation_time": 1673530308830,
+    "tags": [
+      {
+        "key": "version_mlflow",
+        "value": "2.1.1"
+      }
+    ]
+  },
+  "summary": {
+    "runs": 1,
+    "artifacts": 6,
+    "artifact_bytes": 31767,
+    "last_run": 1673530308926,
+    "_last_run": "2023-01-12 13:31:49"
+  },```
+  "runs": [
+    {
+      "summary": {
+        "artifacts": 6,
+        "artifact_bytes": 31767,
+        "params": 2,
+        "metrics": 3,
+        "tags": 18
+      },
+      "run": {
+        "info": {
+          "experiment_id": "2",
+          "artifact_uri": "/opt/mlflow/server/mlruns/2/e128c31217fe4e8d92d8256ca24dc28e/artifacts",
+          . . .
+          "lifecycle_stage": "active",
+          "run_id": "e128c31217fe4e8d92d8256ca24dc28e",
+        },
+. . .
+```
+
+**Usage**
+
+```
+dump-experiment --help
+
+Options:
+  --experiment-id-or-name TXT   Experiment ID or name  [required]
+  --dump-runs BOOLEAN            Show runs  [default: False]
+  --dump-run-data BOOLEAN        Show run data run if showing runs  [default:
+                                 False] 
+  --artifact-max-level INTEGER   Number of artifact levels to recurse for run
+                                 artifacts.  [default: 1]
+  --dump-permissions BOOLEAN     Dump Databricks permissions.  [default:
+                                 False]
+  --explode-json-string BOOLEAN  Explode JSON string fields as JSON map.
+                                 [default: True]
+  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
+                                 list of key/value pairs.  [default: True]
+  --show-system-info BOOLEAN     Show system info.  [default: False]
+  --format TEXT                  Output format. One of: json|yaml.  [default:
+                                 json]
+  --output-file TEXT             Output file.
+```
+
+### Dump experiment runs to CSV file - XX?
+
+Create a CSV file of an experiment's runs from call to [mlflow.search_runs](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.search_runs). If argument `csv-file` is not specified the output file name will be `experiment_{EXPERIMENT_ID}.csv`.
+```
+python -m mlflow_tools.tools.dump_experiment_as_csv \
+  --experiment-id-or-name sklearn \
+  --csv-file sklearn.csv
+```
+
+### Dump registered model
+
+Dumps a registered model, its versions  and optionally the run details of the versions.
+* Source code: [dump_model.py](dump_model.py).
+* JSON dump samples:
+  * Open source MLflow: [registered_model.json](../../samples/oss_mlflow/models/registered_model.json)
+  * Databricks MLflow: [registered_model.json](../../samples/databricks_mlflow/models/registered_model.json)
+
+**Example**
+```
+dump-registered-model \
+  --model sklearn_wine \
+  --dump-runs True \
+  --artifact-max-level
+```
+```
+{
+  "registered_model": {
+    "name": "sklearn_wine_onnx",
+    "creation_timestamp": 1684983781596,
+    "last_updated_timestamp": 1685537065924,
+    "description": "Skearn Wine Quality model",
+    "aliases": [
+      {
+        "alias": "good-to-go_onnx",
+        "version": "5"
+      },
+    ],
+    "latest_versions": [
+      {
+        "name": "sklearn_wine_onnx",
+        "version": "5",
+        "creation_timestamp": 1685274127510,
+        "last_updated_timestamp": 1685274127544,
+        "_creation_timestamp": "2023-05-28 11:42:08",
+        "_last_updated_timestamp": "2023-05-28 11:42:08",
+        "current_stage": "Production",
+        "description": "v5 Production - wine",
+        "source": "/opt/mlflow/server/mlruns/1/6891e9c93f5b4c18a54c534e01c19378/artifacts/onnx-model",
+        "run_id": "6891e9c93f5b4c18a54c534e01c19378",
+        "status": "READY",
+        "tags": {
+          "registered_version_info": "v5 Production - wine"
+        },
+        "run_link": "",
+        "_download_uri": {
+          "artifact_uri": "/opt/mlflow/server/mlruns/1/6891e9c93f5b4c18a54c534e01c19378/artifacts/onnx-model"
+        }
+      }
+    ],
+    "_tracking_uri": "http://localhost:5020"
+  },
+. . .
+  "version_runs": [ 
+    { 
+      "version": "5",
+      "run": {
+        "summary": {
+          "params": 2,
+        },
+        "run": {
+          "info": {
+            "run_uuid": "6891e9c93f5b4c18a54c534e01c19378",
+    { 
+  ],
+. . .
+```
+
+**Usage**
+```
+dump-model --help
+
+Options:
+  --model TEXT                   Registered model name.  [required]
+  --dump-all-versions BOOLEAN    Dump all versions instead of latest versions.
+                                 [default: False]
+  --dump-runs BOOLEAN            Dump a version's run details.  [default:
+                                 False]
+  --artifact-max-level INTEGER   Number of artifact levels to recurse.
+                                 [default: 0]
+  --show-permissions BOOLEAN     Show Databricks permissions.  [default:
+                                 False]
+  --show-tags-as-dict BOOLEAN    Show MLflow tags as a dictionary instead of a
+                                 list of key/value pairs.  [default: False]
+  --explode-json-string BOOLEAN  Explode JSON string.  [default: False]
+  --format TEXT                  Output format: json|yaml.
+  --output-file TEXT             Output file
+```
+
+XXXX
+
+### Dump model version
+
+Dumps a registered model version optionally with all the MLflow objects connected to it - registered model, run and experiment.
+* Databricks sample: [model_version.json](../../samples/databricks_mlflow/versions/model_version.json).
+* Source code: [dump_model_version.py](dump_model_version.py).
+
+**Example**
+```
+dump-model-version \
+  --model sklearn_wine \
+  --version 1 \
+  --dump-run-model True \
+  --dump-run True \
+  --artifact-max-level 1 \
+  --dump-experiment True \
+  --dump-registered-model True \
+  --dump-permissions True 
+```
+
+**Usage**
+```
+Options:
+  --model TEXT                    Registered model name.  [required]
+  --version TEXT                  Registered model version.  [required]
+  --dump-run-model BOOLEAN        Dump the run model backing the version.
+                                  [default: False]
+  --dump-run BOOLEAN              Dump a version's run details.  [default:
+                                  False]
+  --artifact-max-level INTEGER    Number of artifact levels to recurse for run
+                                  artifacts.  [default: 1]
+  --dump-experiment BOOLEAN       Dump the run's experiment.  [default: False]
+  --dump-registered-model BOOLEAN
+                                  Dump a version's registered model (without
+                                  version list details).  [default: False]
+  --dump-permissions BOOLEAN      Dump Databricks permissions.  [default:
+                                  False]
+  --show-tags-as-dict BOOLEAN     Show MLflow tags as a dictionary instead of
+                                  a list of key/value pairs.  [default: True]
+  --explode-json-string BOOLEAN   Explode JSON string fields as JSON map.
+                                  [default: True]
+  --show-system-info BOOLEAN      Show system info.  [default: False]
+  --format TEXT                   Output format. One of: json|yaml.  [default:
+                                  json]
+  --output-file TEXT              Output file.
+```
+
+
+## MISC
+
+### List run or experiment tags
+
+**Example**
+
+```
+list-run-tags \
+  --object-id a32f905d3ad14f5b9495638a779e3bbd \
+  --object-type run \
+  --prefix mlflow \
+  --max-tag-length 110
+  --csv-file out.csv
+```
+
+```
+Experiment: 1280664374380606  /Users/first.last@mycompany.com/experiments/Sklearn_Wine
+Run ID: 851de1f466304650a77c949f5d386d9f
++--------------------------------------+--------------------------------------------------------------+
+| key                                  | value                                                        |
+|--------------------------------------+--------------------------------------------------------------|
+| mlflow.databricks.cluster.id         | 0414-154233-qm0df4rx                                         |
+| mlflow.databricks.cluster.info       | {"cluster_name":"ML_13.0","spark_version":"13.0.x-cpu-       |
+| mlflow.databricks.cluster.libraries  | {"installable":[],"redacted":[]}                             |
+| mlflow.databricks.notebook.commandID | 3527702579137640954_8374924253965797983_041de288996c42ef9716 |
+| mlflow.databricks.notebookID         | 1280664374380381                                             |
+| mlflow.databricks.notebookPath       | /Users/first.last@databricks.com/mlflow/mlflow-examples      |
+| mlflow.databricks.notebookRevisionID | 1681630579984                                                |
+| mlflow.databricks.webappURL          | https://mycompany.cloud.com                                  |
+| mlflow.databricks.workspaceID        | 2556758628403379                                             |
+| mlflow.databricks.workspaceURL       | https://mycompany.cloud.com                                  |
+| mlflow.log-model.history             | [{"artifact_path":"model","flavors":{"python_function":{"pre |
+| mlflow.runName                       | 851de1f466304650a77c949f5d386d9f                             |
+| mlflow.source.name                   | /Users/first.last@mycompany.com/mlflow/mlflow-examples       |
+| mlflow.source.type                   | NOTEBOOK                                                     |
+| mlflow.user                          | first.last@mycompany.com                                     |
++--------------------------------------+--------------------------------------------------------------+
+```
+
+**Usage**
+```
+list-object-tags --help
+
+Options:
+  --run-id TEXT             Run ID  [required]
+  --csv-file TEXT           Output CSV file
+  --prefix TEXT             Show only tag keys starting with prefix
+  --max-tag-length INTEGER  Show only first 'max-tag-length' characters of tag
+                            value
 ```

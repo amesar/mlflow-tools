@@ -1,8 +1,8 @@
-# Basic MLflow Tools 
+#  mlflow-tools - MLflow object manipulation tools
 
 ## Overview
 
-Some useful tools for MLflow. 
+Some extra tools for MLflow.
 
 **Experiments**
 * [Delete experiment](#Delete-experiment)
@@ -14,15 +14,21 @@ Some useful tools for MLflow.
 * [Delete model stages](#Delete-model-stages)
 * [Rename registered model](#Rename-registered-model)
 
-**Other tools**
+**Find  tools**
 * [Find best run of experiment](#Find-best-run-of-experiment)
 * [Find model artifact paths of a run](#Find-model-artifact-paths-of-a-run)
 * [Find matching artifacts](#Find-matching-artifacts)
+
+**Download Mlflow model**
 * [Download model artifacts](#Download-model-artifacts)
+
+**Other tools**
 * [Call MLflow model server](#Call-MLflow-model-server)
 * [Call http_client either MLflow API or Databricks API](#Call-http_client-either-MLflow-API-or-Databricks-API)
 
 ## Setup
+
+Point to you MLflow server.
 ```
 export MLFLOW_TRACKING_URI=http://localhost:5000
 ```
@@ -55,10 +61,12 @@ Options:
                                 [default: False]
 ```
 
-## Registered models 
+## Registered models
 
 
-### Register run model as a registered model version with optional stage
+### Register run model as a registered model version
+
+Optional model version stage.
 
 ```
 register-model \
@@ -79,7 +87,7 @@ Options:
   --stage TEXT             Stage
 ```
 
-### Delete registered model 
+### Delete registered model
 ```
 delete-model --model sklearn_wine
 ```
@@ -148,7 +156,7 @@ Options:
   --stages TEXT  Stages to delete (comma delimited). Default is all stages.
 ```
 
-### Rename registered model 
+### Rename registered model
 
 ```
 rename-model \
@@ -180,12 +188,12 @@ Options:
                                  [default: True]
 ```
 
-## Other tools
+## Find tools
 
 ### Find best run of experiment
 
-Find the best run for a metric of an experiment. 
-Default order is descending (max). 
+Find the best run for a metric of an experiment.
+Default order is descending (max).
 
 See [best_run.py](best_run.py).
 
@@ -212,7 +220,6 @@ Options:
   --ascending BOOLEAN           Sort ascending.  [default: False]
   --ignore-nested-runs BOOLEAN  Ignore_nested_runs.  [default: False]
 ```
-
 
 ### Find model artifact paths of a run
 
@@ -301,13 +308,13 @@ Options:
   --max-level INTEGER  Number of artifact levels to recurse.  [default: 9223372036854775807]
 ```
 
-### Download model artifacts
+## Download model artifacts
 
 Download the model artifacts associated with a model URI.
 
 ```
 python -m mlflow_tools.tools.download_model \
-   --model-uri models:/sklearn_wine \
+   --model-uri models:/sklearn_wine/1 \
    --output-dir /tmp/my-model
 ```
 
@@ -317,12 +324,15 @@ python -m mlflow_tools.tools.download_model \
    --output-dir /tmp/my-model
 ```
 
+Output
 ```
-+-sklearn-model/
-  +-requirements.txt
-  +-model.pkl
-  +-conda.yaml
-  +-MLmodel
+├── /tmp/my-model
+│   ├── MLmodel
+│   ├── conda.yaml
+│   ├── input_example.json
+│   ├── model.pkl
+│   ├── python_env.yaml
+│   └── requirements.txt
 ```
 
 **Usage**
@@ -330,10 +340,14 @@ python -m mlflow_tools.tools.download_model \
 python -m mlflow_tools.tools.download_model --help
 
 Options:
-  --model-uri TEXT   Model URI  [required]
-  --output-dir TEXT  Output directory for downloaded model  [required]
+  --model-uri TEXT    Model URI of 'models:' scheme such as as
+                      'models:/production'  [required]
+  --output-dir TEXT   Output directory for downloaded model.  [required]
+  --which-model TEXT  Which model: run|registry|both  [default: run]
 ```
 
+
+## Other
 
 ### Call MLflow model server
 
