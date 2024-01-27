@@ -3,8 +3,10 @@ import time
 import json
 import threading
 import requests
+import pandas as pd
+from tabulate import tabulate
 import click
-from . common import read_data
+from . common import read_data, show
 
 class MyThread(threading.Thread):
     def __init__(self, args):
@@ -19,35 +21,38 @@ class MyThread(threading.Thread):
         self.min = -1
         self.total = 0
         self.num_requests = 0
+        self.durations = []
+        self.thread_name = None
 
     def run(self):
         log_filename = f"run_{self.thr_num}.log"
         with open(log_filename, "w",  encoding="utf-8") as f:
             return self._run(f)
 
-    def _run(self,f):
+    def _run(self, f):
         headers = { "Content-Type" : "application/json" }
-        durations = []
         f.write(f"Requests for thread {self.thr_num}:\n")
         num_records = len(self.records)
 
-        for iter in range(0,self.num_iters):
+        self.durations = []
+        for iter in range(0, self.num_iters):
             for j,r in enumerate(self.records):
                 self.num_requests += 1
                 data = json.dumps(r)
                 start = time.time()
                 requests.post(self.uri, headers=headers, data=data, timeout=20)
-                dur = time.time()-start
+                dur = time.time() - start
                 if j % self.log_mod == 0:
                     f.write(f"  {j}/{num_records}: {round(dur,3)}\n")
                     ts = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
                     sys.stdout.write(f" {ts} thr_{self.thr_num:03d} iter:{iter+1}/{self.num_iters} rec:{j}/{num_records}: {round(dur,3)}\n")
-                durations.append(dur)
+                self.durations.append(dur)
 
-        self.total = sum(durations)
-        self.mean = self.total/len(durations)
-        self.max = max(durations)
-        self.min = min(durations)
+        self.total = sum(self.durations)
+        self.mean = self.total/len(self.durations)
+        self.max = max(self.durations)
+        self.min = min(self.durations)
+        self.thread_name = threading.current_thread().name
 
         f.write(f"Results (seconds):")
         f.write(f"  mean:    {round(self.mean,3)}\n")
@@ -59,73 +64,37 @@ class MyThread(threading.Thread):
         f.write(f"  iterations: {self.num_iters}\n")
 
     def get_stats(self):
-        return self.mean, self.max, self.min, self.total, self.num_requests
+        return self.mean, self.max, self.min, self.total, self.num_requests, self.thread_name
 
-def fmt(x, prec=3):
-    y = round(x,prec)
-    return str(y).ljust(5, '0')
 
 
 def run(uri, data_path, output_file_base, log_mod, num_records, num_threads, num_iters):
     records = read_data(data_path, num_records)
+    num_records = len(records)
 
     start_time = time.time()
     threads = []
     for j in range(num_threads):
-        t = MyThread(args=(records,j, num_iters, uri, log_mod))
+        t = MyThread(args=(records, j, num_iters, uri, log_mod))
         threads.append(t)
         t.start()
     print(f"Spawned {num_threads} threads")
     for t in threads:
         t.join()
+    elapsed_time = time.time() - start_time
 
+    durations = []
+    data = []
+    for thr in threads:
+        durations += thr.durations
+        _mean,_max,_min, _total, _num_requests, _thr = thr.get_stats()
+        data.append([_mean,_max,_min, _total, _num_requests, _thr])
     print("Summary")
-    print(f"  Thread Mean  Max   Min   Total  Reqs")
-    tot_mean = 0 
-    tot_max = sys.float_info.min
-    tot_min = sys.float_info.max
-    tot_total = 0
-    for i,t in enumerate(threads):
-        _mean,_max,_min, _total, _num_requests = t.get_stats()
-        print(f"  {i:6d} {fmt(_mean)} {fmt(_max)} {fmt(_min)} {fmt(_total,1)} {_num_requests}")
-        tot_total += _total
-        tot_mean += _mean
-        tot_max = max(tot_max,_max)
-        tot_min = min(tot_min,_min)
-    mean = tot_mean / len(threads)
-    print(f"  Total  {fmt(mean,4)} {fmt(tot_max)} {fmt(tot_min)}")
+    df = pd.DataFrame(data, columns = ["Mean", "Max", "Min", "Total", "Requests", "Thread" ])
+    print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
+    print("elapsed_time:", round(elapsed_time,2))
 
-    duration = time.time()-start_time
-    num_requests = num_iters * len(threads) * len(records)
-    mean_thruput = duration/num_requests
-    print("Mean:      ", round(mean,4))
-    print("Requests:  ", num_requests)
-    print("Records:   ", len(records))
-    print("Threads:   ", len(threads))
-    print("Total time:", round(duration,1))
-    print("Mean throughput:", round(mean_thruput,4))
-
-    if output_file_base:
-        now = time.time()
-        ts = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(now))
-        dct = {
-          "timestamp": ts,
-          "uri": uri,
-          "mean": mean,
-          "max": tot_max,
-          "min": tot_min,
-          "threads": len(threads),
-          "records": len(records),
-          "iterations": num_iters,
-          "requests": num_requests,
-          "duration": duration,
-          "mean_thruput": mean_thruput,
-        }
-        ts = time.strftime("%Y_%m_%d_%H%M%S", time.gmtime(now))
-        path = f"{output_file_base}_{ts}.json"
-        print("Output file:",path)
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(json.dumps(dct,indent=2)+"\n")
+    show(output_file_base, uri, durations, num_iters, num_records, len(threads))
 
 
 @click.command()
