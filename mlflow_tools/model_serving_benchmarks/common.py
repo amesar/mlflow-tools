@@ -6,7 +6,7 @@ def read_data(data_path, num_records):
     columns = [ c.replace('"','') for c in columns]
     print("Columns:",columns)
     lines = lines[1:]
-    if num_records is not None:
+    if num_records:
         lines = lines[:num_records]
     num_records = len(lines)
     print("#Records:",num_records)

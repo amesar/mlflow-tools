@@ -3,6 +3,7 @@ import time
 import json
 import threading
 import requests
+import click
 from common import read_data
 
 class MyThread(threading.Thread):
@@ -65,7 +66,7 @@ def fmt(x, prec=3):
     return str(y).ljust(5, '0')
 
 
-def main(uri, data_path, num_records, log_mod, num_threads, num_iters, output_file_base):
+def run(uri, data_path, num_records, log_mod, num_threads, num_iters, output_file_base):
     records = read_data(data_path, num_records)
 
     start_time = time.time()
@@ -121,24 +122,26 @@ def main(uri, data_path, num_records, log_mod, num_threads, num_iters, output_fi
           "mean_thruput": mean_thruput,
         }
         ts = time.strftime("%Y-%m-%d_%H%M%S", time.gmtime(now))
-        path = f"{output_file_base}_{ts}.csv"
+        path = f"{output_file_base}_{ts}.json"
         print("Output file:",path)
         with open(path, "w") as f:
             f.write(json.dumps(dct,indent=2)+"\n")
 
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-    parser = ArgumentParser()
-    parser.add_argument("--uri", dest="uri", help="Server URI", required=True, type=str)
-    parser.add_argument("--data_path", dest="data_path", help="data_path", default="../../data/train/wine-quality-white.csv")
-    parser.add_argument("--num_records", dest="num_records", help="num_records", type=int, default=None)
-    parser.add_argument("--log_mod", dest="log_mod", help="log_mod", default=100, type=int)
-    parser.add_argument("--num_threads", dest="num_threads", help="num_threads", type=int, default=1)
-    parser.add_argument("--num_iters", dest="num_iters", help="Number of iterations over data", default=1, type=int)
-    parser.add_argument("--output_file_base", dest="output_file_base", help="Output file base", default=None)
-    args = parser.parse_args()
-    print("Arguments:")
-    for arg in vars(args):
-        print(f"  {arg}: {getattr(args, arg)}")
-    main(args.uri, args.data_path, args.num_records, args.log_mod, args.num_threads, args.num_iters, args.output_file_base)
 
+@click.command()
+@click.option("--uri", help="Model serving URI", required=True)
+@click.option("--data-path", help="path for data to score", required=True)
+@click.option("--num-records", help="Num of records", required=True)
+@click.option("--log_mod", help="Log output at this modulo", required=True)
+@click.option("--uri", help="URI", required=True)
+@click.option("--output-file-base", help="Output file base", required=True)
+@click.option("--num-iters", help="Number of iterations over data", required=True)
+def main(uri, data_path, num_records, log_mod, output_file_base, num_iters):
+    print("Options:")
+    for k,v in locals().items(): 
+        print(f"  {k}: {v}")
+    run(uri, data_path, num_records, log_mod, num_threads, num_iters, output_file_base)
+
+
+if __name__ == "__main__":
+    main()
