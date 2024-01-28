@@ -1,19 +1,19 @@
 import click
-from . common import call, show
+from . common import show
 from . data_loader import DataLoader
+from . client import Client
 
 
-def run(uri, token, data_path, output_file_base, log_mod, num_requests):
+def run(uri, token, data_path, output_file_base, log_mod, num_requests, add_timestamp_to_output_file):
     data_loader = DataLoader(data_path, num_requests)
-    durations, errors = [], set()
+    client = Client(uri, token)
     records = [ record for record in data_loader ]
     for j, record in enumerate(records):
         data = data_loader.mk_request(record)
-        duration = call(uri, token, data, errors)
-        durations.append(duration)
+        duration = client.call(data)
         if j % log_mod == 0:
             print(f"Processing: {j}/{len(records)}: request_duration:{round(duration,3)}")
-    show(output_file_base, uri, durations, len(records), errors)
+    show(output_file_base, client, len(records), add_timestamp_to_output_file=add_timestamp_to_output_file)
 
 
 @click.command()
@@ -23,12 +23,13 @@ def run(uri, token, data_path, output_file_base, log_mod, num_requests):
 @click.option("--num-requests", help="Number of requests", type=int, required=True)
 @click.option("--log-mod", help="Log output at this modulo", type=int, default=5)
 @click.option("--output-file-base", help="Output file base", type=str, required=True)
+@click.option("--add-timestamp-to-output-file", help="Add timestamp to output file name", type=bool, default=False)
 
-def main(uri, token, data_path, output_file_base, log_mod, num_requests):
+def main(uri, token, data_path, output_file_base, log_mod, num_requests, add_timestamp_to_output_file):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
-    run(uri, token, data_path, output_file_base, log_mod, num_requests)
+    run(uri, token, data_path, output_file_base, log_mod, num_requests, add_timestamp_to_output_file)
 
 
 if __name__ == "__main__":
