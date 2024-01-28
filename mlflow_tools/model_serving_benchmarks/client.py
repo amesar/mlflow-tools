@@ -15,6 +15,7 @@ class Client:
             start = time.time()
             rsp = requests.post(self.uri, headers=self.headers, json=data, timeout=120) # per mlflow source
             if rsp.status_code < 200 or rsp.status_code > 299:
+                print(f"ERROR: status: {rsp.status_code}. {rsp.text}")
                 self._add_error(rsp.status_code)
             duration = time.time() - start
             self.durations.append(duration)

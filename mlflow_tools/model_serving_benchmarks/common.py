@@ -67,11 +67,6 @@ def show(output_file_base, caller, num_records, num_threads=None, add_timestamp_
     dump_json(dct)
 
 
-def fmt(x, prec=3):
-    y = round(x,prec)
-    return str(y).ljust(5, "0")
-
-
 def dump_json(dct, title=None, sort_keys=None, indent=2):
     if title:
         print(f"{title}:")
