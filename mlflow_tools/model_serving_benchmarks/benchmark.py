@@ -1,45 +1,34 @@
-import time
-import json
-import requests
 import click
-from . common import read_data, show
+from . common import call, show
+from . data_loader import DataLoader
 
-import platform
-print("Versions:")
-print("  platform:", platform.platform())
-print("  python_version:", platform.python_version())
 
-def run(uri, data_path, output_file_base, log_mod, num_records, num_iters):
-    records = read_data(data_path, num_records)
-    headers = { 'Content-Type' : 'application/json' }
-
-    durations = []
-    for _ in range(num_iters):
-        num_records = len(records)
-        print("Calls:")
-        for j,r in enumerate(records):
-            data = json.dumps(r)
-            start = time.time()
-            requests.post(uri, headers=headers, data=data, timeout=20)
-            dur = time.time()-start
-            if j % log_mod == 0:
-                print(f"  {j}/{num_records}: {round(dur,3)}")
-            durations.append(dur)
-    show(output_file_base, uri, durations, num_iters, len(records))
+def run(uri, token, data_path, output_file_base, log_mod, num_requests):
+    data_loader = DataLoader(data_path, num_requests)
+    durations, errors = [], set()
+    records = [ record for record in data_loader ]
+    for j, record in enumerate(records):
+        data = data_loader.mk_request(record)
+        duration = call(uri, token, data, errors)
+        durations.append(duration)
+        if j % log_mod == 0:
+            print(f"Processing: {j}/{len(records)}: request_duration:{round(duration,3)}")
+    show(output_file_base, uri, durations, len(records), errors)
 
 
 @click.command()
 @click.option("--uri", help="Model serving URI", type=str, required=True)
+@click.option("--token", help="Databricks token", type=str, required=True)
 @click.option("--data-path", help="path for data to score", type=str, required=True)
-@click.option("--num-records", help="Number of records", type=int, required=True)
-@click.option("--log-mod", help="Log output at this modulo", type=int, required=True)
-@click.option("--num-iters", help="Number of iterations over data", type=int, required=True)
+@click.option("--num-requests", help="Number of requests", type=int, required=True)
+@click.option("--log-mod", help="Log output at this modulo", type=int, default=5)
 @click.option("--output-file-base", help="Output file base", type=str, required=True)
-def main(uri, data_path, output_file_base, log_mod, num_records, num_iters):
+
+def main(uri, token, data_path, output_file_base, log_mod, num_requests):
     print("Options:")
-    for k,v in locals().items(): 
+    for k,v in locals().items():
         print(f"  {k}: {v}")
-    run(uri, data_path, output_file_base, log_mod, num_records, num_iters)
+    run(uri, token, data_path, output_file_base, log_mod, num_requests)
 
 
 if __name__ == "__main__":
