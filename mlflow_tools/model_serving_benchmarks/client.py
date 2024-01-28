@@ -11,15 +11,15 @@ class Client:
         self.headers = { "Content-Type" : "application/json" , "Authorization": f"Bearer {token}" }
 
     def call(self, data):
-        start = time.time()
         try:
+            start = time.time()
             rsp = requests.post(self.uri, headers=self.headers, json=data, timeout=120) # per mlflow source
             if rsp.status_code < 200 or rsp.status_code > 299:
                 self._add_error(rsp.status_code)
+            duration = time.time() - start
+            self.durations.append(duration)
         except Exception as ex:
             self._add_error(str(type(ex)))
-        duration = time.time() - start
-        self.durations.append(duration)
         return time.time() - start
 
 

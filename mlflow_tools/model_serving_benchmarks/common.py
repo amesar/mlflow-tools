@@ -34,6 +34,8 @@ def show(output_file_base, caller, num_records, num_threads=None, add_timestamp_
     _max = round(max(caller.durations),3)
     _min = round(min(caller.durations),3)
 
+    num_errors = sum(caller.errors.values())
+
     now = time.time()
     ts = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(now))
     dct = {
@@ -47,6 +49,7 @@ def show(output_file_base, caller, num_records, num_threads=None, add_timestamp_
       "total": duration,
       "requests": num_requests,
       "records": num_records,
+      "num_errors": num_errors,
       "errors": caller.errors,
     }
     if num_threads:
