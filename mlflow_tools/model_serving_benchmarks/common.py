@@ -20,19 +20,24 @@ def show(output_file_base, caller, num_records, num_threads=None, add_timestamp_
     num_requests = len(caller.durations)
     duration = sum(caller.durations)
     if num_requests < 2:
-        _mean = caller.durations[0]
-        stdev = None
-        rsd = None
+        if num_requests == 1:
+            _mean = caller.durations[0]
+        else:
+            _mean = 0
+        _max, _min = _mean, _mean
+        stdev, rsd = None, None
     else:
         _mean = statistics.mean(caller.durations)
         stdev = statistics.stdev(caller.durations)
         rsd = stdev / _mean * 100 # relative stdev
         stdev = round(stdev,3)
         rsd = round(rsd,2)
+        _max = max(caller.durations)
+        _min = min(caller.durations)
     _mean = round(_mean,3)
-    duration = round(duration,3)
-    _max = round(max(caller.durations),3)
-    _min = round(min(caller.durations),3)
+    duration = round(duration, 3)
+    _max = round(_max)
+    _min = round(_min)
 
     num_errors = sum(caller.errors.values())
 
@@ -55,14 +60,16 @@ def show(output_file_base, caller, num_records, num_threads=None, add_timestamp_
     }
     if num_threads:
         dct["threads"] = num_threads
-    if add_timestamp_to_output_file:
-        ts = time.strftime("%Y_%m_%d_%H%M%S", time.gmtime(now))
-        path = f"{output_file_base}_{ts}.json"
-    else:
-        path = f"{output_file_base}.json"
-    print("Output file:",path)
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(json.dumps(dct,indent=2)+"\n")
+
+    if output_file_base:
+        if add_timestamp_to_output_file:
+            ts = time.strftime("%Y_%m_%d_%H%M%S", time.gmtime(now))
+            path = f"{output_file_base}_{ts}.json"
+        else:
+            path = f"{output_file_base}.json"
+        print("Output file:",path)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(json.dumps(dct,indent=2)+"\n")
 
     print("\nResults (seconds):")
     dump_json(dct)

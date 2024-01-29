@@ -20,6 +20,7 @@ class MyThread(threading.Thread):
         self.log_mod = args[6]
         self.thread_idx = args[7]
         self.client_request_id = args[8]
+        self.log_each_thread = args[9]
         self.thread_name = None
         self.mean = -1
         self.max = -1
@@ -28,19 +29,23 @@ class MyThread(threading.Thread):
 
     def run(self):
         log_filename = f"run_{self.thread_idx}.log"
-        with open(log_filename, "w", encoding="utf-8") as f:
-            return self._run(f)
+        if self.log_each_thread:
+            with open(log_filename, "w", encoding="utf-8") as f:
+                return self._run(f)
+        else:
+            return self._run()
 
-    def _run(self, f):
+    def _run(self, fp=None):
         self.thread_name = threading.current_thread().name
-        f.write(f"Requests for thread {self.thread_idx}:\n")
+        if fp: fp.write(f"Requests for thread {self.thread_idx}:\n")
         num_records = len(self.records)
 
         for j, record in enumerate(self.records):
             data = self.data_loader.mk_request(record, self.client_request_id)
             dur = self.client.call(data)
             if j % self.log_mod == 0:
-                f.write(f"{j}/{num_records}: {round(dur,3)}\n")
+                if fp: 
+                    fp.write(f"{j}/{num_records}: {round(dur,3)}\n")
                 ts = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
                 sys.stdout.write(f"Processing: {ts} {self.thread_name:8s} rec:{j}/{num_records}: dur:{round(dur,3)}\n")
 
@@ -49,21 +54,22 @@ class MyThread(threading.Thread):
         self.max = max(self.client.durations)
         self.min = min(self.client.durations)
 
-        f.write(f"Results (seconds):")
-        f.write(f"  mean:     {round(self.mean,3)}\n")
-        f.write(f"  max:      {round(self.max,3)}\n")
-        f.write(f"  min:      {round(self.min,3)}\n")
-        f.write(f"  total:    {round(self.total,3)}\n")
-        f.write(f"  records:  {len(self.records)}\n")
-        f.write(f"  requests: {self.num_requests}\n")
-        f.write(f"  errors:   {self.client.errors}\n")
+        if fp:
+            fp.write(f"Results (seconds):")
+            fp.write(f"  mean:     {round(self.mean,3)}\n")
+            fp.write(f"  max:      {round(self.max,3)}\n")
+            fp.write(f"  min:      {round(self.min,3)}\n")
+            fp.write(f"  total:    {round(self.total,3)}\n")
+            fp.write(f"  records:  {len(self.records)}\n")
+            fp.write(f"  requests: {self.num_requests}\n")
+            fp.write(f"  errors:   {self.client.errors}\n")
 
     def get_stats(self):
         return self.mean, self.max, self.min, self.total, self.num_requests, self.thread_name
 
 
 def run(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, 
-        add_timestamp_to_output_file, client_request_id
+        add_timestamp_to_output_file=False, client_request_id=None, log_each_thread=False
     ):
     data_loader = DataLoader(data_path, num_requests)
     records = [ record for record in data_loader ]
@@ -71,7 +77,7 @@ def run(uri, token, data_path, output_file_base, log_mod, num_requests, num_thre
     start_time = time.time()
     threads = []
     for j in range(num_threads):
-        thr = MyThread(args=(uri, token, num_requests, data_loader, client, records, log_mod, j, client_request_id))
+        thr = MyThread(args=(uri, token, num_requests, data_loader, client, records, log_mod, j, client_request_id, log_each_thread))
         threads.append(thr)
         thr.start()
     print(f"Spawned {num_threads} threads")
@@ -118,12 +124,17 @@ def _merge(dct1, dct2):
 @click.option("--output-file-base", help="Output file base", type=str, required=True)
 @click.option("--add-timestamp-to-output-file", help="Add timestamp to output file name", type=bool, default=False)
 @click.option("--client-request-id", help="client_request_id", type=str, required=False)
+@click.option("--log-each-thread", help="Log each thread", type=bool, default=False)
 
-def main(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, add_timestamp_to_output_file, client_request_id):
+def main(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, 
+        add_timestamp_to_output_file, client_request_id, log_each_thread
+    ):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
-    run(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, add_timestamp_to_output_file, client_request_id)
+    run(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, 
+        add_timestamp_to_output_file, client_request_id, log_each_thread
+    )
 
 
 if __name__ == "__main__":

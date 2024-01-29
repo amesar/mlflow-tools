@@ -20,9 +20,9 @@ class Client:
             duration = time.time() - start
             self.durations.append(duration)
         except Exception as ex:
+            print(f"ERROR: {ex}")
             self._add_error(str(type(ex)))
         return time.time() - start
-
 
     def _add_error(self, error_name):
         self._errors_set.add(error_name)

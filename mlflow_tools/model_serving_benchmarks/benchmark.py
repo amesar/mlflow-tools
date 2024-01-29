@@ -4,7 +4,9 @@ from . data_loader import DataLoader
 from . client import Client
 
 
-def run(uri, token, data_path, output_file_base, log_mod, num_requests, add_timestamp_to_output_file, client_request_id):
+def run(uri, token, data_path, output_file_base, log_mod, num_requests, 
+        add_timestamp_to_output_file=False, client_request_id=None
+    ):
     data_loader = DataLoader(data_path, num_requests)
     client = Client(uri, token)
     records = [ record for record in data_loader ]
@@ -24,7 +26,7 @@ def run(uri, token, data_path, output_file_base, log_mod, num_requests, add_time
 @click.option("--data-path", help="path for data to score", type=str, required=True)
 @click.option("--num-requests", help="Number of requests", type=int, required=True)
 @click.option("--log-mod", help="Log output at this modulo", type=int, default=5)
-@click.option("--output-file-base", help="Output file base", type=str, required=True)
+@click.option("--output-file-base", help="Output file base", type=str, required=False)
 @click.option("--add-timestamp-to-output-file", help="Add timestamp to output file name", type=bool, default=False)
 @click.option("--client-request-id", help="client_request_id", type=str, required=False)
 
