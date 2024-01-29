@@ -16,7 +16,7 @@ def __call(uri, token, data, errors):
     return time.time() - start
 
 
-def show(output_file_base, caller, num_records, num_threads=None, add_timestamp_to_output_file=False):
+def show(output_file_base, caller, num_records, num_threads=None, add_timestamp_to_output_file=False, client_request_id=None):
     num_requests = len(caller.durations)
     duration = sum(caller.durations)
     if num_requests < 2:
@@ -51,6 +51,7 @@ def show(output_file_base, caller, num_records, num_threads=None, add_timestamp_
       "records": num_records,
       "num_errors": num_errors,
       "errors": caller.errors,
+      "client_request_id": client_request_id
     }
     if num_threads:
         dct["threads"] = num_threads

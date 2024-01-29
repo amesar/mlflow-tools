@@ -8,7 +8,6 @@ from . common import show
 from . data_loader import DataLoader
 from . client import Client
 
-
 class MyThread(threading.Thread):
     def __init__(self, args):
         threading.Thread.__init__(self, args=args)
@@ -20,6 +19,7 @@ class MyThread(threading.Thread):
         self.records = args[5]
         self.log_mod = args[6]
         self.thread_idx = args[7]
+        self.client_request_id = args[8]
         self.thread_name = None
         self.mean = -1
         self.max = -1
@@ -37,7 +37,7 @@ class MyThread(threading.Thread):
         num_records = len(self.records)
 
         for j, record in enumerate(self.records):
-            data = self.data_loader.mk_request(record)
+            data = self.data_loader.mk_request(record, self.client_request_id)
             dur = self.client.call(data)
             if j % self.log_mod == 0:
                 f.write(f"{j}/{num_records}: {round(dur,3)}\n")
@@ -62,14 +62,16 @@ class MyThread(threading.Thread):
         return self.mean, self.max, self.min, self.total, self.num_requests, self.thread_name
 
 
-def run(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, add_timestamp_to_output_file):
+def run(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, 
+        add_timestamp_to_output_file, client_request_id
+    ):
     data_loader = DataLoader(data_path, num_requests)
     records = [ record for record in data_loader ]
     client = Client(uri, token)
     start_time = time.time()
     threads = []
     for j in range(num_threads):
-        thr = MyThread(args=(uri, token, num_requests, data_loader, client, records, log_mod, j))
+        thr = MyThread(args=(uri, token, num_requests, data_loader, client, records, log_mod, j, client_request_id))
         threads.append(thr)
         thr.start()
     print(f"Spawned {num_threads} threads")
@@ -91,7 +93,10 @@ def run(uri, token, data_path, output_file_base, log_mod, num_requests, num_thre
     print("elapsed_time:", round(elapsed_time,2))
 
     print()
-    show(output_file_base, client, len(records), len(threads), add_timestamp_to_output_file=add_timestamp_to_output_file)
+    show(output_file_base, client, len(records), len(threads), 
+        add_timestamp_to_output_file=add_timestamp_to_output_file,
+        client_request_id=client_request_id)
+
 
 
 def _merge(dct1, dct2):
@@ -112,12 +117,13 @@ def _merge(dct1, dct2):
 @click.option("--log-mod", help="Log output at this modulo", type=int, default=5)
 @click.option("--output-file-base", help="Output file base", type=str, required=True)
 @click.option("--add-timestamp-to-output-file", help="Add timestamp to output file name", type=bool, default=False)
+@click.option("--client-request-id", help="client_request_id", type=str, required=False)
 
-def main(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, add_timestamp_to_output_file):
+def main(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, add_timestamp_to_output_file, client_request_id):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")
-    run(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, add_timestamp_to_output_file)
+    run(uri, token, data_path, output_file_base, log_mod, num_requests, num_threads, add_timestamp_to_output_file, client_request_id)
 
 
 if __name__ == "__main__":
