@@ -10,4 +10,4 @@
 # MAGIC * [Single_Threaded_Benchmark]($Single_Threaded_Benchmark)
 # MAGIC * [Multi_Threaded_Benchmark]($Multi_Threaded_Benchmark)
 # MAGIC
-# MAGIC Last updated: _2024_01_30_
+# MAGIC Last updated: _2024-01-30_
