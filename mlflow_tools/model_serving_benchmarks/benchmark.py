@@ -23,14 +23,16 @@ def run(uri, token, data_path, output_file_base, log_mod, num_requests,
 @click.command()
 @click.option("--uri", help="Model serving URI", type=str, required=True)
 @click.option("--token", help="Databricks token", type=str, required=True)
-@click.option("--data-path", help="path for data to score", type=str, required=True)
+@click.option("--data-path", help="path for data to score", type=str, required=False)
 @click.option("--num-requests", help="Number of requests", type=int, required=True)
 @click.option("--log-mod", help="Log output at this modulo", type=int, default=5)
 @click.option("--output-file-base", help="Output file base", type=str, required=False)
 @click.option("--add-timestamp-to-output-file", help="Add timestamp to output file name", type=bool, default=False)
 @click.option("--client-request-id", help="client_request_id", type=str, required=False)
 
-def main(uri, token, data_path, output_file_base, log_mod, num_requests, add_timestamp_to_output_file, client_request_id):
+def main(uri, token, data_path, output_file_base, log_mod, num_requests, 
+      add_timestamp_to_output_file, client_request_id
+    ):
     print("Options:")
     for k,v in locals().items():
         print(f"  {k}: {v}")

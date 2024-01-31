@@ -117,7 +117,7 @@ def _merge(dct1, dct2):
 @click.command()
 @click.option("--uri", help="Model serving URI", type=str, required=True)
 @click.option("--token", help="Databricks token", type=str, required=True)
-@click.option("--data-path", help="path for data to score", type=str, required=True)
+@click.option("--data-path", help="path for data to score", type=str, required=False)
 @click.option("--num-requests", help="Number of requests per each thread", type=int, required=True)
 @click.option("--num-threads", help="Number of threads", type=int, required=True)
 @click.option("--log-mod", help="Log output at this modulo", type=int, default=5)

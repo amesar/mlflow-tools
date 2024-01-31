@@ -1,5 +1,13 @@
 import json
 
+
+def dump_obj(obj, title=None):
+    title = title if title else type(obj).__name__
+    print(title)
+    for k,v in obj.__dict__.items():
+        print(f"  {k}: {v}")
+
+
 def obj_to_dict(obj):
     """ Recursively convert and object to a dict. """
     return json.loads(

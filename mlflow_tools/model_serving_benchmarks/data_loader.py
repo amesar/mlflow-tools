@@ -8,6 +8,13 @@ class DataLoader:
         self.counter = 0
 
     def load(self, path):
+        print("data_path:", path)
+        if not path:
+            import importlib_resources as impresources
+            from mlflow_tools.model_serving_benchmarks import data
+            file = "wine-quality-white-20.csv"
+            path = (impresources.files(data) / file)
+            print("data_path:", path)
         with open(path, newline="", encoding="utf-8") as f:
             reader = csv.reader(f, delimiter=",")
             columns = next(reader)
