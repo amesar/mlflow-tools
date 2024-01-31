@@ -10,6 +10,7 @@
 # MAGIC * [Display notebooks]($display/_README) - view MLflow objects (dump and list), e.g. dump a registered model and its versions in JSON.
 # MAGIC * [Tools notebooks]($tools/_README) - manipulate MLflow objects, e.g. rename a registered model.
 # MAGIC * [Model version validation notebooks]($check_version/_README).
+# MAGIC * [Model Serving Endpoint Benchmarks](benchmarks/_README)
 # MAGIC
 # MAGIC ##### Console shell script notebook
 # MAGIC * Shows how to call command line scripts from a notebook shell (%sh) cell.
@@ -26,4 +27,4 @@
 # MAGIC
 # MAGIC * Requires Databricks Runtime 13 or 12.2. Errors out on 11. :(
 # MAGIC
-# MAGIC Last updated: _2023-10-02_
+# MAGIC Last updated: _2024_01_30_

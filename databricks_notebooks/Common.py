@@ -1,5 +1,6 @@
 # Databricks notebook source
-# MAGIC %pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools
+#%pip install git+https:///github.com/amesar/mlflow-tools/#egg=mlflow-tools
+%pip install /dbfs/home/andre.mesarovic@databricks.com/lib/wheels/mlflow_tools-1.0.0-py3-none-any.whl
 
 # COMMAND ----------
 
